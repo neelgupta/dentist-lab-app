@@ -1,7 +1,7 @@
-import 'package:dentalapp/screen/register_type_screen.dart';
-import 'package:dentalapp/services/helper_fun.dart';
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/screen/dashboard_screen.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';
@@ -22,25 +22,34 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToNext() async {
-    ApiHelper.prefs = await SharedPreferences.getInstance();
-    Future.delayed(Duration(seconds: 5),() {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => LoginScreen()));
+    Utils.prefs = await SharedPreferences.getInstance();
+    bool isLogin = Utils.getLoginStatus() ?? false;
+    Future.delayed(const Duration(seconds: 3),() {
+      if (isLogin) {
+        String userType = Utils.getUserType();
+        if(userType=="lab") {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScreen()),);
+        } else {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
+        }
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+      }
     },);
   }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFF116D6E),
+        backgroundColor: const Color(0xFF116D6E),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Stack(
+          child: const Stack(
             children: [
               Align(
                 alignment: Alignment.center,
-                  child: Image(image: AssetImage("assets/image/Logo.png"))),
+                  child: Image(image: AssetImage("assets/image/splash_logo.png"))),
               Align(
                 alignment: Alignment.bottomCenter,
                   child: Image(image: AssetImage("assets/image/BG.png"),fit: BoxFit.fill,))

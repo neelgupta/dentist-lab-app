@@ -1,3 +1,5 @@
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -8,8 +10,6 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 import '../models/manage_profile_3_model.dart';
-import '../services/helper_fun.dart';
-import '../utils/api_services.dart';
 import 'manage_profile_4.dart';
 
 class ManageProfile3 extends StatefulWidget {
@@ -552,7 +552,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
         // "techlicensFile" : _image2,
         // "labTechs" : _image3,
       };
-      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
+      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var postUri = Uri.parse(ApiServices.manageProfile2Api);
       var request = http.MultipartRequest("POST", postUri);
       request.headers.addAll(headers);

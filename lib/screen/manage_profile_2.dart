@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -7,10 +9,7 @@ import 'package:dentalapp/screen/manage_profile_3.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../models/manage_profile_2_model.dart';
-import '../services/helper_fun.dart';
-import '../utils/api_services.dart';
 
 
 class ManageProfile2 extends StatefulWidget {
@@ -34,13 +33,12 @@ class _ManageProfile2State extends State<ManageProfile2> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage != null){
         _image = File(pickedImage.path);
         showPickOption = false;
       }
-      // imageFile = pickedImage;
     });
   }
 
@@ -498,7 +496,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
         "TRN_number": trnNumberController.text.toString(),
         "deviceUsed": totalDeviceController.text.toString(),
       };
-      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
+      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var postUri = Uri.parse(ApiServices.manageProfile2Api);
       var request = http.MultipartRequest("POST", postUri);
       request.headers.addAll(headers);

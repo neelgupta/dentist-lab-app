@@ -1,18 +1,15 @@
 import 'dart:convert';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentalapp/models/sign_up_model.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
-import 'package:dentalapp/screen/login_screen.dart';
-import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../utils/api_services.dart';
-
 class SignUpScreen extends StatefulWidget {
-  String? businessType;
-  SignUpScreen({Key? key, this.businessType}) : super(key: key);
+  final String? businessType;
+  const SignUpScreen({Key? key, this.businessType}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -21,7 +18,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
 
   bool isPasswordVisible = true;
-  bool isCheckBox = true;
+  bool isCheckBox = false;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
@@ -52,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Container(
                       height: height*0.24,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Color(0xFF116D6E),
                           image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                               fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
@@ -71,9 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Text("Hi, Welcome 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
-                        SizedBox(height: 30,),
+                        const SizedBox(height: 30,),
                         TextFormField(
                           keyboardType: TextInputType.name,
                           controller: firstNameController,
@@ -88,16 +85,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'First Name',
                               counterText: "",
                               hintText: 'First Name',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16)
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16)
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           keyboardType: TextInputType.name,
                           controller: lastNameController,
@@ -112,16 +109,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Last Name',
                               counterText: "",
                               hintText: 'Last Name',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16)
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16)
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           controller: emailController,
                           textInputAction: TextInputAction.next,
@@ -129,24 +126,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Email';
-                            } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value!)){
-                              return "Enter Valid Email";
+                            } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                              return "Please Enter Valid Email";
                             }
                             return null;
                           },
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email',
                               counterText: "",
                               hintText: 'admin@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16)
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16)
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           controller: passwordController,
@@ -156,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Password';
                             } else if(value.length < 6){
-                              return "Enter 6 Character Password";
+                              return "Please Enter 6 Character Password";
                             }
                             return null;
                           },
@@ -164,34 +161,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Password',
                               counterText: "",
                               hintText: 'Password',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                               suffixIcon: InkWell(
                                   onTap: () {
                                     setState(() {
                                       isPasswordVisible = !isPasswordVisible;
                                     });
                                   },
-                                  child: isPasswordVisible ? Image(image: AssetImage("assets/image/Vector.png")) : Image(image: AssetImage("assets/image/Vector12.png")))
+                                  child: isPasswordVisible ? const Image(image: AssetImage("assets/image/Vector.png")) : const Image(image: AssetImage("assets/image/Vector12.png")))
                           ),
                         ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                           children: [
                             Checkbox(
                                 value: isCheckBox,
-                                activeColor: Color(0XFF116D6E),
+                                activeColor: const Color(0XFF116D6E),
                                 onChanged: (value) {
                                   setState(() {
                                     isCheckBox = !isCheckBox;
                                   });
                                 },),
-                            Text("Accept all terms and conditions. ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF999EA1)),)
+                            Text("Accept all terms and conditions. ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF999EA1)),)
                           ],
                         ),
 
@@ -205,7 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Color(0xFF116D6E)
+                          color: const Color(0xFF116D6E)
                       ),
                       child: TextButton(
                           onPressed: () {
@@ -213,15 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if(isCheckBox) {
                                 signUp();
                               } else {
-                                Fluttertoast.showToast(
-                                    msg: "Please Accept Terms & Condition",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.black,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0
-                                );
+                                Utils.showErrorToast("Please Accept Terms & Condition");
                               }
                             }else{
                               autoValidate = AutovalidateMode.always;
@@ -230,19 +219,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Text("Sign Up",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                     ),
                   ),
-                  SizedBox(height: 12,),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Already have an account ? ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color:Color(0xFF999EA1))),
-                        SizedBox(width: 9,),
-                        Text("Login",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color:Color(0xFF116D6E))),
-                      ],
-                    ),
+                  const SizedBox(height: 12,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already have an account ? ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color:const Color(0xFF999EA1))),
+                      const SizedBox(width: 9,),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                          child: Text("Login",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color:const Color(0xFF116D6E)))),
+                    ],
                   ),
                   SizedBox(height: height*0.06,),
                 ],
@@ -255,12 +244,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-  signUp()async{
+  signUp() async {
+    Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.signUpApi);
-    try {
-      setState(() {
-        isLoading = true;
-      });
       var bodyData = {
         "firstName":firstNameController.text.toString(),
         "lastName":lastNameController.text.toString(),
@@ -272,54 +258,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
         postUri,
         body: bodyData,
       );
-      print("body ====> $bodyData");
-      print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
+      Utils.logAPIResponse(function: "signUp",apiName: ApiServices.signUpApi, response: response);
+      Navigator.pop(context);
       if (response.statusCode == 201) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 201) {
           signUpModel = SignUpModel.fromJson(jsonDecode(response.body));
           Navigator.push(context, MaterialPageRoute(builder: (context) => EmailVerificationScreen(
-            UseId: signUpModel!.userId.toString(),
-            EmailId: emailController.text.toString(),
+            userId: signUpModel!.userId.toString(),
+            emailId: emailController.text.toString(),
           ),));
-          Fluttertoast.showToast(
-              msg: "${signUpModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showSuccessToast(map['message']);
         } else {
-          Fluttertoast.showToast(
-              msg: "${signUpModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map['message']);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 }

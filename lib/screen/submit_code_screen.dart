@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentalapp/models/verify_otp_model.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
@@ -7,14 +9,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-import '../utils/api_services.dart';
 import 'new_password_screen.dart';
 
 class SubmitCodeScreen extends StatefulWidget {
-  String? UseId;
-  String? EmailId;
+  final String? userId;
+  final String? emailId;
 
-  SubmitCodeScreen({Key? key,this.UseId,this.EmailId}) : super(key: key);
+  const SubmitCodeScreen({Key? key,this.userId,this.emailId}) : super(key: key);
 
   @override
   State<SubmitCodeScreen> createState() => _SubmitCodeScreenState();
@@ -26,9 +27,7 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
   bool isLoading =  false;
   VerifyOtpModel? verifyOtpModel;
   bool isOTPFilled = false;
-  var Otp;
-
-
+  var otp = "";
 
   @override
   void initState() {
@@ -49,7 +48,7 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
             children: [
               Container(
                   height: height*0.24,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xFF116D6E),
                       image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                           fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
@@ -59,13 +58,13 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(left: 15,top: 40),
+                            padding: const EdgeInsets.only(left: 15,top: 40),
                             alignment: Alignment.centerLeft,
                             child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
+                                child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
                           ),
                           SizedBox(height: height*0.05,),
                           Text("Reset Password",style: GoogleFonts.lato(fontSize: 32,fontWeight: FontWeight.w600,color: Colors.white,),),
@@ -77,16 +76,16 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Text("Enter the 6 digit verification code sent to:",
-                        style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),maxLines: 3,textAlign: TextAlign.start),
-                    Text("${widget.EmailId}",
-                        style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color: Color(0xFF116D6E)),maxLines: 3,textAlign: TextAlign.start),
-                    SizedBox(height: 20,),
+                        style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)),maxLines: 3,textAlign: TextAlign.start),
+                    Text("${widget.emailId}",
+                        style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color: const Color(0xFF116D6E)),maxLines: 3,textAlign: TextAlign.start),
+                    const SizedBox(height: 20,),
                     OTPTextField(
                       length: 6,
                       width: width,
-                      fieldWidth: 45,
+                      fieldWidth: width * 0.13,
                       controller: otpController,
                       keyboardType: TextInputType.number,
                       fieldStyle: FieldStyle.box,
@@ -101,19 +100,22 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                       onCompleted: (pin) {
                         setState(() {
                           isOTPFilled = true;
-                          Otp = pin;
+                          otp = pin;
                         });
-                        print("Completed ====> $pin");
                       },
                       onChanged: (value) {
-                        print("value ====> $value");
+                        if(otp.length<6) {
+                          setState(() {
+                            isOTPFilled = false;
+                          });
+                        }
                       },
                     ),
 
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                 child: Container(
@@ -121,7 +123,7 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: isOTPFilled ? Color(0xFF116D6E) : Color(0xFFA0A0A0)
+                      color: isOTPFilled ? const Color(0xFF116D6E) : const Color(0xFFA0A0A0)
                   ),
                   child: TextButton(
                       onPressed: () {
@@ -144,13 +146,13 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                       child: Text("Submit Code",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Align(
                 alignment: Alignment.center,
                   child: InkWell(
                     onTap: () {
                     },
-                      child: Text("Resend Code",style: GoogleFonts.lato(color: Color(0xFF116D6E),fontWeight: FontWeight.w500,fontSize: 16, )))),
+                      child: Text("Resend Code",style: GoogleFonts.lato(color: const Color(0xFF116D6E),fontWeight: FontWeight.w500,fontSize: 16, )))),
               SizedBox(height: height*0.06,),
             ],
           ),
@@ -162,64 +164,29 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
   }
 
   verifyOtp()async{
+    Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.verifyResetOtpApi);
-    try {
-      setState(() {
-        isLoading = true;
-      });
       var bodyData = {
-        "UserId" : widget.UseId.toString(),
-        "OTP" : Otp.toString(),
+        "UserId" : widget.userId.toString(),
+        "OTP" : otp.toString(),
       };
       var response = await http.post(
         postUri,
         body: bodyData,
       );
-      print("body ====> $bodyData");
-      print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
+      Utils.logAPIResponse(function: "verifyOtp",apiName: ApiServices.verifyResetOtpApi,response: response);
+      Navigator.pop(context);
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
-          verifyOtpModel = VerifyOtpModel.fromJson(jsonDecode(response.body));
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => NewPasswordScreen(userId: widget.UseId,)));
-          Fluttertoast.showToast(
-              msg: "${verifyOtpModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => NewPasswordScreen(userId: widget.userId,)));
+          Utils.showSuccessToast(map["message"]);
         } else {
-          Fluttertoast.showToast(
-              msg: "${verifyOtpModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map["message"]);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
     }
-  }
+
 }
