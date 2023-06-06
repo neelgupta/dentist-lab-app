@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 5),() {
-      Navigator.push(context,
+      Navigator.pushReplacement(context,
       MaterialPageRoute(builder: (context) => RegisterTypeScreen()));
     },);
   }
@@ -27,14 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Column(
+          child: Stack(
             children: [
-              SizedBox(height: 135,width: 100,),
-              Spacer(),
               Align(
                 alignment: Alignment.center,
                   child: Text("Logo",style: GoogleFonts.lato(fontSize: 45,fontWeight: FontWeight.w600,color: Colors.white))),
-              Spacer(),
               Align(
                 alignment: Alignment.bottomCenter,
                   child: Image(image: AssetImage("assets/image/BG.png"),fit: BoxFit.fill,))

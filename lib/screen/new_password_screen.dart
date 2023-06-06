@@ -16,8 +16,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmpassword = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               return null;
                             },
                             obscureText: isVisible,
-                            controller: password,
+                            controller: passwordController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -99,7 +99,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               }
                               return null;
                             },
-                            controller: confirmpassword,
+                            controller: confirmPasswordController,
                             obscureText: isVisible,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
@@ -135,9 +135,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         child: TextButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()){
-                                if(password.text.isNotEmpty && confirmpassword.text.isNotEmpty){
-                                }if(password.value == confirmpassword.value){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+                                if(passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
+                                }if(passwordController.value == confirmPasswordController.value){
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),),(route) => false,);
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text("password & Confirm Password is not Same"),shape: OutlineInputBorder(

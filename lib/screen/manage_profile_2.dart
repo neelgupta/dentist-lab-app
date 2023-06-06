@@ -1,5 +1,11 @@
+
+
+
+import 'package:dentalapp/screen/manage_profile_3.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class ManageProfile2 extends StatefulWidget {
   const ManageProfile2({Key? key}) : super(key: key);
@@ -8,7 +14,12 @@ class ManageProfile2 extends StatefulWidget {
   State<ManageProfile2> createState() => _ManageProfile2State();
 }
 
+
 class _ManageProfile2State extends State<ManageProfile2> {
+
+  // late File imgFile;
+  // final imgPicker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -89,12 +100,198 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           ),
                         ),
                         const SizedBox(height: 20,),
-                        Container(
-                          height: 108,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
+                        DottedBorder(
+                          borderType: BorderType.RRect,
+                          dashPattern: [3, 3, 3],
+                          radius: Radius.circular(12),
+                          color: Color(0xFF116D6E),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            border:
+                            child: Container(
+                              height: 108,
+                              width: MediaQuery.of(context).size.width,
+                              color: Color(0xFFF5F7F7),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                    },
+                                    child: Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.white,
+                                        image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16,),
+                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        TextFormField(
+                          maxLength: 10,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(color: Color(0xFF707070))
+                            ),
+                            labelText: 'Trade License Number',
+                            hintText: '123456789',
+                            counterText: "",
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        DottedBorder(
+                          borderType: BorderType.RRect,
+                          dashPattern: [3, 3, 3],
+                          radius: Radius.circular(12),
+                          color: Color(0xFF116D6E),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              height: 108,
+                              width: MediaQuery.of(context).size.width,
+                              color: Color(0xFFF5F7F7),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                    },
+                                    child: Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.white,
+                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16,),
+                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        TextFormField(
+                          maxLength: 10,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(color: Color(0xFF707070))
+                            ),
+                            labelText: 'TRN Number',
+                            hintText: '123456789',
+                            counterText: "",
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        DottedBorder(
+                          borderType: BorderType.RRect,
+                          dashPattern: [3, 3, 3],
+                          radius: Radius.circular(12),
+                          color: Color(0xFF116D6E),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              height: 108,
+                              width: MediaQuery.of(context).size.width,
+                              color: Color(0xFFF5F7F7),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                    },
+                                    child: Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.white,
+                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16,),
+                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        TextFormField(
+                          maxLength: 10,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(color: Color(0xFF707070))
+                            ),
+                            labelText: 'Total Number of devices used',
+                            hintText: '123456789',
+                            counterText: "",
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        DottedBorder(
+                          borderType: BorderType.RRect,
+                          dashPattern: [3, 3, 3],
+                          radius: Radius.circular(12),
+                          color: Color(0xFF116D6E),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              height: 108,
+                              width: MediaQuery.of(context).size.width,
+                              color: Color(0xFFF5F7F7),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                    },
+                                    child: Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.white,
+                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16,),
+                                  Text("Upload List of Devices",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 30,),
@@ -107,6 +304,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           ),
                           child: TextButton(
                               onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -117,6 +315,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
               ),
             ),
           ),
-        ));
+        )
+    );
   }
 }

@@ -107,9 +107,7 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                       ),
                       child: TextButton(
                           onPressed: () {
-                            isOTPFilled ? () {
-                            } : null;
-                            if(isOTPFilled == true){
+                            if(isOTPFilled){
                               Navigator.push(context,MaterialPageRoute(builder: (context) => NewPasswordScreen()));
                             }
                           },

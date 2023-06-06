@@ -16,10 +16,12 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
     super.initState();
   }
 
-  String select = "Clinic";
+  String businessType = "Clinic";
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -29,7 +31,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
           child: Column(
             children: [
               Container(
-                height: 190,
+                height: height*0.3,
                 decoration: BoxDecoration(
                   color: Color(0xFF116D6E),
                   image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
@@ -39,13 +41,13 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   alignment: Alignment.center,
                     child: Column(
                       children: [
-                        SizedBox(height: 100,),
+                        SizedBox(height: height*0.18),
                         Text("Logo",style:GoogleFonts.lato(fontSize: 45,fontWeight: FontWeight.w600,color: Colors.white)),
                       ],
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(width*0.05),
                 child: Column(
                   children: [
                     SizedBox(height: 10,),
@@ -61,10 +63,10 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                           Radio(
                             value: 'Lab',
                             activeColor: Color(0xFF116D6E),
-                            groupValue: select,
+                            groupValue: businessType,
                             onChanged: (value) {
                               setState(() {
-                                select = value!;
+                                businessType = value!;
                               });
                             },
                           ),
@@ -85,10 +87,10 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                           Radio(
                             value: "Clinic",
                             activeColor: Color(0xFF116D6E),
-                            groupValue: select,
+                            groupValue: businessType,
                             onChanged: (value) {
                               setState(() {
-                                select = value!;
+                                businessType = value!;
                               });
                             },
                           ),
@@ -109,10 +111,10 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                           Radio(
                             value: "Dentist",
                             activeColor: Color(0xFF116D6E),
-                            groupValue: select,
+                            groupValue: businessType,
                             onChanged: (value) {
                               setState(() {
-                                select = value!;
+                                businessType = value!;
                               });
                             },
                           ),
@@ -142,7 +144,6 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                       child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),
               )
-
             ],
           ),
         ),
