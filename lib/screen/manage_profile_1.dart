@@ -1,3 +1,4 @@
+import 'package:dentalapp/screen/manage_profile_2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -279,6 +280,9 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           ),
                           child: TextButton(
                               onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return ManageProfile2();
+                                },));
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),

@@ -1,3 +1,4 @@
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
@@ -65,7 +66,14 @@ class _EmailVerifiedDoneScreenState extends State<EmailVerifiedDoneScreen> {
                       ),
                       child: TextButton(
                           onPressed: () {
-                             Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+                            ///Lab
+
+                           //  Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+
+                            ///clinic
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return const BottomNavigation();
+                            },));
                           },
                           child: Text("Continue To Sign In",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                     ),

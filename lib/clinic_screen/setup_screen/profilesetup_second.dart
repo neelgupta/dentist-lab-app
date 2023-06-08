@@ -1,14 +1,15 @@
+import 'package:dentalapp/clinic_screen/setup_screen/sucessfulsetup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ManageProfile2 extends StatefulWidget {
-  const ManageProfile2({Key? key}) : super(key: key);
+class ProfileSetUpSecondScreen extends StatefulWidget {
+  const ProfileSetUpSecondScreen({Key? key}) : super(key: key);
 
   @override
-  State<ManageProfile2> createState() => _ManageProfile2State();
+  State<ProfileSetUpSecondScreen> createState() => _ProfileSetUpSecondScreenState();
 }
 
-class _ManageProfile2State extends State<ManageProfile2> {
+class _ProfileSetUpSecondScreenState extends State<ProfileSetUpSecondScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -107,6 +108,9 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           ),
                           child: TextButton(
                               onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return SuccessfulProfileSetUp();
+                                },));
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
