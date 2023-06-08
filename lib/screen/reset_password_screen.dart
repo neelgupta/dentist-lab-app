@@ -24,6 +24,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Form(
       key: formKey,
       autovalidateMode: autoValidate,
@@ -36,7 +38,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             child: Column(
               children: [
                 Container(
-                    height: 190,
+                    height: height*0.24,
                     decoration: BoxDecoration(
                         color: Color(0xFF116D6E),
                         image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
@@ -47,7 +49,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         child: Column(
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 10,top: 10),
+                              padding: EdgeInsets.only(left: 15,top: 40),
                               alignment: Alignment.centerLeft,
                               child: InkWell(
                                   onTap: () {
@@ -55,13 +57,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   },
                                   child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
                             ),
-                            SizedBox(height: 100,),
+                            SizedBox(height: height*0.05,),
                             Text("Reset Password",style: GoogleFonts.lato(fontSize: 32,fontWeight: FontWeight.w600,color: Colors.white,),),
                           ],
                         ))
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
@@ -71,6 +73,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       SizedBox(height: 20,),
                       TextFormField(
                         enabled: isOTPSent,
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -120,7 +123,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 :  Padding(
                   padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                   child: Container(
-                    height: 50,
+                    height: height*0.06,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
@@ -133,7 +136,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         child: Text("Submit Code",style:GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ),
                 ),
-                SizedBox(height: 50,),
+                SizedBox(height: height*0.06,),
               ],
             ),
           ),

@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Align(
                 alignment: Alignment.center,
-                  child: Text("Logo",style: GoogleFonts.lato(fontSize: 45,fontWeight: FontWeight.w600,color: Colors.white))),
+                  child: Image(image: AssetImage("assets/image/Logo.png"))),
               Align(
                 alignment: Alignment.bottomCenter,
                   child: Image(image: AssetImage("assets/image/BG.png"),fit: BoxFit.fill,))

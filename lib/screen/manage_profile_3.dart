@@ -12,8 +12,23 @@ class ManageProfile3 extends StatefulWidget {
 }
 
 class _ManageProfile3State extends State<ManageProfile3> {
+
+  TextEditingController labManagerNameController = TextEditingController();
+  TextEditingController labManagerNumberController = TextEditingController();
+  TextEditingController labManagerEmailController = TextEditingController();
+  TextEditingController technicalManagerNameController = TextEditingController();
+  TextEditingController technicalManagerNumberController = TextEditingController();
+  TextEditingController technicalManagerEmailController = TextEditingController();
+  TextEditingController technicalManagerLicenseController = TextEditingController();
+  TextEditingController financialManagerNameController = TextEditingController();
+  TextEditingController financialManagerNumberController = TextEditingController();
+  TextEditingController financialManagerEmailController = TextEditingController();
+  TextEditingController totalTechnicianController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width  = MediaQuery.of(context).size.width;
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: true,
@@ -25,7 +40,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
               child: Column(
                 children: [
                   Container(
-                    height: 250,
+                    height: height*0.25,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
@@ -37,7 +52,11 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         Row(
                           children: [
                             SizedBox(width: 20,),
-                            Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                           ],
                         ),
                         SizedBox(height: 20,),
@@ -45,8 +64,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           alignment: Alignment.center,
                           child: Container(
                             alignment: Alignment.center,
-                            height: 80,
-                            width: 80,
+                            height: 70,
+                            width: 70,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Colors.white,width: 1),
@@ -60,11 +79,11 @@ class _ManageProfile3State extends State<ManageProfile3> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10,),
+                        SizedBox(height: 8,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -77,6 +96,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           textInputAction: TextInputAction.next,
+                          controller: labManagerNameController,
+                          keyboardType: TextInputType.name,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -91,6 +112,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           maxLength: 10,
+                          controller: labManagerNumberController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -108,6 +130,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           textInputAction: TextInputAction.next,
+                          controller: labManagerEmailController,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -129,6 +153,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           maxLength: 10,
+                          controller: technicalManagerNameController,
+                          keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -145,6 +171,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           maxLength: 10,
+                          controller: technicalManagerNumberController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -162,6 +189,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           textInputAction: TextInputAction.next,
+                          controller: technicalManagerEmailController,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -175,7 +204,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         ),
                         SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 15,
+                          maxLength: 17,
+                          controller: technicalManagerLicenseController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -236,6 +266,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           maxLength: 10,
+                          controller: financialManagerNameController,
+                          keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -252,6 +284,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           maxLength: 10,
+                          controller: financialManagerNumberController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -269,6 +302,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         SizedBox(height: 20,),
                         TextFormField(
                           textInputAction: TextInputAction.next,
+                          controller: financialManagerEmailController,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -282,7 +317,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         ),
                         SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 15,
+                          maxLength: 5,
+                          controller: totalTechnicianController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -333,9 +369,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30,),
+                        SizedBox(height: height*0.050,),
                         Container(
-                          height: 50,
+                          height: height*0.064,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -347,7 +383,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
-                        SizedBox(height: 40,),
+                        SizedBox(height: height*0.025,),
                       ],),
                   )
                 ],

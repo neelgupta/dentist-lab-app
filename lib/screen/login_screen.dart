@@ -15,6 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isVisible = true;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 Container(
-                  height: 190,
+                  height: height*0.24,
                   decoration: BoxDecoration(
                       color: Color(0xFF116D6E),
                       image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
@@ -45,13 +48,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.center,
                       child: Column(
                         children: [
-                          SizedBox(height: 100,),
+                          SizedBox(height: height*0.11,),
                           Text("Login",style: GoogleFonts.lato(fontSize: 45,fontWeight: FontWeight.w600,color: Colors.white,),),
                         ],
                       ))
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.symmetric(vertical: height*0.03,horizontal: width*0.055),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
@@ -59,9 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text("Hi, Welcome Back! 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
                       SizedBox(height: 30,),
                       TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Please enter email address';
                           } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
                             return "Enter valid email id";
                           }
@@ -80,11 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
+                        controller: passwordController,
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }if(value.length <= 6){
-                            return "Enter 8 character password";
+                            return 'Please enter password';
+                          }if(value.length < 7){
+                            return "Enter 7 character password";
                           }
                           return null;
                         },
@@ -104,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 isVisible = !isVisible;
                               });
                             },
-                              child: Image(image: AssetImage("assets/image/Vector.png")))
+                              child: Image(image: isVisible ? AssetImage("assets/image/Vector.png") : AssetImage("assets/image/Vector12.png")),)
                         ),
                       ),
                       SizedBox(height: 20,),
@@ -123,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                   child: Container(
-                    height: 50,
+                    height: height*0.06,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
@@ -155,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 50,),
+                SizedBox(height: height*0.04,),
               ],
             ),
           ),

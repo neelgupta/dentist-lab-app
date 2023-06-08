@@ -31,7 +31,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
           child: Column(
             children: [
               Container(
-                height: height*0.3,
+                height: height*0.25,
                 decoration: BoxDecoration(
                   color: Color(0xFF116D6E),
                   image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
@@ -41,8 +41,8 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   alignment: Alignment.center,
                     child: Column(
                       children: [
-                        SizedBox(height: height*0.18),
-                        Text("Logo",style:GoogleFonts.lato(fontSize: 45,fontWeight: FontWeight.w600,color: Colors.white)),
+                        SizedBox(height: height*0.09),
+                        Image(image: AssetImage("assets/image/Logo.png")),
                       ],
                     )),
               ),
@@ -52,7 +52,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   children: [
                     SizedBox(height: 10,),
                     Container(
-                      height: 50,
+                      height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0xFF707070)),
@@ -76,7 +76,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                     ),
                     SizedBox(height: 20,),
                     Container(
-                      height: 50,
+                      height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0xFF707070)),
@@ -100,7 +100,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                     ),
                     SizedBox(height: 20,),
                     Container(
-                      height: 50,
+                      height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0xFF707070)),
@@ -130,7 +130,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 50,top: 20,left: 20,right: 20),
                 child: Container(
-                  height: 50,
+                  height: height*0.06,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),

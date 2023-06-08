@@ -11,8 +11,13 @@ class ManageProfile5 extends StatefulWidget {
 }
 
 class _ManageProfile5State extends State<ManageProfile5> {
+  TextEditingController descriptionController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width  = MediaQuery.of(context).size.width;
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: false,
@@ -22,7 +27,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
             child: Column(
               children: [
                 Container(
-                  height: 250,
+                  height: height*0.25,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
@@ -42,8 +47,8 @@ class _ManageProfile5State extends State<ManageProfile5> {
                         alignment: Alignment.center,
                         child: Container(
                           alignment: Alignment.center,
-                          height: 80,
-                          width: 80,
+                          height: 70,
+                          width: 70,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
                               border: Border.all(color: Colors.white,width: 1),
@@ -57,7 +62,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -74,6 +79,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
                       SizedBox(height: 20,),
                       TextFormField(
                         textAlign: TextAlign.start,
+                        controller: descriptionController,
                         keyboardType: TextInputType.multiline,
                         minLines: 2,//Normal textInputField will be displayed
                         maxLines: 6,
@@ -95,9 +101,22 @@ class _ManageProfile5State extends State<ManageProfile5> {
                 ),
                 Spacer(),
                 Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    height: 50,
+                  padding:EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
+                  child: descriptionController.text.isNotEmpty ?  Container(
+                    height: height*0.064,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Color(0xFF116D6E)
+                    ),
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile6(),));
+                        },
+                        child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
+                  ) :
+                  Container(
+                    height: height*0.064,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
@@ -108,9 +127,9 @@ class _ManageProfile5State extends State<ManageProfile5> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile6(),));
                         },
                         child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
-                  ),
+                  )
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: height*0.025,),
               ],
             ),
           ),

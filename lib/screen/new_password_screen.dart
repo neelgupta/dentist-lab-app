@@ -1,4 +1,5 @@
 import 'package:dentalapp/screen/login_screen.dart';
+import 'package:dentalapp/screen/reset_successful_screen.dart';
 import 'package:dentalapp/screen/submit_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +13,8 @@ class NewPasswordScreen extends StatefulWidget {
 
 class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
-  bool isVisible = true;
+  bool isPasswordVisible = true;
+  bool isConfirmPasswordVisible = true;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
@@ -21,6 +23,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Form(
       key: formKey,
       autovalidateMode: autoValidate,
@@ -36,7 +40,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        height: 190,
+                        height: height*0.24,
                         decoration: BoxDecoration(
                             color: Color(0xFF116D6E),
                             image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
@@ -46,13 +50,22 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             alignment: Alignment.center,
                             child: Column(
                               children: [
-                                SizedBox(height: 100,),
+                                Container(
+                                  padding: EdgeInsets.only(left: 15,top: 40),
+                                  alignment: Alignment.centerLeft,
+                                  child: InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
+                                ),
+                                SizedBox(height: height*0.05,),
                                 Text("Reset Password",style: GoogleFonts.lato(fontSize: 32,fontWeight: FontWeight.w600,color: Colors.white,),),
                               ],
                             ))
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:  [
@@ -63,13 +76,13 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
+                                return 'Please enter Password';
                               }if(value.length <= 7){
                                 return "Enter 7 character password";
                               }
                               return null;
                             },
-                            obscureText: isVisible,
+                            obscureText: isPasswordVisible,
                             controller: passwordController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
@@ -83,7 +96,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 suffixIcon: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        isVisible = !isVisible;
+                                        isPasswordVisible = !isPasswordVisible;
                                       });
                                     },
                                     child: Image(image: AssetImage("assets/image/Vector.png")))
@@ -93,14 +106,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
-                              }if(value.length <= 7){
+                                return 'Please enter ConfirmPassword';
+                              } else if(value.length < 7){
                                 return "Enter 7 character password";
                               }
                               return null;
                             },
                             controller: confirmPasswordController,
-                            obscureText: isVisible,
+                            obscureText: isConfirmPasswordVisible,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -113,7 +126,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 suffixIcon: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        isVisible = !isVisible;
+                                        isConfirmPasswordVisible = !isConfirmPasswordVisible;
                                       });
                                     },
                                     child: Image(image: AssetImage("assets/image/Vector.png")))
@@ -126,7 +139,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                       child: Container(
-                        height: 50,
+                        height: height*0.065,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
@@ -152,22 +165,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               }else{
                                 autoValidate = AutovalidateMode.always;
                               }
-                              // Navigator.push(context,MaterialPageRoute(builder: (context) => ));
+                               Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>ResetSuccessfullScreen()));
                             },
                             child: Text("Reset Password",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                       ),
                     ),
-                    SizedBox(height: 50,),
+                    SizedBox(height: height*0.06,),
                   ],
                 ),
-                Positioned(
-                    top: 45,
-                    left: 12,
-                    child: InkWell(
-                        onTap: () {
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitCodeScreen(),));
-                        },
-                        child: Icon(Icons.keyboard_backspace,color: Colors.white,)))
               ],
             ),
           ),

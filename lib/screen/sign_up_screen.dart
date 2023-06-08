@@ -13,13 +13,20 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
 
-  bool isVisible = true;
-  bool isCheck = true;
+  bool isPasswordVisible = true;
+  bool isCheckBox = true;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController paswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Form(
       key: formKey,
       autovalidateMode: autoValidate,
@@ -34,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 children: [
                   Container(
-                      height: 190,
+                      height: height*0.24,
                       decoration: BoxDecoration(
                           color: Color(0xFF116D6E),
                           image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
@@ -44,13 +51,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           alignment: Alignment.center,
                           child: Column(
                             children: [
-                              SizedBox(height: 100,),
-                              Text("Sign Up",style: GoogleFonts.lato(fontSize: 36,fontWeight: FontWeight.w600,color: Colors.white,),),
+                              SizedBox(height: height*0.11,),
+                              Text("Sign Up",style: GoogleFonts.lato(fontSize: 45,fontWeight: FontWeight.w600,color: Colors.white,),),
                             ],
                           ))
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding:EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
@@ -58,11 +65,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Text("Hi, Welcome 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
                         SizedBox(height: 30,),
                         TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: firstNameController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 30,
+                          maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please enter some text';
+                              return 'Please enter First Name';
                             }
                             return null;
                           },
@@ -80,11 +89,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 20,),
                         TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: lastNameController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 30,
+                          maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please enter some text';
+                              return 'Please enter Last Name';
                             }
                             return null;
                           },
@@ -102,12 +113,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 20,),
                         TextFormField(
+                          controller: emailController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 30,
+                          keyboardType: TextInputType.emailAddress,
+                          maxLength: 25,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value!)){
+                              return 'Please enter Email';
+                            } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value!)){
                               return "Enter valid email id";
                             }
                             return null;
@@ -126,17 +139,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 20,),
                         TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: paswordController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 30,
+                          maxLength: 20,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter some text';
-                            }if(value.length <= 6){
-                              return "Enter 8 character password";
+                            } else if(value.length < 7){
+                              return "Enter 7 character password";
                             }
                             return null;
                           },
-                          obscureText: isVisible,
+                          obscureText: isPasswordVisible,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -150,21 +165,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               suffixIcon: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      isVisible = !isVisible;
+                                      isPasswordVisible = !isPasswordVisible;
                                     });
                                   },
-                                  child: isVisible ? Image(image: AssetImage("assets/image/Vector.png")) : Image(image: AssetImage("assets/image/Vector12.png")))
+                                  child: isPasswordVisible ? Image(image: AssetImage("assets/image/Vector.png")) : Image(image: AssetImage("assets/image/Vector12.png")))
                           ),
                         ),
                         SizedBox(height: 10,),
                         Row(
                           children: [
                             Checkbox(
-                                value: isCheck,
+                                value: isCheckBox,
                                 activeColor: Color(0XFF116D6E),
                                 onChanged: (value) {
                                   setState(() {
-                                    isCheck = !isCheck;
+                                    isCheckBox = !isCheckBox;
                                   });
                                 },),
                             Text("Accept all terms and conditions. ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF999EA1)),)
@@ -177,7 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                     child: Container(
-                      height: 50,
+                      height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -208,7 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 50,),
+                  SizedBox(height: height*0.06,),
                 ],
               ),
             ),
