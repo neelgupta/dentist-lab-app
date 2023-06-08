@@ -1,7 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:dentalapp/models/sign_in_model.dart';
+import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:dentalapp/screen/sign_up_screen.dart';
+import 'package:dentalapp/utils/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   var autoValidate = AutovalidateMode.disabled;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading =  false;
+  SignInModel? signInModel;
 
   @override
   void initState() {
@@ -32,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -90,8 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter password';
-                          }if(value.length < 7){
-                            return "Enter 7 character password";
+                          }if(value.length < 6){
+                            return "Enter 6 character password";
                           }
                           return null;
                         },
@@ -139,9 +151,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Login Successfully')),
-                            );
+                            setState(() {
+                              signIn();
+                            });
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(content: Text('Login Successfully')),
+                            // );
                           }else{
                             autoValidate = AutovalidateMode.always;
                           }
@@ -165,9 +180,64 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: height*0.04,),
               ],
             ),
+          ) : const Center(
+            child:  CircularProgressIndicator(),
           ),
         ),
       ),
     );
+  }
+  signIn()async{
+    var postUri = Uri.parse(ApiServices.signInApi);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "email": emailController.text.toString(),
+        "password": passwordController.text.toString(),
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> $response");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          signInModel = SignInModel.fromJson(jsonDecode(response.body));
+          Fluttertoast.showToast(
+              msg: "${signInModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+          Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) => const ResetPasswordScreen(),),
+                 );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${signInModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
