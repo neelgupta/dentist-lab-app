@@ -35,7 +35,12 @@ class _ProfileSetUpSecondScreenState extends State<ProfileSetUpSecondScreen> {
                         Row(
                           children: [
                             const SizedBox(width: 20,),
-                            const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill),
+                             GestureDetector(onTap: (){
+                               setState(() {
+                                 Navigator.pop(context);
+                               });
+                               },
+                                 child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                           ],
                         ),
                         const SizedBox(height: 20,),

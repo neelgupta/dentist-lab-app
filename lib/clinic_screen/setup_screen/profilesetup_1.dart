@@ -1,4 +1,4 @@
-import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_second.dart';
+import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -328,16 +328,12 @@ class _ProfileSetUopOneState extends State<ProfileSetUopOne> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    // if (permission == LocationPermission.whileInUse ||
-    //     permission == LocationPermission.always) {
-    //   return Future.error(
-    //       'Location permissions are permanently denied, we cannot request permissions.');
-    //
-    //
-    //
-    //
-    //
-    // }
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+
+    }
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }

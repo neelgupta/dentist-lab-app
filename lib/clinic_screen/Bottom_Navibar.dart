@@ -1,5 +1,5 @@
 import 'package:dentalapp/clinic_screen/dasboard_screen.dart';
-import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_one.dart';
+import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';

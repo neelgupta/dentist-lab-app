@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.18.1
   google_fonts:
   flutter_chat_bubble: ^2.0.2
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

@@ -182,7 +182,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   SizedBox(
                     height: height * 0.06,
                     width: width * 0.07,
-                    child: Image.asset("assets/image/b_quote.png",color: selectedIndex==2?const Color(0xff116D6E):Colors.black),
+                    child: Image.asset("assets/image/drawerquote.png",color: selectedIndex==2?const Color(0xff116D6E):Colors.black),
                   ),
                   SizedBox(width: width * 0.05),
                    Text("Quote",
@@ -205,7 +205,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   SizedBox(
                     height: height * 0.06,
                     width: width * 0.07,
-                    child: Image.asset("assets/image/d_dasboard.png",color: selectedIndex==3?const Color(0xff116D6E):Colors.black),
+                    child: Image.asset("assets/image/drawerdashboard.png",color: selectedIndex==3?const Color(0xff116D6E):Colors.black),
                   ),
                   SizedBox(width: width * 0.05),
                    Text("Dashboard",
