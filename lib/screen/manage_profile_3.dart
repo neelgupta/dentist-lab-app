@@ -1,6 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 import 'manage_profile_4.dart';
 
@@ -24,6 +26,12 @@ class _ManageProfile3State extends State<ManageProfile3> {
   TextEditingController financialManagerNumberController = TextEditingController();
   TextEditingController financialManagerEmailController = TextEditingController();
   TextEditingController totalTechnicianController = TextEditingController();
+
+
+  File? _image2;
+  File? _image3;
+  bool showPickOption2 = true;
+  bool showPickOption3= true;
 
   @override
   Widget build(BuildContext context) {
@@ -229,30 +237,73 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Container(
-                              height: 100,
+                              height: height*0.13,
                               width: MediaQuery.of(context).size.width,
                               color: Color(0xFFF5F7F7),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  InkWell(
-                                    onTap: (){
-                                    },
-                                    child: Container(
-                                      height: 42,
-                                      width: 42,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.white,
-                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                  if (_image2 != null)
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Container(
+                                          width: 120,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(image: FileImage(_image2!),fit: BoxFit.fill),
+                                              borderRadius: BorderRadius.circular(12)
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: 16,),
-                                  Text("Upload File",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                  if (showPickOption2)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage2();
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
+                              // child:Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     if (_image != null)
+                              //     Align(
+                              //       alignment: Alignment.centerLeft,
+                              //       child: Container(
+                              //         width: 120,
+                              //         height: 80,
+                              //         decoration: BoxDecoration(
+                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
+                              //           borderRadius: BorderRadius.circular(12)
+                              //         ),
+                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                              //       ),
+                              //     ),
+                              //     if (showPickOption)
+                              //
+                              //   ],
+                              // ),
                             ),
                           ),
                         ),
@@ -342,30 +393,73 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Container(
-                              height: 100,
+                              height: height*0.13,
                               width: MediaQuery.of(context).size.width,
                               color: Color(0xFFF5F7F7),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  InkWell(
-                                    onTap: (){
-                                    },
-                                    child: Container(
-                                      height: 42,
-                                      width: 42,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.white,
-                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                  if (_image3 != null)
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Container(
+                                          width: 120,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
+                                              borderRadius: BorderRadius.circular(12)
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: 16,),
-                                  Text("Upload List of Lab Techs",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                  if (showPickOption3)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage3();
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
+                              // child:Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     if (_image != null)
+                              //     Align(
+                              //       alignment: Alignment.centerLeft,
+                              //       child: Container(
+                              //         width: 120,
+                              //         height: 80,
+                              //         decoration: BoxDecoration(
+                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
+                              //           borderRadius: BorderRadius.circular(12)
+                              //         ),
+                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                              //       ),
+                              //     ),
+                              //     if (showPickOption)
+                              //
+                              //   ],
+                              // ),
                             ),
                           ),
                         ),
@@ -391,5 +485,27 @@ class _ManageProfile3State extends State<ManageProfile3> {
             ),
           ),
         ));
+  }
+  Future<void> _pickImage2() async {
+    final picker = ImagePicker();
+    final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedImage2 != null){
+        _image2 = File(pickedImage2.path);
+        showPickOption2 = false;
+      }
+      // imageFile = pickedImage;
+    });
+  }
+  Future<void> _pickImage3() async {
+    final picker = ImagePicker();
+    final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedImage3 != null){
+        _image3 = File(pickedImage3.path);
+        showPickOption3 = false;
+      }
+      // imageFile = pickedImage;
+    });
   }
 }
