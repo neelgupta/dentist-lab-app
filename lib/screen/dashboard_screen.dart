@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dentalapp/screen/manage_profile_1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -13,23 +12,20 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
 
-  int selectedIndex = 0;
-
-  Color selected = Colors.white;
-  Color unselected = Color(0xFFEBEFEE);
-  bool isColor = true;
+  bool  isFeedColor = true;
+  Color feedSelected = Colors.white;
+  Color feedUnselected = Color(0xFFEBEFEE);
 
   void changeColors() {
     setState(() {
-      if (isColor) {
-        selected = Colors.white;
-        unselected = Color(0xFFEBEFEE);
+      if (isFeedColor) {
+        feedSelected = Colors.white;
+        feedUnselected = Color(0xFFEBEFEE);
       } else {
-        selected = Color(0xFFEBEFEE);
-        unselected = Colors.white;
+        feedSelected = Color(0xFFEBEFEE);
+        feedUnselected = Colors.white;
       }
-
-      isColor = !isColor;
+      isFeedColor = !isFeedColor;
     });
   }
 
@@ -37,7 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       showMyDialog(context);
       // your dialong goes here
     }
@@ -45,6 +41,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // showMyDialog(context);
   }
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -59,18 +57,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Column(
                       children: [
                         Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xFF116D6E),
                                 image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                                     fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 18),
+                              padding: EdgeInsets.symmetric(vertical: height*0.03,horizontal: width*0.055),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Row(
-                                    children: [
+                                    children:   [
                                       Image(image: AssetImage("assets/image/Menu.png")),
                                       Spacer(),
                                       Image(image: AssetImage("assets/image/Notification 3.png"))
@@ -79,18 +77,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   SizedBox(height: 16,),
                                   Container(
                                     alignment: Alignment.center,
-                                    height: 80,
-                                    width: 80,
+                                    height: height*0.090,
+                                    width: width*0.20,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color: const Color(0xFF116D6E).withOpacity(0.5),
+                                      color: Color(0xFF116D6E).withOpacity(0.5),
                                       border: Border.all(color: Color(0xFFFFFFFF))
                                     ),
                                     child: Text("N",style: GoogleFonts.lato(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w600)),
                                   ),
                                   SizedBox(height: 15,),
                                   Text("User name",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.white,)),
-                                  SizedBox(height: 10,),
+                                  SizedBox(height: 8,),
                                   Text("Since 1992",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
                                 ],
                               ),
@@ -104,8 +102,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 50,
-                            width: 388,
+                            height: height*0.065,
+                            width: width*0.88,
                             decoration: BoxDecoration(
                               color: Color(0xFFEBEFEE),
                               borderRadius:BorderRadius.circular(30)
@@ -122,7 +120,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       child: Container(
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          color: selected,
+                                          color: feedSelected,
                                           borderRadius: BorderRadius.circular(30),
                                         ),
                                         child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),)),
@@ -136,7 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color:unselected,
+                                          color:feedUnselected,
                                           borderRadius: BorderRadius.circular(30),
                                         ),
                                         alignment: Alignment.center,
@@ -224,7 +222,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         bottomNavigationBar: Stack(
           children: [
             Container(
-              height: 80,
+              height: height*0.095,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Color(0xFF116D6E)
@@ -273,10 +271,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             Positioned(
-              left: 280,
+              left: width*0.7,
               child: Container(
-                height: 65,
-                width: 77,
+                height: height*0.081,
+                width: width*0.22,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))
@@ -307,7 +305,7 @@ void showMyDialog(BuildContext context){
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

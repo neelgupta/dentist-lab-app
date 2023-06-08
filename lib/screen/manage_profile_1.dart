@@ -12,11 +12,22 @@ class ManageProfile1 extends StatefulWidget {
 
 class _ManageProfile1State extends State<ManageProfile1> {
 
-  bool isVisible = true;
+  bool isPasswordVisible = true;
   TextEditingController dateInputController = TextEditingController();
+  TextEditingController labNameController = TextEditingController();
+  TextEditingController labMobileController = TextEditingController();
+  TextEditingController landLineNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController poBoxController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: true,
@@ -28,10 +39,10 @@ class _ManageProfile1State extends State<ManageProfile1> {
               child: Column(
                 children: [
                   Container(
-                    height: 250,
+                    height: height*0.25,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
+                        image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,10 +59,10 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           alignment: Alignment.center,
                           child: Container(
                             alignment: Alignment.center,
-                            height: 80,
-                            width: 80,
+                            height: 70,
+                            width: 70,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Colors.white,width: 1),
                                 image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                             ),
@@ -63,7 +74,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -80,6 +91,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       SizedBox(height: 20,),
                       TextFormField(
                         textInputAction: TextInputAction.next,
+                        controller: labNameController,
+                        keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -94,6 +107,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       SizedBox(height: 20,),
                       TextFormField(
                         maxLength: 10,
+                        controller: labMobileController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
@@ -112,6 +126,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       TextFormField(
                         maxLength: 10,
                         textInputAction: TextInputAction.next,
+                        controller: landLineNumberController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -127,6 +142,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -141,7 +158,10 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
-                        obscureText: isVisible,
+                        obscureText: isPasswordVisible,
+                        controller: passwordController,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -154,7 +174,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                             suffixIcon: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    isVisible = !isVisible;
+                                    isPasswordVisible = !isPasswordVisible;
                                   });
                                 },
                                 child: Image(image: AssetImage("assets/image/Vector.png")))
@@ -170,6 +190,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       SizedBox(height: 20,),
                       TextFormField(
                         maxLength: 10,
+                        controller: countryController,
+                        keyboardType: TextInputType.name,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -186,6 +208,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       SizedBox(height: 20,),
                       TextFormField(
                         maxLength: 10,
+                        controller: cityController,
+                        keyboardType: TextInputType.name,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -201,18 +225,18 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       ),
                       SizedBox(height: 20,),
                       Container(
-                        height: 50,
+                        height: height*0.065,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Color(0xFF707070))
                         ),
                         child: Row(
-                          children: [
+                          children: const [
                             SizedBox(width: 18,),
                             Image(image: AssetImage("assets/image/location.png")),
                             Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.all(10),
                               child: VerticalDivider(
                                 thickness: 1,
                                 color: Color(0xFF707070),
@@ -224,7 +248,9 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       ),
                         SizedBox(height: 20,),
                         TextFormField(
-                        maxLength: 10,
+                          keyboardType: TextInputType.name,
+                        controller: poBoxController,
+                        maxLength: 18,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
