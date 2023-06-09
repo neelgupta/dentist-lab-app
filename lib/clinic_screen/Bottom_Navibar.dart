@@ -131,7 +131,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                           ),
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return const ProfileSetUopOne();
+                              return  const profileSetup1();
                             },));
                           },
                           child: Text("Start Setup",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),

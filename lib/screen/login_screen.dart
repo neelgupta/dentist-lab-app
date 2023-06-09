@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20,),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(businessType: "lab"),));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

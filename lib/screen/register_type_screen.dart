@@ -1,4 +1,7 @@
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/screen/login_screen.dart';
+import 'package:dentalapp/screen/sign_up_screen.dart';
+import 'package:dentalapp/screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -138,8 +141,11 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen(),));
+                        businessType=="Lab"?
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(businessType: businessType),)):
+                        businessType=="Clinic"?
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen(),)):
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  SplashScreen(),));
                       },
                       child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),
