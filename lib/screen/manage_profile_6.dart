@@ -1,7 +1,13 @@
 import 'package:dentalapp/screen/email_verified_done_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/set_up_done_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../models/manage_profile_6_model.dart';
+import '../utils/api_services.dart';
 
 enum PaymentMethod { first, second, third, none }
 enum DeliveryMethods {cod , pd, none}
@@ -18,6 +24,9 @@ class _ManageProfile6State extends State<ManageProfile6> {
   PaymentMethod selectedPaymentOption = PaymentMethod.none;
   DeliveryMethods selectedDeliveryOption = DeliveryMethods.none;
 
+  bool isLoading =  false;
+  ManageProfile6Model? manageProfile6Model;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -25,7 +34,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: false,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -389,7 +398,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               primary: selectedPaymentOption != PaymentMethod.none ? Color(0xFF116D6E)  : Color(0xFFA0A0A0)
                             ),
                               onPressed: () {
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) => SetUpDoneScreen(),));
+                                 manageProfile6();
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -399,7 +408,70 @@ class _ManageProfile6State extends State<ManageProfile6> {
                 ],
               ),
             ),
-          ),
+          ) : const Center(
+            child: CircularProgressIndicator(),
+          )
         ));
+  }
+  manageProfile6()async{
+    var postUri = Uri.parse(ApiServices.manageProfile6Api);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "deliveryMethod": selectedDeliveryOption.index.toString(),
+        "paymentMethod": selectedPaymentOption.index.toString()
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          manageProfile6Model = ManageProfile6Model.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SetUpDoneScreen(),));
+          Fluttertoast.showToast(
+              msg: "${manageProfile6Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${manageProfile6Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

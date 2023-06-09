@@ -1,4 +1,5 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -11,5 +12,16 @@ class helperFun{
     }else{
       return  "";
     }
+  }
+}
+class ApiHelper{
+  static SharedPreferences? prefs;
+
+  static setToken(String token){
+    prefs!.setString('token', token);
+  }
+
+  static getToken() {
+    return prefs!.getString('token');
   }
 }

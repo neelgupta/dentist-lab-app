@@ -1,9 +1,15 @@
 import 'dart:io';
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dentalapp/screen/manage_profile_3.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../models/manage_profile_2_model.dart';
+import '../utils/api_services.dart';
 
 
 class ManageProfile2 extends StatefulWidget {
@@ -41,6 +47,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
   bool showPickOption2 = true;
   bool showPickOption3= true;
   bool showPickOption4 = true;
+  bool isLoading =  false;
+  ManageProfile2Model? manageProfile2Model;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +57,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: true,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -112,7 +120,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                         Text("Additional",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 15,
+                          maxLength: 17,
                           textInputAction: TextInputAction.next,
                           controller: medicalLicenseController,
                           keyboardType: TextInputType.number,
@@ -185,32 +193,12 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 10,
+                          maxLength: 17,
                           textInputAction: TextInputAction.next,
                           controller: tradeLicenseController,
                           keyboardType: TextInputType.number,
@@ -282,26 +270,6 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                   ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -379,26 +347,6 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -476,26 +424,6 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -509,7 +437,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           ),
                           child: TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
+                                manageProfile2();
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -519,10 +447,82 @@ class _ManageProfile2State extends State<ManageProfile2> {
                 ],
               ),
             ),
-          ),
+          ) : const Center(
+            child: CircularProgressIndicator(),
+          )
         )
     );
   }
+
+  manageProfile2()async{
+    var postUri = Uri.parse(ApiServices.manageProfile2Api);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "medicalLicenseNumber": medicalLicenseController.text.toString(),
+        "licensFile": _image.toString(),
+        "tradeLicenceNumber": tradeLicenseController.text.toString(),
+        "tradeFile": _image2.toString(),
+        "TRN_number": trnNumberController.text.toString(),
+        "TRNFile": _image3.toString(),
+        "deviceUsed": totalDeviceController.text.toString(),
+        "devicesFile": _image4.toString(),
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          manageProfile2Model = ManageProfile2Model.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
+          Fluttertoast.showToast(
+              msg: "${manageProfile2Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${manageProfile2Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
   Future<void> _pickImage2() async {
     final picker = ImagePicker();
     final pickedImage2 = await picker.getImage(source: ImageSource.gallery);

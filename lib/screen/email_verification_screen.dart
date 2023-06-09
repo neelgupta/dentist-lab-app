@@ -1,10 +1,22 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/email_verified_done_screen.dart';
 import 'package:dentalapp/screen/sign_up_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
+
+import '../models/verify_otp_model.dart';
+import '../utils/api_services.dart';
+import 'new_password_screen.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
-  const EmailVerificationScreen({Key? key}) : super(key: key);
+  String? UseId;
+  String? EmailId;
+  EmailVerificationScreen({Key? key,this.UseId,this.EmailId}) : super(key: key);
 
   @override
   State<EmailVerificationScreen> createState() => _EmailVerificationScreenState();
@@ -13,38 +25,17 @@ class EmailVerificationScreen extends StatefulWidget {
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
 
-  List<TextEditingController> otpControllers = List.generate(
-    6,
-        (index) => TextEditingController(),
-  );
-  @override
-  void dispose() {
-    for (var controller in otpControllers) {
-      controller.dispose();
-    }
-    otpControllers.forEach((controller) => controller.dispose());
-    super.dispose();
-  }
-
   bool isOTPFilled = false;
+  OtpFieldController  otpController = OtpFieldController();
+  var Otp;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    otpControllers[0].addListener(checkOTP);
-    otpControllers[0].text = '';
   }
-  void checkOTP() {
-    setState(() {
-      isOTPFilled = otpControllers.every((controller) => controller.text.length == 1);
-      if (isOTPFilled) {
-        FocusScope.of(context).nextFocus();
-      }
-    });
-  }
-
-
+  bool isLoading =  false;
+  VerifyOtpModel? verifyOtpModel;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -91,15 +82,34 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     SizedBox(height: 10,),
                     Text("Enter the 6 digit verification code sent to:",
                         style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),maxLines: 3,textAlign: TextAlign.start),
-                    Text("admin@gmail.com",
+                    Text("${widget.EmailId}",
                         style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color: Color(0xFF116D6E)),maxLines: 3,textAlign: TextAlign.start),
                     SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        6,
-                            (index) => buildOTPTextField(index),
+                    OTPTextField(
+                      length: 6,
+                      width: width,
+                      fieldWidth: 45,
+                      controller: otpController,
+                      keyboardType: TextInputType.number,
+                      fieldStyle: FieldStyle.box,
+                      otpFieldStyle: OtpFieldStyle(
+                        focusBorderColor: Colors.black,
                       ),
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontFamily: "Rubik"
+                      ),
+                      textFieldAlignment: MainAxisAlignment.spaceAround,
+                      onCompleted: (pin) {
+                        setState(() {
+                          isOTPFilled = true;
+                          Otp = pin;
+                        });
+                        print("Completed ====> $pin");
+                      },
+                      onChanged: (value) {
+                        print("value ====> $value");
+                      },
                     ),
 
                   ],
@@ -118,7 +128,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   child: TextButton(
                       onPressed: () {
                         if(isOTPFilled){
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => EmailVerifiedDoneScreen()));
+                          setState(() {
+                            verifyOtp();
+                          });
+                          // Navigator.push(context,MaterialPageRoute(builder: (context) => EmailVerifiedDoneScreen()));
                         }
                       },
                       child: Text("Submit Code",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
@@ -138,34 +151,65 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       ),
     );
   }
-  Widget buildOTPTextField(int index) {
-    return Container(
-      width: 42,
-      height: 42,
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      child: TextField(
-        controller: otpControllers[index],
-        keyboardType: TextInputType.number,
-        maxLength: 1,
-        autofocus: true,
-        textAlign: TextAlign.center,
-        onChanged: (value) {
-          if (value.isNotEmpty) {
-            if (index < otpControllers.length + 1) {
-              FocusScope.of(context).nextFocus();
-            }
-            checkOTP();
-          }
-        },
-        decoration: InputDecoration(
-            counterText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Color(0xFF707070)),
-            ),
-            contentPadding: EdgeInsets.only(bottom: 6,)
-        ),
-      ),
-    );
+  verifyOtp()async{
+    var postUri = Uri.parse(ApiServices.verifyOtpApi);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "UserId":widget.UseId,
+        "otp": Otp.toString(),
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          verifyOtpModel = VerifyOtpModel.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => EmailVerifiedDoneScreen(),));
+          Fluttertoast.showToast(
+              msg: "${verifyOtpModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${verifyOtpModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
