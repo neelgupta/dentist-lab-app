@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/manage_profile_2.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
+import '../models/manage_prifile_1_model.dart';
+import '../services/helper_fun.dart';
+import '../utils/api_services.dart';
 
 class ManageProfile1 extends StatefulWidget {
   const ManageProfile1({Key? key}) : super(key: key);
@@ -24,6 +31,9 @@ class _ManageProfile1State extends State<ManageProfile1> {
   TextEditingController addressController = TextEditingController();
   TextEditingController poBoxController = TextEditingController();
 
+  bool isLoading =  false;
+  ManageProfile1Model? manageProfile1Model;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -31,7 +41,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: true,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -124,7 +134,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
-                        maxLength: 10,
+                        maxLength: 15,
                         textInputAction: TextInputAction.next,
                         controller: landLineNumberController,
                         keyboardType: TextInputType.number,
@@ -177,7 +187,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                     isPasswordVisible = !isPasswordVisible;
                                   });
                                 },
-                                child: Image(image: AssetImage("assets/image/Vector.png")))
+                                child: !isPasswordVisible ? Image(image: AssetImage("assets/image/Vector.png"))
+                                : Image(image: AssetImage("assets/image/Vector12.png")))
                         ),
                       ),
                       SizedBox(height: 30,),
@@ -224,28 +235,23 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         ),
                       ),
                       SizedBox(height: 20,),
-                      Container(
-                        height: height*0.065,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Color(0xFF707070))
-                        ),
-                        child: Row(
-                          children: const [
-                            SizedBox(width: 18,),
-                            Image(image: AssetImage("assets/image/location.png")),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: VerticalDivider(
-                                thickness: 1,
-                                color: Color(0xFF707070),
-                              ),
+                        TextFormField(
+                          maxLength: 27,
+                          controller: addressController,
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(color: Color(0xFF707070))
                             ),
-                            Text("Address",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),)
-                          ],
+                            labelText: 'Address',
+                            hintText: 'Address',
+                            counterText: "",
+                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                          ),
                         ),
-                      ),
                         SizedBox(height: 20,),
                         TextFormField(
                           keyboardType: TextInputType.name,
@@ -306,7 +312,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           ),
                           child: TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile2(),));
+                                manageProfile1();
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -316,7 +322,79 @@ class _ManageProfile1State extends State<ManageProfile1> {
                 ],
               ),
             ),
-          ),
+          ) : const Center(
+            child: CircularProgressIndicator(),
+          )
         ));
+  }
+  manageProfile1()async{
+    var postUri = Uri.parse(ApiServices.manageProfile1Api);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "labName":labNameController.text.toString(),
+        "mobileNumber":labMobileController.text.toString(),
+        "landLineNumber":landLineNumberController.text.toString(),
+        "country":countryController.text.toString(),
+        "city":cityController.text.toString(),
+        "address":addressController.text.toString(),
+        "poBox":poBoxController.text.toString(),
+        "dateOfEstablishment":dateInputController.text.toString()
+      };
+      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+        headers: headers,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      print("header ====> ${headers}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          manageProfile1Model = ManageProfile1Model.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile2(),));
+          Fluttertoast.showToast(
+              msg: "${manageProfile1Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${manageProfile1Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

@@ -1,11 +1,19 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/login_screen.dart';
+import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:dentalapp/screen/reset_successful_screen.dart';
 import 'package:dentalapp/screen/submit_code_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../models/reset_password_model.dart';
+import '../utils/api_services.dart';
+
 class NewPasswordScreen extends StatefulWidget {
-  const NewPasswordScreen({Key? key}) : super(key: key);
+  final userId;
+   NewPasswordScreen({Key? key,this.userId}) : super(key: key);
 
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
@@ -17,6 +25,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   bool isConfirmPasswordVisible = true;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
+  bool isLoading =  false;
+  ResetPasswordModel? resetPasswordModel;
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -31,7 +41,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Stack(
@@ -77,8 +87,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter Password';
-                              }if(value.length <= 7){
-                                return "Enter 7 character password";
+                              }if(value.length < 6){
+                                return "Enter 6 character password";
                               }
                               return null;
                             },
@@ -107,8 +117,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter ConfirmPassword';
-                              } else if(value.length < 7){
-                                return "Enter 7 character password";
+                              } else if(value.length < 6){
+                                return "Enter 6 character password";
                               }
                               return null;
                             },
@@ -148,9 +158,11 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         child: TextButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()){
+
+                                resetPassword();
                                 if(passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
                                 }if(passwordController.value == confirmPasswordController.value){
-                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),),(route) => false,);
+
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text("password & Confirm Password is not Same"),shape: OutlineInputBorder(
@@ -165,7 +177,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               }else{
                                 autoValidate = AutovalidateMode.always;
                               }
-                               Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>ResetSuccessfullScreen()));
                             },
                             child: Text("Reset Password",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                       ),
@@ -175,9 +186,73 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 ),
               ],
             ),
+          ) : const Center(
+            child: CircularProgressIndicator(),
           ),
         ),
       ),
     );
   }
+  resetPassword()async{
+    var postUri = Uri.parse(ApiServices.resetPasswordApi);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "userId":widget.userId,
+        "password":passwordController.text.toString()
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          resetPasswordModel = ResetPasswordModel.fromJson(jsonDecode(response.body));
+          Navigator.push(context,MaterialPageRoute(builder: (context) =>ResetSuccessfullScreen()));
+          Fluttertoast.showToast(
+              msg: "${resetPasswordModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${resetPasswordModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
 }

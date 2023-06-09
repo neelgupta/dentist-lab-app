@@ -1,11 +1,15 @@
-
-
+import 'dart:io';
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:dentalapp/services/helper_fun.dart';
 import 'package:dentalapp/screen/manage_profile_3.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../models/manage_profile_2_model.dart';
+import '../utils/api_services.dart';
 
 
 class ManageProfile2 extends StatefulWidget {
@@ -15,7 +19,6 @@ class ManageProfile2 extends StatefulWidget {
   State<ManageProfile2> createState() => _ManageProfile2State();
 }
 
-
 class _ManageProfile2State extends State<ManageProfile2> {
 
   TextEditingController medicalLicenseController = TextEditingController();
@@ -23,16 +26,29 @@ class _ManageProfile2State extends State<ManageProfile2> {
   TextEditingController trnNumberController = TextEditingController();
   TextEditingController totalDeviceController = TextEditingController();
 
-  String? profile;
-  PickedFile? _imageFile;
+  File? _image;
+  File? _image2;
+  File? _image3;
+  File? _image4;
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.getImage(source: ImageSource.gallery);
     setState(() {
-      _imageFile = pickedImage;
+      if(pickedImage != null){
+        _image = File(pickedImage.path);
+        showPickOption = false;
+      }
+      // imageFile = pickedImage;
     });
   }
+
+  bool showPickOption = true;
+  bool showPickOption2 = true;
+  bool showPickOption3= true;
+  bool showPickOption4 = true;
+  bool isLoading =  false;
+  ManageProfile2Model? manageProfile2Model;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +57,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: true,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -104,7 +120,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                         Text("Additional",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 15,
+                          maxLength: 17,
                           textInputAction: TextInputAction.next,
                           controller: medicalLicenseController,
                           keyboardType: TextInputType.number,
@@ -133,25 +149,48 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               width: MediaQuery.of(context).size.width,
                               color: Color(0xFFF5F7F7),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  InkWell(
-                                    onTap: (){
-                                      openBottonSheet();
-                                    },
-                                    child: Container(
-                                      height: height*0.065,
-                                      width: width*0.15,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white,
-                                        image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                  if (_image != null)
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Container(
+                                          width: 120,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
+                                              borderRadius: BorderRadius.circular(12)
+                                          ),
+                                          // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: 7,),
-                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                  if (showPickOption)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage();
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -159,7 +198,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 10,
+                          maxLength: 17,
                           textInputAction: TextInputAction.next,
                           controller: tradeLicenseController,
                           keyboardType: TextInputType.number,
@@ -188,25 +227,47 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               width: MediaQuery.of(context).size.width,
                               color: Color(0xFFF5F7F7),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  if (_image2 != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Container(
+                                            width: 120,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(image: FileImage(_image2!),fit: BoxFit.fill),
+                                              borderRadius: BorderRadius.circular(12)
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  if (showPickOption2)
                                   InkWell(
-                                    onTap: (){
-                                      _pickImage();
+                                    onTap: () {
+                                      _pickImage2();
                                     },
                                     child: Container(
-                                      height: 42,
-                                      width: 42,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.white,
-                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(50),
+                                                color: Colors.white,
+                                                image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                            ),
+                                          ),
+                                          SizedBox(height: 5,),
+                                          Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 7,),
-                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
                                 ],
                               ),
                             ),
@@ -243,25 +304,47 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               width: MediaQuery.of(context).size.width,
                               color: Color(0xFFF5F7F7),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  InkWell(
-                                    onTap: (){
-                                      _pickImage();
-                                    },
-                                    child: Container(
-                                      height: height*0.065,
-                                      width: width*0.15,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.white,
-                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                  if (_image3 != null)
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Container(
+                                          width: 120,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
+                                              borderRadius: BorderRadius.circular(12)
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: 7,),
-                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                  if (showPickOption3)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage3();
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -298,25 +381,47 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               width: MediaQuery.of(context).size.width,
                               color: Color(0xFFF5F7F7),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  InkWell(
-                                    onTap: (){
-                                      _pickImage();
-                                    },
-                                    child: Container(
-                                      height: height*0.065,
-                                      width: width*0.15,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.white,
-                                          image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                  if (_image4 != null)
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Container(
+                                          width: 120,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(image: FileImage(_image4!),fit: BoxFit.fill),
+                                              borderRadius: BorderRadius.circular(12)
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: 7,),
-                                  Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                  if (showPickOption4)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage4();
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -332,7 +437,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           ),
                           child: TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
+                                manageProfile2();
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -342,100 +447,113 @@ class _ManageProfile2State extends State<ManageProfile2> {
                 ],
               ),
             ),
-          ),
+          ) : const Center(
+            child: CircularProgressIndicator(),
+          )
         )
     );
   }
-  openBottonSheet(){
-    return showModalBottomSheet(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      context: context,
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height*0.2,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width/2,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.photo_camera,color: Color(0xFF116D6E),size: 38,),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: InkWell(
-                        onTap: ()async{
-                          Navigator.pop(context);
-                          String chooseimage = await helperFun.pickImage(ImageSource.camera);
-                          if(chooseimage.isNotEmpty){
-                            setState(() {
-                              profile = chooseimage;
-                            });
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black.withOpacity(0.2))
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
-                            child: Text("Camera",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12)),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width/2,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(20))
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.photo_camera_back,color: Color(0xFF116D6E),size: 38,),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: InkWell(
-                        onTap: ()async {
-                          Navigator.pop(context);
-                          String? takeimage = await helperFun.pickImage(ImageSource.gallery);
-                          setState(() {
-                            profile = takeimage;
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.black.withOpacity(0.1))
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
-                            child: Text("Gallery",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12)),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+
+  manageProfile2()async{
+    var postUri = Uri.parse(ApiServices.manageProfile2Api);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "medicalLicenseNumber": medicalLicenseController.text.toString(),
+        "licensFile": _image.toString(),
+        "tradeLicenceNumber": tradeLicenseController.text.toString(),
+        "tradeFile": _image2.toString(),
+        "TRN_number": trnNumberController.text.toString(),
+        "TRNFile": _image3.toString(),
+        "deviceUsed": totalDeviceController.text.toString(),
+        "devicesFile": _image4.toString(),
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          manageProfile2Model = ManageProfile2Model.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
+          Fluttertoast.showToast(
+              msg: "${manageProfile2Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${manageProfile2Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
         );
-      },);
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
+  Future<void> _pickImage2() async {
+    final picker = ImagePicker();
+    final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedImage2 != null){
+        _image2 = File(pickedImage2.path);
+        showPickOption2 = false;
+      }
+      // imageFile = pickedImage;
+    });
+  }
+  Future<void> _pickImage3() async {
+    final picker = ImagePicker();
+    final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedImage3 != null){
+        _image3 = File(pickedImage3.path);
+        showPickOption3 = false;
+      }
+      // imageFile = pickedImage;
+    });
+  }
+  Future<void> _pickImage4() async {
+    final picker = ImagePicker();
+    final pickedImage4 = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedImage4 != null){
+        _image4 = File(pickedImage4.path);
+        showPickOption4 = false;
+      }
+      // imageFile = pickedImage;
+    });
   }
 }
