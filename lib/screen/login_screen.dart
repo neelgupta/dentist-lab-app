@@ -2,16 +2,18 @@
 
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:dentalapp/models/sign_in_model.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
+import 'package:dentalapp/screen/register_type_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:dentalapp/screen/sign_up_screen.dart';
+import 'package:dentalapp/services/helper_fun.dart';
 import 'package:dentalapp/utils/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -154,9 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               signIn();
                             });
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   const SnackBar(content: Text('Login Successfully')),
-                            // );
                           }else{
                             autoValidate = AutovalidateMode.always;
                           }
@@ -167,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20,),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(businessType: "lab"),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTypeScreen(),));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -202,11 +201,14 @@ class _LoginScreenState extends State<LoginScreen> {
         body: bodyData,
       );
       print("body ====> $bodyData");
-      print("body ====> $response");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
           signInModel = SignInModel.fromJson(jsonDecode(response.body));
+          ApiHelper.prefs = await SharedPreferences.getInstance();
+          ApiHelper.setToken(signInModel!.token);
           Fluttertoast.showToast(
               msg: "${signInModel?.message}",
               toastLength: Toast.LENGTH_SHORT,
@@ -216,10 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
               textColor: Colors.white,
               fontSize: 16.0
           );
-          Navigator.push(context,
-              MaterialPageRoute(
-                builder: (context) => const ResetPasswordScreen(),),
-                 );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DashboardScreen(),),);
         } else {
           Fluttertoast.showToast(
               msg: "${signInModel?.message}",
@@ -231,6 +230,16 @@ class _LoginScreenState extends State<LoginScreen> {
               fontSize: 16.0
           );
         }
+      } else {
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
     }catch(e){
       rethrow;

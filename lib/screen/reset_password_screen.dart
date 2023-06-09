@@ -1,8 +1,15 @@
-import 'package:dentalapp/screen/login_screen.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/submit_code_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../models/send_otp_model.dart';
+import '../utils/api_services.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -16,6 +23,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
   bool isOTPSent = true;
+
+  bool isLoading =  false;
+  ForgotPasswordModel? forgotPasswordModel;
 
   @override
   void initState() {
@@ -32,7 +42,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -131,7 +141,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => SubmitCodeScreen(),));
+                          forgotPassword();
                         },
                         child: Text("Submit Code",style:GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ),
@@ -139,9 +149,71 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 SizedBox(height: height*0.06,),
               ],
             ),
-          ),
+          ) : const Center(
+            child:  CircularProgressIndicator(),
         ),
       ),
+      ),
     );
+  }
+  forgotPassword()async{
+    var postUri = Uri.parse(ApiServices.resetPasswordApi);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "email":emailController.text.toString(),
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          forgotPasswordModel = ForgotPasswordModel.fromJson(jsonDecode(response.body));
+          Navigator.push(context,MaterialPageRoute(builder: (context) =>SubmitCodeScreen()));
+          Fluttertoast.showToast(
+              msg: "${forgotPasswordModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${forgotPasswordModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

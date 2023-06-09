@@ -5,6 +5,8 @@ import 'package:dentalapp/screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+enum RegisterType { Lab, Clinic, Dentist , none }
+
 class RegisterTypeScreen extends StatefulWidget {
   const RegisterTypeScreen({Key? key}) : super(key: key);
 
@@ -19,7 +21,8 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
     super.initState();
   }
 
-  String businessType = "Clinic";
+  RegisterType selectedRegisterOption = RegisterType.none;
+  String businessType = "Lab";
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                       child: Row(
                         children: [
                           Radio(
-                            value: 'Lab',
+                            value: "Lab",
                             activeColor: Color(0xFF116D6E),
                             groupValue: businessType,
                             onChanged: (value) {
@@ -141,11 +144,8 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        businessType=="Lab"?
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(businessType: businessType),)):
-                        businessType=="Clinic"?
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen(),)):
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  SplashScreen(),));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => SignUpScreen(businessType: businessType),));
                       },
                       child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),

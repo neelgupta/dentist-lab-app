@@ -1,6 +1,7 @@
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
+import 'package:dentalapp/screen/login_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -76,7 +77,7 @@ class _EmailVerifiedDoneScreenState extends State<EmailVerifiedDoneScreen> {
                   child: TextButton(
                       onPressed: () {
                         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DashboardScreen(),),(route) => false,);
-                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigation(),),(route) => false,);
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),),(route) => false,);
 
                       },
                       child: Text("Continue To Sign In",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),

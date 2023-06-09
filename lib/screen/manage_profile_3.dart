@@ -1,9 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/manage_profile_3_model.dart';
+import '../utils/api_services.dart';
 import 'manage_profile_4.dart';
 
 class ManageProfile3 extends StatefulWidget {
@@ -33,6 +38,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
   bool showPickOption2 = true;
   bool showPickOption3= true;
 
+  bool isLoading =  false;
+  ManageProfile3Model? manageProfile3Model;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -40,7 +48,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: true,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -440,26 +448,6 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -473,7 +461,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           ),
                           child: TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile4(),));
+                                manageProfile3();
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -483,9 +471,86 @@ class _ManageProfile3State extends State<ManageProfile3> {
                 ],
               ),
             ),
-          ),
-        ));
+          ) : const Center(
+            child: CircularProgressIndicator(),
+          )
+        )
+    );
   }
+
+  manageProfile3()async{
+    var postUri = Uri.parse(ApiServices.manageProfile3Api);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "labMangerName" : labManagerNameController.text.toString(),
+        "labMangerNumber" : labManagerNumberController.text.toString(),
+        "labMangerEmail" : labManagerEmailController.text.toString(),
+        "techMangerName" : technicalManagerNameController.text.toString(),
+        "techMangerNumber" : technicalManagerNumberController.text.toString(),
+        "techMangerEmail" : technicalManagerEmailController.text.toString(),
+        "techMangerlicensNo" : technicalManagerLicenseController.text.toString(),
+        "finacialMangerName" : financialManagerNameController.text.toString(),
+        "finacialMangerNumber" : financialManagerNumberController.text.toString(),
+        "finacialMangerEmail" : financialManagerEmailController.text.toString(),
+        "totalLabTechinicians" : totalTechnicianController.text.toString(),
+        "techlicensFile" : _image2,
+        "labTechs" : _image3,
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          manageProfile3Model = ManageProfile3Model.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile4(),));
+          Fluttertoast.showToast(
+              msg: "${manageProfile3Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${manageProfile3Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   Future<void> _pickImage2() async {
     final picker = ImagePicker();
     final pickedImage2 = await picker.getImage(source: ImageSource.gallery);

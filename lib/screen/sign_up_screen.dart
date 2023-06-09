@@ -1,11 +1,18 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:dentalapp/models/sign_up_model.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/login_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../utils/api_services.dart';
+
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key, required String businessType}) : super(key: key);
+  String? businessType;
+  SignUpScreen({Key? key, this.businessType}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -21,7 +28,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController paswordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  bool isLoading =  false;
+  SignUpModel? signUpModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          body: SizedBox(
+          body: !isLoading ?  SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -140,14 +150,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 20,),
                         TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          controller: paswordController,
+                          controller: passwordController,
                           textInputAction: TextInputAction.next,
                           maxLength: 20,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter some text';
-                            } else if(value.length < 7){
-                              return "Enter 7 character password";
+                            } else if(value.length < 6){
+                              return "Enter 6 character password";
                             }
                             return null;
                           },
@@ -201,7 +211,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: TextButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EmailVerificationScreen(),));
+                              setState(() {
+                                signUp();
+                              });
                             }else{
                               autoValidate = AutovalidateMode.always;
                             }
@@ -227,9 +239,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
             ),
-          ),
+          ) : const Center(
+    child:  CircularProgressIndicator(),
         ),
       ),
+      ),
     );
+  }
+  signUp()async{
+    var postUri = Uri.parse(ApiServices.signUpApi);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "firstName":firstNameController.text.toString(),
+        "lastName":lastNameController.text.toString(),
+        "email":emailController.text.toString(),
+        "password":passwordController.text.toString(),
+        "role": widget.businessType?.toLowerCase() // clinic or lab or dentist
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 201) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 201) {
+          signUpModel = SignUpModel.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => EmailVerificationScreen(
+            UseId: signUpModel!.userId.toString(),
+            EmailId: emailController.text.toString(),
+          ),));
+          Fluttertoast.showToast(
+              msg: "${signUpModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${signUpModel?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

@@ -1,6 +1,10 @@
 import 'package:dentalapp/screen/register_type_screen.dart';
+import 'package:dentalapp/services/helper_fun.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,9 +18,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    goToNext();
+  }
+
+  goToNext() async {
+    ApiHelper.prefs = await SharedPreferences.getInstance();
     Future.delayed(Duration(seconds: 5),() {
       Navigator.pushReplacement(context,
-      MaterialPageRoute(builder: (context) => RegisterTypeScreen()));
+          MaterialPageRoute(builder: (context) => LoginScreen()));
     },);
   }
   @override

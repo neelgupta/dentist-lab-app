@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
+import '../models/manage_profile_5_model.dart';
+import '../utils/api_services.dart';
 import 'manage_profile_6.dart';
 
 class ManageProfile5 extends StatefulWidget {
@@ -13,6 +18,9 @@ class ManageProfile5 extends StatefulWidget {
 class _ManageProfile5State extends State<ManageProfile5> {
   TextEditingController descriptionController = TextEditingController();
 
+  bool isLoading =  false;
+  ManageProfile5Model? manageProfile5Model;
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
     return SafeArea(
         child:Scaffold(
           resizeToAvoidBottomInset: false,
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -111,7 +119,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
                     ),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile6(),));
+                          manageProfile5();
                         },
                         child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ) :
@@ -124,7 +132,8 @@ class _ManageProfile5State extends State<ManageProfile5> {
                     ),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile6(),));
+                          manageProfile5();
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile6(),));
                         },
                         child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   )
@@ -132,7 +141,70 @@ class _ManageProfile5State extends State<ManageProfile5> {
                 SizedBox(height: height*0.025,),
               ],
             ),
-          ),
+          ) : const Center(
+            child: CircularProgressIndicator(),
+          )
         ));
+  }
+
+  manageProfile5()async{
+    var postUri = Uri.parse(ApiServices.manageProfile5Api);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var bodyData = {
+        "description": descriptionController.text.toString(),
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      print("body ====> $bodyData");
+      print("body ====> ${response.statusCode}");
+      print("body ====> ${response.body}");
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          manageProfile5Model = ManageProfile5Model.fromJson(jsonDecode(response.body));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile6(),));
+          Fluttertoast.showToast(
+              msg: "${manageProfile5Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        } else {
+          Fluttertoast.showToast(
+              msg: "${manageProfile5Model?.message}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }else{
+        Fluttertoast.showToast(
+            msg: "${jsonDecode(response.body)['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }catch(e){
+      rethrow;
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
