@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:math';
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/models/sign_in_model.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/register_type_screen.dart';
@@ -153,9 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()){
-                            setState(() {
                               signIn();
-                            });
                           }else{
                             autoValidate = AutovalidateMode.always;
                           }
@@ -209,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
           signInModel = SignInModel.fromJson(jsonDecode(response.body));
           ApiHelper.prefs = await SharedPreferences.getInstance();
           ApiHelper.setToken(signInModel!.token);
+          ApiHelper.setUserType(signInModel!.type);
           Fluttertoast.showToast(
               msg: "${signInModel?.message}",
               toastLength: Toast.LENGTH_SHORT,
@@ -218,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
               textColor: Colors.white,
               fontSize: 16.0
           );
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DashboardScreen(),),);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?DashboardScreen():BottomNavigation(),),);
         } else {
           Fluttertoast.showToast(
               msg: "${signInModel?.message}",

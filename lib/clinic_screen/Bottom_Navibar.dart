@@ -17,7 +17,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     SchedulerBinding.instance?.addPostFrameCallback((_) {
+     SchedulerBinding.instance.addPostFrameCallback((_) {
       showMyDialog();
       // your dialong goes here
     }

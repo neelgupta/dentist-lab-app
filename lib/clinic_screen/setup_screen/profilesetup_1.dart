@@ -191,7 +191,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           Text("Clinic Location ",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
                           SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: countryController,
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
@@ -215,7 +214,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           ),
                           SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: cityController,
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
@@ -263,7 +261,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           TextFormField(
                             keyboardType: TextInputType.streetAddress,
                             controller: addressController,
-                            maxLength: 18,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -287,7 +284,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           TextFormField(
                             keyboardType: TextInputType.name,
                             controller: poBoxController,
-                            maxLength: 18,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -309,7 +305,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           ),
                           SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             textInputAction: TextInputAction.next,
                             controller:dateInputController,
                             readOnly: true,

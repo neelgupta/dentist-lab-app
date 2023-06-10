@@ -16,6 +16,7 @@ class ApiServices {
   static String signUpApi = "${baseUrl}auth/signup";
   static String forgotPasswordApi = "${baseUrl}auth/forgotPassword";
   static String verifyOtpApi = "${baseUrl}auth/verifyOtp";
+  static String verifyResetOtpApi = "${baseUrl}auth/verifyresetOtp";
   static String resetPasswordApi = "${baseUrl}auth/resetPassword";
 
 

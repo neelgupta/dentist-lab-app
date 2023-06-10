@@ -642,24 +642,24 @@ class _ManageProfile4State extends State<ManageProfile4> {
    //                        children: [
    //                          Text("Tuesday",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
    //                          Spacer(),
-   //                          // Column(
-   //                          //   children: [
-   //                          //     Transform.scale(
-   //                          //       scale: 0.85,
-   //                          //       child: CupertinoSwitch(
-   //                          //         value: switchValue,
-   //                          //         activeColor: Color(0xFF116D6E),
-   //                          //         onChanged: (bool? value) {
-   //                          //           setState(() {
-   //                          //             switchValue = value ?? false;
-   //                          //           });
-   //                          //         },
-   //                          //       ),
-   //                          //     ),
-   //                          //     // switchValue ? Text("open",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 13),)
-   //                          //     //     : Text("close",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 13),)
-   //                          //   ],
-   //                          // ),
+   //                          Column(
+   //                            children: [
+   //                              Transform.scale(
+   //                                scale: 0.85,
+   //                                child: CupertinoSwitch(
+   //                                  value: switchValue,
+   //                                  activeColor: Color(0xFF116D6E),
+   //                                  onChanged: (bool? value) {
+   //                                    setState(() {
+   //                                      switchValue = value ?? false;
+   //                                    });
+   //                                  },
+   //                                ),
+   //                              ),
+   //                              // switchValue ? Text("open",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 13),)
+   //                              //     : Text("close",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 13),)
+   //                            ],
+   //                          ),
    //                          Column(
    //                            children: [
    //                              FlutterSwitch(

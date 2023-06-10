@@ -81,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please enter First Name';
+                              return 'Please Enter First Name';
                             }
                             return null;
                           },
@@ -105,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please enter Last Name';
+                              return 'Please Enter Last Name';
                             }
                             return null;
                           },
@@ -129,9 +129,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           maxLength: 25,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter Email';
+                              return 'Please Enter Email';
                             } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value!)){
-                              return "Enter valid email id";
+                              return "Enter Valid Email";
                             }
                             return null;
                           },
@@ -155,9 +155,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           maxLength: 20,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please Enter Password';
                             } else if(value.length < 6){
-                              return "Enter 6 character password";
+                              return "Enter 6 Character Password";
                             }
                             return null;
                           },
@@ -211,9 +211,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: TextButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()){
-                              setState(() {
+                              if(isCheckBox) {
                                 signUp();
-                              });
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Please Accept Terms & Condition",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0
+                                );
+                              }
                             }else{
                               autoValidate = AutovalidateMode.always;
                             }

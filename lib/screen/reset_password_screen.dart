@@ -120,9 +120,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()){
-                            setState(() {
-                              isOTPSent = ! isOTPSent;
-                            });
+                            // setState(() {
+                            //   isOTPSent = ! isOTPSent;
+                            // });
+                            forgotPassword();
                           }else{
                             autoValidate = AutovalidateMode.always;
                           }
@@ -157,7 +158,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
   forgotPassword()async{
-    var postUri = Uri.parse(ApiServices.resetPasswordApi);
+    var postUri = Uri.parse(ApiServices.forgotPasswordApi);
     try {
       setState(() {
         isLoading = true;
@@ -175,20 +176,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
-          forgotPasswordModel = ForgotPasswordModel.fromJson(jsonDecode(response.body));
-          Navigator.push(context,MaterialPageRoute(builder: (context) =>SubmitCodeScreen()));
-          Fluttertoast.showToast(
-              msg: "${forgotPasswordModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          // forgotPasswordModel = ForgotPasswordModel.fromJson(jsonDecode(response.body));
+          Navigator.push(context,MaterialPageRoute(builder: (context) =>SubmitCodeScreen(UseId: map['UserId'],EmailId: emailController.text,)));
+          // Fluttertoast.showToast(
+          //     msg: "${forgotPasswordModel?.message}",
+          //     toastLength: Toast.LENGTH_SHORT,
+          //     gravity: ToastGravity.BOTTOM,
+          //     timeInSecForIosWeb: 1,
+          //     backgroundColor: Colors.black,
+          //     textColor: Colors.white,
+          //     fontSize: 16.0
+          // );
         } else {
           Fluttertoast.showToast(
-              msg: "${forgotPasswordModel?.message}",
+              msg: "${map['message']}",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,

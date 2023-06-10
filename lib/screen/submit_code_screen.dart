@@ -129,6 +129,16 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                           setState(() {
                             verifyOtp();
                           });
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "Please Enter OTP",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0
+                          );
                         }
                       },
                       child: Text("Submit Code",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
@@ -152,14 +162,14 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
   }
 
   verifyOtp()async{
-    var postUri = Uri.parse(ApiServices.verifyOtpApi);
+    var postUri = Uri.parse(ApiServices.verifyResetOtpApi);
     try {
       setState(() {
         isLoading = true;
       });
       var bodyData = {
-        "UserId":widget.UseId,
-        "otp": Otp.toString(),
+        "UserId" : widget.UseId.toString(),
+        "OTP" : Otp.toString(),
       };
       var response = await http.post(
         postUri,

@@ -434,7 +434,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: const Color(0xFFA0A0A0)
+                              color: const Color(0xFF116D6E)
                           ),
                           child: TextButton(
                               onPressed: () {
@@ -463,27 +463,37 @@ class _ManageProfile2State extends State<ManageProfile2> {
       });
       var bodyData = {
         "medicalLicenseNumber": medicalLicenseController.text.toString(),
-        "licensFile": _image,
         "tradeLicenceNumber": tradeLicenseController.text.toString(),
-        "tradeFile": _image2,
         "TRN_number": trnNumberController.text.toString(),
-        "TRNFile": _image3,
         "deviceUsed": totalDeviceController.text.toString(),
-        "devicesFile": _image4
       };
       var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
-      var response = await http.post(
-        postUri,
-        body: bodyData,
-        headers: headers,
-      );
+      var postUri = Uri.parse(ApiServices.addaditionalClinicDetails);
+      var request = http.MultipartRequest("POST", postUri);
+      request.headers.addAll(headers);
+      request.fields.addAll(bodyData);
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",_image!.path);
+      http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);
+      http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",_image3!.path);
+      http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",_image4!.path);
+      request.files.add(multipartFile,);
+      request.files.add(multipartFile1,);
+      request.files.add(multipartFile2);
+      request.files.add(multipartFile3);
+      http.StreamedResponse response = await request.send();
+      // var response = await http.post(
+      //   postUri,
+      //   body: bodyData,
+      //   headers: headers,
+      // );
       print("body ====> $bodyData");
       print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
+      final res = await http.Response.fromStream(response);
+      print('body: ${res.body}');
       if (response.statusCode == 200) {
-        Map map = jsonDecode(response.body);
+        Map map = jsonDecode(res.body);
         if (map["status"] == 200) {
-          manageProfile2Model = ManageProfile2Model.fromJson(jsonDecode(response.body));
+          manageProfile2Model = ManageProfile2Model.fromJson(jsonDecode(res.body));
           Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
           Fluttertoast.showToast(
               msg: "${manageProfile2Model?.message}",
@@ -507,7 +517,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
         }
       }else{
         Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
+            msg: "${jsonDecode(res.body)['message']}",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
