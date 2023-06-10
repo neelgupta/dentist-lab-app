@@ -520,7 +520,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
           };
       var postUri = Uri.parse(ApiServices.addaditionalClinicDetails);
       var request = http.MultipartRequest("POST", postUri);
-      request.headers.addAll(ApiHelper.apiHeader);
+      request.headers.addAll(ApiHelpers.apiHeader);
       request.fields.addAll(bodyData);
       http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("licensFile",_image1!.path);
       http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);

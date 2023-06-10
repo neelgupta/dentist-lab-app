@@ -76,9 +76,8 @@ class _EmailVerifiedDoneScreenState extends State<EmailVerifiedDoneScreen> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DashboardScreen(),),(route) => false,);
+                        // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigation(),),(route) => false,);
                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),),(route) => false,);
-
                       },
                       child: Text("Continue To Sign In",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),

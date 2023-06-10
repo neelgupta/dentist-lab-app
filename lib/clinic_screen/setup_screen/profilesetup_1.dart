@@ -400,9 +400,9 @@ class _profileSetup1State extends State<profileSetup1> {
       var response = await http.post(
         postUri,
         body: bodyData,
-        headers:ApiHelper.apiHeader,
+        headers:ApiHelpers.apiHeader,
       );
-      print("token==${ApiHelper.apiHeader}");
+      print("token==${ApiHelpers.apiHeader}");
       print("body ====> $bodyData");
       log("addPayment response.body ==> ${response.body}");
       log("addPayment status code ==> ${response.statusCode}");

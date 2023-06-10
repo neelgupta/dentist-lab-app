@@ -439,7 +439,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
       var postUri = Uri.parse(ApiServices.addClinicMangerDetails);
       var request = http.MultipartRequest("POST", postUri);
       var headers = {
-        "Authorization" : ApiHelper.apiHeader
+        "Authorization" : ApiHelpers.apiHeader
       };
       //request.fields.addAll(headers);
       request.fields.addAll(bodyData);
