@@ -103,6 +103,9 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         textInputAction: TextInputAction.next,
                         controller: labNameController,
                         keyboardType: TextInputType.name,
+                        validator: (value) {
+
+                        },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -134,7 +137,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
-                        maxLength: 15,
+                        maxLength: 11,
                         textInputAction: TextInputAction.next,
                         controller: landLineNumberController,
                         keyboardType: TextInputType.number,
@@ -271,44 +274,59 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         ),
                       ),
                         SizedBox(height: 20,),
-                        TextFormField(
-                        maxLength: 10,
-                        textInputAction: TextInputAction.next,
-                        controller:dateInputController,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Color(0xFF707070))
-                          ),
-                          labelText: 'Date of establishment',
-                          hintText: '02/10/2023',
-                          counterText: "",
-                          hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                          contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                          suffixIcon: InkWell(
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1950),
-                                    lastDate: DateTime(2050));
+                        InkWell(
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime(2050));
 
-                                if (pickedDate != null) {
-                                  dateInputController.text =
-                                      DateFormat('dd MMMM yyyy').format(pickedDate);
-                                };
-                              },
-                              child: Image(image: AssetImage("assets/image/date.png")))
-                        ),
+                            if (pickedDate != null) {
+                              dateInputController.text =
+                                  DateFormat('dd MMMM yyyy').format(pickedDate);
+                            }
+                          },
+                          child: TextFormField(
+                          maxLength: 10,
+                          textInputAction: TextInputAction.next,
+                          controller:dateInputController,
+                          readOnly: true,
+                            enabled: false,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(color: Color(0xFF707070))
+                            ),
+                            labelText: 'Date of establishment',
+                            hintText: '02/10/2023',
+                            counterText: "",
+                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            suffixIcon: InkWell(
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1950),
+                                      lastDate: DateTime(2050));
+
+                                  if (pickedDate != null) {
+                                    dateInputController.text =
+                                        DateFormat('dd MMMM yyyy').format(pickedDate);
+                                  }
+                                },
+                                child: Image(image: AssetImage("assets/image/date.png")))
+                          ),
                       ),
+                        ),
                         SizedBox(height: 30,),
                         Container(
                           height: 50,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: Color(0xFFA0A0A0)
+                              color: Color(0xFF166D6E)
                           ),
                           child: TextButton(
                               onPressed: () {

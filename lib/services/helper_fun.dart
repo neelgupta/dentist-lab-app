@@ -24,4 +24,12 @@ class ApiHelper{
   static getToken() {
     return prefs!.getString('token');
   }
+
+  static setUserType(type) {
+    prefs!.setString('userType', type);
+  }
+
+  static getUserType(type) {
+    return prefs!.getString('userType');
+  }
 }

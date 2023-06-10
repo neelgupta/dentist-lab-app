@@ -213,26 +213,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -310,26 +290,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -407,26 +367,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                     ),
                                 ],
                               ),
-                              // child:Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     if (_image != null)
-                              //     Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Container(
-                              //         width: 120,
-                              //         height: 80,
-                              //         decoration: BoxDecoration(
-                              //           image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                              //           borderRadius: BorderRadius.circular(12)
-                              //         ),
-                              //         // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                              //       ),
-                              //     ),
-                              //     if (showPickOption)
-                              //
-                              //   ],
-                              // ),
                             ),
                           ),
                         ),
@@ -443,11 +383,11 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           child: TextButton(
                               onPressed: () {
 
-                                setState(() {
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSetup3(),));
+                                // setState(() {
+                                //    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSetup3(),));
 
                                   profileSetup2();
-                                });
+                                // });
 
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
@@ -522,12 +462,12 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
       var request = http.MultipartRequest("POST", postUri);
       request.headers.addAll(ApiHelpers.apiHeader);
       request.fields.addAll(bodyData);
-      http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("licensFile",_image1!.path);
-      http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);
-      http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("trnFile",_image3!.path);
-       request.files.add(multipartFile1,);
-       request.files.add(multipartFile2);
-       request.files.add(multipartFile3);
+      // http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("licensFile",_image1!.path);
+      // http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);
+      // http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("trnFile",_image3!.path);
+      //  request.files.add(multipartFile1,);
+      //  request.files.add(multipartFile2);
+      //  request.files.add(multipartFile3);
       http.StreamedResponse response = await request.send();
 
       print('code: ${response.statusCode}');

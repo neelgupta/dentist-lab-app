@@ -457,7 +457,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: Color(0xFFA0A0A0)
+                              color: Color(0xFF116D6E)
                           ),
                           child: TextButton(
                               onPressed: () {

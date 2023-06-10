@@ -119,6 +119,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 return 'Please enter ConfirmPassword';
                               } else if(value.length < 6){
                                 return "Enter 6 character password";
+                              } else if(value!=passwordController.text) {
+                                return "Password Doesn't Match";
                               }
                               return null;
                             },
@@ -159,10 +161,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             onPressed: () {
                               if (formKey.currentState!.validate()){
 
-                                resetPassword();
                                 if(passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
-                                }if(passwordController.value == confirmPasswordController.value){
-
+                                if(passwordController.value == confirmPasswordController.value){
+                                  resetPassword();
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text("password & Confirm Password is not Same"),shape: OutlineInputBorder(
@@ -173,6 +174,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         backgroundColor: Colors.red.shade500,
                                         padding: EdgeInsets.all(20),
                                       ));
+                                }
                                 }
                               }else{
                                 autoValidate = AutovalidateMode.always;

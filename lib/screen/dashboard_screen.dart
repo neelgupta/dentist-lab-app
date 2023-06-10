@@ -243,7 +243,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(image: AssetImage("assets/image/Setting.png")),
+                      Image(image: AssetImage("assets/image/Setting.png"),width: 25),
                       SizedBox(height: 5,),
                       Text("Setting",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white,))
                     ],
