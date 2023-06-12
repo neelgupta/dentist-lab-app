@@ -50,188 +50,120 @@ class _ManageProfile2State extends State<ManageProfile2> {
   bool showPickOption4 = true;
   bool isLoading =  false;
   ManageProfile2Model? manageProfile2Model;
+  final formKey = GlobalKey<FormState>();
+  var autoValidate = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width  = MediaQuery.of(context).size.width;
-    return SafeArea(
-        child:Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: !isLoading ? SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Container(
-                    height: height*0.25,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(width: 20,),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
-                          ],
-                        ),
-                        SizedBox(height: 20,),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
+    return Form(
+      key: formKey,
+      autovalidateMode: autoValidate,
+      child: SafeArea(
+          child:Scaffold(
+            resizeToAvoidBottomInset: true,
+            body: !isLoading ? SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    Container(
+                      height: height*0.25,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(width: 20,),
+                              InkWell(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
+                            ],
+                          ),
+                          SizedBox(height: 20,),
+                          Align(
                             alignment: Alignment.center,
-                            height: 70,
-                            width: 70,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(color: Colors.white,width: 1),
-                                image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
-                            ),
-                            child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 7,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("2/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
-                          ],
-                        ),
-                        const SizedBox(height: 20,),
-                        Text("Additional",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                        const SizedBox(height: 20,),
-                        TextFormField(
-                          maxLength: 17,
-                          textInputAction: TextInputAction.next,
-                          controller: medicalLicenseController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color(0xFF707070))
-                            ),
-                            labelText: 'Medical License Number',
-                            hintText: '123456789',
-                            counterText: "",
-                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        DottedBorder(
-                          borderType: BorderType.RRect,
-                          dashPattern: [3, 3, 3],
-                          radius: Radius.circular(12),
-                          color: Color(0xFF116D6E),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
                             child: Container(
-                              height: height*0.13,
-                              width: MediaQuery.of(context).size.width,
-                              color: Color(0xFFF5F7F7),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  if (_image != null)
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        child: Container(
-                                          width: 120,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
-                                              borderRadius: BorderRadius.circular(12)
-                                          ),
-                                          // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                                        ),
-                                      ),
-                                    ),
-                                  if (showPickOption)
-                                    InkWell(
-                                      onTap: () {
-                                        _pickImage();
-                                      },
-                                      child: Container(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
+                              alignment: Alignment.center,
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(color: Colors.white,width: 1),
+                                  image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                               ),
+                              child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20,),
-                        TextFormField(
-                          maxLength: 17,
-                          textInputAction: TextInputAction.next,
-                          controller: tradeLicenseController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color(0xFF707070))
-                            ),
-                            labelText: 'Trade License Number',
-                            hintText: '123456789',
-                            counterText: "",
-                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 7,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("2/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
+                              Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
+                            ],
                           ),
-                        ),
-                        const SizedBox(height: 20,),
-                        DottedBorder(
-                          borderType: BorderType.RRect,
-                          dashPattern: [3, 3, 3],
-                          radius: Radius.circular(12),
-                          color: Color(0xFF116D6E),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              height: height*0.13,
-                              width: MediaQuery.of(context).size.width,
-                              color: Color(0xFFF5F7F7),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  if (_image2 != null)
+                          const SizedBox(height: 20,),
+                          Text("Additional",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: medicalLicenseController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Enter Medical License Number';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
+                              ),
+                              labelText: 'Medical License Number',
+                              hintText: '123456789',
+                              counterText: "",
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          DottedBorder(
+                            borderType: BorderType.RRect,
+                            dashPattern: [3, 3, 3],
+                            radius: Radius.circular(12),
+                            color: Color(0xFF116D6E),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                height: height*0.13,
+                                width: MediaQuery.of(context).size.width,
+                                color: Color(0xFFF5F7F7),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (_image != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -240,218 +172,317 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                              image: DecorationImage(image: FileImage(_image2!),fit: BoxFit.fill),
-                                              borderRadius: BorderRadius.circular(12)
+                                                image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
+                                                borderRadius: BorderRadius.circular(12)
                                             ),
+                                            // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
                                           ),
                                         ),
                                       ),
-                                  if (showPickOption2)
-                                  InkWell(
-                                    onTap: () {
-                                      _pickImage2();
-                                    },
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                color: Colors.white,
-                                                image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                            ),
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        TextFormField(
-                          maxLength: 17,
-                          textInputAction: TextInputAction.next,
-                          controller: trnNumberController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color(0xFF707070))
-                            ),
-                            labelText: 'TRN Number',
-                            hintText: '123456789',
-                            counterText: "",
-                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        DottedBorder(
-                          borderType: BorderType.RRect,
-                          dashPattern: [3, 3, 3],
-                          radius: Radius.circular(12),
-                          color: Color(0xFF116D6E),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              height: height*0.13,
-                              width: MediaQuery.of(context).size.width,
-                              color: Color(0xFFF5F7F7),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  if (_image3 != null)
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    if (showPickOption)
+                                      InkWell(
+                                        onTap: () {
+                                          _pickImage();
+                                        },
                                         child: Container(
-                                          width: 120,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
-                                              borderRadius: BorderRadius.circular(12)
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(50),
+                                                    color: Colors.white,
+                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                                ),
+                                              ),
+                                              SizedBox(height: 5,),
+                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  if (showPickOption3)
-                                    InkWell(
-                                      onTap: () {
-                                        _pickImage3();
-                                      },
-                                      child: Container(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20,),
-                        TextFormField(
-                          maxLength: 10,
-                          textInputAction: TextInputAction.next,
-                          controller: totalDeviceController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color(0xFF707070))
-                            ),
-                            labelText: 'Total Number of devices used',
-                            hintText: '123456789',
-                            counterText: "",
-                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        DottedBorder(
-                          borderType: BorderType.RRect,
-                          dashPattern: [3, 3, 3],
-                          radius: Radius.circular(12),
-                          color: Color(0xFF116D6E),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              height: height*0.13,
-                              width: MediaQuery.of(context).size.width,
-                              color: Color(0xFFF5F7F7),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  if (_image4 != null)
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        child: Container(
-                                          width: 120,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(image: FileImage(_image4!),fit: BoxFit.fill),
-                                              borderRadius: BorderRadius.circular(12)
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  if (showPickOption4)
-                                    InkWell(
-                                      onTap: () {
-                                        _pickImage4();
-                                      },
-                                      child: Container(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: tradeLicenseController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Enter Trade License Number';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
+                              labelText: 'Trade License Number',
+                              hintText: '123456789',
+                              counterText: "",
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                        ),
-                        SizedBox(height:height*0.065,),
-                        Container(
-                          height: height*0.064,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
+                          const SizedBox(height: 20,),
+                          DottedBorder(
+                            borderType: BorderType.RRect,
+                            dashPattern: [3, 3, 3],
+                            radius: Radius.circular(12),
+                            color: Color(0xFF116D6E),
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
-                              color: const Color(0xFF116D6E)
+                              child: Container(
+                                height: height*0.13,
+                                width: MediaQuery.of(context).size.width,
+                                color: Color(0xFFF5F7F7),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (_image2 != null)
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: Container(
+                                              width: 120,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(image: FileImage(_image2!),fit: BoxFit.fill),
+                                                borderRadius: BorderRadius.circular(12)
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    if (showPickOption2)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage2();
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                          child: TextButton(
-                              onPressed: () {
-                                manageProfile2();
-                              },
-                              child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
-                        ),
-                        SizedBox(height: height*0.025,),
-                      ],),
-                  )
-                ],
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: trnNumberController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Enter TRN Number';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
+                              ),
+                              labelText: 'TRN Number',
+                              hintText: '123456789',
+                              counterText: "",
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          DottedBorder(
+                            borderType: BorderType.RRect,
+                            dashPattern: [3, 3, 3],
+                            radius: Radius.circular(12),
+                            color: Color(0xFF116D6E),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                height: height*0.13,
+                                width: MediaQuery.of(context).size.width,
+                                color: Color(0xFFF5F7F7),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (_image3 != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Container(
+                                            width: 120,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
+                                                borderRadius: BorderRadius.circular(12)
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    if (showPickOption3)
+                                      InkWell(
+                                        onTap: () {
+                                          _pickImage3();
+                                        },
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(50),
+                                                    color: Colors.white,
+                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                                ),
+                                              ),
+                                              SizedBox(height: 5,),
+                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: totalDeviceController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Enter Total Number of devices used';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
+                              ),
+                              labelText: 'Total Number of devices used',
+                              hintText: '123456789',
+                              counterText: "",
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          DottedBorder(
+                            borderType: BorderType.RRect,
+                            dashPattern: [3, 3, 3],
+                            radius: Radius.circular(12),
+                            color: Color(0xFF116D6E),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                height: height*0.13,
+                                width: MediaQuery.of(context).size.width,
+                                color: Color(0xFFF5F7F7),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (_image4 != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Container(
+                                            width: 120,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(image: FileImage(_image4!),fit: BoxFit.fill),
+                                                borderRadius: BorderRadius.circular(12)
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    if (showPickOption4)
+                                      InkWell(
+                                        onTap: () {
+                                          _pickImage4();
+                                        },
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(50),
+                                                    color: Colors.white,
+                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                                ),
+                                              ),
+                                              SizedBox(height: 5,),
+                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height:height*0.065,),
+                          Container(
+                            height: height*0.064,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: const Color(0xFF116D6E)
+                            ),
+                            child: TextButton(
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()){
+                                    manageProfile2();
+                                  }else{
+                                    autoValidate = AutovalidateMode.always;
+                                  }
+
+                                },
+                                child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
+                          ),
+                          SizedBox(height: height*0.025,),
+                        ],),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ) : const Center(
-            child: CircularProgressIndicator(),
+            ) : const Center(
+              child: CircularProgressIndicator(),
+            )
           )
-        )
+      ),
     );
   }
 
@@ -468,18 +499,18 @@ class _ManageProfile2State extends State<ManageProfile2> {
         "deviceUsed": totalDeviceController.text.toString(),
       };
       var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
-      var postUri = Uri.parse(ApiServices.addaditionalClinicDetails);
+      var postUri = Uri.parse(ApiServices.manageProfile2Api);
       var request = http.MultipartRequest("POST", postUri);
       request.headers.addAll(headers);
       request.fields.addAll(bodyData);
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",_image!.path);
-      http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);
-      http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",_image3!.path);
-      http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",_image4!.path);
-      request.files.add(multipartFile,);
-      request.files.add(multipartFile1,);
-      request.files.add(multipartFile2);
-      request.files.add(multipartFile3);
+      // http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",_image!.path);
+      // http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);
+      // http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",_image3!.path);
+      // http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",_image4!.path);
+      // request.files.add(multipartFile,);
+      // request.files.add(multipartFile1,);
+      // request.files.add(multipartFile2);
+      // request.files.add(multipartFile3);
       http.StreamedResponse response = await request.send();
       // var response = await http.post(
       //   postUri,

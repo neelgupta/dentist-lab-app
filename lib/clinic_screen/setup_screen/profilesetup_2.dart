@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_3.dart';
 import 'package:dentalapp/utils/api_helper.dart';
 import 'package:dentalapp/utils/api_services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:dentalapp/screen/manage_profile_3.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class ProfileSetup2 extends StatefulWidget {
   const ProfileSetup2({Key? key}) : super(key: key);

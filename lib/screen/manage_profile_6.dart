@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/manage_profile_6_model.dart';
+import '../services/helper_fun.dart';
 import '../utils/api_services.dart';
 
-enum PaymentMethod { first, second, third, none }
-enum DeliveryMethods {cod , pd, none}
+enum PaymentMethod { onlinePayment, cash, cheque, none }
+enum DeliveryMethods {COD , paidDelivery, none}
 
 class ManageProfile6 extends StatefulWidget {
   const ManageProfile6({Key? key}) : super(key: key);
@@ -99,7 +100,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                         Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                           style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070)),),
                         SizedBox(height: 20,),
-                        selectedDeliveryOption == DeliveryMethods.cod ? Container(
+                        selectedDeliveryOption == DeliveryMethods.COD ? Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -114,7 +115,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("COD",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                               Spacer(),
                               Radio(
-                                value: DeliveryMethods.cod,
+                                value: DeliveryMethods.COD,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedDeliveryOption,
                                 onChanged: (value) {
@@ -141,7 +142,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("COD",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
                               Spacer(),
                               Radio(
-                                value: DeliveryMethods.cod,
+                                value: DeliveryMethods.COD,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedDeliveryOption,
                                 onChanged: (value) {
@@ -155,7 +156,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                         ),
 
                         SizedBox(height: 20,),
-                         selectedDeliveryOption == DeliveryMethods.pd ? Container(
+                         selectedDeliveryOption == DeliveryMethods.paidDelivery ? Container(
                            height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -170,7 +171,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Paid Delivery",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                               Spacer(),
                               Radio(
-                                value: DeliveryMethods.pd,
+                                value: DeliveryMethods.paidDelivery,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedDeliveryOption,
                                 onChanged: (value) {
@@ -197,7 +198,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                Text("Paid Delivery",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
                                Spacer(),
                                Radio(
-                                 value: DeliveryMethods.pd,
+                                 value: DeliveryMethods.paidDelivery,
                                  activeColor: Color(0xFF116D6E),
                                  groupValue: selectedDeliveryOption,
                                  onChanged: (value) {
@@ -209,7 +210,6 @@ class _ManageProfile6State extends State<ManageProfile6> {
                              ],
                            ),
                          ),
-
                         SizedBox(height: 20,),
                         Divider(color: Color(0xFFE7E7E7),thickness: 2),
                         SizedBox(height: 25,),
@@ -218,9 +218,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                         Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                           style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070)),),
                         SizedBox(height: 20,),
-
-
-                        selectedPaymentOption == PaymentMethod.first  ? Container(
+                        selectedPaymentOption == PaymentMethod.onlinePayment  ? Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -235,7 +233,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Online Payment",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                               Spacer(),
                               Radio(
-                                value: PaymentMethod.first,
+                                value: PaymentMethod.onlinePayment,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
@@ -262,7 +260,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Online Payment",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
                               Spacer(),
                               Radio(
-                                value: PaymentMethod.first,
+                                value: PaymentMethod.onlinePayment,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
@@ -277,7 +275,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                         SizedBox(height: 20,),
 
 
-                        selectedPaymentOption == PaymentMethod.second ?
+                        selectedPaymentOption == PaymentMethod.cash ?
                         Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
@@ -293,7 +291,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Cash",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                               Spacer(),
                               Radio(
-                                value: PaymentMethod.second,
+                                value: PaymentMethod.cash,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
@@ -320,7 +318,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Cash",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
                               Spacer(),
                               Radio(
-                                value: PaymentMethod.second,
+                                value: PaymentMethod.cash,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
@@ -334,7 +332,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                         ),
                         SizedBox(height: 20,),
 
-                        selectedPaymentOption == PaymentMethod.third ?
+                        selectedPaymentOption == PaymentMethod.cash ?
                         Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
@@ -350,7 +348,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Cheque",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                               Spacer(),
                               Radio(
-                                value: PaymentMethod.third,
+                                value: PaymentMethod.cheque,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
@@ -377,7 +375,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                               Text("Cheque",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
                               Spacer(),
                               Radio(
-                                value: PaymentMethod.third,
+                                value: PaymentMethod.cheque,
                                 activeColor: Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
@@ -420,16 +418,19 @@ class _ManageProfile6State extends State<ManageProfile6> {
         isLoading = true;
       });
       var bodyData = {
-        "deliveryMethod": selectedDeliveryOption.index.toString(),
-        "paymentMethod": selectedPaymentOption.index.toString()
+        "deliveryMethod": selectedDeliveryOption.name.toString(),
+        "paymentMethod": selectedPaymentOption.name.toString()
       };
+      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
       var response = await http.post(
         postUri,
         body: bodyData,
+        headers: headers,
       );
       print("body ====> $bodyData");
       print("body ====> ${response.statusCode}");
       print("body ====> ${response.body}");
+      print("header ====> ${headers}");
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {

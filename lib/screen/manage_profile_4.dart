@@ -278,8 +278,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                           ],
                         ),
                         SizedBox(height: 10,),
-
-                    isTimeSelectedStatus==false?Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        isTimeSelectedStatus==false?Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Working time",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
                             SizedBox(height: 30,),
@@ -480,7 +479,6 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                             children: [
                                               Text("Tuesday",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
                                               Spacer(),
-
                                               Column(
                                                 children: [
                                                   FlutterSwitch(
@@ -500,19 +498,9 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                   const SizedBox(
                                                     height: 5,
                                                   ),
-                                                  Onoff
-                                                      ? const Text(
-                                                    "Open",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Color(0xff707070),
-                                                        fontFamily: "spartan"),
-                                                  )
-                                                      : const Text("Close",
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: Color(0xff707070),
-                                                          fontFamily: "spartan")),
+                                                  Onoff ? const Text("Open",
+                                                    style: TextStyle(fontSize: 12, color: Color(0xff707070),fontFamily: "spartan"),
+                                                  ) : const Text("Close", style: TextStyle(fontSize: 12, color: Color(0xff707070), fontFamily: "spartan")),
                                                 ],
                                               ),
                                             ],
@@ -567,8 +555,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                   });
                                                 },
                                                 selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
-                                                children: endTime
-                                                    .map((text) => Center(
+                                                children: endTime.map((text) => Center(
                                                   child: Container(
                                                       alignment: Alignment.center,
                                                       decoration: BoxDecoration(
@@ -614,174 +601,5 @@ class _ManageProfile4State extends State<ManageProfile4> {
           ),
         ));
   }
-   // openDialog (BuildContext context){
-   //  return showDialog(
-   //      context: context,
-   //      builder: (_) => AlertDialog(
-   //        insetPadding: EdgeInsets.zero,
-   //        contentPadding: EdgeInsets.zero,
-   //        clipBehavior: Clip.antiAliasWithSaveLayer,
-   //        shape: RoundedRectangleBorder(
-   //            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-   //        content: Builder(
-   //          builder: (context) {
-   //            var height = MediaQuery.of(context).size.height;
-   //            var width = MediaQuery.of(context).size.width;
-   //            return Align(
-   //              alignment: Alignment.bottomCenter,
-   //              child: Container(
-   //                height:height*0.65,
-   //                width: width,
-   //                child: Column(
-   //                  mainAxisAlignment: MainAxisAlignment.center,
-   //                  crossAxisAlignment: CrossAxisAlignment.center,
-   //                  children: [
-   //                    Padding(
-   //                      padding: const EdgeInsets.only(left: 10,right: 10),
-   //                      child: Row(
-   //                        children: [
-   //                          Text("Tuesday",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
-   //                          Spacer(),
-   //                          Column(
-   //                            children: [
-   //                              Transform.scale(
-   //                                scale: 0.85,
-   //                                child: CupertinoSwitch(
-   //                                  value: switchValue,
-   //                                  activeColor: Color(0xFF116D6E),
-   //                                  onChanged: (bool? value) {
-   //                                    setState(() {
-   //                                      switchValue = value ?? false;
-   //                                    });
-   //                                  },
-   //                                ),
-   //                              ),
-   //                              // switchValue ? Text("open",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 13),)
-   //                              //     : Text("close",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 13),)
-   //                            ],
-   //                          ),
-   //                          Column(
-   //                            children: [
-   //                              FlutterSwitch(
-   //                                width: 55.0,
-   //                                height: 25.0,
-   //                                valueFontSize: 12.0,
-   //                                toggleSize: 18.0,
-   //                                activeColor: const Color(0xff01635D),
-   //                                value:  Onoff,
-   //                                onToggle: (value) {
-   //                                  setState(() {
-   //                                    Onoff = value;
-   //                                    print("Onoff==${Onoff}");
-   //                                  });
-   //                                },
-   //                              ),
-   //                              const SizedBox(
-   //                                height: 5,
-   //                              ),
-   //                              Onoff
-   //                                  ? const Text(
-   //                                "Open",
-   //                                style: TextStyle(
-   //                                    fontSize: 12,
-   //                                    color: Color(0xff707070),
-   //                                    fontFamily: "spartan"),
-   //                              )
-   //                                  : const Text("Close",
-   //                                  style: TextStyle(
-   //                                      fontSize: 12,
-   //                                      color: Color(0xff707070),
-   //                                      fontFamily: "spartan")),
-   //                            ],
-   //                          ),
-   //                        ],
-   //                      ),
-   //                    ),
-   //                    const Divider(
-   //                      color: Color(0xFFE7E7E7),
-   //                    ),
-   //                    Row(
-   //                      mainAxisAlignment: MainAxisAlignment.center,
-   //                      children: [
-   //                        SizedBox(
-   //                          width: width*0.30,
-   //                          height: height*0.45,
-   //                          child: CupertinoPicker(
-   //                            magnification: 1.22,
-   //                            squeeze: 1.2,
-   //                            useMagnifier: true,
-   //                            itemExtent: 40,
-   //                            onSelectedItemChanged: (index) {
-   //                              setState(() {
-   //                                openingTime = breaktime[index];
-   //                              });
-   //                            },
-   //                            selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
-   //                            children: breaktime
-   //                                .map((text) => Center(
-   //                              child: Container(
-   //                                alignment: Alignment.center,
-   //                                decoration: BoxDecoration(
-   //                                ),
-   //                                child: Text(text,style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500)),
-   //                              ),
-   //                            ))
-   //                                .toList(),
-   //                          ),
-   //                        ),
-   //                        SizedBox(width: 20,),
-   //                        Text("To",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-   //                        SizedBox(width: 20,),
-   //                        SizedBox(
-   //                          width: width*0.30,
-   //                          height: height*0.45,
-   //                          child: CupertinoPicker(
-   //                            squeeze: 1,
-   //                            useMagnifier: true,
-   //                            itemExtent: 40,
-   //                            onSelectedItemChanged: (index) {
-   //                              setState(() {
-   //                                closingTime = breaktime[index];
-   //                              });
-   //                            },
-   //                            selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
-   //                            children: breaktime
-   //                                .map((text) => Center(
-   //                              child: Container(
-   //                                  alignment: Alignment.center,
-   //                                  decoration: BoxDecoration(
-   //                                  ),
-   //                                  child: Text(text,style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500))),
-   //                            ))
-   //                                .toList(),
-   //                          ),
-   //                        ),
-   //                      ],
-   //                    ),
-   //                    Padding(
-   //                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-   //                      child: Container(
-   //                        height: height*0.065,
-   //                        width: MediaQuery.of(context).size.width,
-   //                        decoration: BoxDecoration(
-   //                            borderRadius: BorderRadius.circular(12),
-   //                            color: Color(0xFF116D6E)
-   //                        ),
-   //                        child: TextButton(
-   //                            onPressed: () {
-   //                              Navigator.pop(context);
-   //                            },
-   //                            child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
-   //                      ),
-   //                    ),
-   //                  ],
-   //                ),
-   //              ),
-   //            );
-   //          },
-   //        ),
-   //      )
-   //  );
-   // }
 }
 

@@ -1,5 +1,6 @@
 import 'package:dentalapp/main.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
+import 'package:dentalapp/screen/date_picker_screeen.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/email_verified_done_screen.dart';
 import 'package:dentalapp/screen/login_screen.dart';
@@ -17,6 +18,7 @@ import 'package:dentalapp/screen/set_up_done_screen.dart';
 import 'package:dentalapp/screen/sign_up_screen.dart';
 import 'package:dentalapp/screen/splash.dart';
 import 'package:dentalapp/screen/submit_code_screen.dart';
+import 'package:dentalapp/screen/time_picker_demo_scren.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-       home: SplashScreen(),
+       home: DatePickerScreen(),
     );
   }
 }
