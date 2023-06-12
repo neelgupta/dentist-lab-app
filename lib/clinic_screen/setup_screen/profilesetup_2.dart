@@ -382,13 +382,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                           child: TextButton(
                               onPressed: () {
-
-                                // setState(() {
-                                //    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSetup3(),));
-
                                   profileSetup2();
-                                // });
-
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -455,7 +449,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
         "medicalLicenseNumber": medicalLicenseController.text.toString(),
         "tradeLicenceNumber": tradeLicenseController.text.toString(),
         "TRN_number": trnNumberController.text.toString(),
-
 
           };
       var postUri = Uri.parse(ApiServices.addaditionalClinicDetails);

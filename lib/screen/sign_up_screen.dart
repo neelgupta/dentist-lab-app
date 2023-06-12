@@ -126,7 +126,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: emailController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
-                          maxLength: 25,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Email';

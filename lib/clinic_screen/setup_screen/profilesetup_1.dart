@@ -100,7 +100,7 @@ class _profileSetup1State extends State<profileSetup1> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("1/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                              Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                              Text("3",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
                             ],
                           ),
                           SizedBox(height: 20,),
@@ -129,7 +129,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           ),
                           SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: labMobileController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
@@ -155,7 +154,6 @@ class _profileSetup1State extends State<profileSetup1> {
                           ),
                           SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 11,
                             textInputAction: TextInputAction.next,
                             controller: landLineNumberController,
                             keyboardType: TextInputType.number,
@@ -173,8 +171,6 @@ class _profileSetup1State extends State<profileSetup1> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please enter Land Line Number';
-                              }if(value.length < 11){
-                                return "Enter 11 character password";
                               }
                               return null;
                             },
@@ -200,7 +196,7 @@ class _profileSetup1State extends State<profileSetup1> {
                                   borderSide: BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Country',
-                              hintText: 'India',
+                              hintText: 'Country',
                               counterText: "",
                               hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                               contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
@@ -223,7 +219,7 @@ class _profileSetup1State extends State<profileSetup1> {
                                   borderSide: BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'City',
-                              hintText: 'Surat',
+                              hintText: 'City',
                               counterText: "",
                               hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                               contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
@@ -236,28 +232,6 @@ class _profileSetup1State extends State<profileSetup1> {
                             },
                           ),
                           SizedBox(height: 20,),
-                          // Container(
-                          //   height: height*0.065,
-                          //   width: MediaQuery.of(context).size.width,
-                          //   decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(12),
-                          //       border: Border.all(color: Color(0xFF707070))
-                          //   ),
-                          //   child: Row(
-                          //     children: const [
-                          //       SizedBox(width: 18,),
-                          //       Image(image: AssetImage("assets/image/location.png")),
-                          //       Padding(
-                          //         padding: EdgeInsets.all(10),
-                          //         child: VerticalDivider(
-                          //           thickness: 1,
-                          //           color: Color(0xFF707070),
-                          //         ),
-                          //       ),
-                          //       Text("Address",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),)
-                          //     ],
-                          //   ),
-                          // ),
                           TextFormField(
                             keyboardType: TextInputType.streetAddress,
                             controller: addressController,
@@ -314,7 +288,7 @@ class _profileSetup1State extends State<profileSetup1> {
                                     borderSide: BorderSide(color: Color(0xFF707070))
                                 ),
                                 labelText: 'Date of establishment',
-                               // hintText: '02/10/2023',
+                               // hintText: '12 jan 2022',
                                 counterText: "",
                                 hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                                 contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
@@ -356,10 +330,6 @@ class _profileSetup1State extends State<profileSetup1> {
                                   }else{
                                     autoValidate = AutovalidateMode.always;
                                   }
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  //   return const ProfileSetup2();
-                                  // },));
-
                                 },
                                 child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                           ),
