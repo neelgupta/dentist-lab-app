@@ -422,7 +422,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: Color(0xFFA0A0A0)
+                                color: Color(0xff116D6E)
                             ),
                             child: TextButton(
                                 onPressed: () {
