@@ -100,7 +100,7 @@ class _profileSetup1State extends State<profileSetup1> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("1/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                              Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                              Text("3",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
                             ],
                           ),
                           SizedBox(height: 20,),
