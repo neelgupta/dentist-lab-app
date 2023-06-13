@@ -15,7 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -73,9 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
-                      const SizedBox(height: 10,),
+                      SizedBox(height: height*0.01,),
                       Text("Hi, Welcome Back! 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 30,),
+                      SizedBox(height: height*0.03,),
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16)
                         ),
                       ),
-                      const SizedBox(height: 20,),
+                      SizedBox(height: height*0.020,),
                       TextFormField(
                         controller: passwordController,
                         keyboardType: TextInputType.emailAddress,
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Image(image: isVisible ? const AssetImage("assets/image/Vector.png") : const AssetImage("assets/image/Vector12.png")),)
                         ),
                       ),
-                      const SizedBox(height: 20,),
+                      SizedBox(height: height*0.02,),
                       Align(
                         alignment: Alignment.centerRight,
                           child: InkWell(

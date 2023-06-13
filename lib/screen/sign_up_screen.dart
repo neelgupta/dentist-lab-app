@@ -68,9 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
-                        const SizedBox(height: 10,),
+                        SizedBox(height: height*0.01,),
                         Text("Hi, Welcome 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
-                        const SizedBox(height: 30,),
+                        SizedBox(height: height*0.03,),
                         TextFormField(
                           keyboardType: TextInputType.name,
                           controller: firstNameController,
