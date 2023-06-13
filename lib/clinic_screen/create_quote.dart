@@ -55,21 +55,22 @@ class _CreatQuoteState extends State<CreatQuote> {
                   child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: height*0.02,),
-                      Row(crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: Icon(Icons.keyboard_backspace,color: Colors.white,),
-                              )),
-                          SizedBox(width: width/3.8,),
-                          Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
-
-                        ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                        child: Row(crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
+                            const Spacer(),
+                            Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
+                            const Spacer(),
+                            Container()
+                          ],
+                        ),
                       ),
                     ],
                   )
@@ -98,14 +99,14 @@ class _CreatQuoteState extends State<CreatQuote> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Color(0xFF707070)),
+                            borderSide: const BorderSide(color: Color(0xFF707070)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(color: Color(0xFF707070), ),
                         ),
 
-                        labelText: 'Title',labelStyle: TextStyle(color: Color(0xff707070)),
+                        labelText: 'Title',labelStyle: const TextStyle(color: Color(0xff707070)),
                         hintText: 'Title',
                         hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                         contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
@@ -125,14 +126,14 @@ class _CreatQuoteState extends State<CreatQuote> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Color(0xFF707070)),
+                          borderSide: const BorderSide(color: Color(0xFF707070)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(color: Color(0xFF707070), ),
                         ),
 
-                        labelText: 'Description',labelStyle: TextStyle(color: Color(0xff707070)),
+                        labelText: 'Description',labelStyle: const TextStyle(color: Color(0xff707070)),
                         hintText: 'Description',
                         hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                         contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
@@ -148,7 +149,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                           children: [
                             Radio(
                               value: "Normal",
-                              activeColor: Color(0xFF116D6E),
+                              activeColor: const Color(0xFF116D6E),
                               groupValue: isPriorityRadio,
                               onChanged: (value) {
                                 setState(() {
@@ -156,14 +157,14 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 });
                               },
                             ),
-                            Text("Normal",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                            Text("Normal",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
                           ],
                         ),
                         Row(
                           children: [
                             Radio(
                               value: "Urgent",
-                              activeColor: Color(0xFF116D6E),
+                              activeColor: const Color(0xFF116D6E),
                               groupValue: isPriorityRadio,
                               onChanged: (value) {
                                 setState(() {
@@ -171,7 +172,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 });
                               },
                             ),
-                            Text("Urgent",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                            Text("Urgent",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
                           ],
                         ),
                       ],
@@ -186,13 +187,13 @@ class _CreatQuoteState extends State<CreatQuote> {
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'Date of establishment',
                             // hintText: '02/10/2023',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             suffixIcon: InkWell(
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
@@ -206,7 +207,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                         DateFormat('dd MMMM yyyy').format(pickedDate);
                                   };
                                 },
-                                child: Image(image: AssetImage("assets/image/date.png")))
+                                child: const Image(image: AssetImage("assets/image/date.png")))
                         ),
                         validator: (value) {
                           if(value == null || value.isEmpty){
@@ -215,7 +216,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                           return null;
                         },
                       ),
-                    ):SizedBox(),
+                    ):const SizedBox(),
 
                     Row(
                       children: [
@@ -226,7 +227,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                           children: [
                             Radio(
                               value: "Lab List",
-                              activeColor: Color(0xFF116D6E),
+                              activeColor: const Color(0xFF116D6E),
                               groupValue: isChooseRadio,
                               onChanged: (value) {
                                 setState(() {
@@ -234,14 +235,14 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 });
                               },
                             ),
-                            Text("Lab List",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                            Text("Lab List",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
                           ],
                         ),
                         Row(
                           children: [
                             Radio(
                               value: "Public",
-                              activeColor: Color(0xFF116D6E),
+                              activeColor: const Color(0xFF116D6E),
                               groupValue: isChooseRadio,
                               onChanged: (value) {
                                 setState(() {
@@ -249,7 +250,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 });
                               },
                             ),
-                            Text("Public",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                            Text("Public",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
                           ],
                         ),
                       ],
@@ -280,14 +281,14 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
                                   child: Text("${s_method}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontFamily: "spartan")),
                                 ),
-                                Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
+                                const Spacer(),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 8),
                                   child: Icon(Icons.keyboard_arrow_down_rounded,size: 30),
                                 ),
                               ],
@@ -310,7 +311,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 Row(
                                   children: [
                                     Radio(
-                                      activeColor: Color(0xFFDD6A03),
+                                      activeColor: const Color(0xFFDD6A03),
                                       value: "expedited", groupValue: place, onChanged: (value) {
                                       setState(() {
                                         place = value.toString();
@@ -318,7 +319,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                         method = false;
                                       });
                                     },),
-                                    Text("Lab 1",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                                    Text("Lab 1",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
 
 
                                   ],
@@ -326,7 +327,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                 Row(
                                   children: [
                                     Radio(
-                                      activeColor: Color(0xFFDD6A03),
+                                      activeColor: const Color(0xFFDD6A03),
                                       value: "regular", groupValue: place, onChanged: (value) {
                                       setState(() {
                                         place = value.toString();
@@ -334,14 +335,14 @@ class _CreatQuoteState extends State<CreatQuote> {
                                         method = false;
                                       });
                                     },),
-                                    Text("Lab 2",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                                    Text("Lab 2",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
 
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Radio(
-                                      activeColor: Color(0xFFDD6A03),
+                                      activeColor: const Color(0xFFDD6A03),
                                       value: "xpress", groupValue: place, onChanged: (value) {
                                       setState(() {
                                         place = value.toString();
@@ -349,7 +350,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                                         method = false;
                                       });
                                     },),
-                                    Text("Lab 3",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                                    Text("Lab 3",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
 
                                   ],
                                 ),
@@ -357,13 +358,13 @@ class _CreatQuoteState extends State<CreatQuote> {
                               ],
                             ),
                           ),
-                        ):SizedBox(),
+                        ):const SizedBox(),
                           InkWell(
                               onTap: () {
                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return QuoteSuccessfully();
+                                  return const QuoteSuccessfully();
                                 },));
-                              },child: Text("Quote sucess")),
+                              },child: const Text("Quote sucess")),
 
 
                       ]
