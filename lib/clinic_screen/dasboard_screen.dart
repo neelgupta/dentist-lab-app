@@ -1,4 +1,8 @@
 
+// ignore_for_file: sort_child_properties_last
+
+import 'package:dentalapp/clinic_screen/create_quote.dart';
+import 'package:dentalapp/clinic_screen/profile_edit.dart';
 import 'package:dentalapp/custom_widget/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
@@ -21,7 +25,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return Scaffold(key: _key,drawer: CustomDrawer(),
+    return Scaffold(key: _key,drawer: const CustomDrawer(),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
@@ -96,7 +100,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 Positioned(
                                     bottom: 0,
                                     right: 0,
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 25,
                                       width: 25,
                                       child: Image.asset(
@@ -114,7 +118,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   style: GoogleFonts.lato(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
-                                    color: Color(0xff116D6E),
+                                    color: const Color(0xff116D6E),
                                   )),
                                 clipper: ChatBubbleClipper4(
                                     type: BubbleType.receiverBubble),
@@ -148,13 +152,18 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
 
               Positioned(
                 top: 250,left: 15,
-                child: Container(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Card(
+                child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context,MaterialPageRoute(builder: (context) {
+                              return const CreatQuote();
+                            },));
+                          },
+                          child: Card(
                             child: Container(
                               width: 150,
                               height: 150,
@@ -166,20 +175,82 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                               child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(height: 40,width: 40,
+                                  SizedBox(height: 40,width: 40,
                                       child: Image.asset('assets/image/newquote.png',fit: BoxFit.fill,)),
                                   SizedBox(height: height*0.01,),
                                   Text("New Quote",
                                       style: GoogleFonts.lato(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w400,
-                                        color: Color(0xff116D6E),
+                                        color: const Color(0xff116D6E),
                                       )),
                                 ],
                               ),
                             ),
                           ),
-                          Card(
+                        ),
+                        Card(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                            ),
+
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 40,width: 40,
+                                    child: Image.asset('assets/image/quote.png',fit: BoxFit.fill,)),
+                                SizedBox(height: height*0.01,),
+                                Text("Quote",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff116D6E),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                            ),
+
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 40,width: 40,
+                                    child: Image.asset('assets/image/Notification 3.png',fit: BoxFit.fill,)),
+                                SizedBox(height: height*0.01,),
+                                Text("Notifications",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff116D6E),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 10),
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context,MaterialPageRoute(builder: (context) {
+                              return const ProfileEdit();
+                            },));
+                          },
+                          child: Card(
                             child: Container(
                               width: 150,
                               height: 150,
@@ -191,104 +262,49 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                               child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(height: 40,width: 40,
-                                      child: Image.asset('assets/image/quote.png',fit: BoxFit.fill,)),
-                                  SizedBox(height: height*0.01,),
-                                  Text("Quote",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff116D6E),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
-
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(height: 40,width: 40,
-                                      child: Image.asset('assets/image/Notification 3.png',fit: BoxFit.fill,)),
-                                  SizedBox(height: height*0.01,),
-                                  Text("Notifications",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff116D6E),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        children: [
-                          Card(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
-
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(height: 40,width: 40,
+                                  SizedBox(height: 40,width: 40,
                                       child: Image.asset('assets/image/newquote.png',fit: BoxFit.fill,)),
                                   SizedBox(height: height*0.01,),
                                   Text("Profile",
                                       style: GoogleFonts.lato(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w400,
-                                        color: Color(0xff116D6E),
+                                        color: const Color(0xff116D6E),
                                       )),
                                 ],
                               ),
                             ),
                           ),
-                          Card(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
+                        ),
+                        Card(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                            ),
 
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(height: 40,width: 40,
-                                      child: Image.asset('assets/image/Message18.png',fit: BoxFit.fill,)),
-                                  SizedBox(height: height*0.01,),
-                                  Text("Payment",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff116D6E),
-                                      )),
-                                ],
-                              ),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 40,width: 40,
+                                    child: Image.asset('assets/image/Message18.png',fit: BoxFit.fill,)),
+                                SizedBox(height: height*0.01,),
+                                Text("Payment",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff116D6E),
+                                    )),
+                              ],
                             ),
                           ),
+                        ),
 
-                        ],
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
