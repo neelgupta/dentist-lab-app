@@ -37,7 +37,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   List  selectedScreenList= [
     const DasBoardScreen(),
     const SizedBox(),
-    const CreatQuote(),
+    const NewQuote(),
     const ProfileEdit(),
   ];
 

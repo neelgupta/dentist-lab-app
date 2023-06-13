@@ -13,7 +13,6 @@ class _NewQuoteState extends State<NewQuote> {
   bool quoteNew = true;
   bool quoteAccepted = false;
   bool quoteCompleted = false;
-  String type = "1";
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +106,6 @@ class _NewQuoteState extends State<NewQuote> {
                                 quoteNew = true;
                                 quoteAccepted = false;
                                 quoteCompleted = false;
-                                type = "1";
                               });
                             },
                             child: Container(
@@ -142,7 +140,6 @@ class _NewQuoteState extends State<NewQuote> {
                                 quoteNew = false;
                                 quoteAccepted = true;
                                 quoteCompleted = false;
-                                type = "2";
                               });
                             },
                             child: Container(
@@ -177,7 +174,6 @@ class _NewQuoteState extends State<NewQuote> {
                                 quoteNew = false;
                                 quoteAccepted = false;
                                 quoteCompleted = true;
-                                type = "3";
                               });
                             },
                             child: Container(
@@ -208,9 +204,9 @@ class _NewQuoteState extends State<NewQuote> {
                 ),
               ),
             ),
-            quoteNew == true ? Expanded(child: quoteNewList(context)) : const SizedBox(),
-            quoteAccepted == true ? Expanded(child: quoteAcceptedList(context)) : const SizedBox(),
-            quoteCompleted == true ? Expanded(child: quoteCompletedList(context)) : const SizedBox(),
+            quoteNew ? Expanded(child: quoteNewList(context)) : const SizedBox(),
+            quoteAccepted ? Expanded(child: quoteAcceptedList(context)) : const SizedBox(),
+            quoteCompleted ? Expanded(child: quoteCompletedList(context)) : const SizedBox(),
           ],
         ),
       ),
@@ -360,7 +356,7 @@ Widget quoteNewList(BuildContext context) {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 10,right: 10),
                                     child: Text(
-                                      "Panding",
+                                      "Pending",
                                       style: GoogleFonts.lato(
                                         fontSize: 10,
                                         fontWeight: FontWeight.w600,

@@ -17,10 +17,9 @@ class ProfileEdit extends StatefulWidget {
 
 class _ProfileEditState extends State<ProfileEdit> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  File? _image1;
-  File? _image2;
-  bool showPickOption1 = true;
-  bool showPickOption2 = true;
+  File? medicalLicense;
+  File? tradeLicense;
+  File? clinicManagerLicense;
   bool isAddiTonalInfo = false;
   bool isManagerDetail = false;
 
@@ -44,120 +43,102 @@ class _ProfileEditState extends State<ProfileEdit> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: height * 0.3,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                        image: AssetImage("assets/image/Group 12305.png"),
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.bottomCenter,
-                        opacity: 0.3)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        height: height * 0.3,
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFF116D6E),
-                            image: DecorationImage(
-                                image:
-                                    AssetImage("assets/image/Group 12305.png"),
-                                fit: BoxFit.fitWidth,
-                                alignment: Alignment.bottomCenter,
-                                opacity: 0.3)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 20,
+                  height: height * 0.3,
+                  padding: EdgeInsets.symmetric(
+                    vertical: height * 0.03,
+                    horizontal: width*0.02,
+                  ),
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF116D6E),
+                      image: DecorationImage(
+                          image:
+                              AssetImage("assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter,
+                          opacity: 0.3)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: height * 0.05,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _key.currentState!.openDrawer();
+                            },
+                            child: const Image(
+                                image: AssetImage(
+                                    "assets/image/Menu.png")),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          //   Image.asset("assets/image/Menu.png"),
+                          SizedBox(
+                            width: width * 0.25,
+                          ),
+                          Stack(
                             children: [
-                              SizedBox(
-                                height: height * 0.05,
+                              Container(
+                                height: height * 0.1,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.white, width: 1),
+                                  shape: BoxShape.circle,
+                                  color:
+                                      const Color.fromRGBO(55, 255, 255, 0.5),
+                                ),
+                                child: Center(
+                                    child: Text("N",
+                                        style: GoogleFonts.lato(
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontWeight:
+                                                FontWeight.w600))),
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _key.currentState!.openDrawer();
-                                    },
-                                    child: const Image(
-                                        image: AssetImage(
-                                            "assets/image/Menu.png")),
-                                  ),
-                                  //   Image.asset("assets/image/Menu.png"),
-                                  SizedBox(
-                                    width: width * 0.25,
-                                  ),
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        height: height * 0.1,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.white, width: 1),
-                                          shape: BoxShape.circle,
-                                          color:
-                                              const Color.fromRGBO(55, 255, 255, 0.5),
-                                        ),
-                                        child: Center(
-                                            child: Text("N",
-                                                style: GoogleFonts.lato(
-                                                    color: Colors.white,
-                                                    fontSize: 24,
-                                                    fontWeight:
-                                                        FontWeight.w600))),
-                                      ),
-                                      Positioned(
-                                          bottom: 0,
-                                          right: 0,
-                                          child: SizedBox(
-                                            height: 25,
-                                            width: 25,
-                                            child: Image.asset(
-                                                "assets/image/profileclick.png"),
-                                          ))
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              // SizedBox(height: 16,),
-
-                              SizedBox(
-                                height: height * 0.01,
-                              ),
-                              Text("User name",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  )),
-                              SizedBox(
-                                height: height * 0.01,
-                              ),
-                              Text("Since 1992",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  )),
+                              Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: SizedBox(
+                                    height: 25,
+                                    width: 25,
+                                    child: Image.asset(
+                                        "assets/image/profileclick.png"),
+                                  ))
                             ],
                           ),
-                        )),
-                  ],
-                ),
-              ),
+                        ],
+                      ),
+                      // SizedBox(height: 16,),
+
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Text("User name",
+                          style: GoogleFonts.lato(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          )),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Text("Since 1992",
+                          style: GoogleFonts.lato(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                          )),
+                    ],
+                  )),
               SizedBox(
                 height: height * 0.03,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.symmetric(horizontal: width*0.05),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -287,7 +268,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             });
                           },
                           child: Icon(
-                              isAddiTonalInfo
+                              !isAddiTonalInfo
                                   ? Icons.keyboard_arrow_down_rounded
                                   : Icons.keyboard_arrow_up_rounded,
                               size: 25,
@@ -296,7 +277,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       ],
                     ),
 
-                    isAddiTonalInfo == false
+                    !isAddiTonalInfo
                         ? const SizedBox()
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -371,7 +352,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (_image1 != null)
+                                        if (medicalLicense != null)
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
@@ -384,7 +365,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image:
-                                                            FileImage(_image1!),
+                                                            FileImage(medicalLicense!),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -392,7 +373,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                               ),
                                             ),
                                           ),
-                                        if (showPickOption1)
+                                        if (medicalLicense == null)
                                           InkWell(
                                             onTap: () {
                                               _pickImage1();
@@ -468,7 +449,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (_image2 != null)
+                                        if (tradeLicense != null)
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
@@ -481,7 +462,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image:
-                                                            FileImage(_image2!),
+                                                            FileImage(tradeLicense!),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -489,7 +470,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                               ),
                                             ),
                                           ),
-                                        if (showPickOption2)
+                                        if (tradeLicense == null)
                                           InkWell(
                                             onTap: () {
                                               _pickImage2();
@@ -557,7 +538,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             });
                           },
                           child: Icon(
-                              isManagerDetail
+                              !isManagerDetail
                                   ? Icons.keyboard_arrow_down_rounded
                                   : Icons.keyboard_arrow_up_rounded,
                               size: 25,
@@ -567,7 +548,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     ),
 
                     ///Manager Details
-                    isManagerDetail == true
+                    isManagerDetail
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -693,7 +674,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (_image1 != null)
+                                        if (clinicManagerLicense != null)
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
@@ -706,7 +687,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image:
-                                                            FileImage(_image1!),
+                                                            FileImage(clinicManagerLicense!),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -714,10 +695,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                               ),
                                             ),
                                           ),
-                                        if (showPickOption1)
+                                        if (clinicManagerLicense == null)
                                           InkWell(
                                             onTap: () {
-                                              _pickImage1();
+                                              _pickImage3();
                                             },
                                             child: Column(
                                               children: [
@@ -864,8 +845,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     final pickedImage1 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedImage1 != null) {
-        _image1 = File(pickedImage1.path);
-        showPickOption1 = false;
+        medicalLicense = File(pickedImage1.path);
       }
       // imageFile = pickedImage;
     });
@@ -876,8 +856,18 @@ class _ProfileEditState extends State<ProfileEdit> {
     final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedImage2 != null) {
-        _image2 = File(pickedImage2.path);
-        showPickOption2 = false;
+        tradeLicense = File(pickedImage2.path);
+      }
+      // imageFile = pickedImage;
+    });
+  }
+
+  Future<void> _pickImage3() async {
+    final picker = ImagePicker();
+    final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedImage3 != null) {
+        clinicManagerLicense = File(pickedImage3.path);
       }
       // imageFile = pickedImage;
     });

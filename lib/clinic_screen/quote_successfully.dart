@@ -23,62 +23,56 @@ class _QuoteSuccessfullyState extends State<QuoteSuccessfully> {
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: height*0.15,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFF116D6E),
-                            image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                                fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                        ),
-                        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    height: height*0.15,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF116D6E),
+                        image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
+                            fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
+                    ),
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: height*0.02,),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(height: height*0.02,),
-                            Row(crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: Icon(Icons.keyboard_backspace,color: Colors.white,),
-                                    )),
-                                SizedBox(width: width/3.8,),
-                                Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Icon(Icons.keyboard_backspace,color: Colors.white,),
+                                )),
+                            SizedBox(width: width/3.8,),
+                            Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
 
-                              ],
-                            ),
                           ],
-                        )
-                    ),
-                    Padding(
-                      padding:EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-
-                        children:  [
-                          SizedBox(height: height*0.25,),
-                          Image(image: AssetImage("assets/image/Group 12680.png")),
-                          SizedBox(height: height*0.05,),
-                          Text("Quote successfully Live",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),),
-                          SizedBox(height: 10,),
-                          Text("Lorem Ipsum has been the industry's standard dummy text ever since",textAlign: TextAlign.center,style: GoogleFonts.lato(fontSize: 16.5,fontWeight: FontWeight.w500,color: Color(0xFF707070) ),),
-
-                        ],
-                      ),
-                    ),
-
-                  ],
+                        ),
+                      ],
+                    )
                 ),
-              ),
-            ],
+                Padding(
+                  padding:EdgeInsets.symmetric(horizontal: width*0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:  [
+                      SizedBox(height: height*0.22,),
+                      const Image(image: AssetImage("assets/image/Group 12680.png")),
+                      SizedBox(height: height*0.05,),
+                      Text("Quote successfully Live",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),),
+                      SizedBox(height: height*0.02,),
+                      Text("Lorem Ipsum has been the industry's standard dummy text ever since",textAlign: TextAlign.center,style: GoogleFonts.lato(fontSize: 16.5,fontWeight: FontWeight.w500,color: const Color(0xFF707070) ),),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
           ),
         ),
       ),
