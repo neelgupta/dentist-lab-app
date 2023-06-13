@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dentalapp/clinic_screen/setup_screen/sucessfulsetup_screen.dart';
-import 'package:dentalapp/utils/api_helper.dart';
-import 'package:dentalapp/utils/api_services.dart';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,10 +37,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
-  File? _image2;
-  File? _image3;
-  bool showPickOption2 = true;
-  bool showPickOption3= true;
+  File? financialManagerFile;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +59,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                     Container(
                       height: height*0.25,
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                       ),
                       child: Column(
@@ -71,15 +68,15 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(width: 20,),
+                              const SizedBox(width: 20,),
                               InkWell(
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
+                                  child: const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -89,7 +86,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(color: Colors.white,width: 1),
-                                  image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                  image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                               ),
                               child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                             ),
@@ -103,39 +100,39 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("3/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                              Text("3",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                              Text("3",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
                             ],
                           ),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           Text("Clinic Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: labManagerNameController,
                             keyboardType: TextInputType.name,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Clinic Manager Name';
+                                return 'Please Enter Clinic Manager Name';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Clinic Manager Name',
                               hintText: 'Manager Name',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             maxLength: 10,
                             controller: labManagerNumberController,
@@ -143,75 +140,75 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Clinic Manager Number ';
+                                return 'Please Enter Clinic Manager Number';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Contact Number',
                               hintText: '123456789',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: labManagerEmailController,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Clinic Manager Email ';
+                                return 'Please Enter Clinic Manager Email';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
                               hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
-                          Divider(
+                          const SizedBox(height: 20,),
+                          const Divider(
                             color: Color(0xFFE7E7E7),
                             thickness: 1,
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Medical Director Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: medicalManagerNameController,
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Medical Director  Name ';
+                                return 'Please Enter Medical Director Name';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Medical Director  Name',
                               hintText: 'Manager Name',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             maxLength: 10,
                             controller: medicalManagerNumberController,
@@ -219,98 +216,98 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Medical Director Number ';
+                                return 'Please Enter Medical Director Contact Number';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Contact Number',
                               hintText: '12345 67890',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: medicalManagerEmailController,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Medical Director Email ';
+                                return 'Please Enter Medical Director Email';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
                               hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: medicalManagerLicenseController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.name,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter License Number ';
+                                return 'Please Enter License Number';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'License Number',
                               hintText: '12345 67890',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
-                          Divider(
+                          const SizedBox(height: 20,),
+                          const Divider(
                             color: Color(0xFFE7E7E7),
                             thickness: 1,
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Financial Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: financialManagerNameController,
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Financial Manager Name ';
+                                return 'Please Enter Financial Manager Name';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
-                              labelText: 'Financial Manager Name  ',
+                              labelText: 'Financial Manager Name ',
                               hintText: 'Manager Name',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             maxLength: 10,
                             controller: financialManagerNumberController,
@@ -318,62 +315,62 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Financial Manager Number ';
+                                return 'Please Enter Financial Manager Number';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Contact Number',
                               hintText: '12345 67890',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: financialManagerEmailController,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Financial Manager Email ';
+                                return 'Please Enter Financial Manager Email';
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
                               hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
 
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image3 != null)
+                                    if (financialManagerFile != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -382,13 +379,13 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(financialManagerFile!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                             ),
                                           ),
                                         ),
                                       ),
-                                    if (showPickOption3)
+                                    if (financialManagerFile==null)
                                       InkWell(
                                         onTap: () {
                                           _pickImage3();
@@ -402,11 +399,11 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(50),
                                                     color: Colors.white,
-                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                                    image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                                 ),
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                              const SizedBox(height: 5,),
+                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
                                             ],
                                           ),
                                         ),
@@ -422,16 +419,20 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: Color(0xff116D6E)
+                                color: const Color(0xff116D6E)
                             ),
                             child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()){
-                                    profileSetup3();
+                                    if (financialManagerFile==null) {
+                                      Utils.showErrorToast("Please Upload File");
+                                    }
+                                    else {
+                                      profileSetup3();
+                                    }
                                   }else{
                                     autoValidate = AutovalidateMode.always;
                                   }
-                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessfulProfileSetUp(),));
                                 },
                                 child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                           ),
@@ -453,8 +454,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
     final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage3 != null){
-        _image3 = File(pickedImage3.path);
-        showPickOption3 = false;
+        financialManagerFile = File(pickedImage3.path);
       }
       // imageFile = pickedImage;
     });
@@ -462,11 +462,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
 
 
   Future<void> profileSetup3() async {
-
-    try{
-      setState(() {
-        isLoading = true;
-      });
+    Utils.showLoadingDialog(context);
       var bodyData = {
         "clinicMangerName": labManagerNameController.text.toString(),
         "clinicMangerNumber": labManagerNumberController.text.toString(),
@@ -482,45 +478,26 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
       var postUri = Uri.parse(ApiServices.addClinicMangerDetails);
       var request = http.MultipartRequest("POST", postUri);
       request.fields.addAll(bodyData);
-      request.headers.addAll(ApiHelpers.apiHeader);
-      // http.MultipartFile multipartFile = await http.MultipartFile.fromPath('directorLicensFile',_image3!.path);
-
-      // request.files.add(multipartFile);
+      request.headers.addAll(Utils.apiHeader);
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath('directorLicensFile',financialManagerFile!.path);
+      request.files.add(multipartFile);
       http.StreamedResponse response = await request.send();
 
       print('code: ${response.statusCode}');
       final res = await http.Response.fromStream(response);
       print('body: ${res.body}');
+      Navigator.pop(context);
       Map map = jsonDecode(res.body);
-      if (map['status'] == 200) {
-        Fluttertoast.showToast(
-            msg: '${map['message']}',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.blue,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessfulProfileSetUp(),));
+      if (response.statusCode==200) {
+        if (map['status'] == 200) {
+          Utils.setScreenStatus("4");
+          Utils.showSuccessToast(map["message"]);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SuccessfulProfileSetUp(),),(route) => false,);
+        } else {
+          Utils.showErrorToast(map["message"]);
+        }
       } else {
-        Fluttertoast.showToast(
-            msg: '${map['message']}',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.blue,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-
+        Utils.showErrorToast(jsonDecode(res.body)["message"]);
       }
-    }
-    catch(e){
-      rethrow;
-    }
-    finally{
-      isLoading = false;
-    }
   }
 }

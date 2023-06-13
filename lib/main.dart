@@ -1,4 +1,7 @@
 import 'package:dentalapp/main.dart';
+import 'package:dentalapp/screen/add_services_screen.dart';
+import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
+import 'package:dentalapp/screen/dashboard_1_screen.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/date_picker_screeen.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
@@ -14,11 +17,12 @@ import 'package:dentalapp/screen/new_password_screen.dart';
 import 'package:dentalapp/screen/register_type_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:dentalapp/screen/reset_successful_screen.dart';
+import 'package:dentalapp/screen/services_%20screen.dart';
 import 'package:dentalapp/screen/set_up_done_screen.dart';
 import 'package:dentalapp/screen/sign_up_screen.dart';
 import 'package:dentalapp/screen/splash.dart';
+import 'package:dentalapp/screen/starter_page_screen.dart';
 import 'package:dentalapp/screen/submit_code_screen.dart';
-import 'package:dentalapp/screen/time_picker_demo_scren.dart';
 import 'package:flutter/material.dart';
 
 void main() {

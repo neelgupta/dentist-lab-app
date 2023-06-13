@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/login_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
@@ -9,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/reset_password_model.dart';
-import '../utils/api_services.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   final userId;
@@ -160,8 +161,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         child: TextButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()){
-
-                                if(passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
                                 if(passwordController.value == confirmPasswordController.value){
                                   resetPassword();
                                 }else{
@@ -174,7 +173,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         backgroundColor: Colors.red.shade500,
                                         padding: EdgeInsets.all(20),
                                       ));
-                                }
                                 }
                               }else{
                                 autoValidate = AutovalidateMode.always;
@@ -195,12 +193,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       ),
     );
   }
-  resetPassword()async{
+  resetPassword() async {
+    Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.resetPasswordApi);
-    try {
-      setState(() {
-        isLoading = true;
-      });
       var bodyData = {
         "userId":widget.userId,
         "password":passwordController.text.toString()
@@ -209,52 +204,19 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
         postUri,
         body: bodyData,
       );
-      print("body ====> $bodyData");
-      print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
+      Utils.logAPIResponse(response: response,apiName: ApiServices.resetPasswordApi,function: "resetPassword");
+      Navigator.pop(context);
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
-          resetPasswordModel = ResetPasswordModel.fromJson(jsonDecode(response.body));
-          Navigator.push(context,MaterialPageRoute(builder: (context) =>ResetSuccessfullScreen()));
-          Fluttertoast.showToast(
-              msg: "${resetPasswordModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => ResetSuccessfullScreen()),(route) => false,);
+          Utils.showSuccessToast(map['message']);
         } else {
-          Fluttertoast.showToast(
-              msg: "${resetPasswordModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map['message']);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 
 }

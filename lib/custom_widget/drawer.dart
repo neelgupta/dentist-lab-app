@@ -2,6 +2,8 @@
 
 import 'dart:math';
 
+import 'package:dentalapp/screen/login_screen.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -456,7 +458,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                        return LoginScreen();
+                      },), (route) => false);
+                      Utils.setLoginStatus(false);
                     },
                     child: Text("Logout",
                         style: GoogleFonts.lato(
