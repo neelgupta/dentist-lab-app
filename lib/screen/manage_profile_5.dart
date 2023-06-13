@@ -1,3 +1,5 @@
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -5,8 +7,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/manage_profile_5_model.dart';
-import '../services/helper_fun.dart';
-import '../utils/api_services.dart';
 import 'manage_profile_6.dart';
 
 class ManageProfile5 extends StatefulWidget {
@@ -175,7 +175,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
       var bodyData = {
         "description": descriptionController.text.toString(),
       };
-      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
+      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var response = await http.post(
         postUri,
         body: bodyData,

@@ -1,4 +1,6 @@
 import 'package:dentalapp/screen/email_verified_done_screen.dart';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -7,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/manage_profile_6_model.dart';
-import '../services/helper_fun.dart';
-import '../utils/api_services.dart';
 
 enum PaymentMethod { onlinePayment, cash, cheque, none }
 enum DeliveryMethods {COD , paidDelivery, none}
@@ -421,7 +421,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
         "deliveryMethod": selectedDeliveryOption.name.toString(),
         "paymentMethod": selectedPaymentOption.name.toString()
       };
-      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
+      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var response = await http.post(
         postUri,
         body: bodyData,

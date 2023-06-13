@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/manage_profile_2.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../models/manage_prifile_1_model.dart';
-import '../services/helper_fun.dart';
-import '../utils/api_services.dart';
+import '../util/api_services.dart';
 
 class ManageProfile1 extends StatefulWidget {
   const ManageProfile1({Key? key}) : super(key: key);
@@ -403,7 +403,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
         "poBox":poBoxController.text.toString(),
         "dateOfEstablishment":dateInputController.text.toString()
       };
-      var headers = {"Authorization": "Bearer ${ApiHelper.getToken()}"};
+      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var response = await http.post(
         postUri,
         body: bodyData,

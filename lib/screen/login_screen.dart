@@ -1,20 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:math';
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/models/sign_in_model.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
+import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/register_type_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
-import 'package:dentalapp/screen/sign_up_screen.dart';
-import 'package:dentalapp/services/helper_fun.dart';
-import 'package:dentalapp/utils/api_services.dart';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const
@@ -39,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
   }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(
                   height: height*0.24,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xFF116D6E),
                       image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                           fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
@@ -82,21 +82,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter email address';
+                            return 'Please Enter Email Address';
                           } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
-                            return "Enter valid email id";
+                            return "Please Enter Valid Email";
                           }
                           return null;
                         },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Color(0xFF707070))
+                            borderSide: const BorderSide(color: Color(0xFF707070))
                           ),
                           labelText: 'Email',
                           hintText: 'admin@gmail.com',
-                          hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                          contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16)
+                          hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                          contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16)
                         ),
                       ),
                       SizedBox(height: height*0.020,),
@@ -105,9 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter password';
+                            return 'Please Enter Password';
                           }if(value.length < 6){
-                            return "Enter 6 character password";
+                            return "Please Enter 6 Character Password";
                           }
                           return null;
                         },
@@ -115,19 +115,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'Password',
                             hintText: 'Password',
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           suffixIcon: InkWell(
                             onTap: () {
                               setState(() {
                                 isVisible = !isVisible;
                               });
                             },
-                              child: Image(image: isVisible ? AssetImage("assets/image/Vector.png") : AssetImage("assets/image/Vector12.png")),)
+                              child: Image(image: isVisible ? const AssetImage("assets/image/Vector.png") : const AssetImage("assets/image/Vector12.png")),)
                         ),
                       ),
                       SizedBox(height: height*0.02,),
@@ -136,13 +136,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: InkWell(
                             onTap: () {
                               Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => ResetPasswordScreen(),));
+                              MaterialPageRoute(builder: (context) => const ResetPasswordScreen(),));
                             },
-                              child: Text("Forgot Password ?",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF116D6E)))))
+                              child: Text("Forgot Password ?",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,color: const Color(0xFF116D6E)))))
                     ],
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                   child: Container(
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Color(0xFF116D6E)
+                        color: const Color(0xFF116D6E)
                     ),
                     child: TextButton(
                         onPressed: () {
@@ -163,18 +163,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text("Login",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ),
                 ),
-                SizedBox(height: height*0.02,),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTypeScreen(),));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Don’t have an account ?   ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color:Color(0xFF999EA1))),
-                      Text("Sign Up",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color:Color(0xFF116D6E))),
-                    ],
-                  ),
+                const SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don’t have an account ?   ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color:const Color(0xFF999EA1))),
+                    InkWell(onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterTypeScreen(),));
+                    },child: Text("Sign Up",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color:const Color(0xFF116D6E)))),
+                  ],
                 ),
                 SizedBox(height: height*0.04,),
               ],
@@ -186,12 +183,10 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  signIn()async{
+
+  signIn() async {
     var postUri = Uri.parse(ApiServices.signInApi);
-    try {
-      setState(() {
-        isLoading = true;
-      });
+    Utils.showLoadingDialog(context);
       var bodyData = {
         "email": emailController.text.toString(),
         "password": passwordController.text.toString(),
@@ -200,54 +195,55 @@ class _LoginScreenState extends State<LoginScreen> {
         postUri,
         body: bodyData,
       );
-      print("body ====> $bodyData");
-      print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
+      Utils.logAPIResponse(apiName: ApiServices.signInApi, function: "signIn", response: response);
+      Navigator.pop(context);
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
           signInModel = SignInModel.fromJson(jsonDecode(response.body));
-          ApiHelper.prefs = await SharedPreferences.getInstance();
-          ApiHelper.setToken(signInModel!.token);
-          ApiHelper.setUserType(signInModel!.type);
-          Fluttertoast.showToast(
-              msg: "${signInModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-          Navigator.push(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?DashboardScreen():BottomNavigation(),),);
+          if(signInModel!.screenStatus=="0") {
+            sendOTP();
+          }
+          else {
+            Utils.setToken(signInModel!.token);
+            Utils.setUserType(signInModel!.type);
+            Utils.setLoginStatus(true);
+            Utils.showSuccessToast(signInModel!.message);
+            Utils.setScreenStatus(signInModel!.screenStatus);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const DashboardScreen():const BottomNavigation(),),);
+          }
         } else {
-          Fluttertoast.showToast(
-              msg: "${signInModel?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map["message"]);
         }
       } else {
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
+  }
+
+  sendOTP() async {
+    var postUri = Uri.parse(ApiServices.sendOtpApi);
+    Utils.showLoadingDialog(context);
+    var bodyData = {
+      "email": emailController.text.toString(),
+    };
+    var response = await http.post(
+      postUri,
+      body: bodyData,
+    );
+    Utils.logAPIResponse(apiName: ApiServices.sendOtpApi, function: "sendOTP", response: response);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Map map = jsonDecode(response.body);
+      if (map["status"] == 200) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => EmailVerificationScreen(
+            userId: signInModel!.userId.toString(),
+            emailId: emailController.text.toString(),
+          ),));
+      } else {
+        Utils.showErrorToast(map["message"]);
+      }
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
     }
   }
 }

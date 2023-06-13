@@ -14,15 +14,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   bool  isFeedColor = true;
   Color feedSelected = Colors.white;
-  Color feedUnselected = Color(0xFFEBEFEE);
+  Color feedUnselected = const Color(0xFFEBEFEE);
 
   void changeColors() {
     setState(() {
       if (isFeedColor) {
         feedSelected = Colors.white;
-        feedUnselected = Color(0xFFEBEFEE);
+        feedUnselected = const Color(0xFFEBEFEE);
       } else {
-        feedSelected = Color(0xFFEBEFEE);
+        feedSelected = const Color(0xFFEBEFEE);
         feedUnselected = Colors.white;
       }
       isFeedColor = !isFeedColor;
@@ -67,28 +67,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(
+                                  const Row(
                                     children:   [
                                       Image(image: AssetImage("assets/image/Menu.png")),
                                       Spacer(),
                                       Image(image: AssetImage("assets/image/Notification 3.png"))
                                     ],
                                   ),
-                                  SizedBox(height: 16,),
+                                  const SizedBox(height: 16,),
                                   Container(
                                     alignment: Alignment.center,
                                     height: height*0.090,
                                     width: width*0.20,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color: Color(0xFF116D6E).withOpacity(0.5),
-                                      border: Border.all(color: Color(0xFFFFFFFF))
+                                      color: const Color(0xFF116D6E).withOpacity(0.5),
+                                      border: Border.all(color: const Color(0xFFFFFFFF))
                                     ),
                                     child: Text("N",style: GoogleFonts.lato(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w600)),
                                   ),
-                                  SizedBox(height: 15,),
+                                  const SizedBox(height: 15,),
                                   Text("User name",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.white,)),
-                                  SizedBox(height: 8,),
+                                  const SizedBox(height: 8,),
                                   Text("Since 1992",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
                                 ],
                               ),
@@ -105,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             height: height*0.065,
                             width: width*0.88,
                             decoration: BoxDecoration(
-                              color: Color(0xFFEBEFEE),
+                              color: const Color(0xFFEBEFEE),
                               borderRadius:BorderRadius.circular(30)
                             ),
                             child: Padding(
@@ -123,7 +123,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           color: feedSelected,
                                           borderRadius: BorderRadius.circular(30),
                                         ),
-                                        child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),)),
+                                        child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
                                       ),
                                     ),
                                   ),
@@ -138,7 +138,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           borderRadius: BorderRadius.circular(30),
                                         ),
                                         alignment: Alignment.center,
-                                        child: Text("Invite",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),)),
+                                        child: Text("Invite",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
                                       ),
                                     ),
                                   )
@@ -146,26 +146,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 23,),
+                          const SizedBox(height: 23,),
                           Text("Quote",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Row(
                             children: [
                               Text("Surname Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                              Spacer(),
-                              Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
+                              const Spacer(),
+                              Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                               " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),
+                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
                           maxLines: 3,overflow: TextOverflow.ellipsis),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           TextButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
-                              padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                              backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                              padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
                               shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -176,26 +176,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               showMyDialog(context);
                               },
                               child: Text("View",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
-                          SizedBox(height: 20,),
-                          Divider(thickness: 1,color: Color(0xFFE7E7E7),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
+                          const Divider(thickness: 1,color: Color(0xFFE7E7E7),),
+                          const SizedBox(height: 20,),
                           Row(
                             children: [
                               Text("Surname Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                              Spacer(),
-                              Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
+                              const Spacer(),
+                              Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                               " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),
+                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
                               maxLines: 3,overflow: TextOverflow.ellipsis),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           TextButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
-                                padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -224,49 +224,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Container(
               height: height*0.095,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xFF116D6E)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(image: AssetImage("assets/image/Profile 1.png")),
-                      SizedBox(height: 5,),
+                      const Image(image: AssetImage("assets/image/Profile 1.png")),
+                      const SizedBox(height: 5,),
                       Text("Profile",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white,))
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(image: AssetImage("assets/image/Setting.png"),width: 25),
-                      SizedBox(height: 5,),
+                      const Image(image: AssetImage("assets/image/Setting.png"),width: 25),
+                      const SizedBox(height: 5,),
                       Text("Setting",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white,))
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(image: AssetImage("assets/image/category.png")),
-                      SizedBox(height: 5,),
+                      const Image(image: AssetImage("assets/image/category.png")),
+                      const SizedBox(height: 5,),
                       Text("Quote",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white,))
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(image: AssetImage("assets/image/chart.png"),color: Colors.white),
-                      SizedBox(height: 5,),
+                      const Image(image: AssetImage("assets/image/chart.png"),color: Colors.white),
+                      const SizedBox(height: 5,),
                       Text("Dashboard",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white,))
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
@@ -275,16 +275,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Container(
                 height: height*0.081,
                 width: width*0.22,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(image: AssetImage("assets/image/chart.png")),
-                    SizedBox(height: 5,),
-                    Text("Dashboard",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Color(0xFF116D6E),))
+                    const Image(image: AssetImage("assets/image/chart.png")),
+                    const SizedBox(height: 5,),
+                    Text("Dashboard",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: const Color(0xFF116D6E),))
                   ],
                 ),
               ),
@@ -305,21 +305,21 @@ void showMyDialog(BuildContext context){
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("Set up your profile with in 6 steps",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600,),textAlign: TextAlign.center),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text("Lorem ipsum dolor sit, consecteturamet adipiscing."
                       " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                      style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070),),
+                      style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070),),
                   maxLines: 3,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   TextButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
-                        padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 30,vertical: 12)),
+                        backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 30,vertical: 12)),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -327,7 +327,7 @@ void showMyDialog(BuildContext context){
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile1(),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageProfile1(),));
                       },
                       child: Text("Start Setup",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
                 ],

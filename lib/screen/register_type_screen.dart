@@ -38,7 +38,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
             children: [
               Container(
                 height: height*0.25,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFF116D6E),
                   image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                   fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
@@ -48,7 +48,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: height*0.09),
-                        Image(image: AssetImage("assets/image/Logo.png")),
+                        const Image(image: AssetImage("assets/image/splash_logo.png")),
                       ],
                     )),
               ),
@@ -61,14 +61,14 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                       height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF707070)),
+                          border: Border.all(color: const Color(0xFF707070)),
                           borderRadius:BorderRadius.circular(12)
                       ),
                       child: Row(
                         children: [
                           Radio(
                             value: "Lab",
-                            activeColor: Color(0xFF116D6E),
+                            activeColor: const Color(0xFF116D6E),
                             groupValue: businessType,
                             onChanged: (value) {
                               setState(() {
@@ -76,7 +76,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                               });
                             },
                           ),
-                          Text("Lab",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
+                          Text("Lab",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070))),
                         ],
                       ),
                     ),
@@ -85,14 +85,14 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                       height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF707070)),
+                          border: Border.all(color: const Color(0xFF707070)),
                           borderRadius:BorderRadius.circular(12)
                       ),
                       child: Row(
                         children: [
                           Radio(
                             value: "Clinic",
-                            activeColor: Color(0xFF116D6E),
+                            activeColor: const Color(0xFF116D6E),
                             groupValue: businessType,
                             onChanged: (value) {
                               setState(() {
@@ -100,7 +100,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                               });
                             },
                           ),
-                          Text("Clinic",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
+                          Text("Clinic",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070))),
                         ],
                       ),
                     ),
@@ -109,14 +109,14 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                       height: height*0.065,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF707070)),
+                          border: Border.all(color: const Color(0xFF707070)),
                           borderRadius:BorderRadius.circular(12)
                       ),
                       child: Row(
                         children: [
                           Radio(
                             value: "Dentist",
-                            activeColor: Color(0xFF116D6E),
+                            activeColor: const Color(0xFF116D6E),
                             groupValue: businessType,
                             onChanged: (value) {
                               setState(() {
@@ -124,7 +124,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                               });
                             },
                           ),
-                          Text("Dentist",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
+                          Text("Dentist",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070))),
                         ],
                       ),
                     ),
@@ -132,7 +132,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: EdgeInsets.only(bottom: height*0.05,top: height*0.02,left: width*0.02,right: width*0.02),
                 child: Container(
@@ -140,7 +140,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Color(0xFF116D6E)
+                      color: const Color(0xFF116D6E)
                   ),
                   child: TextButton(
                       onPressed: () {
