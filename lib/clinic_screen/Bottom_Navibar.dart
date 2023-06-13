@@ -1,5 +1,6 @@
 import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/dasboard_screen.dart';
+import 'package:dentalapp/clinic_screen/new_quote.dart';
 import 'package:dentalapp/clinic_screen/profile_edit.dart';
 import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_1.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     ProfileEdit(),
 
     SizedBox(),
-    CreatQuote(),
+    NewQuote(),
     // "Setting",
 
      DasBoardScreen(),
