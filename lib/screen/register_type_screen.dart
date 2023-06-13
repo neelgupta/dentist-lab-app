@@ -56,7 +56,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                 padding: EdgeInsets.all(width*0.05),
                 child: Column(
                   children: [
-                    SizedBox(height: 10,),
+                    SizedBox(height: height*0.01,),
                     Container(
                       height: height*0.065,
                       width: MediaQuery.of(context).size.width,
@@ -80,7 +80,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: height*0.02,),
                     Container(
                       height: height*0.065,
                       width: MediaQuery.of(context).size.width,
@@ -104,7 +104,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: height*0.02,),
                     Container(
                       height: height*0.065,
                       width: MediaQuery.of(context).size.width,
@@ -134,7 +134,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
               ),
               Spacer(),
               Padding(
-                padding: const EdgeInsets.only(bottom: 50,top: 20,left: 20,right: 20),
+                padding: EdgeInsets.only(bottom: height*0.05,top: height*0.02,left: width*0.02,right: width*0.02),
                 child: Container(
                   height: height*0.06,
                   width: MediaQuery.of(context).size.width,

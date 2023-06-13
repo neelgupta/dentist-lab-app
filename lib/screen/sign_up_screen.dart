@@ -71,9 +71,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
-                        SizedBox(height: 10,),
+                        SizedBox(height: height*0.01,),
                         Text("Hi, Welcome 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
-                        SizedBox(height: 30,),
+                        SizedBox(height: height*0.03,),
                         TextFormField(
                           keyboardType: TextInputType.name,
                           controller: firstNameController,
@@ -95,6 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               hintText: 'First Name',
                               hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                               contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16)
+                              // contentPadding: EdgeInsets.only(left: width*0.018,top: height*0.016,bottom: height*0.016)
                           ),
                         ),
                         SizedBox(height: 20,),

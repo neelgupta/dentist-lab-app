@@ -77,7 +77,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                               height: 70,
                               width: 70,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
+                                shape: BoxShape.circle,
                                   border: Border.all(color: Colors.white,width: 1),
                                   image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                               ),

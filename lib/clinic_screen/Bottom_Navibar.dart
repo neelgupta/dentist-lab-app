@@ -31,11 +31,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   List  selectedScreenList= [
     ProfileEdit(),
-
     SizedBox(),
     CreatQuote(),
     // "Setting",
-
      DasBoardScreen(),
   ];
 

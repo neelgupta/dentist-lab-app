@@ -17,7 +17,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -73,9 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
-                      SizedBox(height: 10,),
+                      SizedBox(height: height*0.01,),
                       Text("Hi, Welcome Back! 👋",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600)),
-                      SizedBox(height: 30,),
+                      SizedBox(height: height*0.03,),
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16)
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: height*0.020,),
                       TextFormField(
                         controller: passwordController,
                         keyboardType: TextInputType.emailAddress,
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Image(image: isVisible ? AssetImage("assets/image/Vector.png") : AssetImage("assets/image/Vector12.png")),)
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: height*0.02,),
                       Align(
                         alignment: Alignment.centerRight,
                           child: InkWell(
@@ -162,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text("Login",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: height*0.02,),
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTypeScreen(),));
