@@ -1,12 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:io';
-
+import 'dart:convert';
 import 'package:dentalapp/custom_widget/drawer.dart';
+import 'package:dentalapp/models/clinic_profile.dart';
+import 'package:dentalapp/services/clinic_services/client_profile_service.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 class ProfileEdit extends StatefulWidget {
   const ProfileEdit({Key? key}) : super(key: key);
@@ -17,11 +20,18 @@ class ProfileEdit extends StatefulWidget {
 
 class _ProfileEditState extends State<ProfileEdit> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  File? medicalLicense;
-  File? tradeLicense;
-  File? clinicManagerLicense;
   bool isAddiTonalInfo = false;
   bool isManagerDetail = false;
+  bool isLoading = true;
+  ClientProfile clientProfile =  ClientProfile();
+  ClinicProfile? clinicProfile;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfileData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +44,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     return Scaffold(
       key: _key,
       drawer: const CustomDrawer(),
-      body: SizedBox(
+      body: isLoading?Center(child: loader()):SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
@@ -58,27 +68,23 @@ class _ProfileEditState extends State<ProfileEdit> {
                           alignment: Alignment.bottomCenter,
                           opacity: 0.3)),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: height * 0.05,
+                        height: height * 0.025,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _key.currentState!.openDrawer();
+                        },
+                        child: const Image(
+                            image: AssetImage(
+                                "assets/image/Menu.png")),
                       ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              _key.currentState!.openDrawer();
-                            },
-                            child: const Image(
-                                image: AssetImage(
-                                    "assets/image/Menu.png")),
-                          ),
-                          //   Image.asset("assets/image/Menu.png"),
-                          SizedBox(
-                            width: width * 0.25,
-                          ),
                           Stack(
                             children: [
                               Container(
@@ -112,26 +118,31 @@ class _ProfileEditState extends State<ProfileEdit> {
                           ),
                         ],
                       ),
-                      // SizedBox(height: 16,),
 
                       SizedBox(
                         height: height * 0.01,
                       ),
-                      Text("User name",
-                          style: GoogleFonts.lato(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          )),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text("${clinicProfile!.data!.userId!.firstName ?? ""} ${clinicProfile!.data!.userId!.lastName ?? ""}",
+                            style: GoogleFonts.lato(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            )),
+                      ),
                       SizedBox(
                         height: height * 0.01,
                       ),
-                      Text("Since 1992",
-                          style: GoogleFonts.lato(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          )),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text("Since ${DateFormat('yyyy').format(DateTime.parse(clinicProfile!.data!.dateOfEstablishment!))}",
+                            style: GoogleFonts.lato(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            )),
+                      ),
                     ],
                   )),
               SizedBox(
@@ -176,14 +187,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                     SizedBox(
                       height: height * 0.01,
                     ),
-                    Text("1234567890",
+                    Text(clinicProfile!.data!.mobileNumber ?? "",
                         style: GoogleFonts.lato(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           color: const Color(0xff111111),
                         )),
 
-                    ///Lan Line
+                    ///Land Line
                     SizedBox(
                       height: height * 0.03,
                     ),
@@ -196,7 +207,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     SizedBox(
                       height: height * 0.01,
                     ),
-                    Text("1234567890",
+                    Text(clinicProfile!.data!.landLineNumber ?? "",
                         style: GoogleFonts.lato(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -216,7 +227,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     SizedBox(
                       height: height * 0.01,
                     ),
-                    Text("admin@gmail.com",
+                    Text(clinicProfile!.data!.userId!.email ?? "",
                         style: GoogleFonts.lato(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -236,7 +247,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     SizedBox(
                       height: height * 0.01,
                     ),
-                    Text("123 - Atlanta Shopping mall, Surat, india.",
+                    Text("${clinicProfile!.data!.address ?? ""} ${clinicProfile!.data!.city ?? ""} ${clinicProfile!.data!.country ?? ""}",
                         style: GoogleFonts.lato(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -308,7 +319,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.012,
                               ),
-                              Text("Licensing Authority",
+                              Text((clinicProfile!.data!.licensingAuthority ?? "") ,
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -326,7 +337,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("1234567890",
+                              Text(clinicProfile!.data!.medicalLicenseNumber ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -334,6 +345,15 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   )),
                               SizedBox(
                                 height: height * 0.03,
+                              ),
+                              Text("Medical License",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff707070),
+                                  )),
+                              SizedBox(
+                                height: height * 0.01,
                               ),
                               DottedBorder(
                                 borderType: BorderType.RRect,
@@ -352,7 +372,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (medicalLicense != null)
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
@@ -365,45 +384,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image:
-                                                            FileImage(medicalLicense!),
+                                                            NetworkImage(clinicProfile!.data!.licensFile ?? ""),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12)),
                                               ),
-                                            ),
-                                          ),
-                                        if (medicalLicense == null)
-                                          InkWell(
-                                            onTap: () {
-                                              _pickImage1();
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius
-                                                              .circular(50),
-                                                      color: Colors.white,
-                                                      image: const DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/image/camera.png"),
-                                                          fit: BoxFit.none)),
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Text("Upload file",
-                                                    style: GoogleFonts.lato(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: const Color(
-                                                            0xFF707070)))
-                                              ],
                                             ),
                                           ),
                                       ],
@@ -423,7 +409,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("1234567890",
+                              Text(clinicProfile!.data!.tradeLicenceNumber ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -431,6 +417,15 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   )),
                               SizedBox(
                                 height: height * 0.03,
+                              ),
+                              Text("Trade License",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff707070),
+                                  )),
+                              SizedBox(
+                                height: height * 0.01,
                               ),
                               DottedBorder(
                                 borderType: BorderType.RRect,
@@ -449,7 +444,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (tradeLicense != null)
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
@@ -462,45 +456,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image:
-                                                            FileImage(tradeLicense!),
+                                                        NetworkImage(clinicProfile!.data!.tradeFile ?? ""),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12)),
                                               ),
-                                            ),
-                                          ),
-                                        if (tradeLicense == null)
-                                          InkWell(
-                                            onTap: () {
-                                              _pickImage2();
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius
-                                                              .circular(50),
-                                                      color: Colors.white,
-                                                      image: const DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/image/camera.png"),
-                                                          fit: BoxFit.none)),
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Text("Upload file",
-                                                    style: GoogleFonts.lato(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: const Color(
-                                                            0xFF707070)))
-                                              ],
                                             ),
                                           ),
                                       ],
@@ -588,7 +549,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("Manager Name",
+                              Text(clinicProfile!.data!.clinicMangerName ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -608,7 +569,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("1234567890",
+                              Text(clinicProfile!.data!.clinicMangerNumber ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -628,7 +589,97 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("Manager@gmail.com",
+                              Text(clinicProfile!.data!.clinicMangerEmail ?? "",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff111111),
+                                  )),
+                              SizedBox(height: height * 0.02),
+
+                              const Divider(
+                                thickness: 1,
+                                color: Color(0xffE7E7E7),
+                              ),
+
+                              /// Medical Director Details
+                              SizedBox(
+                                height: height * 0.02,
+                              ),
+                              Row(
+                                children: [
+                                  Text("Medical Director Details",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xff111111),
+                                      )),
+                                  const Spacer(),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Text("Edit",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff116D6E),
+                                        )),
+                                  ),
+                                ],
+                              ),
+
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
+                              Text("Name",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff707070),
+                                  )),
+                              SizedBox(
+                                height: height * 0.01,
+                              ),
+                              Text(clinicProfile!.data!.medicalDirectorName ?? "",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff111111),
+                                  )),
+                              SizedBox(
+                                height: height * 0.02,
+                              ),
+
+                              ///Contact Number
+                              Text("Contact Number",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff707070),
+                                  )),
+                              SizedBox(
+                                height: height * 0.01,
+                              ),
+                              Text(clinicProfile!.data!.medicalDirectorNumber ?? "",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff111111),
+                                  )),
+                              SizedBox(
+                                height: height * 0.02,
+                              ),
+
+                              ///Email
+                              Text("Email",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff707070),
+                                  )),
+                              SizedBox(
+                                height: height * 0.01,
+                              ),
+                              Text(clinicProfile!.data!.medicalDirectorEmail ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -648,7 +699,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("1234567890",
+                              Text(clinicProfile!.data!.directorLicensNumber ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -674,7 +725,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (clinicManagerLicense != null)
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
@@ -687,45 +737,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image:
-                                                            FileImage(clinicManagerLicense!),
+                                                        NetworkImage(clinicProfile!.data!.directorLicensFile ?? ""),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12)),
                                               ),
-                                            ),
-                                          ),
-                                        if (clinicManagerLicense == null)
-                                          InkWell(
-                                            onTap: () {
-                                              _pickImage3();
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius
-                                                              .circular(50),
-                                                      color: Colors.white,
-                                                      image: const DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/image/camera.png"),
-                                                          fit: BoxFit.none)),
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Text("Upload file",
-                                                    style: GoogleFonts.lato(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: const Color(
-                                                            0xFF707070)))
-                                              ],
                                             ),
                                           ),
                                       ],
@@ -775,7 +792,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("Financial Manager Name",
+                              Text(clinicProfile!.data!.finacialMangerName ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -793,7 +810,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("1234567890",
+                              Text(clinicProfile!.data!.finacialMangerNumber ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -811,7 +828,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               SizedBox(
                                 height: height * 0.01,
                               ),
-                              Text("Manager@gmail.com",
+                              Text(clinicProfile!.data!.finacialMangerEmail ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
@@ -840,36 +857,13 @@ class _ProfileEditState extends State<ProfileEdit> {
     );
   }
 
-  Future<void> _pickImage1() async {
-    final picker = ImagePicker();
-    final pickedImage1 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedImage1 != null) {
-        medicalLicense = File(pickedImage1.path);
-      }
-      // imageFile = pickedImage;
-    });
-  }
+  getProfileData() async {
+    Response response = await clientProfile.getClinicProfile();
 
-  Future<void> _pickImage2() async {
-    final picker = ImagePicker();
-    final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedImage2 != null) {
-        tradeLicense = File(pickedImage2.path);
-      }
-      // imageFile = pickedImage;
-    });
-  }
-
-  Future<void> _pickImage3() async {
-    final picker = ImagePicker();
-    final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedImage3 != null) {
-        clinicManagerLicense = File(pickedImage3.path);
-      }
-      // imageFile = pickedImage;
-    });
+    if(response.statusCode == 200) {
+      clinicProfile = ClinicProfile.fromJson(jsonDecode(response.body));
+    }
+    isLoading = false;
+    setState(() {});
   }
 }

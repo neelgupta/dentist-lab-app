@@ -1,10 +1,14 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dentalapp/screen/manage_profile_5.dart';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'package:time_range_picker/time_range_picker.dart';
+import 'package:http/http.dart' as http;
 
 class ManageProfile4 extends StatefulWidget {
   const ManageProfile4({Key? key}) : super(key: key);
@@ -15,11 +19,11 @@ class ManageProfile4 extends StatefulWidget {
 
 class _ManageProfile4State extends State<ManageProfile4> {
 
-  var openingTime = "09:00";
-  var closingTime = "17:00";
-//  bool switchValue = true;
-  bool Onoff = false;
+  var openingTime = "01:00";
+  var closingTime = "24:00";
+  bool onOff = false;
   bool isTimeSelectedStatus=false;
+  List<DayDetails> days = [];
   List startTime = [
     "01:00 ",
     "01:15 ",
@@ -210,6 +214,15 @@ class _ManageProfile4State extends State<ManageProfile4> {
     "23:45",
     "24:00",
   ];
+  int index = 0;
+  List daysName = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    days = List.generate(daysName.length, (index) => DayDetails(day: daysName[index], startTime: "", endTime: "", isOpen: false));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +241,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                   Container(
                     height: height*0.25,
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                     ),
                     child: Column(
@@ -237,15 +250,15 @@ class _ManageProfile4State extends State<ManageProfile4> {
                       children: [
                         Row(
                           children: [
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
                             InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
+                                child: const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                           ],
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -255,7 +268,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Colors.white,width: 1),
-                                image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                             ),
                             child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                           ),
@@ -269,184 +282,218 @@ class _ManageProfile4State extends State<ManageProfile4> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("4/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
                           ],
                         ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         isTimeSelectedStatus==false?Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Working time",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            const SizedBox(height: 30,),
+                            ListView(
+                              shrinkWrap: true,
                               children: [
-                                SizedBox(
-                                    width: 70,
-                                    child: Text("Monday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
-                                Spacer(),
-                                Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
+                                for(int i=0; i<days.length; i++)
+                                  Column(
+                                    children: [
+                                      const SizedBox(height: 10,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                              width: width * 0.4,
+                                              child: Text(days[i].day,style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
+                                          Text(days[i].isOpen?"${days[i].startTime} - ${days[i].endTime}":"Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
+                                          const Spacer(),
+                                          InkWell(
+                                              onTap: (){
+                                                setState(() {
+                                                  isTimeSelectedStatus=true;
+                                                  index = i;
+                                                  onOff = days[i].isOpen;
+                                                  openingTime = "01:00";
+                                                  closingTime = "01:00";
+                                                });
+                                              },
+                                              child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                                    ],
+                                  ),
                               ],
                             ),
-                            SizedBox(height: 10,),
-                            Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            SizedBox(height: 10,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center ,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text("Tuesday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                                ),
-                                Spacer(),
-                                Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF707070)),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            SizedBox(height: 10,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 77,
-                                  child: Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1),
-                                ),
-                                Spacer(),
-                                Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF707070)),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            SizedBox(height: 10,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center ,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text("Thursday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                                ),
-                                Spacer(),
-                                Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF707070)),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            SizedBox(height: 10,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center ,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text("Friday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                                ),
-                                Spacer(),
-                                Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF707070)),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            SizedBox(height: 10,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center ,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text("Saturday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                                ),
-                                Spacer(),
-                                Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF707070)),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            SizedBox(height: 10,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center ,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text("Sunday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                                ),
-                                Spacer(),
-                                Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: Color(0xFF707070)),),
-                                Spacer(),
-                                InkWell(
-                                    onTap: (){
-                                      setState(() {
-                                        isTimeSelectedStatus=true;
-                                      });
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                SizedBox(width: 10,),
-                              ],
-                            ),
-                            const SizedBox(height: 10,),
-                            const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            const SizedBox(height: 10,),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     SizedBox(
+                            //         width: 70,
+                            //         child: Text("Monday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
+                            //     const Spacer(),
+                            //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center ,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       width: 75,
+                            //       child: Text("Tuesday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                            //     ),
+                            //     const Spacer(),
+                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       width: 77,
+                            //       child: Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1),
+                            //     ),
+                            //     const Spacer(),
+                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center ,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       width: 75,
+                            //       child: Text("Thursday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                            //     ),
+                            //     const Spacer(),
+                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center ,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       width: 75,
+                            //       child: Text("Friday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                            //     ),
+                            //     const Spacer(),
+                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center ,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       width: 75,
+                            //       child: Text("Saturday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                            //     ),
+                            //     const Spacer(),
+                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center ,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       width: 75,
+                            //       child: Text("Sunday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                            //     ),
+                            //     const Spacer(),
+                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                            //     const Spacer(),
+                            //     InkWell(
+                            //         onTap: (){
+                            //           setState(() {
+                            //             isTimeSelectedStatus=true;
+                            //           });
+                            //         },
+                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                            //     const SizedBox(width: 10,),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10,),
+                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                            // const SizedBox(height: 10,),
                             SizedBox(height: height*0.050,),
                             Container(
                               height: height*0.064,
@@ -457,7 +504,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                               ),
                               child: TextButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile5(),));
+                                    manageProfile4();
                                   },
                                   child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                             ),
@@ -477,8 +524,8 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                           padding: const EdgeInsets.only(left: 10,right: 10),
                                           child: Row(
                                             children: [
-                                              Text("Tuesday",style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
-                                              Spacer(),
+                                              Text(days[index].day,style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
+                                              const Spacer(),
                                               Column(
                                                 children: [
                                                   FlutterSwitch(
@@ -487,18 +534,17 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                     valueFontSize: 12.0,
                                                     toggleSize: 18.0,
                                                     activeColor: const Color(0xff01635D),
-                                                    value:  Onoff,
+                                                    value:  onOff,
                                                     onToggle: (value) {
                                                       setState(() {
-                                                        Onoff = value;
-                                                        print("Onoff==${Onoff}");
+                                                        onOff = value;
                                                       });
                                                     },
                                                   ),
                                                   const SizedBox(
                                                     height: 5,
                                                   ),
-                                                  Onoff ? const Text("Open",
+                                                  onOff ? const Text("Open",
                                                     style: TextStyle(fontSize: 12, color: Color(0xff707070),fontFamily: "spartan"),
                                                   ) : const Text("Close", style: TextStyle(fontSize: 12, color: Color(0xff707070), fontFamily: "spartan")),
                                                 ],
@@ -525,12 +571,12 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                     openingTime = startTime[index];
                                                   });
                                                 },
-                                                selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
+                                                selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
                                                 children: startTime
                                                     .map((text) => Center(
                                                   child: Container(
                                                     alignment: Alignment.center,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                     ),
                                                     child: Text(text,style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500)),
                                                   ),
@@ -538,9 +584,9 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                     .toList(),
                                               ),
                                             ),
-                                            SizedBox(width: 20,),
+                                            const SizedBox(width: 20,),
                                             Text("To",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                                            SizedBox(width: 20,),
+                                            const SizedBox(width: 20,),
                                             SizedBox(
                                               width: width*0.30,
                                               height: height*0.45,
@@ -554,11 +600,11 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                     closingTime = endTime[index];
                                                   });
                                                 },
-                                                selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
+                                                selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
                                                 children: endTime.map((text) => Center(
                                                   child: Container(
                                                       alignment: Alignment.center,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                       ),
                                                       child: Text(text,style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500))),
                                                 ))
@@ -574,14 +620,16 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                             width: MediaQuery.of(context).size.width,
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(12),
-                                                color: Color(0xFF116D6E)
+                                                color: const Color(0xFF116D6E)
                                             ),
                                             child: TextButton(
                                                 onPressed: () {
                                                   setState(() {
-                                                    isTimeSelectedStatus=false;
+                                                    isTimeSelectedStatus = false;
+                                                    days[index].isOpen = onOff;
+                                                    days[index].startTime = days[index].isOpen?openingTime:"";
+                                                    days[index].endTime = days[index].isOpen?closingTime:"";
                                                   });
-                                                  // Navigator.pop(context);
                                                 },
                                                 child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                                           ),
@@ -591,8 +639,6 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                   )
                                 ],
                               ),
-
-
                       ],),
                   )
                 ],
@@ -600,6 +646,44 @@ class _ManageProfile4State extends State<ManageProfile4> {
             ),
           ),
         ));
+  }
+
+  manageProfile4() async {
+    Utils.showLoadingDialog(context);
+    var postUri = Uri.parse(ApiServices.manageProfile4Api);
+    List workingDays = [];
+    for(int i = 0;i < days.length; i++) {
+      Map times = {
+        "day" : days[i].day,
+        "startTime" : days[i].startTime,
+        "endTime" : days[i].endTime,
+        "isOpen" : days[i].isOpen,
+      };
+      workingDays.add(times);
+    }
+    var bodyData = {
+      "dayDetails": workingDays,
+    };
+
+    var response = await http.post(
+      postUri,
+      body: jsonEncode(bodyData),
+      headers: Utils.apiHeader,
+    );
+    Utils.logAPIResponse(body: bodyData,response: response,apiName: ApiServices.manageProfile4Api,function: "manageProfile4");
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Map map = jsonDecode(response.body);
+      if (map["status"] == 200) {
+        Utils.setScreenStatus("5");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile5(),));
+        Utils.showErrorToast(map['message']);
+      } else {
+        Utils.showErrorToast(map['message']);
+      }
+    }else{
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
   }
 }
 

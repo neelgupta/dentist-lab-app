@@ -160,7 +160,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                         GestureDetector(
                           onTap: (){
                             Navigator.push(context,MaterialPageRoute(builder: (context) {
-                              return const CreatQuote();
+                              return const CreateQuote();
                             },));
                           },
                           child: Card(

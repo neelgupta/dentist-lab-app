@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import '../models/verify_otp_model.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   final String? userId;
@@ -33,7 +32,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     super.initState();
   }
   bool isLoading =  false;
-  VerifyOtpModel? verifyOtpModel;
 
   @override
   Widget build(BuildContext context) {

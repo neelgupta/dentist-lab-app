@@ -9,9 +9,9 @@ class Utils {
   static logAPIResponse({String? apiName, String? function, Response? response, Map? body}) {
     log("API Name : $apiName");
     if(body!=null)log("API Request : $body");
-    log("API function : $function");
-    log("status code : ${response!.statusCode}");
-    log("status body : ${response.body}");
+    log("API body : $function");
+    log("API code : ${response!.statusCode}");
+    log("API Response : ${response.body}");
   }
 
   static SharedPreferences? prefs;
@@ -48,7 +48,7 @@ class Utils {
     return prefs!.getBool('userLogged');
   }
 
-  static var apiHeader = {"Authorization" : "Bearer ${getToken()}"};
+  static var apiHeader = {"Content-Type" : "application/json","Authorization" : "Bearer ${getToken()}"};
 
   static showToast(String message) {
     Fluttertoast.showToast(
@@ -93,4 +93,18 @@ class Utils {
       );
     },);
   }
+}
+Widget loader() {
+  return const Center(
+    child: CircularProgressIndicator(color: Color(0xFF116D6E)),
+  );
+}
+
+class DayDetails {
+  String day;
+  String startTime;
+  String endTime;
+  bool isOpen;
+
+  DayDetails({required this.day, required this.startTime, required this.endTime, required this.isOpen});
 }

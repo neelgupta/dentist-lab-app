@@ -10,8 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/send_otp_model.dart';
-
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
 
@@ -26,7 +24,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool isOTPSent = true;
 
   bool isLoading =  false;
-  ForgotPasswordModel? forgotPasswordModel;
 
   @override
   void initState() {
