@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:dentalapp/models/verify_otp_model.dart';
-import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +23,6 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
 
   OtpFieldController  otpController = OtpFieldController();
   bool isLoading =  false;
-  VerifyOtpModel? verifyOtpModel;
   bool isOTPFilled = false;
   var otp = "";
 

@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_2.dart';
-import 'package:dentalapp/models/addClinicDetails.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class profileSetup1 extends StatefulWidget {
 class _profileSetup1State extends State<profileSetup1> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
-  AddClinicDetailsModel? addClinicdetailsmodel;
   bool isLoading =  false;
   bool isPasswordVisible = true;
   TextEditingController dateInputController = TextEditingController();

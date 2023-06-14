@@ -260,9 +260,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
       Utils.logAPIResponse(function: "signUp",apiName: ApiServices.signUpApi, response: response);
       Navigator.pop(context);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
-        if (map["status"] == 201) {
+        if (map["status"] == 200) {
           signUpModel = SignUpModel.fromJson(jsonDecode(response.body));
           Navigator.push(context, MaterialPageRoute(builder: (context) => EmailVerificationScreen(
             userId: signUpModel!.userId.toString(),

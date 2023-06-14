@@ -566,7 +566,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
         "tradeLicenceNumber": tradeLicenseController.text.toString(),
         "TRN_number": trnNumberController.text.toString(),
       };
-      var postUri = Uri.parse(ApiServices.addaditionalClinicDetails);
+      var postUri = Uri.parse(ApiServices.addAdditionalClinicDetails);
       var request = http.MultipartRequest("POST", postUri);
       request.headers.addAll(Utils.apiHeader);
       request.fields.addAll(bodyData);

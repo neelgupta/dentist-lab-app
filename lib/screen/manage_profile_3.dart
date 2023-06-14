@@ -1,15 +1,12 @@
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
-import '../models/manage_profile_3_model.dart';
 import 'manage_profile_4.dart';
 
 class ManageProfile3 extends StatefulWidget {
@@ -34,13 +31,10 @@ class _ManageProfile3State extends State<ManageProfile3> {
   TextEditingController totalTechnicianController = TextEditingController();
 
 
-  File? _image2;
-  File? _image3;
-  bool showPickOption2 = true;
-  bool showPickOption3= true;
+  File? technicalManagerLicense;
+  File? financialManagerLicense;
 
   bool isLoading =  false;
-  ManageProfile3Model? manageProfile3Model;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
@@ -64,7 +58,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                     Container(
                       height: height*0.25,
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                       ),
                       child: Column(
@@ -73,15 +67,15 @@ class _ManageProfile3State extends State<ManageProfile3> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(width: 20,),
+                              const SizedBox(width: 20,),
                               InkWell(
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
+                                  child: const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -91,7 +85,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(color: Colors.white,width: 1),
-                                  image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                  image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                               ),
                               child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                             ),
@@ -105,17 +99,17 @@ class _ManageProfile3State extends State<ManageProfile3> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("3/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                              Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                              Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
                             ],
                           ),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           Text("Lab Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: labManagerNameController,
@@ -129,15 +123,15 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Lab Manager Name',
                               hintText: 'Manager Name',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: labManagerNumberController,
                             textInputAction: TextInputAction.next,
@@ -151,16 +145,16 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Contact Number',
-                              hintText: '123456789',
+                              hintText: 'Contact Number',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: labManagerEmailController,
@@ -174,22 +168,22 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintText: 'Email Address',
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
-                          Divider(
+                          const SizedBox(height: 20,),
+                          const Divider(
                             color: Color(0xFFE7E7E7),
                             thickness: 1,
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Technical Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: technicalManagerNameController,
                             keyboardType: TextInputType.name,
@@ -203,16 +197,16 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Technical Manager Name',
                               hintText: 'Manager Name',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: technicalManagerNumberController,
                             textInputAction: TextInputAction.next,
@@ -226,16 +220,16 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Contact Number',
-                              hintText: '12345 67890',
+                              hintText: 'Contact Number',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: technicalManagerEmailController,
@@ -249,15 +243,15 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintText: 'Email Address',
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             controller: technicalManagerLicenseController,
                             textInputAction: TextInputAction.next,
@@ -271,32 +265,32 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'License Number',
-                              hintText: '12345 67890',
+                              hintText: 'License Number',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           DottedBorder(
                             borderType: BorderType.RRect,
-                            dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            dashPattern: const [3, 3, 3],
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image2 != null)
+                                    if (technicalManagerLicense != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -305,33 +299,31 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image2!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(technicalManagerLicense!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                             ),
                                           ),
                                         ),
                                       ),
-                                    if (showPickOption2)
+                                    if (technicalManagerLicense == null)
                                       InkWell(
                                         onTap: () {
                                           _pickImage2();
                                         },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(50),
-                                                    color: Colors.white,
-                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                                ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                          ],
                                         ),
                                       ),
                                   ],
@@ -339,14 +331,14 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20,),
-                          Divider(
+                          const SizedBox(height: 20,),
+                          const Divider(
                             color: Color(0xFFE7E7E7),
                             thickness: 1,
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Financial Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             maxLength: 10,
                             controller: financialManagerNameController,
@@ -361,16 +353,16 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Financial Manager Name  ',
                               hintText: 'Manager Name',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             maxLength: 10,
                             controller: financialManagerNumberController,
@@ -385,16 +377,16 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Contact Number',
-                              hintText: '12345 67890',
+                              hintText: 'Contact Number',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             textInputAction: TextInputAction.next,
                             controller: financialManagerEmailController,
@@ -408,15 +400,15 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintText: 'Email Address',
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             maxLength: 5,
                             controller: totalTechnicianController,
@@ -431,32 +423,32 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Total Number of Lab Technicians',
-                              hintText: '12345 67890',
+                              hintText: '',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           DottedBorder(
                             borderType: BorderType.RRect,
-                            dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            dashPattern: const [3, 3, 3],
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image3 != null)
+                                    if (financialManagerLicense != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -465,33 +457,31 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(financialManagerLicense!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                             ),
                                           ),
                                         ),
                                       ),
-                                    if (showPickOption3)
+                                    if (financialManagerLicense == null)
                                       InkWell(
                                         onTap: () {
                                           _pickImage3();
                                         },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(50),
-                                                    color: Colors.white,
-                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                                ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                          ],
                                         ),
                                       ),
                                   ],
@@ -505,12 +495,18 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: Color(0xFF116D6E)
+                                color: const Color(0xFF116D6E)
                             ),
                             child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()){
-                                    manageProfile3();
+                                    if(technicalManagerLicense==null) {
+                                      Utils.showErrorToast("Please Select Technical Manager License");
+                                    } else if(financialManagerLicense==null) {
+                                      Utils.showErrorToast("Please Select lab Technicians File");
+                                    } else {
+                                      manageProfile3();
+                                    }
                                   }else{
                                     autoValidate = AutovalidateMode.always;
                                   }
@@ -532,11 +528,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
   }
 
   manageProfile3()async{
-    var postUri = Uri.parse(ApiServices.manageProfile3Api);
-    try {
-      setState(() {
-        isLoading = true;
-      });
+    Utils.showLoadingDialog(context);
       var bodyData = {
         "labMangerName" : labManagerNameController.text.toString(),
         "labMangerNumber" : labManagerNumberController.text.toString(),
@@ -549,66 +541,39 @@ class _ManageProfile3State extends State<ManageProfile3> {
         "finacialMangerNumber" : financialManagerNumberController.text.toString(),
         "finacialMangerEmail" : financialManagerEmailController.text.toString(),
         "totalLabTechinicians" : totalTechnicianController.text.toString(),
-        // "techlicensFile" : _image2,
-        // "labTechs" : _image3,
       };
-      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
-      var postUri = Uri.parse(ApiServices.manageProfile2Api);
+
+    http.MultipartFile multipartFile = await http.MultipartFile.fromPath("techlicensFile",technicalManagerLicense!.path);
+    http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("labTechs",financialManagerLicense!.path);
+      var postUri = Uri.parse(ApiServices.manageProfile3Api);
       var request = http.MultipartRequest("POST", postUri);
-      request.headers.addAll(headers);
+      request.headers.addAll(Utils.apiHeader);
       request.fields.addAll(bodyData);
-      // var response = await http.post(
-      //   postUri,
-      //   body: bodyData,
-      // );
+      request.files.add(multipartFile,);
+      request.files.add(multipartFile1,);
       http.StreamedResponse response = await request.send();
+
       print("body ====> $bodyData");
       print("body ====> ${response.statusCode}");
+
       final res = await http.Response.fromStream(response);
+
+      Navigator.pop(context);
+
       print('body: ${res.body}');
+
       if (response.statusCode == 200) {
         Map map = jsonDecode(res.body);
         if (map["status"] == 200) {
-          manageProfile3Model = ManageProfile3Model.fromJson(jsonDecode(res.body));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile4(),));
-          Fluttertoast.showToast(
-              msg: "${manageProfile3Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.setScreenStatus("4");
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageProfile4(),));
+          Utils.showSuccessToast(map['message']);
         } else {
-          Fluttertoast.showToast(
-              msg: "${manageProfile3Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map['message']);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(res.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(res.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 
   Future<void> _pickImage2() async {
@@ -616,10 +581,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
     final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage2 != null){
-        _image2 = File(pickedImage2.path);
-        showPickOption2 = false;
+        technicalManagerLicense = File(pickedImage2.path);
       }
-      // imageFile = pickedImage;
     });
   }
   Future<void> _pickImage3() async {
@@ -627,10 +590,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
     final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage3 != null){
-        _image3 = File(pickedImage3.path);
-        showPickOption3 = false;
+        financialManagerLicense = File(pickedImage3.path);
       }
-      // imageFile = pickedImage;
     });
   }
 }

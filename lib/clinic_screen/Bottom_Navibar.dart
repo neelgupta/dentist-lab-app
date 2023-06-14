@@ -24,10 +24,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // TODO: implement initState
     super.initState();
     screenStatus = Utils.getScreenStatus();
-    print("Status : $screenStatus");
-     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if(screenStatus!="4")showMyDialog();
-    }
+    print(Utils.apiHeader.toString());
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if(screenStatus!="4")showMyDialog();
+      }
     );
   }
 
