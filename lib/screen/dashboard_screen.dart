@@ -74,8 +74,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const Row(
-                                    children:   [
+                                  Row(
+                                    children: const [
                                       Image(image: AssetImage("assets/image/Menu.png")),
                                       Spacer(),
                                       Image(image: AssetImage("assets/image/Notification 3.png"))
