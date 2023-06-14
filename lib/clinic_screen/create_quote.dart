@@ -1,4 +1,7 @@
+import 'package:dentalapp/custom_widget/button.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -19,13 +22,12 @@ class _CreatQuoteState extends State<CreatQuote> {
 
 
 
-  String s_method = "Lab 1";
   String? place = "expedited";
   bool edit = false;
   bool billing = false;
 
   String isPriorityRadio="Normal";
-  String isChooseRadio="Lab List";
+  String isChooseRadio="LabList";
   bool method = false;
 
   @override
@@ -62,7 +64,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                           children: [
                             InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+
                                 },
                                 child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
                             const Spacer(),
@@ -77,7 +79,7 @@ class _CreatQuoteState extends State<CreatQuote> {
               ),
               SizedBox(height: height*0.03,),
               Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20),
+                padding: EdgeInsets.symmetric(horizontal: width*0.05),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Crerate Quote",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
@@ -109,11 +111,11 @@ class _CreatQuoteState extends State<CreatQuote> {
                         labelText: 'Title',labelStyle: const TextStyle(color: Color(0xff707070)),
                         hintText: 'Title',
                         hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                        contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                        contentPadding:  EdgeInsets.symmetric(horizontal: height*0.01),
                       ),
                     ),
                      SizedBox(height: height*0.03,),
-                    TextFormField(maxLines: 3,
+                    TextFormField(maxLines: 4,
                       textInputAction: TextInputAction.next,
                       controller: description,
                       keyboardType: TextInputType.name,
@@ -136,7 +138,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                         labelText: 'Description',labelStyle: const TextStyle(color: Color(0xff707070)),
                         hintText: 'Description',
                         hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                        contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                        contentPadding:  EdgeInsets.symmetric(horizontal: height*0.01),
                       ),
                     ),
 
@@ -179,7 +181,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                     ),
 
                     isPriorityRadio=='Urgent'?  Padding(
-                      padding: const EdgeInsets.only(top: 10,bottom: 10),
+                      padding:  EdgeInsets.symmetric(vertical: height*0.01),
                       child: TextFormField(
                         textInputAction: TextInputAction.next,
                         controller:dateInputController,
@@ -192,8 +194,8 @@ class _CreatQuoteState extends State<CreatQuote> {
                             labelText: 'Date of establishment',
                             // hintText: '02/10/2023',
                             counterText: "",
-                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 13,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding:   EdgeInsets.symmetric(vertical: height*0.02,horizontal: width*0.02),
                             suffixIcon: InkWell(
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
@@ -226,7 +228,7 @@ class _CreatQuoteState extends State<CreatQuote> {
                         Row(
                           children: [
                             Radio(
-                              value: "Lab List",
+                              value: "LabList",
                               activeColor: const Color(0xFF116D6E),
                               groupValue: isChooseRadio,
                               onChanged: (value) {
@@ -254,121 +256,122 @@ class _CreatQuoteState extends State<CreatQuote> {
                           ],
                         ),
                       ],
-                    ),
+                     ),
 
-                    Column(
+                    isChooseRadio=='LabList'?  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: height*0.03,),
 
-                        SizedBox(height: height*0.02,),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              method = !method;
-                            });
-                          },
-                          child: Container(
-                            alignment: Alignment.centerRight,
-                            width: width,
-                            height: height*0.07,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text("${s_method}",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontFamily: "spartan")),
-                                ),
-                                const Spacer(),
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: Icon(Icons.keyboard_arrow_down_rounded,size: 30),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: height*0.01,),
-                        method == true ? Container(
-                          width: width,
-                         // height: height*0.28,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.black),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Column(
-                              children: [
-                                SizedBox(height: height*0.01,),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: const Color(0xFFDD6A03),
-                                      value: "expedited", groupValue: place, onChanged: (value) {
-                                      setState(() {
-                                        place = value.toString();
-                                        s_method = "Lab 1";
-                                        method = false;
-                                      });
-                                    },),
-                                    Text("Lab 1",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
+                        // InkWell(
+                        //   onTap: () {
+                        //     setState(() {
+                        //       method = !method;
+                        //     });
+                        //   },
+                        //   child: Container(
+                        //     alignment: Alignment.centerRight,
+                        //     width: width,
+                        //     height: height*0.07,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       border: Border.all(color: Colors.black),
+                        //     ),
+                        //     child: Row(
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(left: 8),
+                        //           child: Text("${s_method}",
+                        //               style: const TextStyle(
+                        //                   fontSize: 14,
+                        //                   color: Colors.black,
+                        //                   fontFamily: "spartan")),
+                        //         ),
+                        //         const Spacer(),
+                        //         const Padding(
+                        //           padding: EdgeInsets.only(right: 8),
+                        //           child: Icon(Icons.keyboard_arrow_down_rounded,size: 30),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: height*0.01,),
+                        // method == true ? Container(
+                        //   width: width,
+                        //  // height: height*0.28,
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     border: Border.all(color: Colors.black),
+                        //   ),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(right: 15),
+                        //     child: Column(
+                        //       children: [
+                        //         SizedBox(height: height*0.01,),
+                        //         Row(
+                        //           children: [
+                        //             Radio(
+                        //               activeColor: const Color(0xFFDD6A03),
+                        //               value: "expedited", groupValue: place, onChanged: (value) {
+                        //               setState(() {
+                        //                 place = value.toString();
+                        //                 s_method = "Lab 1";
+                        //                 method = false;
+                        //               });
+                        //             },),
+                        //             Text("Lab 1",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
+                        //
+                        //
+                        //           ],
+                        //         ),
+                        //         Row(
+                        //           children: [
+                        //             Radio(
+                        //               activeColor: const Color(0xFFDD6A03),
+                        //               value: "regular", groupValue: place, onChanged: (value) {
+                        //               setState(() {
+                        //                 place = value.toString();
+                        //                 s_method = "Lab 2";
+                        //                 method = false;
+                        //               });
+                        //             },),
+                        //             Text("Lab 2",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
+                        //
+                        //           ],
+                        //         ),
+                        //         Row(
+                        //           children: [
+                        //             Radio(
+                        //               activeColor: const Color(0xFFDD6A03),
+                        //               value: "xpress", groupValue: place, onChanged: (value) {
+                        //               setState(() {
+                        //                 place = value.toString();
+                        //                 s_method = "Lab 3";
+                        //                 method = false;
+                        //               });
+                        //             },),
+                        //             Text("Lab 3",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
+                        //
+                        //           ],
+                        //         ),
+                        //
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ):const SizedBox(),
 
 
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: const Color(0xFFDD6A03),
-                                      value: "regular", groupValue: place, onChanged: (value) {
-                                      setState(() {
-                                        place = value.toString();
-                                        s_method = "Lab 2";
-                                        method = false;
-                                      });
-                                    },),
-                                    Text("Lab 2",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
-
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: const Color(0xFFDD6A03),
-                                      value: "xpress", groupValue: place, onChanged: (value) {
-                                      setState(() {
-                                        place = value.toString();
-                                        s_method = "Lab 3";
-                                        method = false;
-                                      });
-                                    },),
-                                    Text("Lab 3",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF252525))),
-
-                                  ],
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ):const SizedBox(),
-                          InkWell(
-                              onTap: () {
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return const QuoteSuccessfully();
-                                },));
-                              },child: const Text("Quote sucess")),
 
 
                       ]
-                    )
+                    ):SizedBox(),
+
+                    SizedBox(height: height*0.08,),
+                    commonButton(context, 'Create', 12,FontWeight.bold, Colors.white, () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const QuoteSuccessfully();
+                      },));
+                    })
                   ],
                 ),
               ),
