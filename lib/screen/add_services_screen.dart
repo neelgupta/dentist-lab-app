@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dentalapp/screen/services_%20screen.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,19 +21,29 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
 
   bool showPickOption = true;
   File? serviceImage;
+  var images;
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage != null){
-        serviceImage = File(pickedImage.path);
-        showPickOption = false;
-      }
-      // imageFile = pickedImage;
-    });
+  void removeImage(int index) {
+    if (images.isNotEmpty && index < images.length) {
+      setState(() {
+        images.removeAt(index);
+      });
+    }
   }
 
+
+  Future<void> pickImages() async {
+    List<XFile> pickedImages = [];
+    try {
+      pickedImages = await ImagePicker().pickMultiImage();
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      images = pickedImages.map((XFile image) => File(image.path)).toList();
+      showPickOption = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +173,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                     keyboardType: TextInputType.number,
                                     decoration: const InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Sevice Price",
+                                        hintText: "Service Price",
                                         counterText: "",
                                         contentPadding: EdgeInsets.only(bottom: 13,top: 5,left: 5)
                                     ),
@@ -186,32 +197,87 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            height: height*0.13,
+                            height: height*0.14,
                             width: MediaQuery.of(context).size.width,
                             color: Color(0xFFF5F7F7),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                if (serviceImage != null)
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Container(
-                                        width: 100,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(image: FileImage(serviceImage!),fit: BoxFit.fill),
-                                            borderRadius: BorderRadius.circular(12)
-                                        ),
-                                      ),
-                                    ),
+                                if (images != null)
+                                  Container(
+                                    height: height*0.13,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: width*0.020),
+                                              child: Row(
+                                                children: [
+                                                  Stack(
+                                                    alignment: Alignment.topRight,
+                                                    children: [
+                                                      Container(
+                                                        padding: EdgeInsets.all(8),
+                                                        width: width*0.30,
+                                                        height: height*0.15,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(12)
+                                                        ),
+                                                        child: Image.file(images[index],fit: BoxFit.fill,),
+                                                      ),
+                                                      Positioned(
+                                                        right: width*0.012,
+                                                        top: height*0.002,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            removeImage(index);
+                                                          },
+                                                          child: Container(
+                                                            width: 23,
+                                                            height: 23,
+                                                            decoration: const BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                color: Colors.white,
+                                                                image: DecorationImage(image: AssetImage("assets/image/DeleteIcon.png")),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  // InkWell(
+                                                  //   onTap: () {
+                                                  //     pickImages();
+                                                  //   },
+                                                  //   child: Container(
+                                                  //     padding: EdgeInsets.all(8),
+                                                  //     width: width*0.30,
+                                                  //     height: height*0.15,
+                                                  //     decoration: BoxDecoration(
+                                                  //       border: Border.all(color: Color(0xFF116D6E)),
+                                                  //         image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none),
+                                                  //         borderRadius: BorderRadius.circular(12)
+                                                  //     ),
+                                                  //   ),
+                                                  // )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(width: width*0.005,);
+                                        },
+                                        itemCount: images.length ),
                                   ),
                                 if (showPickOption)
                                   InkWell(
                                     onTap: () {
-                                      _pickImage();
+                                      pickImages();
                                     },
                                     child: Container(
                                       child: Column(
@@ -226,7 +292,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                             ),
                                           ),
                                           SizedBox(height: 5,),
-                                          Text("Upload Services Image",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          Text("Upload File",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
                                         ],
                                       ),
                                     ),
@@ -236,7 +302,6 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),

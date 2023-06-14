@@ -160,23 +160,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: height*0.075,),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Color(0xFF219653)
-                  ),
-                  child: TextButton(
-                      onPressed: () {
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text("Services Added Successfully",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Colors.white)
-                        ),
-                      )),
-                ),
-                SizedBox(height: height*0.015,),
-                  ],
+              ],
             ),
           ),
         ),

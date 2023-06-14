@@ -86,6 +86,7 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                           Visibility(
                             visible: isGalleryVisible,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Divider(thickness: 1,color: Color(0xFFE7E7E7),),
                                 SizedBox(height: height*0.020,),
