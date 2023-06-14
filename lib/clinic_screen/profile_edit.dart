@@ -263,29 +263,28 @@ class _ProfileEditState extends State<ProfileEdit> {
                     ),
 
                     ///ALL Additional Info
-                    Row(
-                      children: [
-                        Text("Additional info",
-                            style: GoogleFonts.lato(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xff111111),
-                            )),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isAddiTonalInfo = !isAddiTonalInfo;
-                            });
-                          },
-                          child: Icon(
+                    InkWell(onTap: (){
+                      setState(() {
+                        isAddiTonalInfo = !isAddiTonalInfo;
+                      });
+                    },
+                      child: Row(
+                        children: [
+                          Text("Additional info",
+                              style: GoogleFonts.lato(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xff111111),
+                              )),
+                          const Spacer(),
+                          Icon(
                               !isAddiTonalInfo
                                   ? Icons.keyboard_arrow_down_rounded
                                   : Icons.keyboard_arrow_up_rounded,
                               size: 25,
                               color: const Color(0xff111111)),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     !isAddiTonalInfo
@@ -482,30 +481,30 @@ class _ProfileEditState extends State<ProfileEdit> {
                         color: Color(0xffE7E7E7),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Text("Manager Details",
-                            style: GoogleFonts.lato(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xff111111),
-                            )),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isManagerDetail = !isManagerDetail;
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          isManagerDetail = !isManagerDetail;
 
-                            });
-                          },
-                          child: Icon(
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Text("Manager Details",
+                              style: GoogleFonts.lato(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xff111111),
+                              )),
+                          const Spacer(),
+                          Icon(
                               !isManagerDetail
                                   ? Icons.keyboard_arrow_down_rounded
                                   : Icons.keyboard_arrow_up_rounded,
                               size: 25,
                               color: const Color(0xff111111)),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     ///Manager Details

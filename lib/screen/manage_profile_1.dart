@@ -60,8 +60,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Row(
-                            children: [
+                          Row(
+                            children: const [
                               SizedBox(width: 20,),
                               Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill),
                             ],

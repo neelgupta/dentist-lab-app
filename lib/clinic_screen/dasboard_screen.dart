@@ -2,6 +2,7 @@
 // ignore_for_file: sort_child_properties_last
 
 import 'package:dentalapp/clinic_screen/create_quote.dart';
+import 'package:dentalapp/clinic_screen/payment.dart';
 import 'package:dentalapp/clinic_screen/profile_edit.dart';
 import 'package:dentalapp/custom_widget/drawer.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,8 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                     border: Border.all(
                                         color: Colors.white, width: 1),
                                     shape: BoxShape.circle,
-                                    color: Colors.amberAccent,
+                                    color:
+                                    const Color.fromRGBO(55, 255, 255, 0.5),
                                   ),
                                   child: Center(
                                       child: Text("N",
@@ -276,28 +278,36 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                             ),
                           ),
                         ),
-                        Card(
-                          child: Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
-                            ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context,MaterialPageRoute(builder: (context) {
+                              return const Payment();
+                            },));
 
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 40,width: 40,
-                                    child: Image.asset('assets/image/Message18.png',fit: BoxFit.fill,)),
-                                SizedBox(height: height*0.01,),
-                                Text("Payment",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff116D6E),
-                                    )),
-                              ],
+                          },
+                          child: Card(
+                            child: Container(
+                              width: 150,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                              ),
+
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 40,width: 40,
+                                      child: Image.asset('assets/image/Message18.png',fit: BoxFit.fill,)),
+                                  SizedBox(height: height*0.01,),
+                                  Text("Payment",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color(0xff116D6E),
+                                      )),
+                                ],
+                              ),
                             ),
                           ),
                         ),
