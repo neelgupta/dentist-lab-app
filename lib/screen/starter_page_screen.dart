@@ -35,7 +35,7 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                       height: height*0.33,
                       decoration: const BoxDecoration(
                           color: Color(0xFF116D6E),
-                          image: DecorationImage(image: AssetImage("assets/image/startrPage.png"),
+                          image: DecorationImage(image: AssetImage("assets/image/StartPage.png"),
                               fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
                       ),
                       child: Align(
@@ -92,47 +92,23 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                                 SizedBox(height: height*0.020,),
                                 Text("Gallery",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,),),
                                 SizedBox(height: height*0.020,),
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        decoration: const BoxDecoration(
-                                            image: DecorationImage(image: AssetImage("assets/image/gallery1.png"),fit: BoxFit.fill)
-                                        ),
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Column(
-                                        children: [
-                                          Container(
-                                            height: 70,
-                                            width: 70,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: AssetImage("assets/image/gallery2.png"),fit: BoxFit.fill)
-                                            ),
+                                SizedBox(
+                                  height: height*0.17,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          height: height*0.20,
+                                          width: width*0.37,
+                                          decoration: const BoxDecoration(
+                                              image: DecorationImage(image: AssetImage("assets/image/gallery1.png"),fit: BoxFit.fill)
                                           ),
-                                          SizedBox(height: 10,),
-                                          Container(
-                                            height: 70,
-                                            width: 70,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: AssetImage("assets/image/gallery3.png"),fit: BoxFit.fill)
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(image: AssetImage("assets/image/gallery4.png"),fit: BoxFit.fill)
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                      return SizedBox(width: width*0.025,);
+                                      },
+                                      itemCount: 6),
                                 ),
                                 SizedBox(height: height*0.030,),
                               ],
@@ -182,83 +158,41 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                           SizedBox(height: height*0.020,),
                           Text("You May Like",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,),),
                           SizedBox(height: height*0.020,),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 85,
-                                      width: 85,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        image: DecorationImage(image: AssetImage("assets/image/gallery4.png"),fit: BoxFit.cover)
+                          SizedBox(
+                            height: height*0.25,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        height: 85,
+                                        width: 85,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            image: DecorationImage(image: AssetImage("assets/image/gallery3.png"),fit: BoxFit.cover)
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    Text("Dental\nProsthetics",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w600,),textAlign: TextAlign.center,),
-                                  ],
-                                ),
-                                SizedBox(width: 10,),
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 85,
-                                      width: 85,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          image: DecorationImage(image: AssetImage("assets/image/gallery3.png"),fit: BoxFit.cover)
-                                      ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    Text("Orthodontic\nAppliances",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w600,),textAlign: TextAlign.center,),
-                                  ],
-                                ),
-                                SizedBox(width: 10,),
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 85,
-                                      width: 85,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          image: DecorationImage(image: AssetImage("assets/image/gallery2.png"),fit: BoxFit.cover)
-                                      ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    Text("Implant\nRestorations",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w600,),textAlign: TextAlign.center,),
-                                  ],
-                                ),
-                                SizedBox(width: 10,),
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 85,
-                                      width: 85,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          image: DecorationImage(image: AssetImage("assets/image/gallery1.png"),fit: BoxFit.cover)
-                                      ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    Text("Cosmetic\nDentistry",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w600,),textAlign: TextAlign.center,),
-                                  ],
-                                )
-                              ],
-                            ),
+                                      SizedBox(height: 10,),
+                                      Text("Orthodontic\nAppliances",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w600,),textAlign: TextAlign.center,),
+                                    ],
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(width: width*0.030,);
+                                },
+                                itemCount: 5),
                           ),
-                          SizedBox(height: height*0.050,),
                           Row(
                             children: [
                               Container(
-                                height: 50,
-                                width: 65,
+                                height: height*0.062,
+                                width: width*0.17,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(color: Color(0xFF116D6E)),
-                                    image: DecorationImage(image: AssetImage("assets/image/Edit icon.png"))
                                 ),
+                                child: Center(child: Image(height: 20,image: AssetImage("assets/image/Edit icon.png"))),
                               ),
                               SizedBox(width: width*0.030,),
                               Expanded(

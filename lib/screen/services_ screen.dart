@@ -58,24 +58,25 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       SizedBox(height: height*0.010,),
                       Text("Services",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600,),),
                       SizedBox(height: height*0.025,),
-                      Row(
-                        children: [
-                          Image(image: AssetImage("assets/image/Delete .png")),
-                          SizedBox(width: 20,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Dental Prosthetics",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
-                              Text("AED 800",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
-                            ],
-                          ),
-                          Spacer(),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
-                            },
-                              child: Icon(Icons.navigate_next,color: Color(0XFF707070),))
-                        ],
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
+                        },
+                        child: Row(
+                          children: [
+                            Image(height: 20,image: AssetImage("assets/image/Delete.png")),
+                            SizedBox(width: 20,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Dental Prosthetics",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
+                                Text("AED 800",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
+                              ],
+                            ),
+                            Spacer(),
+                            Icon(Icons.navigate_next,color: Color(0XFF707070),)
+                          ],
+                        ),
                       ),
                       SizedBox(height: height*0.016,),
                       Divider(
@@ -83,24 +84,25 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         thickness: 1,
                       ),
                       SizedBox(height: height*0.016,),
-                      Row(
-                        children: [
-                          Image(image: AssetImage("assets/image/Delete .png")),
-                          SizedBox(width: 20,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Orthodontic Appliances",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
-                              Text("AED 3,500",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
-                            ],
-                          ),
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
-                              },
-                              child: Icon(Icons.navigate_next,color: Color(0XFF707070),))
-                        ],
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
+                        },
+                        child: Row(
+                          children: [
+                            Image(height: 20,image: AssetImage("assets/image/Delete.png")),
+                            SizedBox(width: 20,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Orthodontic Appliances",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
+                                Text("AED 3,500",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
+                              ],
+                            ),
+                            Spacer(),
+                            Icon(Icons.navigate_next,color: Color(0XFF707070),)
+                          ],
+                        ),
                       ),
                       SizedBox(height: height*0.016,),
                       Divider(
@@ -108,24 +110,25 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         thickness: 1,
                       ),
                       SizedBox(height: height*0.016,),
-                      Row(
-                        children: [
-                          Image(image: AssetImage("assets/image/Delete .png")),
-                          SizedBox(width: 20,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Implant Restorations",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
-                              Text("AED 2000",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
-                            ],
-                          ),
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
-                              },
-                              child: Icon(Icons.navigate_next,color: Color(0XFF707070),))
-                        ],
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
+                        },
+                        child: Row(
+                          children: [
+                            Image(height: 20,image: AssetImage("assets/image/Delete.png")),
+                            SizedBox(width: 20,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Implant Restorations",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
+                                Text("AED 2000",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
+                              ],
+                            ),
+                            Spacer(),
+                            Icon(Icons.navigate_next,color: Color(0XFF707070),)
+                          ],
+                        ),
                       ),
                       SizedBox(height: height*0.016,),
                       Divider(
@@ -133,24 +136,25 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         thickness: 1,
                       ),
                       SizedBox(height: height*0.016,),
-                      Row(
-                        children: [
-                          Image(image: AssetImage("assets/image/Delete .png")),
-                          SizedBox(width: 20,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Cosmetic Dentistry",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
-                              Text("AED 1500",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
-                            ],
-                          ),
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
-                              },
-                              child: Icon(Icons.navigate_next,color: Color(0XFF707070),))
-                        ],
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
+                          },
+                        child: Row(
+                          children: [
+                            Image(height: 20,image: AssetImage("assets/image/Delete.png")),
+                            SizedBox(width: 20,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Cosmetic Dentistry",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
+                                Text("AED 1500",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
+                              ],
+                            ),
+                            Spacer(),
+                            Icon(Icons.navigate_next,color: Color(0XFF707070),)
+                          ],
+                        ),
                       ),
                       SizedBox(height: height*0.016,),
                       Divider(

@@ -3,10 +3,10 @@ import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/manage_profile_2.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../util/api_services.dart';
+import '../widget/mobile_code_widget.dart';
 
 class ManageProfile1 extends StatefulWidget {
   const ManageProfile1({Key? key}) : super(key: key);
@@ -18,13 +18,14 @@ class ManageProfile1 extends StatefulWidget {
 class _ManageProfile1State extends State<ManageProfile1> {
 
   bool isPasswordVisible = true;
+  // CountryController countryController = CountryController();
   TextEditingController dateInputController = TextEditingController();
   TextEditingController labNameController = TextEditingController();
   TextEditingController labMobileController = TextEditingController();
   TextEditingController landLineNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
+  TextEditingController countryNameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController poBoxController = TextEditingController();
@@ -123,27 +124,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           ),
                         ),
                         const SizedBox(height: 20,),
-                        TextFormField(
+                        MobileCodeWidget(
                           controller: labMobileController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if(value == null || value.isEmpty){
-                              return 'Please Enter Lab Number';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color(0xFF707070))
-                            ),
-                            labelText: 'Mobile Number',
-                            hintText: '123456789',
-                            counterText: "",
-                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                          ),
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
@@ -177,7 +159,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         Text("Lab Location ",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          controller: countryController,
+                          controller: countryNameController,
                           keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
@@ -314,7 +296,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                 borderRadius: BorderRadius.circular(12),
                                 color: Color(
                                     (labNameController.text.isNotEmpty && labMobileController.text.isNotEmpty && landLineNumberController.text.isNotEmpty
-                                        && countryController.text.isNotEmpty && cityController.text.isNotEmpty && addressController.text.isNotEmpty
+                                        && countryNameController.text.isNotEmpty && cityController.text.isNotEmpty && addressController.text.isNotEmpty
                                         && poBoxController.text.isNotEmpty && dateInputController.text.isNotEmpty)
                                         ? 0xFF166D6E : 0xFFA0A0A0)
                             ),
@@ -351,7 +333,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
         "labName":labNameController.text.toString(),
         "mobileNumber":labMobileController.text.toString(),
         "landLineNumber":landLineNumberController.text.toString(),
-        "country":countryController.text.toString(),
+        "country":countryNameController.text.toString(),
         "city":cityController.text.toString(),
         "address":addressController.text.toString(),
         "poBox":poBoxController.text.toString(),

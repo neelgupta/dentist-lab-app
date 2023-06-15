@@ -53,7 +53,7 @@ class _JobSuccessScreenState extends State<JobSuccessScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children:  [
                     SizedBox(height: height*0.11,),
-                    Image(image: AssetImage("assets/image/Group 12680.png")),
+                    const Image(height: 150,image: AssetImage("assets/image/Group 12680.png")),
                     SizedBox(height: height*0.030,),
                     Text("Job successfully Done",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600 ),textAlign: TextAlign.center),
                     SizedBox(height: height*0.010,),

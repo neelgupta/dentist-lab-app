@@ -60,7 +60,7 @@ class _EmailVerifiedDoneScreenState extends State<EmailVerifiedDoneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children:  [
                       SizedBox(height: height*0.12,),
-                      const Image(image: AssetImage("assets/image/Group 12680.png")),
+                      const Image(height: 150,image: AssetImage("assets/image/Group 12680.png")),
                       SizedBox(height: height*0.035,),
                       Text("Email verification Successful",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600 ),),
                     ],

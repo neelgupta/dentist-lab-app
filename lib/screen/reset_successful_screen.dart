@@ -60,7 +60,7 @@ class _ResetSuccessfullScreenState extends State<ResetSuccessfullScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children:  [
                           SizedBox(height: height*0.12,),
-                          const Image(image: AssetImage("assets/image/Group 12680.png")),
+                          const Image(height: 150,image: AssetImage("assets/image/Group 12680.png")),
                           SizedBox(height: height*0.05,),
                           Text("Password Reset Successful",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),),
                           const SizedBox(height: 10,),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dentalapp/screen/services_%20screen.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,36 +17,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController servicePriceController = TextEditingController();
-
-
-  bool showPickOption = true;
-  File? serviceImage;
-  var images;
-
-  void removeImage(int index) {
-    if (images.isNotEmpty && index < images.length) { 
-      setState(() {
-        images.removeAt(index);
-        if(images.isEmpty){
-          showPickOption = true;
-        }
-      });
-    }
-  }
-
-
-  Future<void> pickImages() async {
-    List<XFile> pickedImages = [];
-    try {
-      pickedImages = await ImagePicker().pickMultiImage();
-    } catch (e) {
-      print(e);
-    }
-    setState(() {
-      images = pickedImages.map((XFile image) => File(image.path)).toList();
-      showPickOption = false;
-    });
-  }
+  List<File> selectedServicesImage = [];
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +73,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         controller: titleController,
                         // validator: (value) {
                         //   if(value == null || value.isEmpty){
-                        //     return 'Please Enter Lab Name';
+                        //     return 'Please Enter Service Title';
                         //   }
                         //   return null;
                         // },
@@ -194,114 +166,100 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         dashPattern: const [3, 3, 3],
                         radius: const Radius.circular(12),
                         color: const Color(0xFF116D6E),
-                        child: ClipRRect(
+                        padding: EdgeInsets.zero,
+                        child: selectedServicesImage.isNotEmpty?
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                          itemCount: selectedServicesImage.length + 1,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                          itemBuilder: (context, index) {
+                            return index == selectedServicesImage.length?InkWell(
+                              onTap: () {
+                                setState(() {
+                                  pickImages1();
+                                });
+
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(width*0.01),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xFF116D6E)),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/image/camera.png"),
+                                        fit: BoxFit.none)),
+                              ),
+                            ):Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(width*0.01),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(image: FileImage(File(selectedServicesImage[index].path)),fit: BoxFit.fill)
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    selectedServicesImage.removeAt(index);
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(width*0.005),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.red)
+                                    ),
+                                    child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                  ),
+                                )
+                              ],
+                            );
+                          },) :ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            height: height*0.14,
-                            width: MediaQuery.of(context).size.width,
+                            height: height * 0.13,
+                            width: width,
+                            alignment: Alignment.center,
                             color: const Color(0xFFF5F7F7),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                if (images != null)
-                                  Visibility(
-                                    visible: !showPickOption,
-                                    child: SizedBox(
-                                      height: height*0.13,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            return Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(left: width*0.020),
-                                                child: Row(
-                                                  children: [
-                                                    Stack(
-                                                      alignment: Alignment.topRight,
-                                                      children: [
-                                                        Container(
-                                                          padding: EdgeInsets.symmetric(vertical: height*0.08,horizontal: width*0.08),
-                                                          width: width*0.30,
-                                                          height: height*0.15,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(12)
-                                                          ),
-                                                          child: Image.file(images[index],fit: BoxFit.fill,),
-                                                        ),
-                                                        Positioned(
-                                                          right: width*0.012,
-                                                          top: height*0.002,
-                                                          child: InkWell(
-                                                            onTap: () {
-                                                              removeImage(index);
-                                                            },
-                                                            child: Container(
-                                                              width: 23,
-                                                              height: 23,
-                                                              decoration: const BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  color: Colors.white,
-                                                                  image: DecorationImage(image: AssetImage("assets/image/DeleteIcon.png")),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    // InkWell(
-                                                    //   onTap: () {
-                                                    //     pickImages();
-                                                    //   },
-                                                    //   child: Container(
-                                                    //     padding: EdgeInsets.all(8),
-                                                    //     width: width*0.30,
-                                                    //     height: height*0.15,
-                                                    //     decoration: BoxDecoration(
-                                                    //       border: Border.all(color: Color(0xFF116D6E)),
-                                                    //         image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none),
-                                                    //         borderRadius: BorderRadius.circular(12)
-                                                    //     ),
-                                                    //   ),
-                                                    // )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          separatorBuilder: (context, index) {
-                                            return SizedBox(width: width*0.005,);
-                                          },
-                                          itemCount: images.length ),
-                                    ),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  pickImages1();
+                                });
+
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(50),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
                                   ),
-                                if (showPickOption)
-                                  InkWell(
-                                    onTap: () {
-                                      pickImages();
-                                    },
-                                    child: Visibility(
-                                      visible: showPickOption,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                color: Colors.white,
-                                                image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5,),
-                                          Text("Upload File",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                        ],
-                                      ),
-                                    ),
+                                  const SizedBox(
+                                    height: 5,
                                   ),
-                              ],
+                                  Text("Upload file",
+                                      style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xFF707070)))
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -332,5 +290,15 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
         ),
       ),
     );
+  }
+  Future<void> pickImages1() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+
+    if (result != null) {
+      selectedServicesImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
 }

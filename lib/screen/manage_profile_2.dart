@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dentalapp/screen/manage_profile_3.dart';
@@ -24,20 +25,11 @@ class _ManageProfile2State extends State<ManageProfile2> {
   TextEditingController trnNumberController = TextEditingController();
   TextEditingController totalDeviceController = TextEditingController();
 
-  File? medicalLicense;
-  File? tradeLicense;
-  File? trn;
-  File? noOfDevice;
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage != null){
-        medicalLicense = File(pickedImage.path);
-      }
-    });
-  }
+  List<File> selectedMedicalLicenseImage = [];
+  List<File> selectedTradeLicenseImage = [];
+  List<File> selectedTRNImage = [];
+  List<File> selectedTotalDeviceImage = [];
 
   bool isLoading =  false;
   final formKey = GlobalKey<FormState>();
@@ -143,54 +135,100 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            child: ClipRRect(
+                            padding: EdgeInsets.zero,
+                            child: selectedMedicalLicenseImage.isNotEmpty?
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                              itemCount: selectedMedicalLicenseImage.length + 1,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == selectedMedicalLicenseImage.length?InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickMedicalLicenseImage();
+                                    });
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(width*0.01),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xFF116D6E)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
+                                  ),
+                                ):Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.all(width*0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(image: FileImage(File(selectedMedicalLicenseImage[index].path)),fit: BoxFit.fill)
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        selectedMedicalLicenseImage.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(width*0.005),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            border: Border.all(color: Colors.red)
+                                        ),
+                                        child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
-                                width: MediaQuery.of(context).size.width,
+                                height: height * 0.13,
+                                width: width,
+                                alignment: Alignment.center,
                                 color: const Color(0xFFF5F7F7),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    if (medicalLicense != null)
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(medicalLicense!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
-                                            // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
-                                          ),
-                                        ),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickMedicalLicenseImage();
+                                    });
+
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: Colors.white,
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/image/camera.png"),
+                                                fit: BoxFit.none)),
                                       ),
-                                    if (medicalLicense == null)
-                                      InkWell(
-                                        onTap: () {
-                                          _pickImage();
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                          ],
-                                        ),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                  ],
+                                      Text("Upload file",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF707070)))
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -224,53 +262,100 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                height: height*0.13,
-                                width: MediaQuery.of(context).size.width,
-                                color: const Color(0xFFF5F7F7),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                            padding: EdgeInsets.zero,
+                            child: selectedTradeLicenseImage.isNotEmpty?
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                              itemCount: selectedTradeLicenseImage.length + 1,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == selectedTradeLicenseImage.length?InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickTradeLicenseImage();
+                                    });
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(width*0.01),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xFF116D6E)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
+                                  ),
+                                ):Stack(
+                                  alignment: Alignment.topRight,
                                   children: [
-                                    if (tradeLicense != null)
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                                            child: Container(
-                                              width: 120,
-                                              height: 80,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(tradeLicense!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    if (tradeLicense == null)
-                                    InkWell(
-                                      onTap: () {
-                                        _pickImage2();
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                color: Colors.white,
-                                                image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5,),
-                                          Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                        ],
+                                    Container(
+                                      margin: EdgeInsets.all(width*0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(image: FileImage(File(selectedTradeLicenseImage[index].path)),fit: BoxFit.fill)
                                       ),
                                     ),
+                                    InkWell(
+                                      onTap: () {
+                                        selectedTradeLicenseImage.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(width*0.005),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            border: Border.all(color: Colors.red)
+                                        ),
+                                        child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                      ),
+                                    )
                                   ],
+                                );
+                              },) :ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                height: height * 0.13,
+                                width: width,
+                                alignment: Alignment.center,
+                                color: const Color(0xFFF5F7F7),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickTradeLicenseImage();
+                                    });
+
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: Colors.white,
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/image/camera.png"),
+                                                fit: BoxFit.none)),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text("Upload file",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF707070)))
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -304,53 +389,100 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            child: ClipRRect(
+                            padding: EdgeInsets.zero,
+                            child: selectedTRNImage.isNotEmpty?
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                              itemCount: selectedTRNImage.length + 1,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == selectedTRNImage.length?InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickTRNImage();
+                                    });
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(width*0.01),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xFF116D6E)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
+                                  ),
+                                ):Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.all(width*0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(image: FileImage(File(selectedTRNImage[index].path)),fit: BoxFit.fill)
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        selectedTRNImage.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(width*0.005),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            border: Border.all(color: Colors.red)
+                                        ),
+                                        child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
-                                width: MediaQuery.of(context).size.width,
+                                height: height * 0.13,
+                                width: width,
+                                alignment: Alignment.center,
                                 color: const Color(0xFFF5F7F7),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    if (trn != null)
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(trn!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
-                                          ),
-                                        ),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickTRNImage();
+                                    });
+
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: Colors.white,
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/image/camera.png"),
+                                                fit: BoxFit.none)),
                                       ),
-                                    if (trn == null)
-                                      InkWell(
-                                        onTap: () {
-                                          _pickImage3();
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                          ],
-                                        ),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                  ],
+                                      Text("Upload file",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF707070)))
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -384,53 +516,100 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            child: ClipRRect(
+                            padding: EdgeInsets.zero,
+                            child: selectedTotalDeviceImage.isNotEmpty?
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                              itemCount: selectedTotalDeviceImage.length + 1,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == selectedTotalDeviceImage.length?InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickTotalDevicesImage();
+                                    });
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(width*0.01),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xFF116D6E)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
+                                  ),
+                                ):Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.all(width*0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(image: FileImage(File(selectedTotalDeviceImage[index].path)),fit: BoxFit.fill)
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        selectedTotalDeviceImage.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(width*0.005),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            border: Border.all(color: Colors.red)
+                                        ),
+                                        child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
-                                width: MediaQuery.of(context).size.width,
+                                height: height * 0.13,
+                                width: width,
+                                alignment: Alignment.center,
                                 color: const Color(0xFFF5F7F7),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    if (noOfDevice != null)
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(noOfDevice!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
-                                          ),
-                                        ),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickTotalDevicesImage();
+                                    });
+
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: Colors.white,
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/image/camera.png"),
+                                                fit: BoxFit.none)),
                                       ),
-                                    if (noOfDevice == null)
-                                      InkWell(
-                                        onTap: () {
-                                          _pickImage4();
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                          ],
-                                        ),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                  ],
+                                      Text("Upload file",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF707070)))
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -442,18 +621,18 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 color: Color(medicalLicenseController.text.isNotEmpty && tradeLicenseController.text.isNotEmpty && tradeLicenseController.text.isNotEmpty && totalDeviceController.text.isNotEmpty
-                                    && medicalLicense != null && tradeLicense != null && trn != null && noOfDevice != null? 0xFF166D6E : 0xFFA0A0A0)
+                                    && selectedMedicalLicenseImage != null && selectedTradeLicenseImage != null && selectedTRNImage != null && selectedTotalDeviceImage != null? 0xFF166D6E : 0xFFA0A0A0)
                             ),
                             child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()){
-                                    if(medicalLicense == null) {
+                                    if(selectedMedicalLicenseImage == null) {
                                       Utils.showErrorToast("Please Select Medical License");
-                                    } else if(tradeLicense == null) {
+                                    } else if(selectedTradeLicenseImage == null) {
                                       Utils.showErrorToast("Please Select Trade License");
-                                    } else if(trn == null) {
+                                    } else if(selectedTRNImage == null) {
                                       Utils.showErrorToast("Please Select TRN");
-                                    } else if(noOfDevice == null) {
+                                    } else if(selectedTotalDeviceImage == null) {
                                       Utils.showErrorToast("Please Select Device Used File");
                                     } else{
                                       manageProfile2();
@@ -494,15 +673,15 @@ class _ManageProfile2State extends State<ManageProfile2> {
       request.headers.addAll(Utils.apiHeader);
       request.fields.addAll(bodyData);
 
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",medicalLicense!.path);
-      http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",tradeLicense!.path);
-      http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",trn!.path);
-      http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",noOfDevice!.path);
-
-      request.files.add(multipartFile,);
-      request.files.add(multipartFile1,);
-      request.files.add(multipartFile2);
-      request.files.add(multipartFile3);
+      // http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",medicalLicense!.path);
+      // http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",tradeLicense!.path);
+      // http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",trn!.path);
+      // http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",noOfDevice!.path);
+      //
+      // request.files.add(multipartFile,);
+      // request.files.add(multipartFile1,);
+      // request.files.add(multipartFile2);
+      // request.files.add(multipartFile3);
 
       http.StreamedResponse response = await request.send();
 
@@ -528,32 +707,45 @@ class _ManageProfile2State extends State<ManageProfile2> {
       }
   }
 
+  Future<void> pickMedicalLicenseImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
 
-  Future<void> _pickImage2() async {
-    final picker = ImagePicker();
-    final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage2 != null){
-        tradeLicense = File(pickedImage2.path);
-      }
-    });
+    if (result != null) {
+      selectedMedicalLicenseImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
-  Future<void> _pickImage3() async {
-    final picker = ImagePicker();
-    final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage3 != null){
-        trn = File(pickedImage3.path);
-      }
-    });
+  Future<void> pickTradeLicenseImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+
+    if (result != null) {
+      selectedTradeLicenseImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
-  Future<void> _pickImage4() async {
-    final picker = ImagePicker();
-    final pickedImage4 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage4 != null){
-        noOfDevice = File(pickedImage4.path);
-      }
-    });
+  Future<void> pickTRNImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+
+    if (result != null) {
+      selectedTRNImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
+  Future<void> pickTotalDevicesImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+
+    if (result != null) {
+      selectedTotalDeviceImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
+  }
+
 }

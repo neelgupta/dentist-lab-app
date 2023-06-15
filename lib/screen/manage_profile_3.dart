@@ -1,12 +1,14 @@
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../widget/mobile_code_widget.dart';
 import 'manage_profile_4.dart';
 
 class ManageProfile3 extends StatefulWidget {
@@ -31,8 +33,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
   TextEditingController totalTechnicianController = TextEditingController();
 
 
-  File? technicalManagerLicense;
-  File? financialManagerLicense;
+  List<File> selectedTechnicalLicenseImage = [];
+  List<File> selectedLabTechImage = [];
 
   bool isLoading =  false;
   final formKey = GlobalKey<FormState>();
@@ -132,27 +134,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             ),
                           ),
                           const SizedBox(height: 20,),
-                          TextFormField(
+                          MobileCodeWidget(
                             controller: labManagerNumberController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return 'Enter Lab Manager Number';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Contact Number',
-                              hintText: 'Contact Number',
-                              counterText: "",
-                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            ),
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
@@ -207,27 +190,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             ),
                           ),
                           const SizedBox(height: 20,),
-                          TextFormField(
+                          MobileCodeWidget(
                             controller: technicalManagerNumberController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return 'Enter Technical Manager Number';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Contact Number',
-                              hintText: 'Contact Number',
-                              counterText: "",
-                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            ),
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
@@ -280,53 +244,100 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            child: ClipRRect(
+                            padding: EdgeInsets.zero,
+                            child: selectedTechnicalLicenseImage.isNotEmpty?
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                              itemCount: selectedTechnicalLicenseImage.length + 1,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == selectedTechnicalLicenseImage.length?InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickLicenseImage();
+                                    });
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(width*0.01),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xFF116D6E)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
+                                  ),
+                                ):Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.all(width*0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(image: FileImage(File(selectedTechnicalLicenseImage[index].path)),fit: BoxFit.fill)
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        selectedTechnicalLicenseImage.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(width*0.005),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            border: Border.all(color: Colors.red)
+                                        ),
+                                        child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
-                                width: MediaQuery.of(context).size.width,
+                                height: height * 0.13,
+                                width: width,
+                                alignment: Alignment.center,
                                 color: const Color(0xFFF5F7F7),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    if (technicalManagerLicense != null)
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(technicalManagerLicense!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
-                                          ),
-                                        ),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickLicenseImage();
+                                    });
+
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: Colors.white,
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/image/camera.png"),
+                                                fit: BoxFit.none)),
                                       ),
-                                    if (technicalManagerLicense == null)
-                                      InkWell(
-                                        onTap: () {
-                                          _pickImage2();
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                          ],
-                                        ),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                  ],
+                                      Text("Upload file",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF707070)))
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -363,28 +374,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             ),
                           ),
                           const SizedBox(height: 20,),
-                          TextFormField(
-                            maxLength: 10,
+                          MobileCodeWidget(
                             controller: financialManagerNumberController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return 'Enter Financial Manager Number';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Contact Number',
-                              hintText: 'Contact Number',
-                              counterText: "",
-                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            ),
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
@@ -438,53 +429,100 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            child: ClipRRect(
+                            padding: EdgeInsets.zero,
+                            child: selectedLabTechImage.isNotEmpty?
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
+                              itemCount: selectedLabTechImage.length + 1,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return index == selectedLabTechImage.length?InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickLabTechImage();
+                                    });
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(width*0.01),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xFF116D6E)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/camera.png"),
+                                            fit: BoxFit.none)),
+                                  ),
+                                ):Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.all(width*0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(image: FileImage(File(selectedLabTechImage[index].path)),fit: BoxFit.fill)
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        selectedLabTechImage.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(width*0.005),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            border: Border.all(color: Colors.red)
+                                        ),
+                                        child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
-                                width: MediaQuery.of(context).size.width,
+                                height: height * 0.13,
+                                width: width,
+                                alignment: Alignment.center,
                                 color: const Color(0xFFF5F7F7),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    if (financialManagerLicense != null)
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(financialManagerLicense!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
-                                          ),
-                                        ),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      pickLabTechImage();
+                                    });
+
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: Colors.white,
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/image/camera.png"),
+                                                fit: BoxFit.none)),
                                       ),
-                                    if (financialManagerLicense == null)
-                                      InkWell(
-                                        onTap: () {
-                                          _pickImage3();
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
-                                          ],
-                                        ),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                  ],
+                                      Text("Upload file",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF707070)))
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -500,9 +538,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()){
-                                    if(technicalManagerLicense==null) {
+                                    if(selectedTechnicalLicenseImage==null) {
                                       Utils.showErrorToast("Please Select Technical Manager License");
-                                    } else if(financialManagerLicense==null) {
+                                    } else if(selectedLabTechImage==null) {
                                       Utils.showErrorToast("Please Select lab Technicians File");
                                     } else {
                                       manageProfile3();
@@ -543,14 +581,14 @@ class _ManageProfile3State extends State<ManageProfile3> {
         "totalLabTechinicians" : totalTechnicianController.text.toString(),
       };
 
-    http.MultipartFile multipartFile = await http.MultipartFile.fromPath("techlicensFile",technicalManagerLicense!.path);
-    http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("labTechs",financialManagerLicense!.path);
+    // http.MultipartFile multipartFile = await http.MultipartFile.fromPath("techlicensFile",technicalManagerLicense!.path);
+    // http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("labTechs",financialManagerLicense!.path);
       var postUri = Uri.parse(ApiServices.manageProfile3Api);
       var request = http.MultipartRequest("POST", postUri);
       request.headers.addAll(Utils.apiHeader);
       request.fields.addAll(bodyData);
-      request.files.add(multipartFile,);
-      request.files.add(multipartFile1,);
+      // request.files.add(multipartFile,);
+      // request.files.add(multipartFile1,);
       http.StreamedResponse response = await request.send();
 
       print("body ====> $bodyData");
@@ -576,22 +614,26 @@ class _ManageProfile3State extends State<ManageProfile3> {
       }
   }
 
-  Future<void> _pickImage2() async {
-    final picker = ImagePicker();
-    final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage2 != null){
-        technicalManagerLicense = File(pickedImage2.path);
-      }
-    });
+
+  Future<void> pickLicenseImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+
+    if (result != null) {
+      selectedTechnicalLicenseImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
-  Future<void> _pickImage3() async {
-    final picker = ImagePicker();
-    final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage3 != null){
-        financialManagerLicense = File(pickedImage3.path);
-      }
-    });
+
+  Future<void> pickLabTechImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+
+    if (result != null) {
+      selectedLabTechImage.addAll(result.paths.map((path) => File(path!)));
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
 }

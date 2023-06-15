@@ -22,6 +22,8 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
   }
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: goBack,
       child: SafeArea(
@@ -50,7 +52,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                           alignment: Alignment.center,
                           child: Column(
                             children: [
-                              const SizedBox(height: 80,),
+                               SizedBox(height: height*0.14,),
                               Text("Set up Profile",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),),
                             ],
                           ))
@@ -60,13 +62,11 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            height: 110,
+                           SizedBox(height: height*0.10,
                           ),
-                          const Image(
-                              image: AssetImage("assets/image/Group 12680.png")),
-                          const SizedBox(
-                            height: 30,
+                          const Image(height: 150,image: AssetImage("assets/image/Group 12680.png")),
+                           SizedBox(
+                            height: height*0.030,
                           ),
                           Text(
                             "Congratulations on a successful profile set up",
@@ -89,11 +89,10 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                       ),
                     ),
                     const Spacer(),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
+                    Padding(padding:
+                    EdgeInsets.only(top: height*0.020, left: width*0.030, right: width*0.030),
                       child: Container(
-                        height: 50,
+                        height: height*0.065,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),

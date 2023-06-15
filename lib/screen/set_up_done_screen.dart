@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'bottomNavigationBar_screen.dart';
+
 class SetUpDoneScreen extends StatefulWidget {
   const SetUpDoneScreen({Key? key}) : super(key: key);
 
@@ -53,7 +55,7 @@ class _SetUpDoneScreenState extends State<SetUpDoneScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children:  [
                     SizedBox(height: height*0.11,),
-                    Image(image: AssetImage("assets/image/Group 12680.png")),
+                    const Image(height: 150,image: AssetImage("assets/image/Group 12680.png")),
                     SizedBox(height: height*0.030,),
                     Text("Congratulations on a successful\nprofile set up",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),textAlign: TextAlign.center),
                     SizedBox(height: height*0.012,),
@@ -75,7 +77,7 @@ class _SetUpDoneScreenState extends State<SetUpDoneScreen> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavigatorBarWidget(),));
                       },
                       child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),
