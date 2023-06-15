@@ -1,3 +1,4 @@
+import 'package:dentalapp/clinic_screen/praposals_lab_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -430,13 +431,21 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                   ),
                                 ),
                               ),
-                              // Spacer(),
-                              Text(
-                                "Show Profile",
-                                style: GoogleFonts.lato(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xff116D6E),
+                           //    Spacer(),
+                              SizedBox(width: width*0.05,),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return PraPoSalSLabProfile();
+                                  },));
+                                },
+                                child: Text(
+                                  "Show Profile",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff116D6E),
+                                  ),
                                 ),
                               ),
                             ],
