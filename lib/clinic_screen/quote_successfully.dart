@@ -1,3 +1,4 @@
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,71 +18,99 @@ class _QuoteSuccessfullyState extends State<QuoteSuccessfully> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: height*0.15,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFF116D6E),
-                            image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                                fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                        ),
-                        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+    return WillPopScope(
+      onWillPop: goBack,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    height: height*0.15,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF116D6E),
+                        image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
+                            fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
+                    ),
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: height*0.02,),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(height: height*0.02,),
-                            Row(crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: Icon(Icons.keyboard_backspace,color: Colors.white,),
-                                    )),
-                                SizedBox(width: width/3.8,),
-                                Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
-
-                              ],
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                                    return const BottomNavigation();
+                                  },), (route) => false);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: width * 0.03),
+                                  child: const Icon(Icons.keyboard_backspace,color: Colors.white,),
+                                )),
+                            const Spacer(),
+                            Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
+                            const Spacer(),
+                            Padding(
+                              padding: EdgeInsets.only(left: width * 0.03),
+                              child: const Icon(Icons.keyboard_backspace,color: Colors.transparent,),
                             ),
                           ],
-                        )
-                    ),
-                    Padding(
-                      padding:EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-
-                        children:  [
-                          SizedBox(height: height*0.25,),
-                          Image(image: AssetImage("assets/image/Group 12680.png")),
-                          SizedBox(height: height*0.05,),
-                          Text("Quote successfully Live",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),),
-                          SizedBox(height: 10,),
-                          Text("Lorem Ipsum has been the industry's standard dummy text ever since",textAlign: TextAlign.center,style: GoogleFonts.lato(fontSize: 16.5,fontWeight: FontWeight.w500,color: Color(0xFF707070) ),),
-
-                        ],
-                      ),
-                    ),
-
-                  ],
+                        ),
+                      ],
+                    )
                 ),
-              ),
-            ],
+                Padding(
+                  padding:EdgeInsets.symmetric(horizontal: width*0.1),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:  [
+                      SizedBox(height: height*0.18,),
+                      const Image(image: AssetImage("assets/image/Group 12680.png")),
+                      SizedBox(height: height*0.05,),
+                      Text("Quote successfully Live",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),),
+                      SizedBox(height: height*0.02,),
+                      Text("Lorem Ipsum has been the industry's standard dummy text ever since",textAlign: TextAlign.center,style: GoogleFonts.lato(fontSize: 16.5,fontWeight: FontWeight.w500,color: const Color(0xFF707070) ),),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  height: height * 0.064,
+
+                  width: width * 0.9,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xff116D6E)),
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                          return const BottomNavigation();
+                        },), (route) => false);
+                      },
+                      child: Text("Back To Home",
+                          style: GoogleFonts.lato(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white))),
+                ),
+                SizedBox(height: height*0.05,)
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<bool> goBack() async {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+      return const BottomNavigation();
+    },), (route) => false);
+    return true;
   }
 }

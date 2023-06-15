@@ -24,10 +24,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // TODO: implement initState
     super.initState();
     screenStatus = Utils.getScreenStatus();
-    print("Status : $screenStatus");
-     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if(screenStatus!="4")showMyDialog();
-    }
+    print(Utils.apiHeader.toString());
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if(screenStatus!="4")showMyDialog();
+      }
     );
   }
 
@@ -37,7 +37,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   List  selectedScreenList= [
     const DasBoardScreen(),
     const SizedBox(),
-    const CreatQuote(),
+    const NewQuote(),
     const ProfileEdit(),
   ];
 
@@ -101,7 +101,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   void showMyDialog() {
       showDialog(
         context: context,
-        barrierDismissible: false,
+        // barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
               title: WillPopScope(

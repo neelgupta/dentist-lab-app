@@ -23,7 +23,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
   var images;
 
   void removeImage(int index) {
-    if (images.isNotEmpty && index < images.length) {
+    if (images.isNotEmpty && index < images.length) { 
       setState(() {
         images.removeAt(index);
         if(images.isEmpty){

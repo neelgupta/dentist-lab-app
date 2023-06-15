@@ -1,5 +1,7 @@
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/clinic_screen/dasboard_screen.dart';
+import 'package:dentalapp/screen/dashboard_screen.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,6 +13,13 @@ class SuccessfulProfileSetUp extends StatefulWidget {
 }
 
 class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
+  String userType = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userType = Utils.getUserType();
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -91,7 +100,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                             color: const Color(0xFF116D6E)),
                         child: TextButton(
                             onPressed: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
+                              goBack();
                             },
                             child: Text("Continue",
                                 style: GoogleFonts.lato(
@@ -112,7 +121,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                       children: [
                         GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
+                              goBack();
                             },
                             child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
 
@@ -127,7 +136,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
   }
 
   Future<bool> goBack() async {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => userType=="lab"?const DashboardScreen():const BottomNavigation()),);
     return true;
   }
 }

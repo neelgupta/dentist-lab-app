@@ -1,14 +1,11 @@
-import 'package:dentalapp/screen/email_verified_done_screen.dart';
+import 'package:dentalapp/clinic_screen/setup_screen/sucessfulsetup_screen.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:dentalapp/screen/set_up_done_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/manage_profile_6_model.dart';
 
 enum PaymentMethod { onlinePayment, cash, cheque, none }
 enum DeliveryMethods {COD , paidDelivery, none}
@@ -26,7 +23,6 @@ class _ManageProfile6State extends State<ManageProfile6> {
   DeliveryMethods selectedDeliveryOption = DeliveryMethods.none;
 
   bool isLoading =  false;
-  ManageProfile6Model? manageProfile6Model;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +41,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                   Container(
                     height: height*0.25,
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                     ),
                     child: Column(
@@ -54,15 +50,15 @@ class _ManageProfile6State extends State<ManageProfile6> {
                       children: [
                         Row(
                           children: [
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
                             InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
+                                child: const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                           ],
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -72,7 +68,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Colors.white,width: 1),
-                                image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                             ),
                             child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                           ),
@@ -86,64 +82,37 @@ class _ManageProfile6State extends State<ManageProfile6> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("6/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
                           ],
                         ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Text("Delivery Methods",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070)),),
-                        SizedBox(height: 20,),
-                        selectedDeliveryOption == DeliveryMethods.COD ? Container(
-                          height: height*0.065,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF116D6E) ),
-                              borderRadius:BorderRadius.circular(12)
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 18,),
-                              Image(image: AssetImage("assets/image/cod.png"),color: Color(0xFF116D6E),),
-                              SizedBox(width: 12,),
-                              Text("COD",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                              Spacer(),
-                              Radio(
-                                value: DeliveryMethods.COD,
-                                activeColor: Color(0xFF116D6E),
-                                groupValue: selectedDeliveryOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedDeliveryOption = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ) :
+                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w500,color: const Color(0xFF707070)),),
+                        const SizedBox(height: 20,),
                         Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF707070) ),
+                              border: Border.all(color:  Color(selectedDeliveryOption == DeliveryMethods.COD?0xFF116D6E:0xFF707070)),
                               borderRadius:BorderRadius.circular(12)
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 18,),
-                              Image(image: AssetImage("assets/image/cod.png")),
-                              SizedBox(width: 12,),
-                              Text("COD",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
-                              Spacer(),
+                              const SizedBox(width: 18,),
+                              Image(image: const AssetImage("assets/image/cod.png"),color: Color(selectedDeliveryOption == DeliveryMethods.COD?0xFF116D6E:0xFF707070)),
+                              const SizedBox(width: 12,),
+                              Text("COD",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color:  Color(selectedDeliveryOption == DeliveryMethods.COD?0xFF116D6E:0xFF707070))),
+                              const Spacer(),
                               Radio(
                                 value: DeliveryMethods.COD,
-                                activeColor: Color(0xFF116D6E),
+                                activeColor: const Color(0xFF116D6E),
                                 groupValue: selectedDeliveryOption,
                                 onChanged: (value) {
                                   setState(() {
@@ -155,113 +124,59 @@ class _ManageProfile6State extends State<ManageProfile6> {
                           ),
                         ),
 
-                        SizedBox(height: 20,),
-                         selectedDeliveryOption == DeliveryMethods.paidDelivery ? Container(
-                           height: height*0.065,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF116D6E)),
-                              borderRadius:BorderRadius.circular(12)
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 18,),
-                              Image(image: AssetImage("assets/image/Dollar Square.png"),color: Color(0xFF116D6E)),
-                              SizedBox(width: 12,),
-                              Text("Paid Delivery",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                              Spacer(),
-                              Radio(
-                                value: DeliveryMethods.paidDelivery,
-                                activeColor: Color(0xFF116D6E),
-                                groupValue: selectedDeliveryOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedDeliveryOption = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ) :
+                        const SizedBox(height: 20,),
                          Container(
                            height: height*0.065,
-                           width: MediaQuery.of(context).size.width,
-                           decoration: BoxDecoration(
-                               border: Border.all(color:Color(0xFF707070)),
-                               borderRadius:BorderRadius.circular(12)
-                           ),
-                           child: Row(
-                             children: [
-                               SizedBox(width: 18,),
-                               Image(image: AssetImage("assets/image/Dollar Square.png")),
-                               SizedBox(width: 12,),
-                               Text("Paid Delivery",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
-                               Spacer(),
-                               Radio(
-                                 value: DeliveryMethods.paidDelivery,
-                                 activeColor: Color(0xFF116D6E),
-                                 groupValue: selectedDeliveryOption,
-                                 onChanged: (value) {
-                                   setState(() {
-                                     selectedDeliveryOption = value!;
-                                   });
-                                 },
-                               ),
-                             ],
-                           ),
-                         ),
-                        SizedBox(height: 20,),
-                        Divider(color: Color(0xFFE7E7E7),thickness: 2),
-                        SizedBox(height: 25,),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(selectedDeliveryOption == DeliveryMethods.paidDelivery?0xFF116D6E:0xFF707070)),
+                              borderRadius:BorderRadius.circular(12)
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 18,),
+                              Image(image: const AssetImage("assets/image/Dollar Square.png"),color: Color(selectedDeliveryOption == DeliveryMethods.paidDelivery?0xFF116D6E:0xFF707070)),
+                              const SizedBox(width: 12,),
+                              Text("Paid Delivery",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(selectedDeliveryOption == DeliveryMethods.paidDelivery?0xFF116D6E:0xFF707070))),
+                              const Spacer(),
+                              Radio(
+                                value: DeliveryMethods.paidDelivery,
+                                activeColor: const Color(0xFF116D6E),
+                                groupValue: selectedDeliveryOption,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedDeliveryOption = value!;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        const Divider(color: Color(0xFFE7E7E7),thickness: 2),
+                        const SizedBox(height: 25,),
                         Text("Payment Methods",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070)),),
-                        SizedBox(height: 20,),
-                        selectedPaymentOption == PaymentMethod.onlinePayment  ? Container(
-                          height: height*0.065,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF116D6E)),
-                              borderRadius:BorderRadius.circular(12)
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 18,),
-                              Image(image: AssetImage("assets/image/cod.png"),color: Color(0xFF116D6E)),
-                              SizedBox(width: 12,),
-                              Text("Online Payment",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                              Spacer(),
-                              Radio(
-                                value: PaymentMethod.onlinePayment,
-                                activeColor: Color(0xFF116D6E),
-                                groupValue: selectedPaymentOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedPaymentOption = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ) :
+                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w500,color: const Color(0xFF707070)),),
+                        const SizedBox(height: 20,),
                         Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF707070)),
+                              border: Border.all(color: Color(selectedPaymentOption == PaymentMethod.onlinePayment?0xFF116D6E:0xFF707070)),
                               borderRadius:BorderRadius.circular(12)
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 18,),
-                              Image(image: AssetImage("assets/image/cod.png")),
-                              SizedBox(width: 12,),
-                              Text("Online Payment",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
-                              Spacer(),
+                              const SizedBox(width: 18,),
+                              Image(image: const AssetImage("assets/image/cod.png"),color: Color(selectedPaymentOption == PaymentMethod.onlinePayment?0xFF116D6E:0xFF707070)),
+                              const SizedBox(width: 12,),
+                              Text("Online Payment",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(selectedPaymentOption == PaymentMethod.onlinePayment?0xFF116D6E:0xFF707070))),
+                              const Spacer(),
                               Radio(
                                 value: PaymentMethod.onlinePayment,
-                                activeColor: Color(0xFF116D6E),
+                                activeColor: const Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
                                   setState(() {
@@ -272,54 +187,24 @@ class _ManageProfile6State extends State<ManageProfile6> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 20,),
-
-
-                        selectedPaymentOption == PaymentMethod.cash ?
+                        const SizedBox(height: 20,),
                         Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF116D6E)),
+                              border: Border.all(color: Color(selectedPaymentOption == PaymentMethod.cash?0xFF116D6E:0xFF707070)),
                               borderRadius:BorderRadius.circular(12)
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 18,),
-                              const Image(image: AssetImage("assets/image/Dollar Square.png"),color: Color(0xFF116D6E)),
-                              SizedBox(width: 12,),
-                              Text("Cash",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                              Spacer(),
+                              const SizedBox(width: 18,),
+                              Image(image: const AssetImage("assets/image/Dollar Square.png"),color: Color(selectedPaymentOption == PaymentMethod.cash?0xFF116D6E:0xFF707070)),
+                              const SizedBox(width: 12,),
+                              Text("Cash",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(selectedPaymentOption == PaymentMethod.cash?0xFF116D6E:0xFF707070))),
+                              const Spacer(),
                               Radio(
                                 value: PaymentMethod.cash,
-                                activeColor: Color(0xFF116D6E),
-                                groupValue: selectedPaymentOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedPaymentOption = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ) :
-                        Container(
-                          height: height*0.065,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF707070)),
-                              borderRadius:BorderRadius.circular(12)
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 18,),
-                              const Image(image: AssetImage("assets/image/Dollar Square.png")),
-                              SizedBox(width: 12,),
-                              Text("Cash",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
-                              Spacer(),
-                              Radio(
-                                value: PaymentMethod.cash,
-                                activeColor: Color(0xFF116D6E),
+                                activeColor: const Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
                                   setState(() {
@@ -330,53 +215,25 @@ class _ManageProfile6State extends State<ManageProfile6> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
 
-                        selectedPaymentOption == PaymentMethod.cash ?
                         Container(
                           height: height*0.065,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF116D6E)),
+                              border: Border.all(color: Color(selectedPaymentOption == PaymentMethod.cheque?0xFF116D6E:0xFF707070)),
                               borderRadius:BorderRadius.circular(12)
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 18,),
-                              const Image(image: AssetImage("assets/image/Ticket 2.png"),color: Color(0xFF116D6E)),
-                              SizedBox(width: 12,),
-                              Text("Cheque",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                              Spacer(),
+                              const SizedBox(width: 18,),
+                              Image(image: const AssetImage("assets/image/Ticket 2.png"),color: Color(selectedPaymentOption == PaymentMethod.cheque?0xFF116D6E:0xFF707070)),
+                              const SizedBox(width: 12,),
+                              Text("Cheque",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(selectedPaymentOption == PaymentMethod.cheque?0xFF116D6E:0xFF707070))),
+                              const Spacer(),
                               Radio(
                                 value: PaymentMethod.cheque,
-                                activeColor: Color(0xFF116D6E),
-                                groupValue: selectedPaymentOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedPaymentOption = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ) :
-                        Container(
-                          height: height*0.065,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF707070)),
-                              borderRadius:BorderRadius.circular(12)
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 18,),
-                              const Image(image: AssetImage("assets/image/Ticket 2.png")),
-                              SizedBox(width: 12,),
-                              Text("Cheque",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w400,color: Color(0xFF707070))),
-                              Spacer(),
-                              Radio(
-                                value: PaymentMethod.cheque,
-                                activeColor: Color(0xFF116D6E),
+                                activeColor: const Color(0xFF116D6E),
                                 groupValue: selectedPaymentOption,
                                 onChanged: (value) {
                                   setState(() {
@@ -393,10 +250,18 @@ class _ManageProfile6State extends State<ManageProfile6> {
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: selectedPaymentOption != PaymentMethod.none ? Color(0xFF116D6E)  : Color(0xFFA0A0A0)
+                              primary: Color(selectedDeliveryOption != DeliveryMethods.none && selectedPaymentOption != PaymentMethod.none ? 0xFF116D6E : 0xFFA0A0A0)
                             ),
                               onPressed: () {
-                                 manageProfile6();
+                                 if(selectedDeliveryOption == DeliveryMethods.none) {
+                                   Utils.showErrorToast("Please Select Delivery Methods");
+                                 }
+                                 else if(selectedPaymentOption == PaymentMethod.none) {
+                                   Utils.showErrorToast("Please Select Payment Methods");
+                                 }
+                                 else {
+                                   manageProfile6();
+                                 }
                               },
                               child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -412,67 +277,30 @@ class _ManageProfile6State extends State<ManageProfile6> {
         ));
   }
   manageProfile6()async{
+    Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.manageProfile6Api);
-    try {
-      setState(() {
-        isLoading = true;
-      });
       var bodyData = {
         "deliveryMethod": selectedDeliveryOption.name.toString(),
         "paymentMethod": selectedPaymentOption.name.toString()
       };
-      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var response = await http.post(
         postUri,
-        body: bodyData,
-        headers: headers,
+        body: jsonEncode(bodyData),
+        headers: Utils.apiHeader,
       );
-      print("body ====> $bodyData");
-      print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
-      print("header ====> ${headers}");
+      Utils.logAPIResponse(function: "manageProfile6",apiName: ApiServices.manageProfile6Api,response: response, body: bodyData);
+      Navigator.pop(context);
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
-          manageProfile6Model = ManageProfile6Model.fromJson(jsonDecode(response.body));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SetUpDoneScreen(),));
-          Fluttertoast.showToast(
-              msg: "${manageProfile6Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.setScreenStatus("7");
+          Utils.showSuccessToast(map['message']);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SuccessfulProfileSetUp(),),(route) => false,);
         } else {
-          Fluttertoast.showToast(
-              msg: "${manageProfile6Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map['message']);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 }

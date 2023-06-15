@@ -2,14 +2,12 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dentalapp/screen/manage_profile_3.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../models/manage_profile_2_model.dart';
 
 
 class ManageProfile2 extends StatefulWidget {
@@ -26,28 +24,22 @@ class _ManageProfile2State extends State<ManageProfile2> {
   TextEditingController trnNumberController = TextEditingController();
   TextEditingController totalDeviceController = TextEditingController();
 
-  File? _image;
-  File? _image2;
-  File? _image3;
-  File? _image4;
+  File? medicalLicense;
+  File? tradeLicense;
+  File? trn;
+  File? noOfDevice;
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage != null){
-        _image = File(pickedImage.path);
-        showPickOption = false;
+        medicalLicense = File(pickedImage.path);
       }
     });
   }
 
-  bool showPickOption = true;
-  bool showPickOption2 = true;
-  bool showPickOption3= true;
-  bool showPickOption4 = true;
   bool isLoading =  false;
-  ManageProfile2Model? manageProfile2Model;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
@@ -71,7 +63,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                     Container(
                       height: height*0.25,
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                       ),
                       child: Column(
@@ -80,15 +72,15 @@ class _ManageProfile2State extends State<ManageProfile2> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(width: 20,),
+                              const SizedBox(width: 20,),
                               InkWell(
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
+                                  child: const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -98,7 +90,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(color: Colors.white,width: 1),
-                                  image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                  image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                               ),
                               child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                             ),
@@ -148,20 +140,20 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           const SizedBox(height: 20,),
                           DottedBorder(
                             borderType: BorderType.RRect,
-                            dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            dashPattern: const [3, 3, 3],
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image != null)
+                                    if (medicalLicense != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -170,34 +162,32 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(medicalLicense!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                             ),
                                             // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
                                           ),
                                         ),
                                       ),
-                                    if (showPickOption)
+                                    if (medicalLicense == null)
                                       InkWell(
                                         onTap: () {
                                           _pickImage();
                                         },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(50),
-                                                    color: Colors.white,
-                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                                ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                          ],
                                         ),
                                       ),
                                   ],
@@ -231,20 +221,20 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           const SizedBox(height: 20,),
                           DottedBorder(
                             borderType: BorderType.RRect,
-                            dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            dashPattern: const [3, 3, 3],
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image2 != null)
+                                    if (tradeLicense != null)
                                         Align(
                                           alignment: Alignment.centerLeft,
                                           child: Padding(
@@ -253,33 +243,31 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                               width: 120,
                                               height: 80,
                                               decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image2!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(tradeLicense!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                               ),
                                             ),
                                           ),
                                         ),
-                                    if (showPickOption2)
+                                    if (tradeLicense == null)
                                     InkWell(
                                       onTap: () {
                                         _pickImage2();
                                       },
-                                      child: Container(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  color: Colors.white,
-                                                  image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                              ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(50),
+                                                color: Colors.white,
+                                                image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                             ),
-                                            SizedBox(height: 5,),
-                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                          ],
-                                        ),
+                                          ),
+                                          const SizedBox(height: 5,),
+                                          Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -313,20 +301,20 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           const SizedBox(height: 20,),
                           DottedBorder(
                             borderType: BorderType.RRect,
-                            dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            dashPattern: const [3, 3, 3],
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image3 != null)
+                                    if (trn != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -335,33 +323,31 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image3!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(trn!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                             ),
                                           ),
                                         ),
                                       ),
-                                    if (showPickOption3)
+                                    if (trn == null)
                                       InkWell(
                                         onTap: () {
                                           _pickImage3();
                                         },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(50),
-                                                    color: Colors.white,
-                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                                ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                          ],
                                         ),
                                       ),
                                   ],
@@ -385,7 +371,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
-                              labelText: 'Total Number of devices used',
+                              labelText: 'Total Number of Devices Used',
                               hintText: '123456789',
                               counterText: "",
                               hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
@@ -395,20 +381,20 @@ class _ManageProfile2State extends State<ManageProfile2> {
                           const SizedBox(height: 20,),
                           DottedBorder(
                             borderType: BorderType.RRect,
-                            dashPattern: [3, 3, 3],
-                            radius: Radius.circular(12),
-                            color: Color(0xFF116D6E),
+                            dashPattern: const [3, 3, 3],
+                            radius: const Radius.circular(12),
+                            color: const Color(0xFF116D6E),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 height: height*0.13,
                                 width: MediaQuery.of(context).size.width,
-                                color: Color(0xFFF5F7F7),
+                                color: const Color(0xFFF5F7F7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (_image4 != null)
+                                    if (noOfDevice != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -417,33 +403,31 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                             width: 120,
                                             height: 80,
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(_image4!),fit: BoxFit.fill),
+                                                image: DecorationImage(image: FileImage(noOfDevice!),fit: BoxFit.fill),
                                                 borderRadius: BorderRadius.circular(12)
                                             ),
                                           ),
                                         ),
                                       ),
-                                    if (showPickOption4)
+                                    if (noOfDevice == null)
                                       InkWell(
                                         onTap: () {
                                           _pickImage4();
                                         },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(50),
-                                                    color: Colors.white,
-                                                    image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
-                                                ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                  image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                          ],
                                         ),
                                       ),
                                   ],
@@ -457,12 +441,23 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: const Color(0xFF116D6E)
+                                color: Color(medicalLicenseController.text.isNotEmpty && tradeLicenseController.text.isNotEmpty && tradeLicenseController.text.isNotEmpty && totalDeviceController.text.isNotEmpty
+                                    && medicalLicense != null && tradeLicense != null && trn != null && noOfDevice != null? 0xFF166D6E : 0xFFA0A0A0)
                             ),
                             child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()){
-                                    manageProfile2();
+                                    if(medicalLicense == null) {
+                                      Utils.showErrorToast("Please Select Medical License");
+                                    } else if(tradeLicense == null) {
+                                      Utils.showErrorToast("Please Select Trade License");
+                                    } else if(trn == null) {
+                                      Utils.showErrorToast("Please Select TRN");
+                                    } else if(noOfDevice == null) {
+                                      Utils.showErrorToast("Please Select Device Used File");
+                                    } else{
+                                      manageProfile2();
+                                    }
                                   }else{
                                     autoValidate = AutovalidateMode.always;
                                   }
@@ -485,83 +480,52 @@ class _ManageProfile2State extends State<ManageProfile2> {
   }
 
   manageProfile2()async{
-    var postUri = Uri.parse(ApiServices.manageProfile2Api);
-    try {
-      setState(() {
-        isLoading = true;
-      });
+    Utils.showLoadingDialog(context);
       var bodyData = {
         "medicalLicenseNumber": medicalLicenseController.text.toString(),
         "tradeLicenceNumber": tradeLicenseController.text.toString(),
         "TRN_number": trnNumberController.text.toString(),
         "deviceUsed": totalDeviceController.text.toString(),
       };
-      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
+
       var postUri = Uri.parse(ApiServices.manageProfile2Api);
       var request = http.MultipartRequest("POST", postUri);
-      request.headers.addAll(headers);
+
+      request.headers.addAll(Utils.apiHeader);
       request.fields.addAll(bodyData);
-      // http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",_image!.path);
-      // http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",_image2!.path);
-      // http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",_image3!.path);
-      // http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",_image4!.path);
-      // request.files.add(multipartFile,);
-      // request.files.add(multipartFile1,);
-      // request.files.add(multipartFile2);
-      // request.files.add(multipartFile3);
+
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath("licensFile",medicalLicense!.path);
+      http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("tradeFile",tradeLicense!.path);
+      http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("TRNFile",trn!.path);
+      http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("devicesFile",noOfDevice!.path);
+
+      request.files.add(multipartFile,);
+      request.files.add(multipartFile1,);
+      request.files.add(multipartFile2);
+      request.files.add(multipartFile3);
+
       http.StreamedResponse response = await request.send();
-      // var response = await http.post(
-      //   postUri,
-      //   body: bodyData,
-      //   headers: headers,
-      // );
+
       print("body ====> $bodyData");
       print("body ====> ${response.statusCode}");
+
       final res = await http.Response.fromStream(response);
+
+      Navigator.pop(context);
       print('body: ${res.body}');
+
       if (response.statusCode == 200) {
         Map map = jsonDecode(res.body);
         if (map["status"] == 200) {
-          manageProfile2Model = ManageProfile2Model.fromJson(jsonDecode(res.body));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile3(),));
-          Fluttertoast.showToast(
-              msg: "${manageProfile2Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.setScreenStatus("3");
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageProfile3(),));
+          Utils.showSuccessToast(map['message']);
         } else {
-          Fluttertoast.showToast(
-              msg: "${manageProfile2Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map['message']);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(res.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(res.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 
 
@@ -570,10 +534,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
     final pickedImage2 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage2 != null){
-        _image2 = File(pickedImage2.path);
-        showPickOption2 = false;
+        tradeLicense = File(pickedImage2.path);
       }
-      // imageFile = pickedImage;
     });
   }
   Future<void> _pickImage3() async {
@@ -581,10 +543,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
     final pickedImage3 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage3 != null){
-        _image3 = File(pickedImage3.path);
-        showPickOption3 = false;
+        trn = File(pickedImage3.path);
       }
-      // imageFile = pickedImage;
     });
   }
   Future<void> _pickImage4() async {
@@ -592,10 +552,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
     final pickedImage4 = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedImage4 != null){
-        _image4 = File(pickedImage4.path);
-        showPickOption4 = false;
+        noOfDevice = File(pickedImage4.path);
       }
-      // imageFile = pickedImage;
     });
   }
 }

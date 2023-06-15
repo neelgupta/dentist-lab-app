@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
-import '../models/manage_prifile_1_model.dart';
 import '../util/api_services.dart';
 
 class ManageProfile1 extends StatefulWidget {
@@ -32,7 +30,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
   TextEditingController poBoxController = TextEditingController();
 
   bool isLoading =  false;
-  ManageProfile1Model? manageProfile1Model;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
@@ -56,7 +53,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                     Container(
                       height: height*0.25,
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
                       ),
                       child: Column(
@@ -64,12 +61,12 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Row(
-                            children: [
+                            children: const [
                               SizedBox(width: 20,),
                               Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -79,7 +76,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                   border: Border.all(color: Colors.white,width: 1),
-                                  image: DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                  image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
                               ),
                               child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                             ),
@@ -93,17 +90,17 @@ class _ManageProfile1State extends State<ManageProfile1> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("1/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),),
+                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
                           ],
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         Text("Lab Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           textInputAction: TextInputAction.next,
                           controller: labNameController,
@@ -117,15 +114,15 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'Lab Name',
                             hintText: 'Lab Name',
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           controller: labMobileController,
                           textInputAction: TextInputAction.next,
@@ -139,16 +136,16 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'Mobile Number',
                             hintText: '123456789',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           textInputAction: TextInputAction.next,
                           controller: landLineNumberController,
@@ -162,76 +159,23 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'Land Line Number',
                             hintText: '123456789',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           ),
                         ),
-                        SizedBox(height: 20,),
-                        TextFormField(
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            if(value == null || value.isEmpty){
-                              return 'Please Enter Email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                        TextFormField(
-                          obscureText: isPasswordVisible,
-                          controller: passwordController,
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            if(value == null || value.isEmpty){
-                              return 'Please Enter Password';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Password',
-                              hintText: 'Password',
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                              suffixIcon: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      isPasswordVisible = !isPasswordVisible;
-                                    });
-                                  },
-                                  child: !isPasswordVisible ? Image(image: AssetImage("assets/image/Vector.png"))
-                                  : Image(image: AssetImage("assets/image/Vector12.png")))
-                          ),
-                        ),
-                        SizedBox(height: 30,),
-                        Divider(
+                        const SizedBox(height: 30,),
+                        const Divider(
                           color: Color(0xFFE7E7E7),
                           thickness: 1,
                         ),
-                        SizedBox(height: 30,),
+                        const SizedBox(height: 30,),
                         Text("Lab Location ",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           controller: countryController,
                           keyboardType: TextInputType.name,
@@ -245,16 +189,16 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'Country',
                             hintText: 'Country',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         TextFormField(
                           maxLength: 10,
                           controller: cityController,
@@ -269,16 +213,16 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'City',
                             hintText: 'City',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                           TextFormField(
                             controller: addressController,
                             keyboardType: TextInputType.name,
@@ -292,16 +236,16 @@ class _ManageProfile1State extends State<ManageProfile1> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Color(0xFF707070))
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Address',
                               hintText: 'Address',
                               counterText: "",
-                              hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
                             keyboardType: TextInputType.name,
                           controller: poBoxController,
@@ -316,66 +260,79 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
                             labelText: 'P.O.Box',
                             hintText: 'P.O.Box',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                           ),
                         ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           TextFormField(
-                          maxLength: 10,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now().subtract(const Duration(days: 1)),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime.now().subtract(const Duration(days: 1)));
+
+                            if (pickedDate != null) {
+                              setState(() {
+                                dateInputController.text =
+                                    DateFormat('dd MMMM yyyy').format(pickedDate);
+                              });
+                            }
+                          },
                           textInputAction: TextInputAction.next,
                           controller:dateInputController,
                           readOnly: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Color(0xFF707070))
+                                borderSide: const BorderSide(color: Color(0xFF707070))
                             ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(color: Color(0xFF707070))
+                            ),
+                            labelStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                             labelText: 'Date of establishment',
-                            hintText: '10 jun 2023',
+                            hintText: 'Date of establishment',
                             counterText: "",
-                            hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                            contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            suffixIcon: InkWell(
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1950),
-                                      lastDate: DateTime(2050));
-
-                                  if (pickedDate != null) {
-                                    dateInputController.text =
-                                        DateFormat('dd MMMM yyyy').format(pickedDate);
-                                  }
-                                },
-                                child: Image(image: AssetImage("assets/image/date.png")))
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            suffixIcon: const Image(image: AssetImage("assets/image/date.png"))
                           ),
                         ),
-                          SizedBox(height: 30,),
+                          const SizedBox(height: 30,),
                           Container(
                             height: 50,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: Color(0xFF166D6E)
+                                color: Color(
+                                    (labNameController.text.isNotEmpty && labMobileController.text.isNotEmpty && landLineNumberController.text.isNotEmpty
+                                        && countryController.text.isNotEmpty && cityController.text.isNotEmpty && addressController.text.isNotEmpty
+                                        && poBoxController.text.isNotEmpty && dateInputController.text.isNotEmpty)
+                                        ? 0xFF166D6E : 0xFFA0A0A0)
                             ),
                             child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()){
-                                    manageProfile1();
+                                    if(dateInputController.text.isEmpty) {
+                                      Utils.showErrorToast("Please Select Establish Date");
+                                    } else {
+                                      manageProfile1();
+                                    }
                                   }else{
                                     autoValidate = AutovalidateMode.always;
                                   }
                                 },
                                 child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                           ),
-                          SizedBox(height: 40,),
+                          const SizedBox(height: 40,),
                       ],),
                     )
                   ],
@@ -388,11 +345,8 @@ class _ManageProfile1State extends State<ManageProfile1> {
     );
   }
   manageProfile1()async{
+    Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.manageProfile1Api);
-    try {
-      setState(() {
-        isLoading = true;
-      });
       var bodyData = {
         "labName":labNameController.text.toString(),
         "mobileNumber":labMobileController.text.toString(),
@@ -403,58 +357,24 @@ class _ManageProfile1State extends State<ManageProfile1> {
         "poBox":poBoxController.text.toString(),
         "dateOfEstablishment":dateInputController.text.toString()
       };
-      var headers = {"Authorization": "Bearer ${Utils.getToken()}"};
       var response = await http.post(
         postUri,
-        body: bodyData,
-        headers: headers,
+        body: jsonEncode(bodyData),
+        headers: Utils.apiHeader,
       );
-      print("body ====> $bodyData");
-      print("body ====> ${response.statusCode}");
-      print("body ====> ${response.body}");
-      print("header ====> ${headers}");
+      Utils.logAPIResponse(body: bodyData, response: response,apiName: ApiServices.manageProfile1Api,function: "manageProfile1");
+      Navigator.pop(context);
       if (response.statusCode == 200) {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
-          manageProfile1Model = ManageProfile1Model.fromJson(jsonDecode(response.body));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile2(),));
-          Fluttertoast.showToast(
-              msg: "${manageProfile1Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.setScreenStatus("2");
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageProfile2(),));
+          Utils.showSuccessToast(map['message']);
         } else {
-          Fluttertoast.showToast(
-              msg: "${manageProfile1Model?.message}",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
+          Utils.showErrorToast(map['message']);
         }
       }else{
-        Fluttertoast.showToast(
-            msg: "${jsonDecode(response.body)['message']}",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
-    }catch(e){
-      rethrow;
-    }finally{
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 }

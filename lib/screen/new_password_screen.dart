@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/reset_password_model.dart';
-
 class NewPasswordScreen extends StatefulWidget {
   final userId;
    NewPasswordScreen({Key? key,this.userId}) : super(key: key);
@@ -27,7 +25,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
   bool isLoading =  false;
-  ResetPasswordModel? resetPasswordModel;
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
