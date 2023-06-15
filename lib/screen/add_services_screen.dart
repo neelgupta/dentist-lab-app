@@ -20,19 +20,32 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
 
   bool showPickOption = true;
   File? serviceImage;
+  var images;
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedImage != null){
-        serviceImage = File(pickedImage.path);
-        showPickOption = false;
-      }
-      // imageFile = pickedImage;
-    });
+  void removeImage(int index) {
+    if (images.isNotEmpty && index < images.length) { 
+      setState(() {
+        images.removeAt(index);
+        if(images.isEmpty){
+          showPickOption = true;
+        }
+      });
+    }
   }
 
+
+  Future<void> pickImages() async {
+    List<XFile> pickedImages = [];
+    try {
+      pickedImages = await ImagePicker().pickMultiImage();
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      images = pickedImages.map((XFile image) => File(image.path)).toList();
+      showPickOption = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +80,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
+                                  child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
                             ),
                             SizedBox(height: height*0.05,),
                             Text("Add Services",style: GoogleFonts.lato(fontSize: 32,fontWeight: FontWeight.w600,color: Colors.white,),),
@@ -95,12 +108,12 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Color(0xFF707070))
+                              borderSide: const BorderSide(color: Color(0xFF707070))
                           ),
                           labelText: 'Title',
                           hintText: 'Enter Title',
-                          hintStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                          contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                          hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                          contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                         ),
                       ),
                       SizedBox(height: height*0.020,),
@@ -121,14 +134,14 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Color(0xFF707070))
+                              borderSide: const BorderSide(color: Color(0xFF707070))
                           ),
                           labelText: 'Description',
-                          labelStyle: TextStyle(fontSize: 14,),
+                          labelStyle: const TextStyle(fontSize: 14,),
                           hintText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
                               'when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-                          hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070),),
-                          contentPadding: EdgeInsets.only(left: 18,top: 16,bottom: 16,right: 5),
+                          hintStyle: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070),),
+                          contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16,right: 5),
                         ),
                       ),
                       SizedBox(height: height*0.020,),
@@ -136,36 +149,34 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         height: 50,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF707070)),
+                          border: Border.all(color: const Color(0xFF707070)),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          padding:  const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                           child: Row(
                             children: [
-                              Text("AED",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070),),),
-                              SizedBox(width: 5,),
-                              Padding(
-                                padding: const EdgeInsets.all(5),
+                              Text("AED",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070),),),
+                              const SizedBox(width: 5,),
+                              const Padding(
+                                padding: EdgeInsets.all(5),
                                 child: VerticalDivider(
                                   thickness: 1,
                                   width: 5,
                                   color: Color(0xFF707070),
                                 ),
                               ),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Expanded(
-                                child: Container(
-                                  child: TextFormField(
-                                    maxLength: 10,
-                                    controller: servicePriceController,
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Sevice Price",
-                                        counterText: "",
-                                        contentPadding: EdgeInsets.only(bottom: 13,top: 5,left: 5)
-                                    ),
+                                child: TextFormField(
+                                  maxLength: 10,
+                                  controller: servicePriceController,
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Service Price",
+                                      counterText: "",
+                                      contentPadding: EdgeInsets.only(bottom: 13,top: 5,left: 5)
                                   ),
                                 ),
                               ),
@@ -174,46 +185,105 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         ),
                       ),
                       SizedBox(height: height*0.020,),
-                      Divider(height: 5,thickness: 1,color: Color(0xFFE7E7E7),),
+                      const Divider(height: 5,thickness: 1,color: Color(0xFFE7E7E7),),
                       SizedBox(height: height*0.020,),
                       Text("Services Images",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600,),),
                       SizedBox(height: height*0.020,),
                       DottedBorder(
                         borderType: BorderType.RRect,
-                        dashPattern: [3, 3, 3],
-                        radius: Radius.circular(12),
-                        color: Color(0xFF116D6E),
+                        dashPattern: const [3, 3, 3],
+                        radius: const Radius.circular(12),
+                        color: const Color(0xFF116D6E),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            height: height*0.13,
+                            height: height*0.14,
                             width: MediaQuery.of(context).size.width,
-                            color: Color(0xFFF5F7F7),
+                            color: const Color(0xFFF5F7F7),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                if (serviceImage != null)
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Container(
-                                        width: 100,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(image: FileImage(serviceImage!),fit: BoxFit.fill),
-                                            borderRadius: BorderRadius.circular(12)
-                                        ),
-                                      ),
+                                if (images != null)
+                                  Visibility(
+                                    visible: !showPickOption,
+                                    child: SizedBox(
+                                      height: height*0.13,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            return Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: width*0.020),
+                                                child: Row(
+                                                  children: [
+                                                    Stack(
+                                                      alignment: Alignment.topRight,
+                                                      children: [
+                                                        Container(
+                                                          padding: EdgeInsets.symmetric(vertical: height*0.08,horizontal: width*0.08),
+                                                          width: width*0.30,
+                                                          height: height*0.15,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(12)
+                                                          ),
+                                                          child: Image.file(images[index],fit: BoxFit.fill,),
+                                                        ),
+                                                        Positioned(
+                                                          right: width*0.012,
+                                                          top: height*0.002,
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              removeImage(index);
+                                                            },
+                                                            child: Container(
+                                                              width: 23,
+                                                              height: 23,
+                                                              decoration: const BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  color: Colors.white,
+                                                                  image: DecorationImage(image: AssetImage("assets/image/DeleteIcon.png")),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    // InkWell(
+                                                    //   onTap: () {
+                                                    //     pickImages();
+                                                    //   },
+                                                    //   child: Container(
+                                                    //     padding: EdgeInsets.all(8),
+                                                    //     width: width*0.30,
+                                                    //     height: height*0.15,
+                                                    //     decoration: BoxDecoration(
+                                                    //       border: Border.all(color: Color(0xFF116D6E)),
+                                                    //         image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none),
+                                                    //         borderRadius: BorderRadius.circular(12)
+                                                    //     ),
+                                                    //   ),
+                                                    // )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) {
+                                            return SizedBox(width: width*0.005,);
+                                          },
+                                          itemCount: images.length ),
                                     ),
                                   ),
                                 if (showPickOption)
                                   InkWell(
                                     onTap: () {
-                                      _pickImage();
+                                      pickImages();
                                     },
-                                    child: Container(
+                                    child: Visibility(
+                                      visible: showPickOption,
                                       child: Column(
                                         children: [
                                           Container(
@@ -222,11 +292,11 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(50),
                                                 color: Colors.white,
-                                                image: DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                                image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
                                             ),
                                           ),
-                                          SizedBox(height: 5,),
-                                          Text("Upload Services Image",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)))
+                                          const SizedBox(height: 5,),
+                                          Text("Upload File",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
                                         ],
                                       ),
                                     ),
@@ -236,7 +306,6 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -247,11 +316,11 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Color(0xFF116D6E)
+                        color: const Color(0xFF116D6E)
                     ),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen(),));
                         },
                         child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ),
