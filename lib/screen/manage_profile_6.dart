@@ -285,7 +285,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
       };
       var response = await http.post(
         postUri,
-        body: bodyData,
+        body: jsonEncode(bodyData),
         headers: Utils.apiHeader,
       );
       Utils.logAPIResponse(function: "manageProfile6",apiName: ApiServices.manageProfile6Api,response: response, body: bodyData);

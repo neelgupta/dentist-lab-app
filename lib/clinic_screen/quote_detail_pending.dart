@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:dentalapp/models/pending_quote_model.dart';
+import 'package:dentalapp/services/clinic_services/quote_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class QuoteDetailPending extends StatefulWidget {
-  const QuoteDetailPending({Key? key}) : super(key: key);
+  final String quoteId;
+  const QuoteDetailPending({Key? key, required this.quoteId}) : super(key: key);
 
   @override
   State<QuoteDetailPending> createState() => _QuoteDetailPendingState();
@@ -10,6 +17,18 @@ class QuoteDetailPending extends StatefulWidget {
 
 class _QuoteDetailPendingState extends State<QuoteDetailPending> {
   bool isPendingAllDetail=false;
+  QuoteService quoteService = QuoteService();
+  PendingQuote? pendingQuote;
+  List<Propsaldata> proposals = [];
+  QuotesData? quotesData;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPendingDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +38,11 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-
     return Scaffold(
       body: SizedBox(
         height: height,
         width: width,
-        child: Column(
+        child: isLoading?Center(child: loader()):Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -50,7 +68,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           const Spacer(),
                           Center(child: Text(textAlign: TextAlign.center,"Quote Detail",style: GoogleFonts.lato(fontSize: 26,fontWeight: FontWeight.w600,color: Colors.white,),)),
                           const Spacer(),
-                          Container()
+                          const Icon(Icons.keyboard_backspace,color: Colors.transparent,)
                         ],
                       ),
                     ),
@@ -70,7 +88,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Title lorem...",
+                        quotesData!.title ?? "",
                         style: GoogleFonts.lato(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -81,7 +99,6 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           onTap: () {
                             setState(() {
                               isPendingAllDetail=false;
-                              print("isPendingAllDetail1=$isPendingAllDetail");
                             });
                           },
                           child: const Image(
@@ -95,7 +112,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                   SizedBox(
                     width: width*0.75,
                     child: Text(
-                      "Lorem Ipsum has been the industry's standard dummy text ever since",
+                      quotesData!.description ?? "",
                       style: GoogleFonts.lato(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -104,14 +121,12 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                     ),
                   ),
                   SizedBox(height: height*0.02,),
-                  Text(
-                    "Service 1 Service 2 Service 3 ",
-                    // overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.lato(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xff116D6E),
-                    ),
+                  Wrap(
+                    runSpacing: width*0.01,
+                    spacing: width*0.03,
+                    children: (quotesData!.serviceDetails ?? []).map((item) {
+                      return Text(item.title ?? "",style: GoogleFonts.lato(color: const Color(0xff116D6E)));
+                    }).toList(),
                   ),
                   SizedBox(height: height*0.005,),
                   Row(
@@ -124,18 +139,16 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           color: const Color(0xff707070),
                         ),
                       ),
-                      Spacer(),
-                      Container(
-                        height: height*0.03,
-                        width: width*0.18,
+                      const Spacer(),
+                       Container(
+                         padding: EdgeInsets.symmetric(horizontal: width*0.04,vertical: 5),
                         decoration: BoxDecoration(
-                          color: Color(0xff707070),
+                          color: Color(quotesData!.priority == "normal"?0xff707070:0xffFF5959),
                           borderRadius: BorderRadius.circular(2),
                         ),
-
                         child: Center(
                           child: Text(
-                            "Normal",
+                            quotesData!.priority == "normal"?"Normal":"Urgent",
                             style: GoogleFonts.lato(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
@@ -144,8 +157,6 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           ),
                         ),
                       )
-
-
                     ],
                   ),
                   SizedBox(height: height*0.01,),
@@ -156,31 +167,11 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                         style: GoogleFonts.lato(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xff707070),
+                          color: const Color(0xff707070),
                         ),
                       ),
-                      Spacer(),
-                      Container(
-                        height: height*0.03,
-                        width: width*0.18,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffFFD059),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-
-                        child: Center(
-                          child: Text(
-                            "Pending",
-                            style: GoogleFonts.lato(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color:  Colors.black,
-                            ),
-                          ),
-                        ),
-                      )
-
-
+                      const Spacer(),
+                      QuotesWidget.getQuoteStatus(width, "pending")
                     ],
                   ),
                   SizedBox(height: height*0.01,),
@@ -191,16 +182,16 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                         style: GoogleFonts.lato(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xff707070),
+                          color: const Color(0xff707070),
                         ),
                       ),
-                      Spacer(),
-                      Container(
+                      const Spacer(),
+                      SizedBox(
                         height: height*0.03,
                         width: width*0.18,
                         child: Center(
                           child: Text(
-                            "Public",
+                            quotesData!.chooseFor == "public" ? "Public" : "Lab List",
                             style: GoogleFonts.lato(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
@@ -233,49 +224,23 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Title lorem...",
+                        quotesData!.title ?? "",
                         style: GoogleFonts.lato(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xff252525),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: (){
-
-                        },
-                        child: Container(
-                          height: height * 0.03,
-
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFFD059),
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:  EdgeInsets.symmetric(horizontal: height*0.01),
-                              child: Text(
-                                "Panding",
-                                style: GoogleFonts.lato(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xff252525),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      QuotesWidget.getQuoteStatus(width, "pending")
                     ],
                   ),
                   SizedBox(height: height*0.02,),
                   Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
+                      SizedBox(
                         width: width*0.75,
                         child: Text(
-                          "Lorem Ipsum has been the industry's standard dummy text ever since",
+                          quotesData!.description ?? '',
                           style: GoogleFonts.lato(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -283,12 +248,11 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       GestureDetector(
                           onTap: () {
                             setState(() {
                               isPendingAllDetail=true;
-                              print("isPendingAllDetail2=$isPendingAllDetail");
                             });
                           },
                           child: const Image(
@@ -303,10 +267,6 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                     child: Divider(thickness: 1,color: Color(0xffE7E7E7),),
                   ),
                   SizedBox(height: height*0.01,),
-
-
-
-
                 ],
               ),
             ),
@@ -317,7 +277,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: height*0.02),
               child: Text(
-                "Praposals (5)",
+                "Proposals (${proposals.length})",
                 style: GoogleFonts.lato(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
@@ -329,7 +289,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
             Expanded(
               child: ListView.builder(physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: proposals.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding:  EdgeInsets.symmetric(horizontal: height*0.02),
@@ -341,7 +301,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Atlanta lab",
+                                proposals[index].labDetails![0].labName ?? "",
                                 style: GoogleFonts.lato(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -349,7 +309,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                 ),
                               ),
                               Text(
-                                "AED 500",
+                                "AED ${proposals[index].amount ?? "0"}",
                                 style: GoogleFonts.lato(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -368,7 +328,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                   "assets/image/locationgrren.png",),fit: BoxFit.fill,),
                               SizedBox(width: width*0.01,),
                               Text(
-                                "Ottawa, Canada",
+                                "${proposals[index].labDetails![0].city ?? ""}, ${proposals[index].labDetails![0].country ?? ""}",
                                 style: GoogleFonts.lato(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
@@ -383,7 +343,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                   "assets/image/call.png",),fit: BoxFit.fill,),
                               SizedBox(width: width*0.01,),
                               Text(
-                                "+9675852",
+                                "${proposals[index].labDetails![0].mobileNumber ?? ""}",
                                 style: GoogleFonts.lato(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
@@ -398,7 +358,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                   color: const Color(0xff219653),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
-                                child:    Center(
+                                child: Center(
                                   child: Text(
                                     "Accept",
                                     style: GoogleFonts.lato(
@@ -414,19 +374,15 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                           ),
                           SizedBox(height: height*0.01,),
                           Row(
-
                             children: [
                               Expanded(
-                                child: Container(
-
-                                  child: Text(
-                                    "Lorem Ipsum has been the industry's standard dummy text ever since",
-                                    maxLines: 2, overflow: TextOverflow.ellipsis, softWrap: false,
-                                    style: GoogleFonts.lato(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff252525),
-                                    ),
+                                child: Text(
+                                  proposals[index].labDetails![0].labName ?? "",
+                                  maxLines: 2, overflow: TextOverflow.ellipsis, softWrap: false,
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff252525),
                                   ),
                                 ),
                               ),
@@ -451,5 +407,20 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
         ),
       ),
     );
+  }
+
+  getPendingDetails() async {
+    var body = {
+      "quoteId": widget.quoteId
+    };
+    Response response = await quoteService.getPendingQuoteDetail(body: body);
+
+    if(response.statusCode == 200) {
+      pendingQuote = PendingQuote.fromJson(jsonDecode(response.body));
+      proposals.addAll(pendingQuote!.data!.propsaldata ?? []);
+      quotesData = (pendingQuote!.data!.quotesData ?? []).first;
+    }
+    isLoading = false;
+    setState(() {});
   }
 }

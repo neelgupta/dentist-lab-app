@@ -360,7 +360,7 @@ class _profileSetup1State extends State<profileSetup1> {
       };
       var response = await http.post(
         postUri,
-        body: bodyData,
+        body: jsonEncode(bodyData),
         headers: Utils.apiHeader,
       );
       Utils.logAPIResponse(function: "profileSetup1",apiName: ApiServices.addClinicDetails,response: response, body: bodyData);
