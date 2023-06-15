@@ -623,7 +623,7 @@ class _CreateQuoteState extends State<CreateQuote> {
     };
     Response response = await clientProfile.createQuote(body: body);
     Navigator.pop(context);
-    if(response.statusCode == 201) {
+    if(response.statusCode == 200) {
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
         return QuoteSuccessfully();

@@ -101,7 +101,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   void showMyDialog() {
       showDialog(
         context: context,
-        barrierDismissible: false,
+        // barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
               title: WillPopScope(

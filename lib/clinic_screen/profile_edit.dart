@@ -119,21 +119,17 @@ class _ProfileEditState extends State<ProfileEdit> {
                         ],
                       ),
 
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
+
                       Align(
                         alignment: Alignment.center,
                         child: Text("${clinicProfile!.data!.userId!.firstName ?? ""} ${clinicProfile!.data!.userId!.lastName ?? ""}",
                             style: GoogleFonts.lato(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                             )),
                       ),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
+
                       Align(
                         alignment: Alignment.center,
                         child: Text("Since ${DateFormat('yyyy').format(DateTime.parse(clinicProfile!.data!.dateOfEstablishment!))}",

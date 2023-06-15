@@ -1,12 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:dentalapp/clinic_screen/make_payment.dart';
 import 'package:dentalapp/custom_widget/button.dart';
+import 'package:dentalapp/models/accepeted_quote_model.dart';
+import 'package:dentalapp/services/clinic_services/quote_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class QuoteAfterAccept extends StatefulWidget {
-  const QuoteAfterAccept({Key? key}) : super(key: key);
+  final String quoteId;
+  const QuoteAfterAccept({Key? key, required this.quoteId}) : super(key: key);
 
   @override
   State<QuoteAfterAccept> createState() => _QuoteAfterAcceptState();
@@ -16,6 +23,21 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
   bool isShareComments=false;
   TextEditingController nameController=TextEditingController();
   TextEditingController commentController=TextEditingController();
+  QuoteService quoteService = QuoteService();
+  bool isLoading = true;
+  AcceptedQuote? acceptedQuote;
+  QuoteData? quoteData;
+  PropsalDetails? propsalDetails;
+  LabDetails? labDetails;
+  OrderDetails? orderDetails;
+  QuoteStatus? quoteStatus;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getQuoteDetail();
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height -
@@ -24,413 +46,415 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return Scaffold(
-
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                height: height * 0.15,
-                decoration: const BoxDecoration(
-                    color: Color(0xFF116D6E),
-                    image: DecorationImage(
-                        image: AssetImage("assets/image/Group 12305.png"),
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.bottomCenter,
-                        opacity: 0.3)),
+    return SafeArea(
+      child: Scaffold(
+        body: isLoading?Center(child: loader()):SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  height: height * 0.15,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF116D6E),
+                      image: DecorationImage(
+                          image: AssetImage("assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter,
+                          opacity: 0.3)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(
+                                  Icons.keyboard_backspace,
+                                  color: Colors.white,
+                                )),
+                            const Spacer(),
+                            Center(
+                                child: Text(
+                              textAlign: TextAlign.center,
+                              "Quote Detail",
+                              style: GoogleFonts.lato(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            )),
+                            const Spacer(),
+                            Icon(
+                              Icons.keyboard_backspace,
+                              color: Colors.transparent,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+              SizedBox(
+                height: height * 0.03,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      height: height * 0.02,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Icon(
-                                Icons.keyboard_backspace,
-                                color: Colors.white,
-                              )),
-                          const Spacer(),
-                          Center(
-                              child: Text(
-                            textAlign: TextAlign.center,
-                            "Quote Detail",
-                            style: GoogleFonts.lato(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                      height: height * 0.65,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  quoteData!.title ?? "",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff252525),
+                                  ),
+                                ),
+                                const Spacer(),
+                                QuotesWidget.getQuoteStatus(width, quoteStatus!.clinicStatus!)
+                              ],
                             ),
-                          )),
-                          const Spacer(),
-                          Container()
-                        ],
-                      ),
-                    ),
-                  ],
-                )),
-            SizedBox(
-              height: height * 0.03,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: height * 0.02),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Title lorem...",
-                        style: GoogleFonts.lato(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff252525),
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xff219653),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: height * 0.02,
-                              vertical: height * 0.01),
-                          child: Center(
-                            child: Text(
-                              "Accepted",
-                              style: GoogleFonts.lato(
-                                fontSize: 8,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xffffffff),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            SizedBox(
+                              width: width * 0.75,
+                              child: Text(
+                                quoteData!.description ?? "",
+                                style: GoogleFonts.lato(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xff252525),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  SizedBox(
-                    width: width * 0.75,
-                    child: Text(
-                      "Lorem Ipsum has been the industry's standard dummy text ever since",
-                      style: GoogleFonts.lato(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xff252525),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    color: Color(0xffE7E7E7),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Subtotal :",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff707070),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        "AED 500",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff252525),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Advance 30% (Paid)",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff707070),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        "AED 75",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff252525),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Priority :",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff707070),
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        height: height * 0.03,
-                        width: width * 0.18,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff707070),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Normal",
-                            style: GoogleFonts.lato(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                            SizedBox(
+                              height: height * 0.01,
                             ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Lab Name ",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff252525),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        "Apt 30",
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff252525),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  Row(
-                    children: [
-                      const Image(
-                        height: 14,
-                        width: 12,
-                        image: AssetImage(
-                          "assets/image/locationgrren.png",
-                        ),
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        width: width * 0.01,
-                      ),
-                      Text(
-                        "Ottawa, Canada",
-                        style: GoogleFonts.lato(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xff116D6E),
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.03,
-                      ),
-                      const Image(
-                        height: 14,
-                        width: 12,
-                        image: AssetImage(
-                          "assets/image/call.png",
-                        ),
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        width: width * 0.01,
-                      ),
-                      Text(
-                        "+9675852",
-                        style: GoogleFonts.lato(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xff116D6E),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.013,
-                  ),
-                  Text(
-                    "Toronto. DE 63324",
-                    style: GoogleFonts.lato(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xff252525),
-                    ),
-                  ),
-
-                  commonButton(context,'Make Advance Payment', 13,FontWeight.w700,Colors.white, () {
-
-                  }),
-                  SizedBox(height: height*0.02,),
-                  commonButton(context,'Call Lab', 13,FontWeight.w700,Colors.white, () {
-
-                  }),
-                  SizedBox(height: height*0.02,),
-                  commonButton(context,'Delivery Accepted', 13,FontWeight.w700,Colors.white, () {
-
-                  }),
-                  SizedBox(height: height*0.02,),
-                  commonButton(context,'Not As Per Expeactation', 13,FontWeight.w700,Colors.white, () {
-
-                  }),
-                  SizedBox(height: height*0.02,),
-                  commonButton(context,'Pay 260', 13,FontWeight.w700,Colors.white, () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return MakePayment();
-                          },));
-                  }),
-                  SizedBox(height: height*0.02,),
-                  commonButton(context,'Share Comment', 13,FontWeight.w700,Colors.white, () {
-                    showShareMyDialog();
-
-                  }),
-                  SizedBox(height: height*0.02,),
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        isShareComments = !isShareComments;
-                      });
-                    },
-                    child: SizedBox(
-                      width: width,
-                      height: height*0.04,
-                      child: Row(
-                        children: [
-                          Text("Comments",
+                            const Divider(
+                              thickness: 1,
+                              color: Color(0xffE7E7E7),
+                            ),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Subtotal :",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff707070),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "AED ${orderDetails!.totalAmount}",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff252525),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Advance 30% (Paid)",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff707070),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "AED ${orderDetails!.advanceAmount}",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff252525),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Priority :",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff707070),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: width*0.04,vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: Color(quoteData!.priority == "normal"?0xff707070:0xffFF5959),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      quoteData!.priority == "normal"?"Normal":"Urgent",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xffFFFFFF),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Lab Name ",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff252525),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  labDetails!.labName ?? "",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff252525),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Image(
+                                  width: width * 0.03,
+                                  image: AssetImage(
+                                    "assets/image/locationgrren.png",
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                                SizedBox(
+                                  width: width * 0.02,
+                                ),
+                                Text(
+                                  "${labDetails!.city ?? " "}, ${labDetails!.country ?? ""}",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff116D6E),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * 0.03,
+                                ),
+                                Image(
+                                  width: width * 0.04,
+                                  image: AssetImage(
+                                    "assets/image/call.png",
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                                SizedBox(
+                                  width: width * 0.02,
+                                ),
+                                Text(
+                                  labDetails!.mobileNumber ?? "",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff116D6E),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Text(
+                              "Toronto. DE 63324",
                               style: GoogleFonts.lato(
-                                fontSize: 18,
+                                fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: const Color(0xff111111),
-                              )),
-                          const Spacer(),
-                          !isShareComments?Image(
-                            height: 7,
-                            width: 14,
-                            image: AssetImage(
-                              "assets/image/upicon.png",),fit: BoxFit.fill,):
-                          Image(
-                            height: 6,
-                            width: 14,
-                            image: AssetImage(
-                              "assets/image/downicon.png",),fit: BoxFit.fill,),
-                            SizedBox(width: width*0.01,),
-
-                        ],
+                                color: const Color(0xff252525),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  !isShareComments
-                      ? const SizedBox()
-                      : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-                      Divider(thickness: 1,color: Color(0xffE7E7E7),),
+                    quoteStatus!.clinicStatus=="advancePending"?Column(
+                      children: [
+                        commonButton(context,'Make Advance Payment', 13,FontWeight.w700,Colors.white, () {
 
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
+                        }),
+                        SizedBox(height: height*0.02,),
+                        commonButton(context,'Call Lab', 13,FontWeight.w700,Colors.white, () {
 
-                      Text("Clinic Name",
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xff252525),
-                          )),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-                      Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff111111),
-                          )),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-                      Divider(thickness: 1,color: Color(0xffE7E7E7),),
+                        }),
+                      ],
+                    )
+                        :quoteStatus!.clinicStatus=="inProgress"?commonButton(context,'Call Lab', 13,FontWeight.w700,Colors.white, () {})
+                        :quoteStatus!.clinicStatus=='outForDelivery'?Column(
+                      children: [
+                        commonButton(context,'Delivery Accepted', 13,FontWeight.w700,Colors.white, () {
 
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
+                        }),
+                        SizedBox(height: height*0.02,),
+                        commonButton(context,'Not As Per Expeactation', 13,FontWeight.w700,Colors.white, () {
 
-                      Text("Lab Name",
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xff252525),
-                          )),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-                      Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff111111),
-                          )),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
+                        })
+                      ],
+                    ):
+                    quoteStatus!.clinicStatus=='deliveryAccepted'? commonButton(context,'Pay 260', 13,FontWeight.w700,Colors.white, () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return MakePayment();
+                            },));
+                    })
+                        :quoteStatus!.clinicStatus=='deliveryRejected'?
+                        Column(
+                          children: [
+                            commonButton(context,'Share Comment', 13,FontWeight.w700,Colors.white, () {
+                              showShareMyDialog();
+
+                            }),
+                            SizedBox(height: height*0.02,),
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  isShareComments = !isShareComments;
+                                });
+                              },
+                              child: SizedBox(
+                                width: width,
+                                height: height*0.04,
+                                child: Row(
+                                  children: [
+                                    Text("Comments",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xff111111),
+                                        )),
+                                    const Spacer(),
+                                    !isShareComments?Image(
+                                      height: 7,
+                                      width: 14,
+                                      image: AssetImage(
+                                        "assets/image/upicon.png",),fit: BoxFit.fill,):
+                                    Image(
+                                      height: 6,
+                                      width: 14,
+                                      image: AssetImage(
+                                        "assets/image/downicon.png",),fit: BoxFit.fill,),
+                                    SizedBox(width: width*0.01,),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            !isShareComments
+                                ? const SizedBox()
+                                : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+                                Divider(thickness: 1,color: Color(0xffE7E7E7),),
+
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+
+                                Text("Clinic Name",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xff252525),
+                                    )),
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+                                Text("Lorem Ipsum has been the industry's standard dummy text ever since",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff111111),
+                                    )),
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+                                Divider(thickness: 1,color: Color(0xffE7E7E7),),
+
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+
+                                Text("Lab Name",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xff252525),
+                                    )),
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+                                Text("Lorem Ipsum has been the industry's standard dummy text ever since",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff111111),
+                                    )),
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
 
 
-                    ],
-                  ),
-                ],
+                              ],
+                            ),
+                          ],
+                        ):Container()
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -544,5 +568,20 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
     );
   }
 
-
+  getQuoteDetail() async {
+    var body = {
+      "quoteId": widget.quoteId
+    };
+    Response response = await quoteService.getAcceptedQuoteDetail(body: body);
+    if(response.statusCode == 200) {
+      acceptedQuote = AcceptedQuote.fromJson(jsonDecode(response.body));
+      quoteData = acceptedQuote!.quoteData!.first;
+      quoteStatus = quoteData!.quoteStatus!.first;
+      propsalDetails = quoteData!.propsalDetails!.first;
+      labDetails = quoteData!.labDetails!.first;
+      orderDetails = quoteData!.orderDetails!.first;
+    }
+    isLoading = false;
+    setState(() {});
+  }
 }
