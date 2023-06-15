@@ -99,7 +99,7 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                                       Container(
                                         height: 150,
                                         width: 150,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             image: DecorationImage(image: AssetImage("assets/image/gallery1.png"),fit: BoxFit.fill)
                                         ),
                                       ),
