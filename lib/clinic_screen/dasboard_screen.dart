@@ -1,8 +1,10 @@
 
 // ignore_for_file: sort_child_properties_last
 
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/clinic_screen/clinic_notification.dart';
 import 'package:dentalapp/clinic_screen/create_quote.dart';
-import 'package:dentalapp/clinic_screen/payment.dart';
+import 'package:dentalapp/clinic_screen/payment_history.dart';
 import 'package:dentalapp/clinic_screen/profile_edit.dart';
 import 'package:dentalapp/custom_widget/drawer.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,6 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
         child: Container(
           height: height * 0.98,
           width: double.infinity,
-
           decoration: const BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
@@ -43,9 +44,8 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
           child: Stack(
             children: [
               Container(
-                  height: height * 0.38,
+                  height: height * 0.3,
                   width: double.infinity,
-
                   decoration: const BoxDecoration(
                       color: Color(0xFF116D6E),
                       image: DecorationImage(
@@ -54,82 +54,56 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                           alignment: Alignment.bottomCenter,
                           opacity: 0.3)),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 20,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.05,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: height * 0.05,
+                          height: height * 0.03,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: GestureDetector(
+                            onTap: (){
+                              _key.currentState!.openDrawer();
+                            },
+                            child: Image(
+                                image: const AssetImage("assets/image/Menu.png"),height: width * 0.07),
+                          ),
+                        ),
+                        Stack(
                           children: [
-                            GestureDetector(
-                              onTap: (){
-                                _key.currentState!.openDrawer();
-                              },
-                              child: const Image(
-                                  image: AssetImage("assets/image/Menu.png")),
-                            ),
-                            //   Image.asset("assets/image/Menu.png"),
-                            SizedBox(
-                              width: width * 0.25,
-                            ),
-                            Stack(
-                              children: [
-                                Container(
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.white, width: 1),
-                                    shape: BoxShape.circle,
-                                    color:
-                                    const Color.fromRGBO(55, 255, 255, 0.5),
-                                  ),
-                                  child: Center(
-                                      child: Text("N",
-                                          style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight:
-                                                  FontWeight.w600))),
-                                ),
-                                Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: SizedBox(
-                                      height: 25,
-                                      width: 25,
-                                      child: Image.asset(
-                                          "assets/image/profileclick.png"),
-                                    ))
-                              ],
-                            ),
-
-
-                                SizedBox(width: width*0.02,),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 50),
-                              child: ChatBubble(backGroundColor: Colors.white,
-                                child:  Text("verified",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff116D6E),
-                                  )),
-                                clipper: ChatBubbleClipper4(
-                                    type: BubbleType.receiverBubble),
+                            Container(
+                              height: width * 0.2,
+                              width: width * 0.2,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.white, width: 1),
+                                shape: BoxShape.circle,
+                                color:
+                                const Color.fromRGBO(55, 255, 255, 0.5),
                               ),
-                            )
+                              child: Center(
+                                  child: Text("N",
+                                      style: GoogleFonts.lato(
+                                          color: Colors.white,
+                                          fontSize: 24,
+                                          fontWeight:
+                                              FontWeight.w600))),
+                            ),
+                            Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: SizedBox(
+                                  height: width * 0.06,
+                                  width: width * 0.06,
+                                  child: Image.asset(
+                                      "assets/image/profileclick.png"),
+                                ))
                           ],
                         ),
-                        // SizedBox(height: 16,),
-
                         SizedBox(
                           height: height*0.01,
                         ),
@@ -140,7 +114,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                               color: Colors.white,
                             )),
                         SizedBox(
-                          height: height*0.01,
+                          height: height*0.005,
                         ),
                         Text("Since 1992",
                             style: GoogleFonts.lato(
@@ -152,166 +126,230 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                     ),
                   )),
 
-              Positioned(
-                top: 250,left: 15,
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
                   children: [
-                    Column(
+                    Expanded(child: Container()),
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(context,MaterialPageRoute(builder: (context) {
-                              return const CreateQuote();
-                            },));
-                          },
-                          child: Card(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context,MaterialPageRoute(builder: (context) {
+                                  return const CreateQuote();
+                                },));
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: width * 0.35,
+                                  height: width * 0.35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: const Color(0xff116D6E).withOpacity(0.5),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 1.0,
+                                          offset: const Offset(0.0, 3.0)
+                                      ),
+                                    ],
+                                  ),
 
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 40,width: 40,
-                                      child: Image.asset('assets/image/newquote.png',fit: BoxFit.fill,)),
-                                  SizedBox(height: height*0.01,),
-                                  Text("New Quote",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xff116D6E),
-                                      )),
-                                ],
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 40,width: 40,
+                                          child: Image.asset('assets/image/newQuoteIcon.png',fit: BoxFit.fill,)),
+                                      SizedBox(height: height*0.01,),
+                                      Text("New Quote",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xff116D6E),
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            SizedBox(height: height*0.02,),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                                  return const BottomNavigation(index: 2);
+                                },), (route) => false);
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: width * 0.35,
+                                  height: width * 0.35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: const Color(0xff116D6E).withOpacity(0.5),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 1.0,
+                                          offset: const Offset(0.0, 3.0)
+                                      ),
+                                    ],
+                                  ),
+
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 40,width: 40,
+                                          child: Image.asset('assets/image/quoteIcon.png',fit: BoxFit.fill,)),
+                                      SizedBox(height: height*0.01,),
+                                      Text("Quote",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xff116D6E),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: height*0.02,),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return const ClinicNotification();
+                                },));
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: width * 0.35,
+                                  height: width * 0.35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: const Color(0xff116D6E).withOpacity(0.5),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 1.0,
+                                          offset: const Offset(0.0, 3.0)
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 40,width: 40,
+                                          child: Image.asset('assets/image/notificationIcon.png',fit: BoxFit.fill,)),
+                                      SizedBox(height: height*0.01,),
+                                      Text("Notifications",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xff116D6E),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: height*0.14,)
+                          ],
                         ),
-                        Card(
-                          child: Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
-                            ),
+                        SizedBox(width: width * 0.05),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                                  return const BottomNavigation(index: 3);
+                                },), (route) => false);
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: width * 0.35,
+                                  height: width * 0.35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: const Color(0xff116D6E).withOpacity(0.5),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 1.0,
+                                          offset: const Offset(0.0, 3.0)
+                                      ),
+                                    ],
+                                  ),
 
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 40,width: 40,
-                                    child: Image.asset('assets/image/quote.png',fit: BoxFit.fill,)),
-                                SizedBox(height: height*0.01,),
-                                Text("Quote",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff116D6E),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Card(
-                          child: Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
-                            ),
-
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 40,width: 40,
-                                    child: Image.asset('assets/image/Notification 3.png',fit: BoxFit.fill,)),
-                                SizedBox(height: height*0.01,),
-                                Text("Notifications",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff116D6E),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 10),
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(context,MaterialPageRoute(builder: (context) {
-                              return const ProfileEdit();
-                            },));
-                          },
-                          child: Card(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
-
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 40,width: 40,
-                                      child: Image.asset('assets/image/newquote.png',fit: BoxFit.fill,)),
-                                  SizedBox(height: height*0.01,),
-                                  Text("Profile",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xff116D6E),
-                                      )),
-                                ],
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 40,width: 40,
+                                          child: Image.asset('assets/image/profileIcon.png',fit: BoxFit.fill,)),
+                                      SizedBox(height: height*0.01,),
+                                      Text("Profile",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xff116D6E),
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(context,MaterialPageRoute(builder: (context) {
-                              return const Payment();
-                            },));
+                            SizedBox(height: height * 0.02,),
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context,MaterialPageRoute(builder: (context) {
+                                  return const PaymentHistory();
+                                },));
 
-                          },
-                          child: Card(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: width * 0.35,
+                                  height: width * 0.35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: const Color(0xff116D6E).withOpacity(0.5),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 1.0,
+                                          offset: const Offset(0.0, 3.0)
+                                      ),
+                                    ],
+                                  ),
 
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 40,width: 40,
-                                      child: Image.asset('assets/image/Message18.png',fit: BoxFit.fill,)),
-                                  SizedBox(height: height*0.01,),
-                                  Text("Payment",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xff116D6E),
-                                      )),
-                                ],
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 40,width: 40,
+                                          child: Image.asset('assets/image/paymentIcon.png',fit: BoxFit.fill,)),
+                                      SizedBox(height: height*0.01,),
+                                      Text("Payment",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xff116D6E),
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            SizedBox(height: height*0.1,)
+                          ],
                         ),
-
                       ],
                     ),
                   ],

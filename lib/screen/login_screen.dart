@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const
@@ -36,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Utils.prefs!.clear();
   }
 
   @override
@@ -205,12 +207,13 @@ class _LoginScreenState extends State<LoginScreen> {
             sendOTP();
           }
           else {
+            Utils.prefs = await SharedPreferences.getInstance();
             Utils.setToken(signInModel!.token);
             Utils.setUserType(signInModel!.type);
             Utils.setLoginStatus(true);
             Utils.showSuccessToast(signInModel!.message);
             Utils.setScreenStatus(signInModel!.screenStatus);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const DashboardScreen():const BottomNavigation(),),);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const DashboardScreen():const BottomNavigation(index: 0),),);
           }
         } else {
           Utils.showErrorToast(map["message"]);

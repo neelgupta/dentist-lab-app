@@ -2,6 +2,9 @@
 
 import 'dart:math';
 
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/clinic_screen/clinic_notification.dart';
+import 'package:dentalapp/clinic_screen/payment_history.dart';
 import 'package:dentalapp/screen/login_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -76,10 +79,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     SizedBox(
                       width: width * 0.02,
                     ),
-                    Column(
+                    const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "User name",
                           style: TextStyle(
@@ -114,10 +117,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = 0;
-                log(selectedIndex);
-              });
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                return const BottomNavigation(index: 0);
+              },), (route) => false);
             },
             child: SizedBox(
               height: height * 0.07,
@@ -130,7 +132,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       width: width * 0.07,
                       child: Image.asset("assets/image/d_home.png",
                           color: selectedIndex == 0
-                              ? Color(0xff116D6E)
+                              ? const Color(0xff116D6E)
                               : Colors.black),
                     ),
                     SizedBox(width: width * 0.05),
@@ -138,7 +140,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       "Home",
                       style: TextStyle(
                           color: selectedIndex == 0
-                              ? Color(0xff116D6E)
+                              ? const Color(0xff116D6E)
                               : Colors.black,
                           fontSize: 16),
                     ),
@@ -150,11 +152,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              // Get.offAndToNamed(Routes.BOTTOM_NAVIGATIONBAR);
-              setState(() {
-                selectedIndex = 1;
-                log(selectedIndex);
-              });
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                return const BottomNavigation(index: 3);
+              },), (route) => false);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -173,7 +173,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     "Profile",
                     style: TextStyle(
                         color: selectedIndex == 1
-                            ? Color(0xff116D6E)
+                            ? const Color(0xff116D6E)
                             : Colors.black,
                         fontSize: 16),
                   ),
@@ -184,11 +184,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              //  Get.offAndToNamed(Routes.BOTTOM_NAVIGATIONBAR);
-              setState(() {
-                selectedIndex = 2;
-                log(selectedIndex);
-              });
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                return const BottomNavigation(index: 2);
+              },), (route) => false);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -218,9 +216,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = 3;
-              });
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                return const BottomNavigation(index: 0);
+              },), (route) => false);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -250,10 +248,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = 4;
-                log(selectedIndex);
-              });
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return const PaymentHistory();
+              },));
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -283,9 +280,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = 5;
-              });
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return const ClinicNotification();
+              },));
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -315,41 +312,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = 6;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30, right: 20),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: height * 0.06,
-                    width: width * 0.07,
-                    child: Image.asset("assets/image/d_message.png",
-                        color: selectedIndex == 6
-                            ? const Color(0xff116D6E)
-                            : Colors.black),
-                  ),
-                  SizedBox(width: width * 0.05),
-                  Text(
-                    "Messages",
-                    style: TextStyle(
-                        color: selectedIndex == 6
-                            ? const Color(0xff116D6E)
-                            : Colors.black,
-                        fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 5),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedIndex = 7;
-              });
+
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -430,27 +393,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                   child: Image.asset("assets/image/logout.png",fit: BoxFit.fill,),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text("are you sure you want to log out ?",
                     style: GoogleFonts.lato(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFF707070),
+                      color: const Color(0xFF707070),
                     ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF116D6E)),
+                          MaterialStateProperty.all(const Color(0xFF116D6E)),
                       padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 12)),
+                          const EdgeInsets.symmetric(horizontal: 30, vertical: 12)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -459,9 +422,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                        return LoginScreen();
+                        return const LoginScreen();
                       },), (route) => false);
                       Utils.setLoginStatus(false);
+                      Utils.setToken("");
+                      Utils.setUserType("");
+                      Utils.showSuccessToast("Logout Successfully");
+                      Utils.setScreenStatus("0");
                     },
                     child: Text("Logout",
                         style: GoogleFonts.lato(

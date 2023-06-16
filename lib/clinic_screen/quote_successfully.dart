@@ -45,7 +45,7 @@ class _QuoteSuccessfullyState extends State<QuoteSuccessfully> {
                             InkWell(
                                 onTap: () {
                                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                    return const BottomNavigation();
+                                    return const BottomNavigation(index: 0);
                                   },), (route) => false);
                                 },
                                 child: Padding(
@@ -89,7 +89,7 @@ class _QuoteSuccessfullyState extends State<QuoteSuccessfully> {
                   child: TextButton(
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                          return const BottomNavigation();
+                          return const BottomNavigation(index: 0);
                         },), (route) => false);
                       },
                       child: Text("Back To Home",
@@ -109,7 +109,7 @@ class _QuoteSuccessfullyState extends State<QuoteSuccessfully> {
 
   Future<bool> goBack() async {
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-      return const BottomNavigation();
+      return const BottomNavigation(index: 0,);
     },), (route) => false);
     return true;
   }

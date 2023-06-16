@@ -280,7 +280,7 @@ class _CreateQuoteState extends State<CreateQuote> {
 
                             if (pickedDate != null) {
                               dateInputController.text =
-                                  DateFormat('dd MMMM yyyy').format(pickedDate);
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
                             }
                           },
                           textInputAction: TextInputAction.next,
@@ -615,13 +615,13 @@ class _CreateQuoteState extends State<CreateQuote> {
     var body = {
       "title": titleController.text,
       "description": descriptionController.text,
-      "serviceIds": serviceIds,
+      // "serviceIds": serviceIds.toString(),
       "priority": priorityValue,
       "chooseFor": quoteTypeValue,
-      if(labIds.isNotEmpty)"labs": labIds,
+      // if(labIds.isNotEmpty)"labs": labIds.toString(),
       if(dateInputController.text.isNotEmpty)"tillDate": dateInputController.text
     };
-    Response response = await clientProfile.createQuote(body: body);
+    Response response = await clientProfile.createQuote(body: body, images: selectedImages, serviceId: serviceIds, labId: labIds);
     Navigator.pop(context);
     if(response.statusCode == 200) {
       Utils.showSuccessToast(jsonDecode(response.body)['message']);

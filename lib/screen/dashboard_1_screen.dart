@@ -262,7 +262,6 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                           Expanded(
                             child: Container(
                               child: TextFormField(
-                                maxLength: 10,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,

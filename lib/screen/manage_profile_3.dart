@@ -138,7 +138,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Lab Manager Number';
+                                return 'Enter Lab Manager Contact Number';
                               }
                               return null;
                             },
@@ -161,7 +161,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Lab Manager Email';
+                                return 'Enter Lab Manager Email Address';
                               }
                               return null;
                             },
@@ -213,7 +213,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Technical Manager Number';
+                                return 'Enter Technical Manager Contact Number';
                               }
                               return null;
                             },
@@ -236,7 +236,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Technical Manager Email';
+                                return 'Enter Technical Manager Email Address';
                               }
                               return null;
                             },
@@ -275,6 +275,13 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             ),
                           ),
                           const SizedBox(height: 20,),
+                          Text("Upload Technical Manager License Number",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: const [3, 3, 3],
@@ -283,7 +290,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
+                                height: width*0.3,
                                 width: MediaQuery.of(context).size.width,
                                 color: const Color(0xFFF5F7F7),
                                 child: Column(
@@ -293,15 +300,46 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     if (technicalManagerLicense != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(technicalManagerLicense!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(technicalManagerLicense!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  technicalManagerLicense = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -340,7 +378,6 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           Text("Financial Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
                           const SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: financialManagerNameController,
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
@@ -364,13 +401,12 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: financialManagerNumberController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Financial Manager Number';
+                                return 'Enter Financial Manager Contact Number';
                               }
                               return null;
                             },
@@ -393,7 +429,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Enter Financial Manager Email';
+                                return 'Enter Financial Manager Email Address';
                               }
                               return null;
                             },
@@ -410,7 +446,6 @@ class _ManageProfile3State extends State<ManageProfile3> {
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 5,
                             controller: totalTechnicianController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
@@ -433,6 +468,13 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             ),
                           ),
                           const SizedBox(height: 20,),
+                          Text("Upload List of Lab Technicians",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: const [3, 3, 3],
@@ -441,7 +483,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
+                                height: width * 0.3,
                                 width: MediaQuery.of(context).size.width,
                                 color: const Color(0xFFF5F7F7),
                                 child: Column(
@@ -451,15 +493,46 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     if (financialManagerLicense != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(financialManagerLicense!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(financialManagerLicense!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  financialManagerLicense = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                       ),

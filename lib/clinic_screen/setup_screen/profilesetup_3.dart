@@ -134,13 +134,12 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: labManagerNumberController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Please Enter Clinic Manager Number';
+                                return 'Please Enter Clinic Manager Contact Number';
                               }
                               return null;
                             },
@@ -163,7 +162,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Please Enter Clinic Manager Email';
+                                return 'Please Enter Clinic Manager Email Address';
                               }
                               return null;
                             },
@@ -210,7 +209,6 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
-                            maxLength: 10,
                             controller: medicalManagerNumberController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
@@ -239,7 +237,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Please Enter Medical Director Email';
+                                return 'Please Enter Medical Director Email Address';
                               }
                               return null;
                             },
@@ -261,7 +259,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             keyboardType: TextInputType.name,
                             validator: (value) {
                               if(value == null || value.isEmpty){
-                                return 'Please Enter License Number';
+                                return 'Please Enter Medical Director License Number';
                               }
                               return null;
                             },
@@ -278,83 +276,13 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             ),
                           ),
                           const SizedBox(height: 20,),
-                          const Divider(
-                            color: Color(0xFFE7E7E7),
-                            thickness: 1,
-                          ),
-                          const SizedBox(height: 20,),
-                          Text("Financial Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
-                          const SizedBox(height: 20,),
-                          TextFormField(
-                            controller: financialManagerNameController,
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return 'Please Enter Financial Manager Name';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Financial Manager Name ',
-                              hintText: 'Manager Name',
-                              counterText: "",
-                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            ),
-                          ),
-                          const SizedBox(height: 20,),
-                          TextFormField(
-                            maxLength: 10,
-                            controller: financialManagerNumberController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return 'Please Enter Financial Manager Number';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Contact Number',
-                              hintText: '12345 67890',
-                              counterText: "",
-                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            ),
-                          ),
-                          const SizedBox(height: 20,),
-                          TextFormField(
-                            textInputAction: TextInputAction.next,
-                            controller: financialManagerEmailController,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return 'Please Enter Financial Manager Email';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: Color(0xFF707070))
-                              ),
-                              labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
-                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
-                            ),
-                          ),
-                          const SizedBox(height: 20,),
-
+                          Text("Upload Medical License Number",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: [3, 3, 3],
@@ -363,7 +291,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height*0.13,
+                                height: width * 0.3,
                                 width: MediaQuery.of(context).size.width,
                                 color: const Color(0xFFF5F7F7),
                                 child: Column(
@@ -373,15 +301,46 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                                     if (financialManagerFile != null)
                                       Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            width: 120,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(image: FileImage(financialManagerFile!),fit: BoxFit.fill),
-                                                borderRadius: BorderRadius.circular(12)
-                                            ),
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(financialManagerFile!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  financialManagerFile = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -413,6 +372,82 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 10,),
+                          const Divider(
+                            color: Color(0xFFE7E7E7),
+                            thickness: 1,
+                          ),
+                          const SizedBox(height: 20,),
+                          Text("Financial Manager Details",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            controller: financialManagerNameController,
+                            keyboardType: TextInputType.name,
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Please Enter Financial Manager Name';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
+                              ),
+                              labelText: 'Financial Manager Name ',
+                              hintText: 'Manager Name',
+                              counterText: "",
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            controller: financialManagerNumberController,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Please Enter Financial Manager Contact Number';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
+                              ),
+                              labelText: 'Contact Number',
+                              hintText: '12345 67890',
+                              counterText: "",
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: financialManagerEmailController,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if(value == null || value.isEmpty){
+                                return 'Please Enter Financial Manager Email Address';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF707070))
+                              ),
+                              labelText: 'Email Address',
+                              hintText: 'user@gmail.com',
+                              hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                              contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
                           SizedBox(height: height*0.050,),
                           Container(
                             height: height*0.064,
