@@ -48,7 +48,7 @@ class _RegisterTypeScreenState extends State<RegisterTypeScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: height*0.09),
-                        const Image(image: AssetImage("assets/image/splash_logo.png")),
+                        Image(height: height*0.09,image: AssetImage("assets/image/splash_logo.png")),
                       ],
                     )),
               ),

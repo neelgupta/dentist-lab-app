@@ -27,6 +27,10 @@ class ApiServices {
   static String manageProfile5Api = "${baseUrl}lab/addAboutLab";
   static String manageProfile6Api = "${baseUrl}lab/labPaymentMethods";
 
+  /// Lab side add services api
+  static String addLabServices = "${baseUrl}lab/addServices";
+  static String allLabServices = "${baseUrl}lab/getAllServices";
+
   /// Services APIs
   static String getService = "${baseUrl}quotes/getServices";
   static String getLabs= "${baseUrl}quotes/getLabs";

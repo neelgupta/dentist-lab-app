@@ -18,7 +18,6 @@ class ManageProfile1 extends StatefulWidget {
 class _ManageProfile1State extends State<ManageProfile1> {
 
   bool isPasswordVisible = true;
-  // CountryController countryController = CountryController();
   TextEditingController dateInputController = TextEditingController();
   TextEditingController labNameController = TextEditingController();
   TextEditingController labMobileController = TextEditingController();

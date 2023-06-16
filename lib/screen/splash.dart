@@ -1,9 +1,12 @@
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/screen/add_services_screen.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bottomNavigationBar_screen.dart';
+import 'dashboard_1_screen.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    goToNext();
+     goToNext();
   }
 
   goToNext() async {
@@ -28,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isLogin) {
         String userType = Utils.getUserType();
         if(userType=="lab") {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScreen()),);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigatorBarWidget()),);
         } else {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
         }
@@ -39,6 +42,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFF116D6E),
@@ -49,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Align(
                 alignment: Alignment.center,
-                  child: Image(image: AssetImage("assets/image/splash_logo.png"))),
+                  child: Image(height: height*0.12,image: AssetImage("assets/image/splash_logo.png"))),
               Align(
                 alignment: Alignment.bottomCenter,
                   child: Image(image: AssetImage("assets/image/BG.png"),fit: BoxFit.fill,))

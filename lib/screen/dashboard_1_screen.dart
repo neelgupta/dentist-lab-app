@@ -79,7 +79,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                         Spacer(),
                                         InkWell(
                                           onTap: () {
-                                            const NotificationScreen();
+                                             Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
                                           },
                                             child: Image(image: AssetImage("assets/image/Notification 3.png")))
                                       ],
