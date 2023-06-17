@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: const Stack(
+          child: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
