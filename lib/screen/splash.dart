@@ -1,4 +1,5 @@
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isLogin) {
         String userType = Utils.getUserType();
         if(userType=="lab") {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScreen()),);
+         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScreen()),);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigatorBarWidget()),);
         } else {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
         }

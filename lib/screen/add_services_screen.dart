@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dentalapp/screen/services_%20screen.dart';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class AddServicesScreen extends StatefulWidget {
   const AddServicesScreen({Key? key}) : super(key: key);
@@ -320,7 +324,10 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                     ),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen(),));
+                          setState(() {
+
+                          });
+                        //  Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen(),));
                         },
                         child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                   ),
@@ -333,4 +340,9 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
       ),
     );
   }
+
 }
+
+
+
+
