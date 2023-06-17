@@ -31,6 +31,8 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
     // TODO: implement initState
     super.initState();
   }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -125,9 +127,7 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                   child: TextButton(
                       onPressed: () {
                         if(isOTPFilled){
-                          setState(() {
                             verifyOtp();
-                          });
                         } else {
                           Fluttertoast.showToast(
                               msg: "Please Enter OTP",
@@ -148,6 +148,7 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
                 alignment: Alignment.center,
                   child: InkWell(
                     onTap: () {
+                      resendOTP();
                     },
                       child: Text("Resend Code",style: GoogleFonts.lato(color: const Color(0xFF116D6E),fontWeight: FontWeight.w500,fontSize: 16, )))),
               SizedBox(height: height*0.06,),
@@ -186,4 +187,27 @@ class _SubmitCodeScreenState extends State<SubmitCodeScreen> {
       }
     }
 
+    resendOTP() async {
+      Utils.showLoadingDialog(context);
+      var postUri = Uri.parse(ApiServices.forgotPasswordApi);
+      var bodyData = {
+        "email":widget.emailId,
+      };
+      var response = await http.post(
+        postUri,
+        body: bodyData,
+      );
+      Utils.logAPIResponse(apiName: ApiServices.forgotPasswordApi,response: response,function: "resendOTP");
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          Utils.showSuccessToast(map["message"]);
+        } else {
+          Utils.showErrorToast(map['message']);
+        }
+      }else{
+        Utils.showErrorToast(jsonDecode(response.body)['message']);
+      }
+    }
 }

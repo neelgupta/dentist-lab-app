@@ -37,6 +37,8 @@ class QuotesData {
   String? description;
   String? priority;
   String? chooseFor;
+  String? tillDate;
+  List? quoteImages;
   List<QuoteStatus>? quoteStatus;
   String? createdAt;
   List<ServiceDetails>? serviceDetails;
@@ -51,6 +53,8 @@ class QuotesData {
         this.description,
         this.priority,
         this.chooseFor,
+        this.tillDate,
+        this.quoteImages,
         this.quoteStatus,
         this.createdAt,
         this.serviceDetails,
@@ -69,6 +73,8 @@ class QuotesData {
       description : json['description'],
       priority : json['priority'],
       chooseFor : json['chooseFor'],
+      tillDate : json['tillDate'],
+      quoteImages : json['quoteImages'] ?? [],
       quoteStatus : status.map((e) => QuoteStatus.fromJson(e)).toList(),
       createdAt : json['createdAt'], 
       serviceDetails : service.map((e) => ServiceDetails.fromJson(e)).toList(),
@@ -95,17 +101,13 @@ class QuoteStatus {
 class ServiceDetails {
   String? id;
   String? title;
-  int? price;
-  int? status;
 
-  ServiceDetails({this.id, this.title, this.price, this.status});
+  ServiceDetails({this.id, this.title});
 
   factory ServiceDetails.fromJson(Map<String, dynamic> json) {
     return ServiceDetails(
       id : json['_id'],
       title : json['title'],
-      price : json['price'],
-      status : json['status'],
     );
   }
 }

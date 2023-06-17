@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/quote_after_acceept.dart';
 import 'package:dentalapp/clinic_screen/quote_detail_pending.dart';
 import 'package:dentalapp/models/quotes_model.dart';
@@ -51,150 +52,154 @@ class _NewQuoteState extends State<NewQuote> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return SafeArea(
-      child: Scaffold(
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  height: height*0.15,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF116D6E),
-                      image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                          fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                  ),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: height*0.02,),
-                      Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
-                    ],
-                  )
-              ),
-              SizedBox(
-                height: height * 0.03,
-              ),
-              Container(
-                alignment: Alignment.center,
-                height: height * 0.1,
-                width: width,
-                child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    height: height * 0.075,
-                    width: width - 30,
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFEBEFEE),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 7, right: 7, top: 7, bottom: 7),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
+    return Scaffold(
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                height: height*0.15,
+                decoration: const BoxDecoration(
+                    color: Color(0xFF116D6E),
+                    image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
+                        fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
+                ),
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: height*0.02,),
+                    Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
+                  ],
+                )
+            ),
+            SizedBox(
+              height: height * 0.03,
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: height * 0.1,
+              width: width,
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  height: height * 0.075,
+                  width: width - 30,
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFEBEFEE),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 7, right: 7, top: 7, bottom: 7),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              if (!isLoading) {
                                 changeQuoteType("new");
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: quoteNew
-                                      ? const Color(0xffFFFFFF)
-                                      : const Color(0xFFEBEFEE),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "New",
-                                    style: TextStyle(
-                                        color: quoteNew
-                                            ? const Color(0xff116D6E)
-                                            : const Color(0xff252525),
-                                        fontFamily: 'spartan',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700),
-                                  ),
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: quoteNew
+                                    ? const Color(0xffFFFFFF)
+                                    : const Color(0xFFEBEFEE),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "New",
+                                  style: TextStyle(
+                                      color: quoteNew
+                                          ? const Color(0xff116D6E)
+                                          : const Color(0xff252525),
+                                      fontFamily: 'spartan',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: width * 0.015,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
+                        ),
+                        SizedBox(
+                          width: width * 0.015,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              if (!isLoading) {
                                 changeQuoteType("accepted");
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: quoteAccepted
-                                      ? const Color(0xffFFFFFF)
-                                      : const Color(0xFFEBEFEE),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Accepted",
-                                    style: TextStyle(
-                                        color: quoteAccepted
-                                            ? const Color(0xff116D6E)
-                                            : const Color(0xff252525),
-                                        fontFamily: 'spartan',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700),
-                                  ),
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: quoteAccepted
+                                    ? const Color(0xffFFFFFF)
+                                    : const Color(0xFFEBEFEE),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Accepted",
+                                  style: TextStyle(
+                                      color: quoteAccepted
+                                          ? const Color(0xff116D6E)
+                                          : const Color(0xff252525),
+                                      fontFamily: 'spartan',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: width * 0.015,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
+                        ),
+                        SizedBox(
+                          width: width * 0.015,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              if (!isLoading) {
                                 changeQuoteType("completed");
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: quoteCompleted
-                                      ? const Color(0xffFFFFFF)
-                                      : const Color(0xFFEBEFEE),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Completed",
-                                    style: TextStyle(
-                                        color: quoteCompleted
-                                            ? const Color(0xff116D6E)
-                                            : const Color(0xff252525),
-                                        fontFamily: 'spartan',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700),
-                                  ),
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: quoteCompleted
+                                    ? const Color(0xffFFFFFF)
+                                    : const Color(0xFFEBEFEE),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Completed",
+                                  style: TextStyle(
+                                      color: quoteCompleted
+                                          ? const Color(0xff116D6E)
+                                          : const Color(0xff252525),
+                                      fontFamily: 'spartan',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700),
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              isLoading ?Expanded(child: Center(child: loader())):
-              quoteNew ? Expanded(child: quotesList.isNotEmpty?quoteNewList(context) : const Center(child: Text("No New Quotes Found!!")))  :
-              quoteAccepted ? Expanded(child: quotesList.isNotEmpty?quoteAcceptedList(context) : const Center(child: Text("No Accepted Quotes Found!!"))) :
-              quoteCompleted ? Expanded(child: quotesList.isNotEmpty?quoteCompletedList(context) : const Center(child: Text("No Completed Quotes Found!!"))) : const SizedBox(),
-            ],
-          ),
+            ),
+            isLoading ?Expanded(child: Center(child: loader())):
+            quoteNew ? Expanded(child: quotesList.isNotEmpty?quoteNewList(context) : const Center(child: Text("No New Quotes Found!!")))  :
+            quoteAccepted ? Expanded(child: quotesList.isNotEmpty?quoteAcceptedList(context) : const Center(child: Text("No Accepted Quotes Found!!"))) :
+            quoteCompleted ? Expanded(child: quotesList.isNotEmpty?quoteCompletedList(context) : const Center(child: Text("No Completed Quotes Found!!"))) : const SizedBox(),
+          ],
         ),
       ),
     );
@@ -250,7 +255,7 @@ class _NewQuoteState extends State<NewQuote> {
                         ///pending Condition
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return QuoteDetailPending(quoteId: quotesList[index].id!);
-                        },));
+                        },)).then((value) => getQuoteData(showLoading: true));
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +300,11 @@ class _NewQuoteState extends State<NewQuote> {
                                 width: width * 0.03,
                               ),
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                      return CreateQuote(quotesData: quotesList[index]);
+                                    },)).then((value) => getQuoteData(showLoading: true));
+                                  },
                                   child:  Image(
                                       width: width*0.05,
                                       image: const AssetImage(
@@ -388,7 +397,7 @@ class _NewQuoteState extends State<NewQuote> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return QuoteAfterAccept(quoteId: quotesList[index].id!,);
-                        },));
+                        },)).then((value) => getQuoteData(showLoading: true));
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -517,90 +526,97 @@ class _NewQuoteState extends State<NewQuote> {
                     );
                   },
                   itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                quotesList[index].title ?? "",
-                                maxLines: null,
-                                overflow: TextOverflow.ellipsis, softWrap: false,
-                                style: GoogleFonts.lato(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xff252525),
-                                ),
-                              ),
-                            ),
-                            const Spacer(),
-                            if(quotesList[index].priority=="urgent")
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: width*0.03,vertical: 5),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffFF5959),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                  child: Text(
-                                    "Urgent",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return QuoteAfterAccept(quoteId: quotesList[index].id!,);
+                        },)).then((value) => getQuoteData(showLoading: true));
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  quotesList[index].title ?? "",
+                                  maxLines: null,
+                                  overflow: TextOverflow.ellipsis, softWrap: false,
+                                  style: GoogleFonts.lato(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff252525),
                                   ),
                                 ),
                               ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: height * 0.01,
-                        ),
-                        Wrap(
-                          runSpacing: width*0.01,
-                          spacing: width*0.03,
-                          children: (quotesList[index].serviceDetails ?? []).map((item) {
-                            return Text(item.title ?? "",style: GoogleFonts.lato(color: const Color(0xff116D6E)));
-                          }).toList(),
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        Text(
-                          quotesList[index].description ?? "",
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff252525),
+                              const Spacer(),
+                              if(quotesList[index].priority=="urgent")
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: width*0.03,vertical: 5),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffFF5959),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: Text(
+                                      "Urgent",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: height * 0.015,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                quotesList[index].labsDetails![0].labName ?? "",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis, softWrap: false,
-                                style: GoogleFonts.lato(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xff116D6E),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Wrap(
+                            runSpacing: width*0.01,
+                            spacing: width*0.03,
+                            children: (quotesList[index].serviceDetails ?? []).map((item) {
+                              return Text(item.title ?? "",style: GoogleFonts.lato(color: const Color(0xff116D6E)));
+                            }).toList(),
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Text(
+                            quotesList[index].description ?? "",
+                            style: GoogleFonts.lato(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xff252525),
+                            ),
+                          ),
+                          SizedBox(
+                            height: height * 0.015,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  quotesList[index].labsDetails![0].labName ?? "",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis, softWrap: false,
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff116D6E),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                          ],
-                        )
-                      ],
+                            ],
+                          )
+                        ],
+                      ),
                     );
                   },
                 )),

@@ -125,6 +125,25 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         const SizedBox(height: 20,),
                         MobileCodeWidget(
                           controller: labMobileController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if(value == null || value.isEmpty){
+                              return 'Please Enter Lab Mobile Number';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(color: Color(0xFF707070))
+                            ),
+                            labelText: 'Mobile Number',
+                            hintText: '123456789',
+                            counterText: "",
+                            hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                            contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
+                          ),
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
@@ -133,7 +152,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please Enter Land-Line Number';
+                              return 'Please Enter Land Line Number';
                             }
                             return null;
                           },
@@ -181,7 +200,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 10,
                           controller: cityController,
                           keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
@@ -230,7 +248,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           TextFormField(
                             keyboardType: TextInputType.name,
                           controller: poBoxController,
-                          maxLength: 18,
                           textInputAction: TextInputAction.next,
                             validator: (value) {
                               if(value == null || value.isEmpty){

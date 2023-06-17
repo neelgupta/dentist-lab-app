@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:dentalapp/models/lab_profile.dart';
 import 'package:dentalapp/screen/advance_payment_done_screen.dart';
+import 'package:dentalapp/services/lab_service/lab_profile_service.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -21,14 +27,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool isCurrentPasswordVisible = true;
   bool isPasswordVisible = true;
   bool isConfirmPasswordVisible = true;
+  bool isLoading = true;
+  LabProfile labProfile = LabProfile();
+  LabProfileModel? labProfileData;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    labGetProfileData();
+  }
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Scaffold(
-          body: SizedBox(
+          body:  isLoading
+              ? Center(
+            child: loader(),
+          )
+              :SizedBox(
             height: height,
             width: width,
             child: SingleChildScrollView(
@@ -95,7 +113,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           keyboardType: TextInputType.name,
                           controller: lastNameController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
                               return 'Please Enter Last Name';
@@ -283,5 +300,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ),
         ));
+  }
+  labGetProfileData() async {
+    Response response = await labProfile.getLabProfile();
+
+
+    var resBody = jsonDecode(response.body);
+    if(resBody["status"] == 200){
+
+      if (response.statusCode == 200) {
+        labProfileData = LabProfileModel.fromJson(jsonDecode(response.body));
+        firstNameController.text=labProfileData!.labData![0].userDetails![0].firstName.toString();
+        lastNameController.text=labProfileData!.labData![0].userDetails![0].lastName.toString();
+        emailController.text=labProfileData!.labData![0].userDetails![0].email.toString();
+      }
+    }else{
+      Utils.showErrorToast(resBody["message"]);
+    }
+    isLoading = false;
+    setState(() {});
   }
 }

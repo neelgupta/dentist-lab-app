@@ -11,7 +11,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
+  final int index;
+  const BottomNavigation({Key? key, required this.index}) : super(key: key);
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -23,6 +24,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedScreenIndex = widget.index;
     screenStatus = Utils.getScreenStatus();
     print(Utils.apiHeader.toString());
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -50,58 +52,60 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: selectedScreenList[selectedScreenIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedScreenIndex,
-         // backgroundColor: const Color(0xff116D6E),
-          selectedItemColor: const Color(0xff01635D),
-          unselectedItemColor: const Color(0xffA0A0A0),
-          onTap: _selectScreen,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/dasboard.png",
-                  height: 20,
-                  color: selectedScreenIndex == 0
-                      ? const Color(0xff01635D)
-                      : const Color(0xffA0A0A0)),
-              label: "DashBoard",
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/Setting.png",
-                  height: 20,
-                  color: selectedScreenIndex == 1
-                      ? const Color(0xff01635D)
-                      : const Color(0xffA0A0A0)),
-              label: "Setting",
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/category.png",
-                  height: 20,
-                  color: selectedScreenIndex == 2
-                      ? const Color(0xff01635D)
-                      : const Color(0xffA0A0A0)),
-              label: "Quote",
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/profile.png",
-                  height: 20,
-                  color: selectedScreenIndex == 3
-                      ? const Color(0xff01635D)
-                      : const Color(0xffA0A0A0)),
-              label: "Profile",
-            ),
-          ]
-             ),
+    return SafeArea(
+      child: Scaffold(
+        body: selectedScreenList[selectedScreenIndex],
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedScreenIndex,
+           // backgroundColor: const Color(0xff116D6E),
+            selectedItemColor: const Color(0xff01635D),
+            unselectedItemColor: const Color(0xffA0A0A0),
+            onTap: _selectScreen,
+            showUnselectedLabels: true,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/dasboard.png",
+                    height: 20,
+                    color: selectedScreenIndex == 0
+                        ? const Color(0xff01635D)
+                        : const Color(0xffA0A0A0)),
+                label: "DashBoard",
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/Setting.png",
+                    height: 20,
+                    color: selectedScreenIndex == 1
+                        ? const Color(0xff01635D)
+                        : const Color(0xffA0A0A0)),
+                label: "Setting",
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/category.png",
+                    height: 20,
+                    color: selectedScreenIndex == 2
+                        ? const Color(0xff01635D)
+                        : const Color(0xffA0A0A0)),
+                label: "Quote",
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/profile.png",
+                    height: 20,
+                    color: selectedScreenIndex == 3
+                        ? const Color(0xff01635D)
+                        : const Color(0xffA0A0A0)),
+                label: "Profile",
+              ),
+            ]
+               ),
+      ),
     );
   }
 
   void showMyDialog() {
       showDialog(
         context: context,
-        // barrierDismissible: false,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
               title: WillPopScope(

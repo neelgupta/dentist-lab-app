@@ -130,6 +130,13 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             ),
                           ),
                           const SizedBox(height: 20,),
+                          Text("Upload Medical License",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: const [3, 3, 3],
@@ -192,32 +199,58 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height * 0.13,
-                                width: width,
-                                alignment: Alignment.center,
+                                height: width * 0.3,
+                                width: MediaQuery.of(context).size.width,
                                 color: const Color(0xFFF5F7F7),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      pickMedicalLicenseImage();
-                                    });
-
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(50),
-                                            color: Colors.white,
-                                            image: const DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/image/camera.png"),
-                                                fit: BoxFit.none)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (medicalLicense != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(medicalLicense!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  medicalLicense = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -257,46 +290,93 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             ),
                           ),
                           const SizedBox(height: 20,),
+                          Text("Upload Trade License",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: const [3, 3, 3],
                             radius: const Radius.circular(12),
                             color: const Color(0xFF116D6E),
-                            padding: EdgeInsets.zero,
-                            child: selectedTradeLicenseImage.isNotEmpty?
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.symmetric(vertical: 5,horizontal: width*0.02),
-                              itemCount: selectedTradeLicenseImage.length + 1,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                              itemBuilder: (context, index) {
-                                return index == selectedTradeLicenseImage.length?InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      pickTradeLicenseImage();
-                                    });
-
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.all(width*0.01),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: const Color(0xFF116D6E)),
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                        image: const DecorationImage(
-                                            image: AssetImage(
-                                                "assets/image/camera.png"),
-                                            fit: BoxFit.none)),
-                                  ),
-                                ):Stack(
-                                  alignment: Alignment.topRight,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                height: width * 0.3,
+                                width: MediaQuery.of(context).size.width,
+                                color: const Color(0xFFF5F7F7),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      margin: EdgeInsets.all(width*0.01),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          image: DecorationImage(image: FileImage(File(selectedTradeLicenseImage[index].path)),fit: BoxFit.fill)
+                                    if (tradeLicense != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(tradeLicense!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  tradeLicense = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    if (tradeLicense == null)
+                                    InkWell(
+                                      onTap: () {
+                                        _pickImage2();
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(50),
+                                                color: Colors.white,
+                                                image: const DecorationImage(image: AssetImage("assets/image/camera.png"),fit: BoxFit.none)
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5,),
+                                          Text("Upload file",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070)))
+                                        ],
                                       ),
                                     ),
                                     InkWell(
@@ -384,6 +464,13 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             ),
                           ),
                           const SizedBox(height: 20,),
+                          Text("Upload TRN",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: const [3, 3, 3],
@@ -446,32 +533,58 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height * 0.13,
-                                width: width,
-                                alignment: Alignment.center,
+                                height: width * 0.3,
+                                width: MediaQuery.of(context).size.width,
                                 color: const Color(0xFFF5F7F7),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      pickTRNImage();
-                                    });
-
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(50),
-                                            color: Colors.white,
-                                            image: const DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/image/camera.png"),
-                                                fit: BoxFit.none)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (trn != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(trn!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  trn = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -511,6 +624,13 @@ class _ManageProfile2State extends State<ManageProfile2> {
                             ),
                           ),
                           const SizedBox(height: 20,),
+                          Text("Upload List of Devices",
+                              style: GoogleFonts.lato(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff707070),
+                              )),
+                          const SizedBox(height: 10,),
                           DottedBorder(
                             borderType: BorderType.RRect,
                             dashPattern: const [3, 3, 3],
@@ -573,32 +693,58 @@ class _ManageProfile2State extends State<ManageProfile2> {
                               },) :ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
-                                height: height * 0.13,
-                                width: width,
-                                alignment: Alignment.center,
+                                height: width * 0.3,
+                                width: MediaQuery.of(context).size.width,
                                 color: const Color(0xFFF5F7F7),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      pickTotalDevicesImage();
-                                    });
-
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(50),
-                                            color: Colors.white,
-                                            image: const DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/image/camera.png"),
-                                                fit: BoxFit.none)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (noOfDevice != null)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SizedBox(
+                                          height: width * 0.3,
+                                          width: width * 0.3,
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: width * 0.02),
+                                                  child: Container(
+                                                    width: width * 0.25,
+                                                    height: width * 0.25,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(noOfDevice!),
+                                                            fit: BoxFit.fill),
+                                                        borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                    // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  noOfDevice = null;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(width*0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Colors.red)
+                                                  ),
+                                                  child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 5,

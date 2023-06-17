@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dentalapp/screen/services_%20screen.dart';
 import 'package:dentalapp/services/lab_services/add_services_api.dart';
+import 'package:dentalapp/util/api_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-
 import '../util/api_services.dart';
 import '../util/utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddServicesScreen extends StatefulWidget {
   const AddServicesScreen({Key? key}) : super(key: key);

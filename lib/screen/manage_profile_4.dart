@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dentalapp/screen/manage_profile_5.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
@@ -625,10 +623,23 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                             child: TextButton(
                                                 onPressed: () {
                                                   setState(() {
-                                                    isTimeSelectedStatus = false;
-                                                    days[index].isOpen = onOff;
-                                                    days[index].startTime = days[index].isOpen?openingTime:"";
-                                                    days[index].endTime = days[index].isOpen?closingTime:"";
+                                                    if(onOff) {
+                                                      if(openingTime==closingTime) {
+                                                        Utils.showErrorToast("Start Time and End Time Cannot be Same");
+                                                      } else if(int.parse(openingTime.replaceAll(":", ""))>int.parse(closingTime.replaceAll(":", ""))) {
+                                                        Utils.showErrorToast("Start Time cannot be after End Time");
+                                                      } else {
+                                                        isTimeSelectedStatus = false;
+                                                        days[index].isOpen = true;
+                                                        days[index].startTime = openingTime;
+                                                        days[index].endTime = closingTime; 
+                                                      }
+                                                    } else {
+                                                      isTimeSelectedStatus = false;
+                                                      days[index].isOpen = false;
+                                                      days[index].startTime = "";
+                                                      days[index].endTime = "";
+                                                    }
                                                   });
                                                 },
                                                 child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),

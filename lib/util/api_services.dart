@@ -26,6 +26,10 @@ class ApiServices {
   static String manageProfile4Api = "${baseUrl}lab/addLabWorkHours";
   static String manageProfile5Api = "${baseUrl}lab/addAboutLab";
   static String manageProfile6Api = "${baseUrl}lab/labPaymentMethods";
+  static String getLabProfileApi = "${baseUrl}lab/getlabProfile";
+
+  /// Lab APIs AddService
+  static String addServices = "${baseUrl}lab/addServices";
 
   /// Lab side add services api
   static String addLabServices = "${baseUrl}lab/addServices";
@@ -40,4 +44,18 @@ class ApiServices {
   static String getQuote = "${baseUrl}quotes/getAllClinicQuotes";
   static String getPendingQuote = "${baseUrl}quotes/getProposals";
   static String getAcceptedQuote = "${baseUrl}quotes/getAcceptedQuote";
+  static String acceptProposals = "${baseUrl}quotes/acceptProposals";
+  static String deliveryAccepted = "${baseUrl}quotes/deliveryAccepted";
+  static String deliveryRejected = "${baseUrl}quotes/deliveryRejected";
+  static String getLabProfile = "${baseUrl}quotes/getProposalLab";
+
+  ///Payment APIs
+  static String makeAdvancePayment = "${baseUrl}quotes/makeAdvancePayment";
+  static String makeRemainingPayment = "${baseUrl}quotes/makeAFullPayment";
+  static String paymentHistory = "${baseUrl}clinic/getPaymentDetails";
+  static String notification = "${baseUrl}clinic/getClinicNotification";
+
+  ///Comments APIs
+  static String addComment = "${baseUrl}quotes/addClinicComment";
+  static String getComment = "${baseUrl}quotes/getComments";
 }
