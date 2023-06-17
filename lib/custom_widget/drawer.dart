@@ -420,15 +420,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                        return const LoginScreen();
-                      },), (route) => false);
+                    onPressed: () async {
                       Utils.setLoginStatus(false);
                       Utils.setToken("");
                       Utils.setUserType("");
                       Utils.showSuccessToast("Logout Successfully");
                       Utils.setScreenStatus("0");
+                      await Utils.prefs!.clear();
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                        return const LoginScreen();
+                      },), (route) => false);
                     },
                     child: Text("Logout",
                         style: GoogleFonts.lato(

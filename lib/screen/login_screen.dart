@@ -213,6 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Utils.setLoginStatus(true);
             Utils.showSuccessToast(signInModel!.message);
             Utils.setScreenStatus(signInModel!.screenStatus);
+            setState(() {});
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const DashboardScreen():const BottomNavigation(index: 0),),);
           }
         } else {

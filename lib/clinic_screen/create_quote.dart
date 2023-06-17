@@ -15,8 +15,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
+import '../models/quotes_model.dart';
+
+class ImageData {
+  String id;
+  String path;
+  String type;
+
+  ImageData(this.id, this.path, this.type);
+}
+
 class CreateQuote extends StatefulWidget {
-  const CreateQuote({Key? key}) : super(key: key);
+  final QuotesData? quotesData;
+  const CreateQuote({Key? key, this.quotesData}) : super(key: key);
 
   @override
   State<CreateQuote> createState() => _CreateQuoteState();
@@ -39,19 +50,33 @@ class _CreateQuoteState extends State<CreateQuote> {
 
   String priorityValue="normal";
   String quoteTypeValue="labList";
-  bool method = false;
 
   List<ServiceData> services = [];
   List selectedLabs = [];
   List selectedService = [];
   List labNames = [];
   
-  List<File> selectedImages = [];
+  List<ImageData> selectedImages = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if(widget.quotesData!=null) {
+      titleController.text = widget.quotesData!.title ?? "";
+      descriptionController.text = widget.quotesData!.description ?? "";
+      priorityValue = widget.quotesData!.priority ?? "normal";
+      if(priorityValue=='urgent') {
+        dateInputController.text = DateFormat('yyyy-MM-dd').format(DateTime.parse(widget.quotesData!.tillDate ??DateTime.now().toString()));
+      }
+      quoteTypeValue = widget.quotesData!.chooseFor ?? "labList";
+      for (var item in widget.quotesData!.quoteImages ?? []) {
+        selectedImages.add(ImageData("2", item, "network"));
+      }
+      for (var item in widget.quotesData!.serviceDetails ?? []) {
+        selectedService.add(ServiceData(id: item.id, title: item.title));
+      }
+    }
     getAllServices();
   }
 
@@ -385,9 +410,21 @@ class _CreateQuoteState extends State<CreateQuote> {
                         },
                         onSuggestionSelected: (suggestion) {
                           for(int i=0; i<(lab!.labData ?? []).length; i++) {
-                            if(lab!.labData![i].labName==suggestion) {
-                              selectedLabs.add(lab!.labData![i]);
-                              break;
+                            var isSelected = false;
+
+                            for(var item in selectedLabs) {
+                              if(item.labName == suggestion) {
+                                isSelected = true;
+                                break;
+                              }
+                            }
+                            if (!isSelected) {
+                              if(lab!.labData![i].labName==suggestion) {
+                                selectedLabs.add(lab!.labData![i]);
+                                break;
+                              }
+                            } else {
+                              Utils.showErrorToast("Lab Already Selected");
                             }
                           }
                           labsController.text = "";
@@ -456,9 +493,12 @@ class _CreateQuoteState extends State<CreateQuote> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.all(width*0.01),
-                                  decoration: BoxDecoration(
+                                  decoration: selectedImages[index].type=="file"?BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(image: FileImage(File(selectedImages[index].path)),fit: BoxFit.fill)
+                                  ):BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(image: NetworkImage(selectedImages[index].path),fit: BoxFit.fill)
                                   ),
                                 ),
                                 InkWell(
@@ -540,7 +580,9 @@ class _CreateQuoteState extends State<CreateQuote> {
                                 } else if(selectedImages.length < 4) {
                                   Utils.showErrorToast("Please Select Minimum 4 Images");
                                 } else {
-                                  createQuote();
+                                  if (widget.quotesData==null) {
+                                    createQuote();
+                                  }
                                 }
                               } else {
                                 autoValidate = AutovalidateMode.always;
@@ -569,7 +611,9 @@ class _CreateQuoteState extends State<CreateQuote> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
 
     if (result != null) {
-      selectedImages.addAll(result.paths.map((path) => File(path!)));
+      for(var item in result.files) {
+        selectedImages.add(ImageData("1", item.path!, "file"));
+      }
       setState(() {});
     } else {
       // User canceled the picker

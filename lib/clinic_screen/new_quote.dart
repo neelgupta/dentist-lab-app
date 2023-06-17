@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/quote_after_acceept.dart';
 import 'package:dentalapp/clinic_screen/quote_detail_pending.dart';
 import 'package:dentalapp/models/quotes_model.dart';
@@ -299,7 +300,11 @@ class _NewQuoteState extends State<NewQuote> {
                                 width: width * 0.03,
                               ),
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                      return CreateQuote(quotesData: quotesList[index]);
+                                    },)).then((value) => getQuoteData(showLoading: true));
+                                  },
                                   child:  Image(
                                       width: width*0.05,
                                       image: const AssetImage(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
@@ -45,7 +46,7 @@ class ClientProfile {
     return response;
   }
 
-  createQuote({required body, required List<File> images, required List serviceId, required List labId}) async {
+  createQuote({required body, required List<ImageData> images, required List serviceId, required List labId}) async {
     var postUri = Uri.parse(ApiServices.createQuote);
     var request = http.MultipartRequest("POST", postUri);
     request.fields.addAll(body);
