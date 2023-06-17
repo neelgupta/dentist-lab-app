@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:dentalapp/clinic_screen/payment_successfully.dart';
 import 'package:dentalapp/custom_widget/button.dart';
 import 'package:dentalapp/services/clinic_services/quote_services.dart';
@@ -16,14 +17,25 @@ class MakePayment extends StatefulWidget {
   final String amount;
   final String labName;
   final bool isAdvance;
-  const MakePayment({Key? key, required this.quoteId, required this.status, required this.title, required this.description, required this.amount, required this.labName, required this.isAdvance}) : super(key: key);
+  const MakePayment(
+      {Key? key,
+      required this.quoteId,
+      required this.status,
+      required this.title,
+      required this.description,
+      required this.amount,
+      required this.labName,
+      required this.isAdvance})
+      : super(key: key);
 
   @override
-  State<MakePayment> createState() => _MakePaymentState(quoteId, status, title, description, amount, labName, isAdvance);
+  State<MakePayment> createState() => _MakePaymentState(
+      quoteId, status, title, description, amount, labName, isAdvance);
 }
 
 class _MakePaymentState extends State<MakePayment> {
-  _MakePaymentState(this.quoteId, this.status, this.title, this.description, this.amount, this.labName, this.isAdvance);
+  _MakePaymentState(this.quoteId, this.status, this.title, this.description,
+      this.amount, this.labName, this.isAdvance);
   String quoteId = '';
   String status = '';
   String title = '';
@@ -34,15 +46,15 @@ class _MakePaymentState extends State<MakePayment> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
   QuoteService quoteService = QuoteService();
-  TextEditingController cardNumberController=TextEditingController();
-  TextEditingController expController=TextEditingController();
-  TextEditingController cvvController=TextEditingController();
-  TextEditingController bankNameController=TextEditingController();
-  TextEditingController chequeNumberController=TextEditingController();
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController expController = TextEditingController();
+  TextEditingController cvvController = TextEditingController();
+  TextEditingController bankNameController = TextEditingController();
+  TextEditingController chequeNumberController = TextEditingController();
 
   bool onlinePayment = false;
   bool cash = false;
-  bool cheque= false;
+  bool cheque = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +91,8 @@ class _MakePaymentState extends State<MakePayment> {
                           height: height * 0.02,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.03),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -95,14 +108,14 @@ class _MakePaymentState extends State<MakePayment> {
                               const Spacer(),
                               Center(
                                   child: Text(
-                                    textAlign: TextAlign.center,
-                                    "Payment",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  )),
+                                textAlign: TextAlign.center,
+                                "Payment",
+                                style: GoogleFonts.lato(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              )),
                               const Spacer(),
                               Container()
                             ],
@@ -114,8 +127,9 @@ class _MakePaymentState extends State<MakePayment> {
                   height: height * 0.03,
                 ),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: height * 0.02),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: EdgeInsets.symmetric(horizontal: height * 0.02),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -179,33 +193,40 @@ class _MakePaymentState extends State<MakePayment> {
                       SizedBox(
                         height: height * 0.02,
                       ),
-                      if(!cash && !cheque)
-                      /// online payment
+                      if (!cash && !cheque)
+
+                        /// online payment
                         Column(
                           children: [
                             GestureDetector(
-                              onTap: (){
-                                 setState(() {
-                                   onlinePayment = !onlinePayment;
-                                   cash = false;
-                                   cheque= false;
-                                 });
+                              onTap: () {
+                                setState(() {
+                                  onlinePayment = !onlinePayment;
+                                  cash = false;
+                                  cheque = false;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(width: 1, color: onlinePayment?const Color(0xff116D6E):const Color(0xff707070)),
-
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: onlinePayment
+                                          ? const Color(0xff116D6E)
+                                          : const Color(0xff707070)),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.018),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: height * 0.02,
+                                      vertical: height * 0.018),
                                   child: Row(
                                     children: [
-
                                       SizedBox(
-                                        height: height*0.035,
-
-                                        child: Image.asset(color:onlinePayment?const Color(0xff116D6E): const Color(0xff252525),
+                                        height: height * 0.035,
+                                        child: Image.asset(
+                                          color: onlinePayment
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
                                           "assets/image/payment2.png",
                                           fit: BoxFit.fill,
                                         ),
@@ -218,14 +239,18 @@ class _MakePaymentState extends State<MakePayment> {
                                         style: GoogleFonts.lato(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
-                                          color: onlinePayment?const Color(0xff116D6E): const Color(0xff252525),
+                                          color: onlinePayment
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
                                         ),
                                       ),
                                       const Spacer(),
                                       SizedBox(
-                                        height: height*0.04,
-
-                                        child: Image.asset(color:onlinePayment?const Color(0xff116D6E): const Color(0xff252525),
+                                        height: height * 0.04,
+                                        child: Image.asset(
+                                          color: onlinePayment
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
                                           "assets/image/righticon.png",
                                         ),
                                       ),
@@ -237,366 +262,485 @@ class _MakePaymentState extends State<MakePayment> {
                             SizedBox(
                               height: height * 0.02,
                             ),
-                            onlinePayment?Column(
-                              children: [
-                                TextFormField(
-                                  textInputAction: TextInputAction.next,
-                                  controller: cardNumberController,
-                                  keyboardType: TextInputType.number,
-                                  validator: (value) {
-                                    if (onlinePayment) {
-                                      if(value!.isEmpty){
-                                        return 'Please Enter Card Number';
-                                      } else if(!CreditNumberSubmitRegexValidator().isValid(value)) {
-                                        return "Please Enter Valid Card Number";
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    MaskedTextInputFormatter(
-                                      mask: 'xxxx xxxx xxxx xxxx',
-                                      separator: ' ',
-                                    )
-                                  ],
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: const BorderSide(color: Color(0xFF707070)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: const BorderSide(color: Color(0xFF707070), ),
-                                    ),
-                                    prefixIcon:Padding(
-                                      padding:  EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.015),
-                                      child: SizedBox(
-                                        height: height*0.005,
-
-                                        child: Image.asset(color: const Color(0xff707070),
-                                          "assets/image/cardnumber.png",fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    labelText: 'Card Number',labelStyle: const TextStyle(color: Color(0xff707070)),
-                                    hintText: 'Card Number',
-                                    hintStyle: const TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                                    contentPadding:  EdgeInsets.symmetric(horizontal: height*0.02,),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.02,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
+                            onlinePayment
+                                ? Column(
+                                    children: [
+                                      TextFormField(
                                         textInputAction: TextInputAction.next,
-                                        controller: expController,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide: const BorderSide(color: Color(0xFF707070))
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide: const BorderSide(color: Color(0xFF707070))
-                                            ),
-                                            labelText: 'MM/YY',
-                                            labelStyle: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                                            hintText: 'MM/YY',
-                                            counterText: "",
-                                            hintStyle: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                                            contentPadding:  EdgeInsets.symmetric(horizontal: height*0.015,),
-                                            prefixIcon: const Image(image: AssetImage("assets/image/date.png"))
-                                        ),
-                                        inputFormatters: [
-                                          MaskedTextInputFormatter(
-                                            mask: 'xx/xx',
-                                            separator: '/',
-                                          )
-                                        ],
-                                        validator: (value) {
-                                          if (onlinePayment) {
-                                            if(value!.isEmpty){
-                                              return 'MM/YY Field is Required*';
-                                            } else if (!CreditExpirySubmitRegexValidator().isValid(value)) {
-                                              return "Invalid";
-                                            }
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-
-                                    SizedBox(width: width*0.02,),
-                                    Expanded(
-                                      child: TextFormField(
-                                        textInputAction: TextInputAction.next,
-                                        controller: cvvController,
+                                        controller: cardNumberController,
                                         keyboardType: TextInputType.number,
                                         validator: (value) {
                                           if (onlinePayment) {
-                                            if(value!.isEmpty){
-                                              return 'CVV field is required*';
-                                            } else  if (!CreditCvvSubmitRegexValidator().isValid(value)) {
-                                              return "Invalid";
+                                            if (value!.isEmpty) {
+                                              return 'Please Enter Card Number';
+                                            } else if (!CreditNumberSubmitRegexValidator()
+                                                .isValid(value)) {
+                                              return "Please Enter Valid Card Number";
                                             }
                                           }
                                           return null;
                                         },
                                         inputFormatters: [
                                           MaskedTextInputFormatter(
-                                            mask: 'xxx',
-                                            separator: '',
-                                          ),
+                                            mask: 'xxxx xxxx xxxx xxxx',
+                                            separator: ' ',
+                                          )
                                         ],
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
-                                            borderSide: const BorderSide(color: Color(0xFF707070)),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF707070)),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
-                                            borderSide: const BorderSide(color: Color(0xFF707070), ),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF707070),
+                                            ),
                                           ),
-                                          prefixIcon:Padding(
-                                            padding:  EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.015),
+                                          prefixIcon: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: height * 0.02,
+                                                vertical: height * 0.015),
                                             child: SizedBox(
-                                              height: height*0.005,
-
-                                              child: Image.asset(color: const Color(0xff707070),
-                                                "assets/image/cvv.png",fit: BoxFit.cover,
+                                              height: height * 0.005,
+                                              child: Image.asset(
+                                                color: const Color(0xff707070),
+                                                "assets/image/cardnumber.png",
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
-                                          labelText: 'CVV',labelStyle: const TextStyle(color: Color(0xff707070)),
-                                          hintText: 'CVV',
-                                          hintStyle: const TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                                          contentPadding:  EdgeInsets.symmetric(horizontal: height*0.02,),
+                                          labelText: 'Card Number',
+                                          labelStyle: const TextStyle(
+                                              color: Color(0xff707070)),
+                                          hintText: 'Card Number',
+                                          hintStyle: const TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFF707070)),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: height * 0.02,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ):const SizedBox(),
+                                      SizedBox(
+                                        height: height * 0.02,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              controller: expController,
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Color(
+                                                                  0xFF707070))),
+                                                  focusedBorder: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Color(
+                                                                  0xFF707070))),
+                                                  labelText: 'MM/YY',
+                                                  labelStyle: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Color(0xFF707070)),
+                                                  hintText: 'MM/YY',
+                                                  counterText: "",
+                                                  hintStyle: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Color(0xFF707070)),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                    horizontal: height * 0.015,
+                                                  ),
+                                                  prefixIcon: const Image(
+                                                      image: AssetImage(
+                                                          "assets/image/date.png"))),
+                                              inputFormatters: [
+                                                MaskedTextInputFormatter(
+                                                  mask: 'xx/xx',
+                                                  separator: '/',
+                                                )
+                                              ],
+                                              validator: (value) {
+                                                if (onlinePayment) {
+                                                  if (value!.isEmpty) {
+                                                    return 'MM/YY Field is Required*';
+                                                  } else if (!CreditExpirySubmitRegexValidator()
+                                                      .isValid(value)) {
+                                                    return "Invalid";
+                                                  }
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width * 0.02,
+                                          ),
+                                          Expanded(
+                                            child: TextFormField(
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              controller: cvvController,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              validator: (value) {
+                                                if (onlinePayment) {
+                                                  if (value!.isEmpty) {
+                                                    return 'CVV field is required*';
+                                                  } else if (!CreditCvvSubmitRegexValidator()
+                                                      .isValid(value)) {
+                                                    return "Invalid";
+                                                  }
+                                                }
+                                                return null;
+                                              },
+                                              inputFormatters: [
+                                                MaskedTextInputFormatter(
+                                                  mask: 'xxx',
+                                                  separator: '',
+                                                ),
+                                              ],
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color: Color(0xFF707070)),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                    color: Color(0xFF707070),
+                                                  ),
+                                                ),
+                                                prefixIcon: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: height * 0.02,
+                                                      vertical: height * 0.015),
+                                                  child: SizedBox(
+                                                    height: height * 0.005,
+                                                    child: Image.asset(
+                                                      color: const Color(
+                                                          0xff707070),
+                                                      "assets/image/cvv.png",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                labelText: 'CVV',
+                                                labelStyle: const TextStyle(
+                                                    color: Color(0xff707070)),
+                                                hintText: 'CVV',
+                                                hintStyle: const TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xFF707070)),
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                  horizontal: height * 0.02,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
+                      if (!onlinePayment && !cheque)
 
-                      if(!onlinePayment && !cheque)
-                      ///cash
+                        ///cash
                         Column(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                onlinePayment = false;
-                                cash = !cash;
-                                cheque= false;
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  onlinePayment = false;
+                                  cash = !cash;
+                                  cheque = false;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(width: 1, color: cash?const Color(0xff116D6E):const Color(0xff707070)),
-
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.018),
-                                child: Row(
-                                  children: [
-
-                                    SizedBox(
-                                      height: height*0.035,
-
-                                      child: Image.asset(color: cash?const Color(0xff116D6E):const Color(0xff252525),
-                                        "assets/image/cash.png",
-                                        fit: BoxFit.fill,
+                                  border: Border.all(
+                                      width: 1,
+                                      color: cash
+                                          ? const Color(0xff116D6E)
+                                          : const Color(0xff707070)),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: height * 0.02,
+                                      vertical: height * 0.018),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        height: height * 0.035,
+                                        child: Image.asset(
+                                          color: cash
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
+                                          "assets/image/cash.png",
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Cash",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: cash?const Color(0xff116D6E): const Color(0xff252525),
+                                      const SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    SizedBox(
-                                      height: height*0.04,
-
-                                      child: Image.asset(color: cash?const Color(0xff116D6E):const Color(0xff252525),
-                                        "assets/image/righticon.png",
+                                      Text(
+                                        "Cash",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: cash
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      const Spacer(),
+                                      SizedBox(
+                                        height: height * 0.04,
+                                        child: Image.asset(
+                                          color: cash
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
+                                          "assets/image/righticon.png",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                        ],
-                      ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                          ],
+                        ),
+                      if (!cash && !onlinePayment)
 
-                      if(!cash && !onlinePayment)
-                      ///cheque
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                onlinePayment = false;
-                                cash = false;
-                                cheque= !cheque;
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(width: 1, color: cheque?const Color(0xff116D6E):const Color(0xff707070)),
-
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.018),
-                                child: Row(
-                                  children: [
-
-                                    SizedBox(
-                                      height: height*0.035,
-
-                                      child: Image.asset(color: cheque?const Color(0xff116D6E):const Color(0xff252525),
-                                        "assets/image/cheque.png",
-                                        fit: BoxFit.fill,
+                        ///cheque
+                        Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  onlinePayment = false;
+                                  cash = false;
+                                  cheque = !cheque;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: cheque
+                                          ? const Color(0xff116D6E)
+                                          : const Color(0xff707070)),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: height * 0.02,
+                                      vertical: height * 0.018),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        height: height * 0.035,
+                                        child: Image.asset(
+                                          color: cheque
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
+                                          "assets/image/cheque.png",
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Cheque",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color:  cheque?const Color(0xff116D6E):const Color(0xff252525),
+                                      const SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    SizedBox(
-                                      height: height*0.04,
-
-                                      child: Image.asset(color: cheque?const Color(0xff116D6E):const Color(0xff252525),
-                                        "assets/image/righticon.png",
+                                      Text(
+                                        "Cheque",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: cheque
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      const Spacer(),
+                                      SizedBox(
+                                        height: height * 0.04,
+                                        child: Image.asset(
+                                          color: cheque
+                                              ? const Color(0xff116D6E)
+                                              : const Color(0xff252525),
+                                          "assets/image/righticon.png",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          cheque?Column(
-                            children: [
-                              TextFormField(
-                                textInputAction: TextInputAction.next,
-                                controller: bankNameController,
-                                keyboardType: TextInputType.name,
-                                validator: (value) {
-                                  if(cheque && value!.isEmpty){
-                                    return 'Please Enter Bank Name';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(color: Color(0xFF707070)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(color: Color(0xFF707070), ),
-                                  ),
-                                  prefixIcon:Padding(
-                                    padding:  EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.015),
-                                    child: SizedBox(
-                                      height: height*0.003,
-                                      child: Image.asset(color: const Color(0xff707070),
-                                        "assets/image/bank.png",fit: BoxFit.cover,
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            cheque
+                                ? Column(
+                                    children: [
+                                      TextFormField(
+                                        textInputAction: TextInputAction.next,
+                                        controller: bankNameController,
+                                        keyboardType: TextInputType.name,
+                                        validator: (value) {
+                                          if (cheque && value!.isEmpty) {
+                                            return 'Please Enter Bank Name';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF707070)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF707070),
+                                            ),
+                                          ),
+                                          prefixIcon: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: height * 0.02,
+                                                vertical: height * 0.015),
+                                            child: SizedBox(
+                                              height: height * 0.003,
+                                              child: Image.asset(
+                                                color: const Color(0xff707070),
+                                                "assets/image/bank.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          labelText: 'Enter bank name',
+                                          labelStyle: const TextStyle(
+                                              color: Color(0xff707070)),
+                                          hintText: 'Enter bank name',
+                                          hintStyle: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFF707070)),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: height * 0.02,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  labelText: 'Enter bank name',labelStyle: const TextStyle(color: Color(0xff707070)),
-                                  hintText: 'Enter bank name',
-                                  hintStyle: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                                  contentPadding:  EdgeInsets.symmetric(horizontal: height*0.02,),
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.02,
-                              ),
-                              TextFormField(
-                                textInputAction: TextInputAction.next,
-                                controller: chequeNumberController,
-                                keyboardType: TextInputType.name,
-                                validator: (value) {
-                                  if(cheque && value!.isEmpty){
-                                    return 'Please Enter Cheque Number';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(color: Color(0xFF707070)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(color: Color(0xFF707070), ),
-                                  ),
-                                  prefixIcon:Padding(
-                                    padding:  EdgeInsets.symmetric(horizontal: height*0.02,vertical: height*0.015),
-                                    child: SizedBox(
-                                      height: height*0.003,
-                                      child: Image.asset(color: const Color(0xff707070),
-                                        "assets/image/cheque.png",fit: BoxFit.cover,
+                                      SizedBox(
+                                        height: height * 0.02,
                                       ),
-                                    ),
-                                  ),
-                                  labelText: 'Cheque number',labelStyle: const TextStyle(color: Color(0xff707070)),
-                                  hintText: 'Cheque number',
-                                  hintStyle: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                                  contentPadding:  EdgeInsets.symmetric(horizontal: height*0.02,),
-                                ),
-                              ),
-                            ],
-                          ):const SizedBox(),
-                        ],
+                                      TextFormField(
+                                        textInputAction: TextInputAction.next,
+                                        controller: chequeNumberController,
+                                        keyboardType: TextInputType.name,
+                                        validator: (value) {
+                                          if (cheque && value!.isEmpty) {
+                                            return 'Please Enter Cheque Number';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF707070)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF707070),
+                                            ),
+                                          ),
+                                          prefixIcon: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: height * 0.02,
+                                                vertical: height * 0.015),
+                                            child: SizedBox(
+                                              height: height * 0.003,
+                                              child: Image.asset(
+                                                color: const Color(0xff707070),
+                                                "assets/image/cheque.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          labelText: 'Cheque number',
+                                          labelStyle: const TextStyle(
+                                              color: Color(0xff707070)),
+                                          hintText: 'Cheque number',
+                                          hintStyle: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFF707070)),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: height * 0.02,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
+                          ],
+                        ),
+                      SizedBox(
+                        height: height * 0.02,
                       ),
-                      SizedBox(height: height*0.02,),
                     ],
                   ),
                 ),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: height * 0.02),
-                  child: commonButton(context,'Pay $amount', 13,FontWeight.w700,Colors.white, () {
-                      if (!onlinePayment && !cash && !cheque) {
-                        Utils.showErrorToast("Please Select Payment Method");
+                  padding: EdgeInsets.symmetric(horizontal: height * 0.02),
+                  child: commonButton(
+                      context, 'Pay $amount', 13, FontWeight.w700, Colors.white,
+                      () {
+                    if (!onlinePayment && !cash && !cheque) {
+                      Utils.showErrorToast("Please Select Payment Method");
+                    } else {
+                      if (formKey.currentState!.validate()) {
+                        makePayment();
+                      } else {
+                        autoValidate = AutovalidateMode.always;
                       }
-                      else {
-                        if (formKey.currentState!.validate()) {
-                          makePayment();
-                        } else {
-                          autoValidate = AutovalidateMode.always;
-                        }
-                      }
+                    }
                   }),
                 ),
               ],
@@ -608,11 +752,11 @@ class _MakePaymentState extends State<MakePayment> {
   }
 
   String getPaymentMethodName() {
-    if(onlinePayment) {
+    if (onlinePayment) {
       return "onlinePayment";
-    } else if(cash) {
+    } else if (cash) {
       return "cash";
-    } else if(cheque) {
+    } else if (cheque) {
       return "cheque";
     }
     return "";
@@ -624,14 +768,25 @@ class _MakePaymentState extends State<MakePayment> {
     var body = {
       "quoteId": quoteId,
       "paymentMethod": paymentMethod, //accepts only onlinePayment cash cheque
-      (isAdvance?"advanceAmount":"amount"): amount,
+      (isAdvance ? "advanceAmount" : "amount"): amount,
     };
-    Response response = await quoteService.makePayment(body: body, isAdvance: isAdvance);
+    Response response =
+        await quoteService.makePayment(body: body, isAdvance: isAdvance);
     Navigator.pop(context);
-    if(response.statusCode == 200) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-        return PaymentSuccessfully(amount: amount,labName: labName,quoteId: quoteId,);
-      },),(route) => false,);
+    if (response.statusCode == 200) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return PaymentSuccessfully(
+              amount: amount,
+              labName: labName,
+              quoteId: quoteId,
+            );
+          },
+        ),
+        (route) => false,
+      );
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }
