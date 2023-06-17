@@ -128,10 +128,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   child: TextButton(
                       onPressed: () {
                         if(isOTPFilled){
-                          setState(() {
                             verifyOtp();
-                          });
-                          // Navigator.push(context,MaterialPageRoute(builder: (context) => EmailVerifiedDoneScreen()));
                         }
                       },
                       child: Text("Submit Code",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
@@ -142,6 +139,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   alignment: Alignment.center,
                   child: InkWell(
                       onTap: () {
+                        resendOTP();
                       },
                       child: Text("Resend Code",style: GoogleFonts.lato(color: const Color(0xFF116D6E),fontWeight: FontWeight.w500,fontSize: 16, )))),
               SizedBox(height: height*0.06,),
@@ -150,6 +148,30 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         ),
       ),
     );
+  }
+
+  resendOTP() async {
+    var postUri = Uri.parse(ApiServices.sendOtpApi);
+    Utils.showLoadingDialog(context);
+    var bodyData = {
+      "email": widget.emailId,
+    };
+    var response = await http.post(
+      postUri,
+      body: bodyData,
+    );
+    Utils.logAPIResponse(apiName: ApiServices.sendOtpApi, function: "sendOTP", response: response);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Map map = jsonDecode(response.body);
+      if (map["status"] == 200) {
+        Utils.showSuccessToast(map["message"]);
+      } else {
+        Utils.showErrorToast(map["message"]);
+      }
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
   }
   verifyOtp()async{
     Utils.showLoadingDialog(context);
@@ -168,7 +190,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         Map map = jsonDecode(response.body);
         if (map["status"] == 200) {
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EmailVerifiedDoneScreen(),),(route) => false,);
-          Utils.showErrorToast(map["message"]);
+          Utils.showSuccessToast(map["message"]);
         } else {
           Utils.showErrorToast(map["message"]);
         }

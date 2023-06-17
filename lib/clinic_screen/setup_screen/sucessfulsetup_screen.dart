@@ -136,7 +136,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
   }
 
   Future<bool> goBack() async {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => userType=="lab"?const DashboardScreen():const BottomNavigation()),);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => userType=="lab"?const DashboardScreen():const BottomNavigation(index: 0)),);
     return true;
   }
 }

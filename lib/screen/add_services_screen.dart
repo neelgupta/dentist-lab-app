@@ -173,7 +173,6 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                               const SizedBox(width: 5,),
                               Expanded(
                                 child: TextFormField(
-                                  maxLength: 10,
                                   controller: servicePriceController,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(

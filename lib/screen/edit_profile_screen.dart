@@ -113,7 +113,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           keyboardType: TextInputType.name,
                           controller: lastNameController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
                               return 'Please Enter Last Name';

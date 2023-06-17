@@ -23,10 +23,8 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
   var autoValidate = AutovalidateMode.disabled;
   TextEditingController licenseAuthorityController = TextEditingController();
   TextEditingController medicalLicenseController = TextEditingController();
-
   TextEditingController tradeLicenseController = TextEditingController();
   TextEditingController trnNumberController = TextEditingController();
-  TextEditingController totalDeviceController = TextEditingController();
 
   File? medicalLicense;
   File? tradeLicense;
@@ -142,12 +140,11 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         height: 20,
                       ),
                       TextFormField(
-                        maxLength: 15,
                         textInputAction: TextInputAction.next,
                         controller: licenseAuthorityController,
                         validator: (value) {
                           if(value!.isEmpty) {
-                            return 'Please Enter Authority';
+                            return 'Please Enter Licensing Authority';
                           }
                           return null;
                         },
@@ -172,7 +169,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         height: 20,
                       ),
                       TextFormField(
-                        maxLength: 15,
                         textInputAction: TextInputAction.next,
                         controller: medicalLicenseController,
                         keyboardType: TextInputType.name,
@@ -201,6 +197,13 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Text("Upload Medical License",
+                          style: GoogleFonts.lato(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xff707070),
+                          )),
+                      const SizedBox(height: 10,),
                       DottedBorder(
                         borderType: BorderType.RRect,
                         dashPattern: [3, 3, 3],
@@ -209,7 +212,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            height: height * 0.13,
+                            height: width * 0.3,
                             width: MediaQuery.of(context).size.width,
                             color: const Color(0xFFF5F7F7),
                             child: Column(
@@ -219,19 +222,46 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                 if (medicalLicense != null)
                                   Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Container(
-                                        width: 120,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: FileImage(medicalLicense!),
-                                                fit: BoxFit.fill),
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                        // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                    child: SizedBox(
+                                      height: width * 0.3,
+                                      width: width * 0.3,
+                                      child: Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: width * 0.02),
+                                              child: Container(
+                                                width: width * 0.25,
+                                                height: width * 0.25,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: FileImage(medicalLicense!),
+                                                        fit: BoxFit.fill),
+                                                    borderRadius:
+                                                        BorderRadius.circular(12)),
+                                                // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              medicalLicense = null;
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(width*0.005),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                  border: Border.all(color: Colors.red)
+                                              ),
+                                              child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -274,7 +304,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         height: 20,
                       ),
                       TextFormField(
-                        maxLength: 10,
                         textInputAction: TextInputAction.next,
                         controller: tradeLicenseController,
                         keyboardType: TextInputType.name,
@@ -303,6 +332,13 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Text("Upload Trade License",
+                          style: GoogleFonts.lato(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xff707070),
+                          )),
+                      const SizedBox(height: 10,),
                       DottedBorder(
                         borderType: BorderType.RRect,
                         dashPattern: [3, 3, 3],
@@ -311,7 +347,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            height: height * 0.13,
+                            height: width * 0.3,
                             width: MediaQuery.of(context).size.width,
                             color: const Color(0xFFF5F7F7),
                             child: Column(
@@ -321,18 +357,46 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                 if (tradeLicense != null)
                                   Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Container(
-                                        width: 120,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: FileImage(tradeLicense!),
-                                                fit: BoxFit.fill),
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
+                                    child: SizedBox(
+                                      width: width * 0.3,
+                                      height: width * 0.3,
+                                      child: Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: width * 0.02),
+                                              child: Container(
+                                                width: width * 0.25,
+                                                height: width * 0.25,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: FileImage(tradeLicense!),
+                                                        fit: BoxFit.fill),
+                                                    borderRadius:
+                                                    BorderRadius.circular(12)),
+                                                // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              tradeLicense = null;
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(width*0.005),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                  border: Border.all(color: Colors.red)
+                                              ),
+                                              child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -377,7 +441,6 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         height: 20,
                       ),
                       TextFormField(
-                        maxLength: 17,
                         textInputAction: TextInputAction.next,
                         controller: trnNumberController,
                         keyboardType: TextInputType.name,
@@ -406,6 +469,13 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Text("Upload TRN",
+                          style: GoogleFonts.lato(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xff707070),
+                          )),
+                      const SizedBox(height: 10,),
                       DottedBorder(
                         borderType: BorderType.RRect,
                         dashPattern: [3, 3, 3],
@@ -414,7 +484,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
-                            height: height * 0.13,
+                            height: width * 0.3,
                             width: MediaQuery.of(context).size.width,
                             color: const Color(0xFFF5F7F7),
                             child: Column(
@@ -424,18 +494,46 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                 if (trn != null)
                                   Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Container(
-                                        width: 120,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: FileImage(trn!),
-                                                fit: BoxFit.fill),
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
+                                    child: SizedBox(
+                                      height: width * 0.3,
+                                      width: width * 0.3,
+                                      child: Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: width * 0.02),
+                                              child: Container(
+                                                width: width * 0.25,
+                                                height: width * 0.25,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: FileImage(trn!),
+                                                        fit: BoxFit.fill),
+                                                    borderRadius:
+                                                    BorderRadius.circular(12)),
+                                                // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              trn = null;
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(width*0.005),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                  border: Border.all(color: Colors.red)
+                                              ),
+                                              child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),

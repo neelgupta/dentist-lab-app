@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   static logAPIResponse({String? apiName, String? function, Response? response, Map? body}) {
@@ -93,6 +94,16 @@ class Utils {
         child: CircularProgressIndicator(color: Color(0xFF116D6E)),
       );
     },);
+  }
+
+  static Future<void> makePhoneCall(String url) async {
+    url = 'tel:$url';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      showErrorToast('Unable to make phone call');
+      throw 'Could not launch $url';
+    }
   }
 }
 Widget loader() {

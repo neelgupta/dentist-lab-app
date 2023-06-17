@@ -129,7 +129,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please Enter Lab Number';
+                              return 'Please Enter Lab Mobile Number';
                             }
                             return null;
                           },
@@ -152,7 +152,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if(value == null || value.isEmpty){
-                              return 'Please Enter Land-Line Number';
+                              return 'Please Enter Land Line Number';
                             }
                             return null;
                           },
@@ -200,7 +200,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          maxLength: 10,
                           controller: cityController,
                           keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
@@ -249,7 +248,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
                           TextFormField(
                             keyboardType: TextInputType.name,
                           controller: poBoxController,
-                          maxLength: 18,
                           textInputAction: TextInputAction.next,
                             validator: (value) {
                               if(value == null || value.isEmpty){

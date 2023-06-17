@@ -119,8 +119,9 @@ class LabDetails {
   String? city;
   String? country;
   String? labName;
-  int? landLineNumber;
-  int? mobileNumber;
+  String? landLineNumber;
+  String? mobileNumber;
+  String? description;
 
   LabDetails(
       {this.id,
@@ -129,7 +130,9 @@ class LabDetails {
         this.country,
         this.labName,
         this.landLineNumber,
-        this.mobileNumber});
+        this.mobileNumber,
+        this.description
+      });
 
   factory LabDetails.fromJson(Map<String, dynamic> json) {
     return LabDetails(
@@ -138,8 +141,9 @@ class LabDetails {
       city : json['city'],
       country : json['country'],
       labName : json['labName'],
-      landLineNumber : json['landLineNumber'],
-      mobileNumber : json['mobileNumber'],
+      landLineNumber : json['landLineNumber'].toString(),
+      mobileNumber : json['mobileNumber'].toString(),
+      description : json['description'],
     );
   }
 }

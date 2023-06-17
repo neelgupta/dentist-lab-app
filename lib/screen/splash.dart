@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashboardScreen()),);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigatorBarWidget()),);
         } else {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(),),);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavigation(index: 0,),),);
         }
       } else {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Stack(
+          child: const Stack(
             children: [
               Align(
                 alignment: Alignment.center,

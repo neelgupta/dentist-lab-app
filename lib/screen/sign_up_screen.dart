@@ -75,7 +75,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           keyboardType: TextInputType.name,
                           controller: firstNameController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
                               return 'Please Enter First Name';
@@ -99,7 +98,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           keyboardType: TextInputType.name,
                           controller: lastNameController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 20,
                           validator: (value) {
                             if(value == null || value.isEmpty){
                               return 'Please Enter Last Name';
@@ -148,7 +146,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           keyboardType: TextInputType.emailAddress,
                           controller: passwordController,
                           textInputAction: TextInputAction.next,
-                          maxLength: 20,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Password';
