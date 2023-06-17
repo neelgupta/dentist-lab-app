@@ -28,6 +28,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   bool isAddiTonalInfo = false;
   bool isManagerDetail = false;
   bool isLoading = true;
+
   ClientProfile clientProfile =  ClientProfile();
   ClinicProfile? clinicProfile;
 

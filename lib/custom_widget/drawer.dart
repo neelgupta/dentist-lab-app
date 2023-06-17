@@ -79,7 +79,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     SizedBox(
                       width: width * 0.02,
                     ),
-                    const Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

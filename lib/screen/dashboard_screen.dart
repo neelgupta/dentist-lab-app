@@ -57,171 +57,163 @@ class _DashboardScreenState extends State<DashboardScreen> {
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Stack(
+            child: Column(
               children: [
                 Column(
                   children: [
-                    Column(
-                      children: [
-                        Container(
-                            decoration: const BoxDecoration(
-                                color: Color(0xFF116D6E),
-                                image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                                    fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: height*0.03,horizontal: width*0.055),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: const [
-                                      Image(image: AssetImage("assets/image/Menu.png")),
-                                      Spacer(),
-                                      Image(image: AssetImage("assets/image/Notification 3.png"))
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16,),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: height*0.090,
-                                    width: width*0.20,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: const Color(0xFF116D6E).withOpacity(0.5),
-                                      border: Border.all(color: const Color(0xFFFFFFFF))
-                                    ),
-                                    child: Text("N",style: GoogleFonts.lato(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w600)),
-                                  ),
-                                  const SizedBox(height: 15,),
-                                  Text("User name",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.white,)),
-                                  const SizedBox(height: 8,),
-                                  Text("Since 1992",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
-                                ],
-                              ),
-                            )
+                    Container(
+                        decoration: const BoxDecoration(
+                            color: Color(0xFF116D6E),
+                            image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
+                                fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: height*0.065,
-                            width: width*0.88,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFEBEFEE),
-                              borderRadius:BorderRadius.circular(30)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        changeColors();
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: feedSelected,
-                                          borderRadius: BorderRadius.circular(30),
-                                        ),
-                                        child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        changeColors();
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color:feedUnselected,
-                                          borderRadius: BorderRadius.circular(30),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Text("Invite",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
-                                      ),
-                                    ),
-                                  )
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: height*0.03,horizontal: width*0.055),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: const [
+                                  Image(image: AssetImage("assets/image/Menu.png")),
+                                  Spacer(),
+                                  Image(image: AssetImage("assets/image/Notification 3.png"))
                                 ],
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 23,),
-                          Text("Quote",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                          const SizedBox(height: 20,),
-                          Row(
-                            children: [
-                              Text("Surname Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                              const Spacer(),
-                              Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
+                              const SizedBox(height: 16,),
+                              Container(
+                                alignment: Alignment.center,
+                                height: height*0.090,
+                                width: width*0.20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: const Color(0xFF116D6E).withOpacity(0.5),
+                                  border: Border.all(color: const Color(0xFFFFFFFF))
+                                ),
+                                child: Text("N",style: GoogleFonts.lato(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w600)),
+                              ),
+                              const SizedBox(height: 15,),
+                              Text("User name",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.white,)),
+                              const SizedBox(height: 8,),
+                              Text("Since 1992",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
                             ],
                           ),
-                          const SizedBox(height: 20,),
-                          Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                              " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
-                          maxLines: 3,overflow: TextOverflow.ellipsis),
-                          const SizedBox(height: 15,),
-                          TextButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
-                              padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                              onPressed: () {
-                              showMyDialog(context);
-                              },
-                              child: Text("View",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
-                          const SizedBox(height: 20,),
-                          const Divider(thickness: 1,color: Color(0xFFE7E7E7),),
-                          const SizedBox(height: 20,),
-                          Row(
-                            children: [
-                              Text("Surname Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                              const Spacer(),
-                              Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
-                            ],
-                          ),
-                          const SizedBox(height: 20,),
-                          Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                              " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
-                              maxLines: 3,overflow: TextOverflow.ellipsis),
-                          const SizedBox(height: 15,),
-                          TextButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
-                                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {
-                              },
-                              child: Text("View",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
-
-                        ],
-                      ),
-                    )
+                        )
+                    ),
                   ],
                 ),
-                Positioned(
-                  top: 70,
-                    left: 225,
-                    child: Text("Verified",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,color: Colors.yellow,))),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: height*0.065,
+                        width: width*0.88,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEBEFEE),
+                          borderRadius:BorderRadius.circular(30)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    changeColors();
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: feedSelected,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    changeColors();
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color:feedUnselected,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text("Invite",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 23,),
+                      Text("Quote",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
+                      const SizedBox(height: 20,),
+                      Row(
+                        children: [
+                          Text("Surname Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
+                          const Spacer(),
+                          Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                          " Pellentesque tristique elit in nibh ultricies rhoncus.",
+                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
+                      maxLines: 3,overflow: TextOverflow.ellipsis),
+                      const SizedBox(height: 15,),
+                      TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                          onPressed: () {
+                          showMyDialog(context);
+                          },
+                          child: Text("View",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
+                      const SizedBox(height: 20,),
+                      const Divider(thickness: 1,color: Color(0xFFE7E7E7),),
+                      const SizedBox(height: 20,),
+                      Row(
+                        children: [
+                          Text("Surname Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
+                          const Spacer(),
+                          Text("18 Jun 2022",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                          " Pellentesque tristique elit in nibh ultricies rhoncus.",
+                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
+                          maxLines: 3,overflow: TextOverflow.ellipsis),
+                      const SizedBox(height: 15,),
+                      TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                          },
+                          child: Text("View",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
+
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -250,7 +242,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Image(image: AssetImage("assets/image/Setting.png"),width: 25),
+                      const Image(image: AssetImage("assets/image/Setting.png"),height: 24),
                       const SizedBox(height: 5,),
                       Text("Setting",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white,))
                     ],
