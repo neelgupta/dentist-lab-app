@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/models/sign_in_model.dart';
+import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
 import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/register_type_screen.dart';
@@ -37,7 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Utils.prefs!.clear();
+    print("${Utils.getToken()}");
+    print("${Utils.getScreenStatus()}");
+    print("${Utils.getUserType()}");
+    print("${Utils.getLoginStatus()}");
   }
 
   @override
@@ -213,8 +217,12 @@ class _LoginScreenState extends State<LoginScreen> {
             Utils.setLoginStatus(true);
             Utils.showSuccessToast(signInModel!.message);
             Utils.setScreenStatus(signInModel!.screenStatus);
+            Utils.setFirstName(signInModel!.firstName);
+            Utils.setLastName(signInModel!.lastName);
+            Utils.setProfileImage(signInModel!.profileImage);
+            Utils.setEstablishDate(signInModel!.dateOfEstablishment);
             setState(() {});
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const DashboardScreen():const BottomNavigation(index: 0),),);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const BottomNavigatorBarWidget():const BottomNavigation(index: 0)));
           }
         } else {
           Utils.showErrorToast(map["message"]);

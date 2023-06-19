@@ -9,6 +9,7 @@ import 'package:dentalapp/screen/login_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -19,6 +20,22 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   var selectedIndex = 0;
+  String firstName = "";
+  String lastName = "";
+  String profileImage = "";
+  String establishDate = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      firstName = Utils.getFirstName();
+      lastName = Utils.getLastName();
+      profileImage = Utils.getProfileImage();
+      establishDate = Utils.getEstablishDate();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,21 +76,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
-                      height: 60,
-                      width: 60,
+                      height: width * 0.16,
+                      width: width * 0.16,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: const Color(0xff116D6E),
-                          border: Border.all(color: Colors.black)),
-                      child: Center(
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            "N",
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                          ),
-                        ),
+                          border: Border.all(color: Colors.black),
+                          image: DecorationImage(image: NetworkImage(profileImage),fit: BoxFit.fill)
                       ),
                     ),
                     SizedBox(
@@ -84,18 +93,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "User name",
-                          style: TextStyle(
+                          "$firstName $lastName",
+                          style: const TextStyle(
                               color: Color(0xff252525),
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
-                        Text(
-                          "Since 1992",
-                          style: TextStyle(
-                              color: Color(0xff252525),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400),
+                        if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
+                            style: GoogleFonts.lato(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            )
                         ),
                       ],
                     ),
@@ -153,7 +161,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           GestureDetector(
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 3);
+                return const BottomNavigation(index: 0);
               },), (route) => false);
             },
             child: Padding(
@@ -163,16 +171,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   SizedBox(
                     height: height * 0.06,
                     width: width * 0.07,
-                    child: Image.asset("assets/image/d_profile.png",
-                        color: selectedIndex == 1
+                    child: Image.asset("assets/image/drawerdashboard.png",
+                        color: selectedIndex == 3
                             ? const Color(0xff116D6E)
                             : Colors.black),
                   ),
                   SizedBox(width: width * 0.05),
                   Text(
-                    "Profile",
+                    "Dashboard",
                     style: TextStyle(
-                        color: selectedIndex == 1
+                        color: selectedIndex == 3
                             ? const Color(0xff116D6E)
                             : Colors.black,
                         fontSize: 16),
@@ -185,7 +193,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           GestureDetector(
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 2);
+                return const BottomNavigation(index: 1);
               },), (route) => false);
             },
             child: Padding(
@@ -217,7 +225,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           GestureDetector(
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 0);
+                return const BottomNavigation(index: 2);
               },), (route) => false);
             },
             child: Padding(
@@ -227,16 +235,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   SizedBox(
                     height: height * 0.06,
                     width: width * 0.07,
-                    child: Image.asset("assets/image/drawerdashboard.png",
-                        color: selectedIndex == 3
+                    child: Image.asset("assets/image/d_profile.png",
+                        color: selectedIndex == 1
                             ? const Color(0xff116D6E)
                             : Colors.black),
                   ),
                   SizedBox(width: width * 0.05),
                   Text(
-                    "Dashboard",
+                    "Profile",
                     style: TextStyle(
-                        color: selectedIndex == 3
+                        color: selectedIndex == 1
                             ? const Color(0xff116D6E)
                             : Colors.black,
                         fontSize: 16),
@@ -310,36 +318,36 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
           const SizedBox(height: 5),
-          GestureDetector(
-            onTap: () {
-
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30, right: 20),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: height * 0.06,
-                    width: width * 0.07,
-                    child: Image.asset("assets/image/d_setting.png",
-                        color: selectedIndex == 7
-                            ? const Color(0xff116D6E)
-                            : Colors.black),
-                  ),
-                  SizedBox(width: width * 0.05),
-                  Text(
-                    "Setting",
-                    style: TextStyle(
-                        color: selectedIndex == 7
-                            ? const Color(0xff116D6E)
-                            : Colors.black,
-                        fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 5),
+          // GestureDetector(
+          //   onTap: () {
+          //
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(left: 30, right: 20),
+          //     child: Row(
+          //       children: [
+          //         SizedBox(
+          //           height: height * 0.06,
+          //           width: width * 0.07,
+          //           child: Image.asset("assets/image/d_setting.png",
+          //               color: selectedIndex == 7
+          //                   ? const Color(0xff116D6E)
+          //                   : Colors.black),
+          //         ),
+          //         SizedBox(width: width * 0.05),
+          //         Text(
+          //           "Setting",
+          //           style: TextStyle(
+          //               color: selectedIndex == 7
+          //                   ? const Color(0xff116D6E)
+          //                   : Colors.black,
+          //               fontSize: 16),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 5),
           const Spacer(),
           GestureDetector(
             onTap: () {
@@ -422,8 +430,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                     onPressed: () async {
                       Utils.setLoginStatus(false);
-                      Utils.setToken("");
-                      Utils.setUserType("");
+                      Utils.setToken(" ");
+                      Utils.setUserType(" ");
                       Utils.showSuccessToast("Logout Successfully");
                       Utils.setScreenStatus("0");
                       await Utils.prefs!.clear();

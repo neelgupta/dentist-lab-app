@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:dentalapp/services/clinic_services/clinic_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class EditProfile extends StatefulWidget {
   final String firstName;
@@ -25,6 +30,8 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  ClinicService clinicService = ClinicService();
 
   @override
   void initState() {
@@ -235,7 +242,7 @@ class _EditProfileState extends State<EditProfile> {
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value != newPasswordController.text) {
-                                  return 'Please Enter Confirm Password';
+                                  return 'Password Doesn\'t Match';
                                 }
                                 return null;
                               },
@@ -270,7 +277,7 @@ class _EditProfileState extends State<EditProfile> {
                               child: TextButton(
                                   onPressed: () {
                                     if (formKey.currentState!.validate()){
-                                      Navigator.pop(context);
+                                      updateProfile();
                                     }else{
                                       autoValidate = AutovalidateMode.always;
                                     }
@@ -285,5 +292,23 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ))),
     );
+  }
+  updateProfile() async {
+    Utils.showLoadingDialog(context);
+    var body = {
+      "firstName" : firstNameController.text.trim(),
+      "lastName" : lastNameController.text.trim(),
+      "email" : emailAddressController.text.trim(),
+      if(currentPasswordController.text.isNotEmpty)"oldPassword" : currentPasswordController.text.trim(),
+      if(currentPasswordController.text.isNotEmpty)"newPassword" : newPasswordController.text.trim(),
+    };
+    Response response = await clinicService.updateProfile(body: body);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
   }
 }

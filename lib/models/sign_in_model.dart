@@ -16,6 +16,10 @@ class SignInModel {
   String screenStatus;
   String token;
   String message;
+  String profileImage;
+  String firstName;
+  String lastName;
+  String dateOfEstablishment;
 
   SignInModel({
     required this.status,
@@ -25,6 +29,10 @@ class SignInModel {
     required this.screenStatus,
     required this.token,
     required this.message,
+    required this.profileImage,
+    required this.firstName,
+    required this.lastName,
+    required this.dateOfEstablishment,
   });
 
   factory SignInModel.fromJson(Map<String, dynamic> json) => SignInModel(
@@ -35,6 +43,10 @@ class SignInModel {
     screenStatus: json["screenStatus"].toString(),
     token: json["token"],
     message: json["message"],
+    profileImage: json["profileImage"],
+    firstName: json["firstName"],
+    lastName: json["lastName"],
+    dateOfEstablishment: json["dateOfEstablishment"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
@@ -45,5 +57,9 @@ class SignInModel {
     "screenStatus": screenStatus,
     "token": token,
     "message": message,
+    "profileImage": profileImage,
+    "firstName": firstName,
+    "lastName": lastName,
+    "dateOfEstablishment": dateOfEstablishment,
   };
 }

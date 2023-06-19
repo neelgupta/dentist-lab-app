@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:dentalapp/models/clinic_profile.dart';
+import 'package:dentalapp/services/clinic_services/clinic_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class EditClinicDetails extends StatefulWidget {
@@ -25,6 +30,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
   TextEditingController cityController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController poBoxController = TextEditingController();
+  ClinicService clinicService = ClinicService();
 
   @override
   void initState() {
@@ -37,7 +43,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
     cityController.text = widget.clinicData.city ?? "";
     addressController.text = widget.clinicData.address ?? "";
     poBoxController.text = widget.clinicData.poBox ?? "";
-    dateInputController.text = DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.clinicData.dateOfEstablishment ?? DateTime.now().toString()));
+    dateInputController.text = DateFormat('yyyy-MM-dd').format(DateTime.parse(widget.clinicData.dateOfEstablishment ?? DateTime.now().toString()));
   }
   @override
   Widget build(BuildContext context) {
@@ -273,7 +279,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
 
                                 if (pickedDate != null) {
                                   dateInputController.text =
-                                      DateFormat('dd MMMM yyyy').format(pickedDate);
+                                      DateFormat('yyyy-MM-dd').format(pickedDate);
                                 }
                               },
                               textInputAction: TextInputAction.next,
@@ -315,7 +321,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
                               child: TextButton(
                                   onPressed: () {
                                     if (formKey.currentState!.validate()){
-                                      Navigator.pop(context);
+                                      updateClinicDetails();
                                     }else{
                                       autoValidate = AutovalidateMode.always;
                                     }
@@ -332,5 +338,29 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
                 child:  CircularProgressIndicator(),
               ))),
     );
+  }
+
+  updateClinicDetails() async {
+    Utils.showLoadingDialog(context);
+    var body = {
+      {
+        "clinicName": labNameController.text,
+        "dateOfEstablishment": dateInputController.text, // yyyy-mm-dd
+        "landLineNumber": landLineNumberController.text,
+        "mobileNumber": labMobileController.text,
+        "country": countryController.text,
+        "city": cityController.text,
+        "address": addressController.text,
+        "poBox": poBoxController.text
+      }
+    };
+    Response response = await clinicService.updateClinicDetail(body: body);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
   }
 }

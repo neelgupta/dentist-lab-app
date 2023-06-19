@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:dentalapp/models/clinic_profile.dart';
+import 'package:dentalapp/services/clinic_services/clinic_services.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditAdditionalInfo extends StatefulWidget {
@@ -22,13 +26,17 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
   TextEditingController tradeLicenseController = TextEditingController();
   TextEditingController trnNumberController = TextEditingController();
   String medicalFile = "";
+  String oldMedicalFile = "";
   String tradeFile = "";
+  String oldTradeFile = "";
   String trnFile = "";
+  String oldTrnFile = "";
   File? medicalLicense;
   File? tradeLicense;
   File? trn;
 
   bool isLoading = false;
+  ClinicService clinicService = ClinicService();
 
   @override
   void initState() {
@@ -39,8 +47,11 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
     tradeLicenseController.text = widget.data.tradeLicenceNumber ?? "";
     trnNumberController.text = widget.data.tRNNumber ?? "";
     medicalFile = widget.data.licensFile ?? "";
+    oldMedicalFile = widget.data.licensFile ?? "";
     tradeFile = widget.data.tradeFile ?? "";
+    oldTradeFile = widget.data.tradeFile ?? "";
     trnFile = widget.data.trnFile ?? "";
+    oldTrnFile = widget.data.trnFile ?? "";
   }
 
   @override
@@ -457,7 +468,7 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                                           ),
                                         ),
                                       ),
-                                    if (tradeLicense==null && trnFile.isEmpty)
+                                    if (tradeLicense==null && tradeFile.isEmpty)
                                       InkWell(
                                         onTap: () {
                                           _pickImage2();
@@ -702,7 +713,7 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                                       Utils.showErrorToast("Please Upload TRN");
                                     }
                                     else {
-                                      Navigator.pop(context);
+                                      updateClinicAdditionalDetails();
                                     }
                                   } else {
                                     autoValidate = AutovalidateMode.always;
@@ -757,5 +768,27 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
         trn = File(pickedImage3.path);
       }
     });
+  }
+
+  Future<void> updateClinicAdditionalDetails() async {
+    Utils.showLoadingDialog(context);
+    var bodyData = {
+      "licensingAuthority": licenseAuthorityController.text.toString(),
+      "medicalLicenseNumber": medicalLicenseController.text.toString(),
+      "tradeLicenceNumber": tradeLicenseController.text.toString(),
+      "TRN_number": trnNumberController.text.toString(),
+      if(medicalFile.isEmpty)"oldLicensFile": oldMedicalFile,
+      if(tradeFile.isEmpty)"oldTradeFile": oldTradeFile,
+      if(trnFile.isEmpty)"oldtrnFile": oldTrnFile,
+    };
+
+    Response response = await clinicService.updateClinicAdditionalDetail(body: bodyData, license: medicalLicense, trade: tradeLicense, trn: trn);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
   }
 }

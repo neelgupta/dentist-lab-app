@@ -48,6 +48,7 @@ class ApiServices {
   static String deliveryAccepted = "${baseUrl}quotes/deliveryAccepted";
   static String deliveryRejected = "${baseUrl}quotes/deliveryRejected";
   static String getLabProfile = "${baseUrl}quotes/getProposalLab";
+  static String updateQuote = "${baseUrl}quotes/updateQuote";
 
   ///Payment APIs
   static String makeAdvancePayment = "${baseUrl}quotes/makeAdvancePayment";
@@ -58,4 +59,10 @@ class ApiServices {
   ///Comments APIs
   static String addComment = "${baseUrl}quotes/addClinicComment";
   static String getComment = "${baseUrl}quotes/getComments";
+
+  /// Profiles
+  static String editProfile = "${baseUrl}lab/editProfile";
+  static String editClinicInfo = "${baseUrl}clinic/editClinicDetails";
+  static String editClinicAdditionalInfo = "${baseUrl}clinic/editaditionalClinicDetails";
+  static String editClinicManagerInfo = "${baseUrl}clinic/editClinicMangerDetails";
 }

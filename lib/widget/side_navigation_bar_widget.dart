@@ -335,12 +335,6 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
   }
 
   void showLogOutDialog() {
-    double height = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom;
-    double width = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.right -
-        MediaQuery.of(context).padding.left;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -386,10 +380,15 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
                             ),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          Utils.setLoginStatus(false);
+                          Utils.setToken(" ");
+                          Utils.setUserType(" ");
+                          Utils.showSuccessToast("Logout Successfully");
+                          Utils.setScreenStatus("0");
+                          await Utils.prefs!.clear();
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
                             return LoginScreen();},), (route) => false);
-                          Utils.setLoginStatus(false);
                         },
                         child: Text("Logout",
                             style: GoogleFonts.lato(

@@ -7,9 +7,11 @@ import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/payment_history.dart';
 import 'package:dentalapp/clinic_screen/profile_edit.dart';
 import 'package:dentalapp/custom_widget/drawer.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class DasBoardScreen extends StatefulWidget {
   const DasBoardScreen({Key? key}) : super(key: key);
@@ -20,6 +22,23 @@ class DasBoardScreen extends StatefulWidget {
 
 class _DasBoardScreenState extends State<DasBoardScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  String firstName = "";
+  String lastName = "";
+  String profileImage = "";
+  String establishDate = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      firstName = Utils.getFirstName();
+      lastName = Utils.getLastName();
+      profileImage = Utils.getProfileImage();
+      establishDate = Utils.getEstablishDate();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height -
@@ -82,17 +101,8 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 border: Border.all(
                                     color: Colors.white, width: 1),
                                 shape: BoxShape.circle,
-                                color:
-                                const Color.fromRGBO(55, 255, 255, 0.5),
-                              ),
-                              child: Center(
-                                  child: Text("N",
-                                      style: GoogleFonts.lato(
-                                          color: Colors.white,
-                                          fontSize: 24,
-                                          fontWeight:
-                                              FontWeight.w600))),
-                            ),
+                                image: DecorationImage(image: NetworkImage(profileImage),fit: BoxFit.fill)
+                              )),
                             Positioned(
                                 bottom: 0,
                                 right: 0,
@@ -107,7 +117,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                         SizedBox(
                           height: height*0.01,
                         ),
-                        Text("User name",
+                        Text("$firstName $lastName",
                             style: GoogleFonts.lato(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -116,7 +126,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                         SizedBox(
                           height: height*0.005,
                         ),
-                        Text("Since 1992",
+                        if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
                             style: GoogleFonts.lato(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -180,7 +190,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                             InkWell(
                               onTap: () {
                                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                  return const BottomNavigation(index: 2);
+                                  return const BottomNavigation(index: 1);
                                 },), (route) => false);
                               },
                               child: Card(
@@ -268,7 +278,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                             InkWell(
                               onTap: (){
                                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                  return const BottomNavigation(index: 3);
+                                  return const BottomNavigation(index: 2);
                                 },), (route) => false);
                               },
                               child: Card(
