@@ -6,6 +6,7 @@ import 'package:dentalapp/clinic_screen/quote_successfully.dart';
 import 'package:dentalapp/models/labs_model.dart';
 import 'package:dentalapp/models/sevices_model.dart';
 import 'package:dentalapp/services/clinic_services/client_profile_service.dart';
+import 'package:dentalapp/services/clinic_services/quote_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
@@ -40,6 +41,7 @@ class _CreateQuoteState extends State<CreateQuote> {
   TextEditingController dateInputController = TextEditingController();
   TextEditingController labsController = TextEditingController();
   ClientProfile clientProfile = ClientProfile();
+  QuoteService quoteService = QuoteService();
   Service? service;
   Lab? lab;
   bool isLoading = true;
@@ -55,7 +57,8 @@ class _CreateQuoteState extends State<CreateQuote> {
   List selectedLabs = [];
   List selectedService = [];
   List labNames = [];
-  
+  List removedImages = [];
+
   List<ImageData> selectedImages = [];
 
   @override
@@ -75,6 +78,10 @@ class _CreateQuoteState extends State<CreateQuote> {
       }
       for (var item in widget.quotesData!.serviceDetails ?? []) {
         selectedService.add(ServiceData(id: item.id, title: item.title));
+      }
+
+      for(var item in widget.quotesData!.chooseForLab ?? []) {
+        selectedLabs.add(LabData(id: item.id, labName: item.labName));
       }
     }
     getAllServices();
@@ -134,7 +141,7 @@ class _CreateQuoteState extends State<CreateQuote> {
                   padding: const EdgeInsets.only(left: 20,right: 20),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Create Quote",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
+                      widget.quotesData!=null?Text("Update Quote",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),):Text("Create Quote",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w600),),
                       const Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Divider(thickness: 1,color: Color(0xffE7E7E7),),
@@ -503,6 +510,9 @@ class _CreateQuoteState extends State<CreateQuote> {
                                 ),
                                 InkWell(
                                   onTap: () {
+                                    if(selectedImages[index].type=='network') {
+                                      removedImages.add(selectedImages[index].path);
+                                    }
                                     selectedImages.removeAt(index);
                                     setState(() {});
                                   },
@@ -582,6 +592,8 @@ class _CreateQuoteState extends State<CreateQuote> {
                                 } else {
                                   if (widget.quotesData==null) {
                                     createQuote();
+                                  } else {
+                                    updateQuote();
                                   }
                                 }
                               } else {
@@ -589,7 +601,7 @@ class _CreateQuoteState extends State<CreateQuote> {
                                 setState(() {});
                               }
                             },
-                            child: Text("Create",
+                            child: Text(widget.quotesData==null?"Create":"Update",
                                 style: GoogleFonts.lato(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -666,13 +678,46 @@ class _CreateQuoteState extends State<CreateQuote> {
       // if(labIds.isNotEmpty)"labs": labIds.toString(),
       if(dateInputController.text.isNotEmpty)"tillDate": dateInputController.text
     };
-    Response response = await clientProfile.createQuote(body: body, images: selectedImages, serviceId: serviceIds, labId: labIds);
+    Response response = await quoteService.createQuote(body: body, images: selectedImages, serviceId: serviceIds, labId: labIds);
     Navigator.pop(context);
     if(response.statusCode == 200) {
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
         return QuoteSuccessfully();
       },), (route) => false);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+  }
+
+  updateQuote() async {
+    Utils.showLoadingDialog(context);
+    var serviceIds = [];
+    selectedService.forEach((element) {serviceIds.add(element.id);});
+
+    var labIds = [];
+    selectedLabs.forEach((element) {labIds.add(element.id);});
+
+    List<ImageData> newImages = [];
+
+    selectedImages.forEach((element) {
+      if(element.type=="file") {
+        newImages.add(element);
+      }
+    });
+    var body = {
+      'quoteId': widget.quotesData!.id ?? "",
+      "title": titleController.text,
+      "description": descriptionController.text,
+      "priority": priorityValue,
+      "chooseFor": quoteTypeValue,
+      if(dateInputController.text.isNotEmpty)"tillDate": dateInputController.text
+    };
+    Response response = await quoteService.updateQuote(body: body, images: newImages, serviceId: serviceIds, labId: labIds, removedImages: removedImages);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+      Navigator.pop(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }

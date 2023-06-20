@@ -283,7 +283,7 @@ class _profileSetup1State extends State<profileSetup1> {
 
                               if (pickedDate != null) {
                                 dateInputController.text =
-                                    DateFormat('dd MMMM yyyy').format(pickedDate);
+                                    DateFormat('yyyy-MM-dd').format(pickedDate);
                               }
                             },
                             textInputAction: TextInputAction.next,

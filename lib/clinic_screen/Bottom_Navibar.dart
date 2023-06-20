@@ -38,7 +38,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   List  selectedScreenList= [
     const DasBoardScreen(),
-    const SizedBox(),
+    // const SizedBox(),
     const NewQuote(),
     const ProfileEdit(),
   ];
@@ -72,18 +72,18 @@ class _BottomNavigationState extends State<BottomNavigation> {
                         : const Color(0xffA0A0A0)),
                 label: "DashBoard",
               ),
-              BottomNavigationBarItem(
-                icon: Image.asset("assets/image/Setting.png",
-                    height: 20,
-                    color: selectedScreenIndex == 1
-                        ? const Color(0xff01635D)
-                        : const Color(0xffA0A0A0)),
-                label: "Setting",
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Image.asset("assets/image/Setting.png",
+              //       height: 20,
+              //       color: selectedScreenIndex == 1
+              //           ? const Color(0xff01635D)
+              //           : const Color(0xffA0A0A0)),
+              //   label: "Setting",
+              // ),
               BottomNavigationBarItem(
                 icon: Image.asset("assets/image/category.png",
                     height: 20,
-                    color: selectedScreenIndex == 2
+                    color: selectedScreenIndex == 1
                         ? const Color(0xff01635D)
                         : const Color(0xffA0A0A0)),
                 label: "Quote",
@@ -91,7 +91,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               BottomNavigationBarItem(
                 icon: Image.asset("assets/image/profile.png",
                     height: 20,
-                    color: selectedScreenIndex == 3
+                    color: selectedScreenIndex == 2
                         ? const Color(0xff01635D)
                         : const Color(0xffA0A0A0)),
                 label: "Profile",

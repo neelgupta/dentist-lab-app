@@ -35,6 +35,7 @@ class ApiServices {
   /// Lab side add services api
   static String addLabServices = "${baseUrl}lab/addServices";
   static String allLabServices = "${baseUrl}lab/getAllServices";
+  static String singleLabService = "${baseUrl}lab/getSingleService";
 
   ///Lab Dashboard feed
   static String getFeeds = "${baseUrl}lab/getFeeds";
@@ -52,6 +53,7 @@ class ApiServices {
   static String deliveryAccepted = "${baseUrl}quotes/deliveryAccepted";
   static String deliveryRejected = "${baseUrl}quotes/deliveryRejected";
   static String getLabProfile = "${baseUrl}quotes/getProposalLab";
+  static String updateQuote = "${baseUrl}quotes/updateQuote";
 
   ///Payment APIs
   static String makeAdvancePayment = "${baseUrl}quotes/makeAdvancePayment";
@@ -62,4 +64,10 @@ class ApiServices {
   ///Comments APIs
   static String addComment = "${baseUrl}quotes/addClinicComment";
   static String getComment = "${baseUrl}quotes/getComments";
+
+  /// Profiles
+  static String editProfile = "${baseUrl}lab/editProfile";
+  static String editClinicInfo = "${baseUrl}clinic/editClinicDetails";
+  static String editClinicAdditionalInfo = "${baseUrl}clinic/editaditionalClinicDetails";
+  static String editClinicManagerInfo = "${baseUrl}clinic/editClinicMangerDetails";
 }

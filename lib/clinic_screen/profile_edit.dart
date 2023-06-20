@@ -101,16 +101,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     border: Border.all(
                                         color: Colors.white, width: 1),
                                     shape: BoxShape.circle,
-                                    color:
-                                        const Color.fromRGBO(55, 255, 255, 0.5),
+                                      image: DecorationImage(image: NetworkImage(clinicProfile!.data!.userId!.profileImage ?? ''),fit: BoxFit.fill)
                                   ),
-                                  child: Center(
-                                      child: Text("N",
-                                          style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight:
-                                                  FontWeight.w600))),
                                 ),
                                 Positioned(
                                     bottom: 0,
@@ -173,7 +165,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) {
                                 return EditProfile(firstName: clinicProfile!.data!.userId!.firstName ?? "",lastName: clinicProfile!.data!.userId!.lastName ?? "",email: clinicProfile!.data!.userId!.email ?? "",);
-                              },));
+                              },)).then((value) => getProfileData());
                             },
                             child: Text("Edit",
                                 style: GoogleFonts.lato(
@@ -300,7 +292,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 onTap: () {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                                     return EditClinicDetails(clinicData: clinicProfile!.data!,);
-                                  },));
+                                  },)).then((value) => getProfileData());
                                 },
                                 child: Text("Edit",
                                     style: GoogleFonts.lato(
@@ -517,7 +509,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       onTap: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (context) {
                                           return EditAdditionalInfo(data: clinicProfile!.data!);
-                                        },));
+                                        },)).then((value) => getProfileData());
                                       },
                                       child: Text("Edit",
                                           style: GoogleFonts.lato(
@@ -809,7 +801,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       onTap: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (context) {
                                           return EditClinicManagerDetail(data: clinicProfile!.data!,);
-                                        },));
+                                        },)).then((value) => getProfileData());
                                       },
                                       child: Text("Edit",
                                           style: GoogleFonts.lato(
@@ -1147,6 +1139,10 @@ class _ProfileEditState extends State<ProfileEdit> {
 
     if(response.statusCode == 200) {
       clinicProfile = ClinicProfile.fromJson(jsonDecode(response.body));
+      Utils.setFirstName(clinicProfile!.data!.userId!.firstName ?? "");
+      Utils.setLastName(clinicProfile!.data!.userId!.lastName ?? "");
+      Utils.setProfileImage(clinicProfile!.data!.userId!.profileImage ?? "");
+      Utils.setEstablishDate(clinicProfile!.data!.dateOfEstablishment ?? "");
     }
     isLoading = false;
     setState(() {});
