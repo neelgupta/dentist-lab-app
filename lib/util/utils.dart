@@ -26,6 +26,38 @@ class Utils {
     return prefs!.getString('token');
   }
 
+  static setFirstName(String token){
+    prefs!.setString('firstName', token);
+  }
+
+  static getFirstName() {
+    return prefs!.getString('firstName');
+  }
+
+  static setLastName(String token){
+    prefs!.setString('lastName', token);
+  }
+
+  static getLastName() {
+    return prefs!.getString('lastName');
+  }
+
+  static setProfileImage(String token){
+    prefs!.setString('profileImage', token);
+  }
+
+  static getProfileImage() {
+    return prefs!.getString('profileImage');
+  }
+
+  static setEstablishDate(String token){
+    prefs!.setString('establishDate', token);
+  }
+
+  static getEstablishDate() {
+    return prefs!.getString('establishDate');
+  }
+
   static setUserType(String type) {
     prefs!.setString('userType', type);
   }

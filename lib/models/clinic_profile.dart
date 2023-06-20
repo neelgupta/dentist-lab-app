@@ -113,12 +113,15 @@ class UserId {
   String? firstName;
   String? lastName;
   String? email;
+  String? profileImage;
 
   UserId(
       {this.id,
         this.firstName,
         this.lastName,
-        this.email,});
+        this.email,
+        this.profileImage,
+      });
 
   factory UserId.fromJson(Map<String, dynamic> json) {
     return UserId(
@@ -126,6 +129,7 @@ class UserId {
       firstName : json['firstName'].toString(),
       lastName : json['lastName'].toString(),
       email : json['email'].toString(),
+      profileImage : json['profileImage'].toString(),
     );
   }
 

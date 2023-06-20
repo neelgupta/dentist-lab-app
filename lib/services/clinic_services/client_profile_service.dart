@@ -45,39 +45,4 @@ class ClientProfile {
 
     return response;
   }
-
-  createQuote({required body, required List<ImageData> images, required List serviceId, required List labId}) async {
-    var postUri = Uri.parse(ApiServices.createQuote);
-    var request = http.MultipartRequest("POST", postUri);
-    request.fields.addAll(body);
-    for (var i = 0; i < serviceId.length; i++) {
-      Map<String, String> service = {
-        'serviceIds[$i]' : serviceId[i],
-      };
-      request.fields.addAll(service);
-    }
-    if (labId.isNotEmpty) {
-      for (var i = 0; i < labId.length; i++) {
-        Map<String, String> lab = {
-          'labs[$i]' : labId[i],
-        };
-        request.fields.addAll(lab);
-      }
-    }
-    request.headers.addAll(Utils.apiHeader);
-    for (var i = 0; i < images.length; i++) {
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath('quoteImages',images[i].path);
-      request.files.add(multipartFile);
-    }
-    http.StreamedResponse response = await request.send();
-
-    final res = await http.Response.fromStream(response);
-
-    Utils.logAPIResponse(function: "createQuote",apiName: ApiServices.createQuote,response: res, body: body);
-    log("$labId");
-    log("$serviceId");
-    log("${request.fields}");
-
-    return res;
-  }
 }

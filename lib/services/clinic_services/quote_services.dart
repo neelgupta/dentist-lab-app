@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
@@ -120,5 +122,82 @@ class QuoteService {
     Utils.logAPIResponse(function: "getLabProfile",apiName: ApiServices.getLabProfile,response: response, body: body);
 
     return response;
+  }
+
+  createQuote({required body, required List<ImageData> images, required List serviceId, required List labId}) async {
+    var postUri = Uri.parse(ApiServices.createQuote);
+    var request = http.MultipartRequest("POST", postUri);
+    request.fields.addAll(body);
+    for (var i = 0; i < serviceId.length; i++) {
+      Map<String, String> service = {
+        'serviceIds[$i]' : serviceId[i],
+      };
+      request.fields.addAll(service);
+    }
+    if (labId.isNotEmpty) {
+      for (var i = 0; i < labId.length; i++) {
+        Map<String, String> lab = {
+          'labs[$i]' : labId[i],
+        };
+        request.fields.addAll(lab);
+      }
+    }
+    request.headers.addAll(Utils.apiHeader);
+    for (var i = 0; i < images.length; i++) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath('quoteImages',images[i].path);
+      request.files.add(multipartFile);
+    }
+    http.StreamedResponse response = await request.send();
+
+    final res = await http.Response.fromStream(response);
+
+    Utils.logAPIResponse(function: "createQuote",apiName: ApiServices.createQuote,response: res, body: body);
+
+    return res;
+  }
+
+  updateQuote({required body, required List<ImageData> images, required List serviceId, required List labId, required List removedImages}) async {
+    var postUri = Uri.parse(ApiServices.updateQuote);
+    var request = http.MultipartRequest("PUT", postUri);
+    request.fields.addAll(body);
+    for (var i = 0; i < serviceId.length; i++) {
+      Map<String, String> service = {
+        'serviceIds[$i]' : serviceId[i],
+      };
+      request.fields.addAll(service);
+    }
+    if (labId.isNotEmpty) {
+      for (var i = 0; i < labId.length; i++) {
+        Map<String, String> lab = {
+          'labs[$i]' : labId[i],
+        };
+        request.fields.addAll(lab);
+      }
+    }
+
+    if (removedImages.isNotEmpty) {
+      for (var i = 0; i < removedImages.length; i++) {
+        Map<String, String> removedImage = {
+          'oldQuoteImages[$i]' : removedImages[i],
+        };
+        request.fields.addAll(removedImage);
+      }
+    }
+    if (images.isNotEmpty) {
+      for (var i = 0; i < images.length; i++) {
+        http.MultipartFile multipartFile = await http.MultipartFile.fromPath('quoteImages',images[i].path);
+        request.files.add(multipartFile);
+      }
+    }
+    request.headers.addAll(Utils.apiHeader);
+    http.StreamedResponse response = await request.send();
+
+    final res = await http.Response.fromStream(response);
+    log("${request.fields}");
+    log("${request.files}");
+
+    Utils.logAPIResponse(function: "updateQuote",apiName: ApiServices.updateQuote,response: res, body: body);
+
+    return res;
   }
 }

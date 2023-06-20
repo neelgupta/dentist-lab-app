@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dentalapp/models/clinic_profile.dart';
+import 'package:dentalapp/services/clinic_services/clinic_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditClinicManagerDetail extends StatefulWidget {
@@ -27,11 +30,12 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
   TextEditingController financialManagerNumberController = TextEditingController();
   TextEditingController financialManagerEmailController = TextEditingController();
   String financeFile = "";
+  String oldFile = "";
 
   bool isLoading =  false;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
-
+  ClinicService clinicService = ClinicService();
   File? financialManagerFile;
 
   @override
@@ -46,6 +50,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
     medicalManagerEmailController.text = widget.data.medicalDirectorEmail ?? "";
     medicalManagerLicenseController.text = widget.data.directorLicensNumber ?? "";
     financeFile = widget.data.directorLicensFile ?? "";
+    oldFile = widget.data.directorLicensFile ?? "";
     financialManagerNameController.text = widget.data.finacialMangerName ?? "";
     financialManagerNumberController.text = widget.data.finacialMangerNumber ?? "";
     financialManagerEmailController.text = widget.data.finacialMangerEmail ?? "";
@@ -355,7 +360,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                                       height: width * 0.25,
                                                       decoration: BoxDecoration(
                                                           image: DecorationImage(
-                                                              image: NetworkImage(financeFile!),
+                                                              image: NetworkImage(financeFile),
                                                               fit: BoxFit.fill),
                                                           borderRadius:
                                                           BorderRadius.circular(12)),
@@ -501,7 +506,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                         Utils.showErrorToast("Please Upload File");
                                       }
                                       else {
-                                        Navigator.pop(context);
+                                        updateClinicManagerDetails();
                                       }
                                     }else{
                                       autoValidate = AutovalidateMode.always;
@@ -530,5 +535,31 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
         financialManagerFile = File(pickedImage3.path);
       }
     });
+  }
+
+  Future<void> updateClinicManagerDetails() async {
+    Utils.showLoadingDialog(context);
+    var bodyData = {
+      "clinicMangerName": labManagerNameController.text.toString(),
+      "clinicMangerNumber": labManagerNumberController.text.toString(),
+      "clinicMangerEmail": labManagerEmailController.text.toString(),
+      "medicalDirectorName": medicalManagerNameController.text.toString(),
+      "medicalDirectorNumber": medicalManagerNumberController.text.toString(),
+      "medicalDirectorEmail": medicalManagerEmailController.text.toString(),
+      "directorLicensNumber": medicalManagerLicenseController.text.toString(),
+      "finacialMangerName": financialManagerNameController.text.toString(),
+      "finacialMangerNumber": financialManagerNumberController.text.toString(),
+      "finacialMangerEmail": financialManagerEmailController.text.toString(),
+      if(financeFile.isEmpty)"oldLicenceFile": oldFile,
+    };
+
+    Response response = await clinicService.updateClinicManagerDetail(body: bodyData, license: financialManagerFile);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
   }
 }
