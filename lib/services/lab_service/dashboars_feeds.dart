@@ -20,6 +20,16 @@ class LabDashBoard{
     return response;
   }
 
+  sentProposal({required body}) async {
+    var postUri = Uri.parse(ApiServices.postSentProposal);
+    var response = await http.post(
+      postUri,
+      body: jsonEncode(body),
+      headers: Utils.apiHeader,
+    );
+    Utils.logAPIResponse(function: "getProposal",apiName: ApiServices.postSentProposal,response: response, body: body);
 
+    return response;
+  }
 
 }

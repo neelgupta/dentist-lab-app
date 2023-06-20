@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dentalapp/screen/add_services_screen.dart';
 import 'package:dentalapp/screen/notification_screen.dart';
 import 'package:dentalapp/services/lab_service/dashboars_feeds.dart';
 import 'package:dentalapp/util/utils.dart';
@@ -21,23 +20,27 @@ class DashBoard1Screen extends StatefulWidget {
 
 class _DashBoard1ScreenState extends State<DashBoard1Screen> {
   LabDashBoard feedsData=LabDashBoard();
+  LabDashBoard sentProposal=LabDashBoard();
   GetfeedsModel? getfeed;
 
   List<Quotesdatum> quoteList = [];
 
   bool  isLoading = true;
+  String status = "";
 
   bool isFeedColor = false;
   Color feedSelected = Colors.white;
-  Color feedUnselected = Color(0xFFEBEFEE);
+  Color feedUnselected = const Color(0xFFEBEFEE);
 
+  TextEditingController addAmountController=TextEditingController();
+  bool addAmountStatus = false;
   void changeColors() {
     setState(() {
       if (isFeedColor) {
         feedSelected = Colors.white;
-        feedUnselected = Color(0xFFEBEFEE);
+        feedUnselected = const Color(0xFFEBEFEE);
       } else {
-        feedSelected = Color(0xFFEBEFEE);
+        feedSelected = const Color(0xFFEBEFEE);
         feedUnselected = Colors.white;
       }
       isFeedColor = !isFeedColor;
@@ -45,6 +48,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
   }
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -94,13 +98,13 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                           onTap: () {
                                             _key.currentState!.openDrawer();
                                           },
-                                            child: Image(image: AssetImage("assets/image/Menu.png"))),
-                                        Spacer(),
+                                            child: const Image(image: AssetImage("assets/image/Menu.png"))),
+                                        const Spacer(),
                                         InkWell(
                                           onTap: () {
-                                             Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
+                                             Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen(),));
                                           },
-                                            child: Image(image: AssetImage("assets/image/Notification 3.png")))
+                                            child: const Image(image: AssetImage("assets/image/Notification 3.png")))
                                       ],
                                     ),
                                     SizedBox(height: height*0.016,),
@@ -110,14 +114,14 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                       width: width*0.20,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                          color: Color(0xFF116D6E).withOpacity(0.5),
-                                          border: Border.all(color: Color(0xFFFFFFFF))
+                                          color: const Color(0xFF116D6E).withOpacity(0.5),
+                                          border: Border.all(color: const Color(0xFFFFFFFF))
                                       ),
                                       child: Text("N",style: GoogleFonts.lato(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w600)),
                                     ),
-                                    SizedBox(height: 15,),
+                                    const SizedBox(height: 15,),
                                     Text("User name",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.white,)),
-                                    SizedBox(height: 8,),
+                                    const SizedBox(height: 8,),
                                     Text("Since 1992",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
                                   ],
                                 ),
@@ -134,7 +138,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                               height: height*0.065,
                               width: width*0.88,
                               decoration: BoxDecoration(
-                                  color: Color(0xFFEBEFEE),
+                                  color: const Color(0xFFEBEFEE),
                                   borderRadius:BorderRadius.circular(30)
                               ),
                               child: Padding(
@@ -153,7 +157,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                             color: feedSelected,
                                             borderRadius: BorderRadius.circular(30),
                                           ),
-                                          child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),)),
+                                          child: Text("Feeds",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
                                         ),
                                       ),
                                     ),
@@ -169,7 +173,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                             borderRadius: BorderRadius.circular(30),
                                           ),
                                           alignment: Alignment.center,
-                                          child: Text("Invite",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),)),
+                                          child: Text("Invite",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: const Color(0xFF116D6E),)),
                                         ),
                                       ),
                                     )
@@ -178,9 +182,9 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                               ),
                             ),
                             SizedBox(height: height*0.023,),
-                           isFeedColor ? getfeed != null?Text("Quote (${getfeed!.data!.count?? 0})",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)):SizedBox() :  getfeed != null?Text("Quote (${getfeed!.data!.count?? 0})",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)):SizedBox(),
+                           isFeedColor ? getfeed != null?Text("Quote (${getfeed!.data!.count?? 0})",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)):const SizedBox() :  getfeed != null?Text("Quote (${getfeed!.data!.count?? 0})",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)):const SizedBox(),
                             SizedBox(height: height*0.020,),
-                           isFeedColor ? quoteList.isNotEmpty?Container(
+                           isFeedColor ? quoteList.isNotEmpty?SizedBox(
                               height: height*0.45,
                               width: width,
                               child: isLoading ? Center(child: loader(),): ListView.separated(
@@ -195,19 +199,19 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                         Row(
                                           children: [
                                             Text(quoteList[index].title ?? "",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                                            Spacer(),
-                                            Text(DateFormat('dd MMMM yyyy').format(quoteList[index].createdAt!),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
+                                            const Spacer(),
+                                            Text(DateFormat('dd MMMM yyyy').format(quoteList[index].createdAt!),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
                                           ],
                                         ),
                                         SizedBox(height: height*0.020,),
                                         Text(quoteList[index].description ?? "",
-                                            style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),
+                                            style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
                                             maxLines: 3,overflow: TextOverflow.ellipsis),
                                         SizedBox(height: height*0.015,),
                                         TextButton(
                                             style: ButtonStyle(
-                                              backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
-                                              padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                                              backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                                              padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
                                               shape: MaterialStateProperty.all(
                                                 RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(12),
@@ -215,11 +219,12 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              showMyDialog(context);
+                                              showMyDialog(context: context,titleText: quoteList[index].title.toString(),descText: quoteList[index].description.toString(),quoteId: quoteList[index].id.toString());
+                                              setState(() {});
                                             },
                                             child: Text("Sent Proposal",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
                                         SizedBox(height: height*0.010,),
-                                        Divider(thickness: 1,color: Color(0xFFE7E7E7),),
+                                        const Divider(thickness: 1,color: Color(0xFFE7E7E7),),
                                       ],
                                     );
                                   },
@@ -227,8 +232,8 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                     return SizedBox(height: height*0.010,);
                                   },
                                 ),
-                            ):Center(child: Text("No Invite Found!!"),) :
-                           quoteList.isNotEmpty?Container(
+                            ):const Center(child: Text("No Invite Found!!"),) :
+                           quoteList.isNotEmpty?SizedBox(
                              height: height*0.45,
                              width: width,
                              child:  isLoading ? Center(child: loader(),): ListView.separated(
@@ -243,19 +248,19 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                      Row(
                                        children: [
                                          Text(quoteList[index].title ?? "",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
-                                         Spacer(),
-                                         Text(DateFormat('dd MMMM yyyy').format(quoteList[index].createdAt!),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
+                                         const Spacer(),
+                                         Text(DateFormat('dd MMMM yyyy').format(quoteList[index].createdAt!),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0),)),
                                        ],
                                      ),
                                      SizedBox(height: height*0.020,),
                                      Text(quoteList[index].description ?? "",
-                                         style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),
+                                         style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),
                                          maxLines: 3,overflow: TextOverflow.ellipsis),
                                      SizedBox(height: height*0.015,),
                                      TextButton(
                                          style: ButtonStyle(
-                                           backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
-                                           padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                                           backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                                           padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
                                            shape: MaterialStateProperty.all(
                                              RoundedRectangleBorder(
                                                borderRadius: BorderRadius.circular(12),
@@ -263,11 +268,12 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                            ),
                                          ),
                                          onPressed: () {
-                                           showMyDialog(context);
+                                           showMyDialog(context: context,titleText: quoteList[index].title.toString(),descText: quoteList[index].description.toString(),quoteId: quoteList[index].id.toString());
+                                           setState(() {});
                                          },
                                          child: Text("Sent Proposal",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
                                      SizedBox(height: height*0.010,),
-                                     Divider(thickness: 1,color: Color(0xFFE7E7E7),),
+                                     const Divider(thickness: 1,color: Color(0xFFE7E7E7),),
                                    ],
                                  );
                                },
@@ -275,7 +281,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                  return SizedBox(height: height*0.010,);
                                },
                              ),
-                           ): Center(child: Text("No Feeds Found!!")),
+                           ): const Center(child: Text("No Feeds Found!!")),
                           ],
                         ),
                       )
@@ -292,7 +298,14 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
 
 
   }
-  void showMyDialog(BuildContext context){
+  void showMyDialog({
+    required String titleText,
+    required String descText,
+    required String quoteId,
+    required BuildContext context,
+  }){
+    addAmountController.clear();
+    status="";
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -302,74 +315,108 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Name",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),textAlign: TextAlign.start),
-                  SizedBox(height: 10,),
-                  Text("Lorem ipsum dolor sit, consecteturamet adipiscing."
-                      " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                      style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070),),
-                      maxLines: 3,overflow: TextOverflow.ellipsis,textAlign: TextAlign.start),
-                  SizedBox(height: 20,),
-                  Container(
-                    height: 55,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF707070)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                      child: Row(
-                        children: [
-                          Text("AED",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070),),),
-                          SizedBox(width: 5,),
-                          Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: VerticalDivider(
-                              thickness: 1,
-                              width: 5,
-                              color: Color(0xFF707070),
-                            ),
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          titleText, style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),textAlign: TextAlign.start),
+                      const SizedBox(height: 10,),
+                      Text(descText, style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070),),
+                          maxLines: 3,overflow: TextOverflow.ellipsis,textAlign: TextAlign.start),
+                      const SizedBox(height: 20,),
+                      Container(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: const Color(0xFF707070)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          child: Row(
+                            children: [
+                              Text("AED",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: const Color(0xFF707070),),),
+                              const SizedBox(width: 5,),
+                              const Padding(
+                                padding: EdgeInsets.all(5),
+                                child: VerticalDivider(
+                                  thickness: 1,
+                                  width: 5,
+                                  color: Color(0xFF707070),
+                                ),
+                              ),
+                              const SizedBox(width: 5,),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: addAmountController,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      addAmountStatus = false;
+                                    });
+                                  },
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Add Amount",
+                                      counterText: "",
+                                      contentPadding: EdgeInsets.only(bottom: 8,top: 3,left: 5)
+                                  ),
+                                ),
+                              ),
+
+                            ],
                           ),
-                          SizedBox(width: 5,),
-                          Expanded(
-                            child: Container(
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Add Amount",
-                                  counterText: "",
-                                  contentPadding: EdgeInsets.only(bottom: 8,top: 3,left: 5)
+                        ),
+                      ),
+                      addAmountStatus
+                          ? Container(
+                        alignment: Alignment.topLeft,
+                        height: 30,
+                        child: Text(
+                          status,
+                          style: const TextStyle(
+                              fontFamily: 'spartan',
+                              fontSize: 12,
+                              color: Colors.red),
+                        ),
+                      )
+                          : Container(
+                        height: 20,
+                      ),
+
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: TextButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
+                              padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 30,vertical: 12)),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            onPressed: () {
+                              setState(() {
+                                if (addAmountController.text.isEmpty) {
+                                  addAmountStatus = true;
+                                  status = "Please Enter Amount";
+                                }
+                                else{
+                                  getSentProposal(quoteId);
+                                }
+                              });
+
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => AddServicesScreen(),));
+                            },
+                            child: Text("Sent",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
-                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 30,vertical: 12)),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                        onPressed: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => AddServicesScreen(),));
-                        },
-                        child: Text("Sent",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
-                  ),
-                ],
+                    ],
+                  );
+                },
+
               ),
             )
         );
@@ -387,7 +434,6 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
     }
     String typeSelected = isFeedColor ? 'invited' :  "empty";
     var body = {
-
       "type": typeSelected,
     };
 
@@ -404,6 +450,27 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
     });
   }
 
+
+
+  getSentProposal(String quoteId) async {
+    Utils.showLoadingDialog(context);
+
+    var body = {
+      "quoteId":quoteId,
+      "amount": addAmountController.text,
+    };
+    Response response = await sentProposal.sentProposal(body: body);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+       addAmountController.text="";
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+
+  }
 
 
 }

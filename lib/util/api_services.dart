@@ -39,7 +39,10 @@ class ApiServices {
 
   ///Lab Dashboard feed
   static String getFeeds = "${baseUrl}lab/getFeeds";
+  static String postSentProposal = "${baseUrl}lab/addProposal";
 
+  ///Payment APIs
+  static String getNotification = "${baseUrl}lab/getLabNotification";
   /// Services APIs
   static String getService = "${baseUrl}quotes/getServices";
   static String getLabs= "${baseUrl}quotes/getLabs";
