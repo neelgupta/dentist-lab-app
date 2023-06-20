@@ -43,9 +43,9 @@ class SignInModel {
     screenStatus: json["screenStatus"].toString(),
     token: json["token"],
     message: json["message"],
-    profileImage: json["profileImage"],
-    firstName: json["firstName"],
-    lastName: json["lastName"],
+    profileImage: json["profileImage"] ?? "",
+    firstName: json["firstName"] ?? "",
+    lastName: json["lastName"] ?? "",
     dateOfEstablishment: json["dateOfEstablishment"] ?? "",
   );
 

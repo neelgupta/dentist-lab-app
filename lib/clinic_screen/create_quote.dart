@@ -79,6 +79,10 @@ class _CreateQuoteState extends State<CreateQuote> {
       for (var item in widget.quotesData!.serviceDetails ?? []) {
         selectedService.add(ServiceData(id: item.id, title: item.title));
       }
+
+      for(var item in widget.quotesData!.chooseForLab ?? []) {
+        selectedLabs.add(LabData(id: item.id, labName: item.labName));
+      }
     }
     getAllServices();
   }

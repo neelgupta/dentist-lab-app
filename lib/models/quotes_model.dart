@@ -43,6 +43,7 @@ class QuotesData {
   String? createdAt;
   List<ServiceDetails>? serviceDetails;
   List<LabsDetails>? labsDetails;
+  List<LabsDetails>? chooseForLab;
   String? proposal;
 
   QuotesData(
@@ -59,12 +60,14 @@ class QuotesData {
         this.createdAt,
         this.serviceDetails,
         this.labsDetails,
+        this.chooseForLab,
         this.proposal});
 
   factory QuotesData.fromJson(Map<String, dynamic> json) {
     List status = json['quoteStatus'];
     List service = json['serviceDetails'];
     List lab = json['labsDetails'];
+    List labs = json['chooseForLab'];
     return QuotesData(
       id : json['_id'],
       clinicId : json['clinicId'],
@@ -79,6 +82,7 @@ class QuotesData {
       createdAt : json['createdAt'], 
       serviceDetails : service.map((e) => ServiceDetails.fromJson(e)).toList(),
       labsDetails: lab.map((e) => LabsDetails.fromJson(e)).toList(),
+      chooseForLab: labs.map((e) => LabsDetails.fromJson(e)).toList(),
       proposal : json['propsals'].toString(),
     );
   }
