@@ -672,9 +672,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                                       labProfileData!
                                                           .labData![0]
                                                           .labServices![
-                                                      index]
-                                                          .serviceImags![
-                                                      index] ??''),
+                                                      index].serviceImags!.first),
                                                   fit: BoxFit.cover)),
                                         ),
                                         SizedBox(

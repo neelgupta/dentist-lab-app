@@ -15,7 +15,7 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
   int selectedScreenIndex = 0;
 
   List  selectedScreenList= [
-    DashBoard1Screen(),
+     DashBoard1Screen(),
     SizedBox(),
     SizedBox(),
     PublicProfileScreen(),

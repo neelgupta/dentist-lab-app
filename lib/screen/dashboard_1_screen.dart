@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:dentalapp/screen/add_services_screen.dart';
 import 'package:dentalapp/screen/notification_screen.dart';
+import 'package:dentalapp/services/lab_service/dashboars_feeds.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+import '../models/lab_getfeeds.dart';
 import '../widget/side_navigation_bar_widget.dart';
 
 class DashBoard1Screen extends StatefulWidget {
@@ -13,8 +20,14 @@ class DashBoard1Screen extends StatefulWidget {
 }
 
 class _DashBoard1ScreenState extends State<DashBoard1Screen> {
+  LabDashBoard feedsData=LabDashBoard();
+  GetfeedsModel? getfeed;
 
-  bool  isFeedColor = true;
+  List<Quotesdatum> quoteList = [];
+
+  bool  isLoading = true;
+
+  bool isFeedColor = false;
   Color feedSelected = Colors.white;
   Color feedUnselected = Color(0xFFEBEFEE);
 
@@ -38,7 +51,13 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
     }
     );
+    getFeeds();
+
   }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -126,6 +145,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                       child: InkWell(
                                         onTap: () {
                                           changeColors();
+                                          getFeeds();
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
@@ -141,6 +161,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                       child: InkWell(
                                         onTap: () {
                                           changeColors();
+                                          getFeeds();
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -157,27 +178,29 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                               ),
                             ),
                             SizedBox(height: height*0.023,),
-                            Text("Quote",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
+                           isFeedColor ? getfeed != null?Text("Quote (${getfeed!.data!.count?? 0})",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)):SizedBox() :  getfeed != null?Text("Quote (${getfeed!.data!.count?? 0})",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)):SizedBox(),
                             SizedBox(height: height*0.020,),
-                            Container(
+                           isFeedColor ? quoteList.isNotEmpty?Container(
                               height: height*0.45,
                               width: width,
-                              child: ListView.separated(
+                              child: isLoading ? Center(child: loader(),): ListView.separated(
+                                itemCount: quoteList.length,
                                   scrollDirection: Axis.vertical,
+
                                   itemBuilder: (context, index) {
+
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            Text("Dr. Emily Williams",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
+                                            Text(quoteList[index].title ?? "",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
                                             Spacer(),
-                                            Text("18 Jun 2020",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
+                                            Text(DateFormat('dd MMMM yyyy').format(quoteList[index].createdAt!),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
                                           ],
                                         ),
                                         SizedBox(height: height*0.020,),
-                                        Text("Dr. Emily Williams is a highly accomplished and "
-                                            "driven senior research scientist at Nexus Research Institute",
+                                        Text(quoteList[index].description ?? "",
                                             style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),
                                             maxLines: 3,overflow: TextOverflow.ellipsis),
                                         SizedBox(height: height*0.015,),
@@ -203,8 +226,56 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                   separatorBuilder: (context, index) {
                                     return SizedBox(height: height*0.010,);
                                   },
-                                  itemCount: 4),
-                            ),
+                                ),
+                            ):Center(child: Text("No Invite Found!!"),) :
+                           quoteList.isNotEmpty?Container(
+                             height: height*0.45,
+                             width: width,
+                             child:  isLoading ? Center(child: loader(),): ListView.separated(
+                               itemCount: quoteList.length,
+                               scrollDirection: Axis.vertical,
+
+                               itemBuilder: (context, index) {
+
+                                 return Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Row(
+                                       children: [
+                                         Text(quoteList[index].title ?? "",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,)),
+                                         Spacer(),
+                                         Text(DateFormat('dd MMMM yyyy').format(quoteList[index].createdAt!),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0),)),
+                                       ],
+                                     ),
+                                     SizedBox(height: height*0.020,),
+                                     Text(quoteList[index].description ?? "",
+                                         style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),
+                                         maxLines: 3,overflow: TextOverflow.ellipsis),
+                                     SizedBox(height: height*0.015,),
+                                     TextButton(
+                                         style: ButtonStyle(
+                                           backgroundColor: MaterialStateProperty.all(Color(0xFF116D6E)),
+                                           padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 25,vertical: 12)),
+                                           shape: MaterialStateProperty.all(
+                                             RoundedRectangleBorder(
+                                               borderRadius: BorderRadius.circular(12),
+                                             ),
+                                           ),
+                                         ),
+                                         onPressed: () {
+                                           showMyDialog(context);
+                                         },
+                                         child: Text("Sent Proposal",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
+                                     SizedBox(height: height*0.010,),
+                                     Divider(thickness: 1,color: Color(0xFFE7E7E7),),
+                                   ],
+                                 );
+                               },
+                               separatorBuilder: (context, index) {
+                                 return SizedBox(height: height*0.010,);
+                               },
+                             ),
+                           ): Center(child: Text("No Feeds Found!!")),
                           ],
                         ),
                       )
@@ -216,6 +287,10 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
           ),
       ),
     );
+
+
+
+
   }
   void showMyDialog(BuildContext context){
     showDialog(
@@ -301,4 +376,34 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
       },
     );
   }
+
+  getFeeds({bool showLoading = true}) async {
+    if(showLoading) {
+      setState(() {
+
+        quoteList.clear();
+        isLoading = true;
+      });
+    }
+    String typeSelected = isFeedColor ? 'invited' :  "empty";
+    var body = {
+
+      "type": typeSelected,
+    };
+
+    Response response = await feedsData.getFeed(body: body);
+
+    if(response.statusCode == 200) {
+      getfeed = GetfeedsModel.fromJson(jsonDecode(response.body));
+
+      quoteList.addAll(getfeed!.data!.quotesdata?? []);
+
+    }
+    setState(() {
+    isLoading = false;
+    });
+  }
+
+
+
 }
