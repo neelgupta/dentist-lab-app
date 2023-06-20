@@ -471,7 +471,9 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
       if (response.statusCode == 200) {
         Map map = jsonDecode(res.body);
         if (map["status"] == 200) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen(),));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(
+            description: descriptionController.text,
+          ),));
           Utils.showSuccessToast(map['message']);
         } else {
           Utils.showErrorToast(map['message']);

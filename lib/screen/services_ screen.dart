@@ -12,7 +12,8 @@ import '../models/all_added_service_model.dart';
 import '../services/lab_services/add_services_api.dart';
 
 class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({Key? key}) : super(key: key);
+  String description;
+  ServicesScreen({Key? key,this.description = "",}) : super(key: key);
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -20,16 +21,15 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
 
-  List<AllAddedServicesModel> useData = [];
+  List<AllAddedServicesModel> getServicesList = [];
   AllAddedServicesModel? allAddedServicesModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    serviceList();
+    getServiceList();
   }
-
 
 
   @override
@@ -87,7 +87,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(),));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => StarterPageScreen(
+                                  id: getServicesList[index].id,
+                                ),));
                               },
                               child: Column(
                                 children: [
@@ -98,8 +100,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text("${useData[index].title}",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
-                                          Text("${useData[index].price}",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
+                                          Text("${getServicesList[index].title}",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600,),),
+                                          Text("${getServicesList[index].price}",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Color(0xFFA0A0A0)),)
                                         ],
                                       ),
                                       Spacer(),
@@ -118,7 +120,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           separatorBuilder: (context, index) {
                             return SizedBox(height: height*0.020,);
                           },
-                          itemCount: useData.length,
+                          itemCount: getServicesList.length,
                         ),
                       ),
                     ],
@@ -131,38 +133,17 @@ class _ServicesScreenState extends State<ServicesScreen> {
       ),
     );
   }
-   serviceList()async{
-    var postUri = Uri.parse(ApiServices.allLabServices);
-    final response = await http.get(postUri);
-    if(response.statusCode == 200){
-      var responseData = json.decode(response.body);
-      List<AllAddedServicesModel> servicelist = [];
-      for(var finalList in responseData) {
-        AllAddedServicesModel servicesData = AllAddedServicesModel(
-          id: finalList["id"],
-          title: finalList["title"],
-          price: finalList["price"],
-        );
-        servicelist.add(servicesData);
-        print(servicelist);
-        servicelist.forEach((element) {
-          useData.add(servicesData);
-        });
-      }
+
+  getServiceList()async{
+    Map data = await LabServices.allAddedService();
+    if(data["serviceData"] != null){
+      data["serviceData"].forEach((e){
+        getServicesList.add(AllAddedServicesModel.fromJson(e));
+      });
     }
-  }
-   getAllServices() async {
-    Response response = await LabServices.allAddedService();
-    if(response.statusCode == 200) {
-      String data = response.body;
-      List serviceList = jsonDecode(data);
-      if(serviceList != null){
-        serviceList.forEach((element) {
-          serviceList.add(element);
-        });
-      }
-    }
-    setState(() {});
+    setState(() {
+      getServicesList;
+    });
   }
 
 }

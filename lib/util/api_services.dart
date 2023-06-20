@@ -34,6 +34,7 @@ class ApiServices {
   /// Lab side add services api
   static String addLabServices = "${baseUrl}lab/addServices";
   static String allLabServices = "${baseUrl}lab/getAllServices";
+  static String singleLabService = "${baseUrl}lab/getSingleService";
 
   /// Services APIs
   static String getService = "${baseUrl}quotes/getServices";
