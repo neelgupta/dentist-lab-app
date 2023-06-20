@@ -488,11 +488,12 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
         request.fields.addAll(oldServiceImage);
       }
     }
-
+    int index = 0;
     for (var image in selectedServicesImage) {
       if (image.type == "file") {
-        http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags", image.path);
+        http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags[$index]", image.path);
         request.files.add(multipartFile);
+        index++;
       }
     }
 

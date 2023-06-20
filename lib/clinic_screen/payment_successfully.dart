@@ -69,11 +69,11 @@ class _PaymentSuccessfullyState extends State<PaymentSuccessfully> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children:  [
 
-                    const Image(image: AssetImage("assets/image/Group 12680.png")),
-                    SizedBox(height: height*0.035,),
+                    Image(image: AssetImage("assets/image/Group 12680.png"),height: height * 0.2),
+                    SizedBox(height: height*0.05),
                     Text("${widget.amount} Paid to ${widget.labName} successfully",textAlign: TextAlign.center,style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600 ),),
                     SizedBox(height: height*0.01,),
-                    Text("Wait for approval",textAlign: TextAlign.center,style: GoogleFonts.lato(color: const Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400 ),),
+                    // Text("Wait for approval",textAlign: TextAlign.center,style: GoogleFonts.lato(color: const Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400 ),),
                   ],
                 ),
               ),

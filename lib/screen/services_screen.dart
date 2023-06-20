@@ -147,6 +147,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
   }
 
   getServiceList() async {
+    setState(() {
+      isLoading = true;
+    });
     Response response = await LabServices.getAllService();
 
     if(response.statusCode == 200) {

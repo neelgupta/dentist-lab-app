@@ -79,7 +79,7 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
                   children: [
                     Text("${Utils.getFirstName()} ${Utils.getLastName()}",
                       style: const TextStyle(color: Color(0xff252525), fontSize: 16, fontWeight: FontWeight.w700),),
-                    Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
+                    if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
                       style: const TextStyle(color: Color(0xff252525), fontSize: 13, fontWeight: FontWeight.w400),
                     ),
                   ],

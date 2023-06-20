@@ -76,7 +76,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                         children: [
                           Text("${userService!.title}",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w700,),),
                           const SizedBox(height: 5,),
-                          Text("${userService!.price}",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0)),),
+                          Text("AED ${userService!.price}",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFFA0A0A0)),),
                           SizedBox(height: height*0.020,),
                           const Divider(thickness: 1,color: Color(0xFFE7E7E7),),
                           SizedBox(height: height*0.020,),

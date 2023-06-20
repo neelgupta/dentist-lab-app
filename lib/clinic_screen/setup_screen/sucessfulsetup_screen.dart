@@ -73,17 +73,6 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                             style: GoogleFonts.lato(
                                 fontSize: 17, fontWeight: FontWeight.w600),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.lato(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF707070)),
-                          ),
                         ],
                       ),
                     ),

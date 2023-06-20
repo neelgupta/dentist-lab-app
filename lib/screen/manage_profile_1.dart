@@ -205,7 +205,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                               textInputAction: TextInputAction.next,
                               validator: (value) {
                                 if(value == null || value.isEmpty){
-                                  return 'Please Enter City Name';
+                                  return 'Please Enter City';
                                 }
                                 return null;
                               },
@@ -279,7 +279,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                 if (pickedDate != null) {
                                   setState(() {
                                     dateInputController.text =
-                                        DateFormat('dd MMMM yyyy').format(pickedDate);
+                                        DateFormat('yyyy-MM-dd').format(pickedDate);
                                   });
                                 }
                               },

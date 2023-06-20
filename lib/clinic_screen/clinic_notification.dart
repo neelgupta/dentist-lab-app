@@ -69,7 +69,7 @@ class _ClinicNotificationState extends State<ClinicNotification> {
                   ),
                   SizedBox(height: height*0.03),
                   Expanded(
-                    child: isLoading?Center(child: loader()):notificationList.isEmpty?const Center(child: Text("No Data Found !!!"),):ListView.separated(
+                    child: isLoading?Center(child: loader()):notificationList.isEmpty?const Center(child: Text("No Notification Found !!!",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600)),):ListView.separated(
                         scrollDirection: Axis.vertical,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,

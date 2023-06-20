@@ -163,6 +163,8 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please Enter Clinic Manager Email Address';
+                              } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                return "Please Enter Valid Email Address";
                               }
                               return null;
                             },
@@ -238,6 +240,8 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please Enter Medical Director Email Address';
+                              } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                return "Please Enter Valid Email Address";
                               }
                               return null;
                             },
@@ -433,6 +437,8 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please Enter Financial Manager Email Address';
+                              } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                return "Please Enter Valid Email Address";
                               }
                               return null;
                             },

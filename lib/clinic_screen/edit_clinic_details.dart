@@ -343,7 +343,6 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
   updateClinicDetails() async {
     Utils.showLoadingDialog(context);
     var body = {
-      {
         "clinicName": labNameController.text,
         "dateOfEstablishment": dateInputController.text, // yyyy-mm-dd
         "landLineNumber": landLineNumberController.text,
@@ -352,7 +351,6 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
         "city": cityController.text,
         "address": addressController.text,
         "poBox": poBoxController.text
-      }
     };
     Response response = await clinicService.updateClinicDetail(body: body);
     Navigator.pop(context);

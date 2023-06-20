@@ -23,6 +23,10 @@ class _ManageProfile4State extends State<ManageProfile4> {
   bool isTimeSelectedStatus=false;
   List<DayDetails> days = [];
   List startTime = [
+    "00:00 ",
+    "00:15 ",
+    "00:30 ",
+    "00:45 ",
     "01:00 ",
     "01:15 ",
     "01:30 ",
@@ -118,6 +122,10 @@ class _ManageProfile4State extends State<ManageProfile4> {
     "24:00",
   ];
   List endTime = [
+    "00:00 ",
+    "00:15 ",
+    "00:30 ",
+    "00:45 ",
     "01:00 ",
     "01:15 ",
     "01:30 ",
@@ -314,8 +322,8 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                                   isTimeSelectedStatus=true;
                                                   index = i;
                                                   onOff = days[i].isOpen;
-                                                  openingTime = "01:00";
-                                                  closingTime = "01:00";
+                                                  openingTime = "00:00";
+                                                  closingTime = "00:00";
                                                 });
                                               },
                                               child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),

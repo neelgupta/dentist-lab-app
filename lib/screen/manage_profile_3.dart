@@ -162,6 +162,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               validator: (value) {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Lab Manager Email Address';
+                                } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                  return "Please Enter Valid Email Address";
                                 }
                                 return null;
                               },
@@ -237,6 +239,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               validator: (value) {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Technical Manager Email Address';
+                                }else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                  return "Please Enter Valid Email Address";
                                 }
                                 return null;
                               },
@@ -430,6 +434,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               validator: (value) {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Financial Manager Email Address';
+                                }else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                  return "Please Enter Valid Email Address";
                                 }
                                 return null;
                               },
