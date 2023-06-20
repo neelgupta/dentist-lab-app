@@ -27,6 +27,7 @@ class ApiServices {
   static String manageProfile5Api = "${baseUrl}lab/addAboutLab";
   static String manageProfile6Api = "${baseUrl}lab/labPaymentMethods";
   static String getLabProfileApi = "${baseUrl}lab/getlabProfile";
+  static String putEditProfileApi = "${baseUrl}lab/editProfile";
 
   /// Lab APIs AddService
   static String addServices = "${baseUrl}lab/addServices";
@@ -35,6 +36,9 @@ class ApiServices {
   static String addLabServices = "${baseUrl}lab/addServices";
   static String allLabServices = "${baseUrl}lab/getAllServices";
   static String singleLabService = "${baseUrl}lab/getSingleService";
+
+  ///Lab Dashboard feed
+  static String getFeeds = "${baseUrl}lab/getFeeds";
 
   /// Services APIs
   static String getService = "${baseUrl}quotes/getServices";

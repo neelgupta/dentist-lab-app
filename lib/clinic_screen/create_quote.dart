@@ -667,6 +667,7 @@ class _CreateQuoteState extends State<CreateQuote> {
     selectedService.forEach((element) {serviceIds.add(element.id);});
 
     var labIds = [];
+
     selectedLabs.forEach((element) {labIds.add(element.id);});
     var body = {
       "title": titleController.text,

@@ -16,6 +16,9 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  LabProfile labEditProfile = LabProfile();
+  final formKey = GlobalKey<FormState>();
+  var autoValidate = AutovalidateMode.disabled;
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -270,10 +273,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           child: TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdvancePaymentDoneScreen(),));
                                 // if (formKey.currentState!.validate()){
-                                //   if(passwordController.value == confirmPasswordController.value){
-                                //     resetPassword();
+                                //   if(newPasswordController.value == confirmPasswordController.value){
+                                //     editProfile();
                                 //   }else{
                                 //     ScaffoldMessenger.of(context).showSnackBar(
                                 //         SnackBar(content: Text("password & Confirm Password is not Same"),shape: OutlineInputBorder(
@@ -288,6 +290,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 // }else{
                                 //   autoValidate = AutovalidateMode.always;
                                 // }
+
+                                if(currentPasswordController.text==''|| newPasswordController.text==''||confirmPasswordController=='')
+                                  {
+
+                                    currentPasswordController.text="";
+                                    newPasswordController.text="";
+                                    confirmPasswordController.text="";
+                                    editProfile();
+                                  }
+                                else if(newPasswordController.text==confirmPasswordController.text)
+                                  {
+                                    editProfile();
+                                  }
+                                else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text("password & Confirm Password is not Same"),shape: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(12),
+                                                borderSide: BorderSide(color: Colors.red.shade500)
+                                            ),
+                                              duration: Duration(seconds: 2),
+                                              backgroundColor: Colors.red.shade500,
+                                              padding: EdgeInsets.all(20),
+                                            ));
+
+                                }
+
+
+                                //editProfile();
                               },
                               child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                         ),
@@ -304,7 +334,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   labGetProfileData() async {
     Response response = await labProfile.getLabProfile();
 
-
     var resBody = jsonDecode(response.body);
     if(resBody["status"] == 200){
 
@@ -320,4 +349,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     isLoading = false;
     setState(() {});
   }
+
+  editProfile() async {
+    Utils.showLoadingDialog(context);
+    var body = {
+      "firstName" : firstNameController.text.toString(),
+      "lastName" : lastNameController.text.toString(),
+      "email" : emailController.text.toString(),
+      "oldPassword" : currentPasswordController.text.toString(),
+      "newPassword" : newPasswordController.text.toString(),
+    };
+    Response response = await labEditProfile.editProfile(body);
+    if(response.statusCode==200)
+      {
+        Map map = jsonDecode(response.body);
+        if (map["status"] == 200) {
+          labGetProfileData();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AdvancePaymentDoneScreen(),));
+          Utils.showErrorToast(jsonDecode(response.body)['message']);
+        } else {
+          Utils.showErrorToast(map["message"]);
+        }
+
+      }
+    else {
+      Navigator.pop(context);
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+
+
+
+  }
+
 }
