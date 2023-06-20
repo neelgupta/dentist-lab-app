@@ -1,8 +1,16 @@
+import 'dart:convert';
+import 'package:dentalapp/services/lab_services/add_services_api.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import '../models/single_service_model.dart';
+import 'package:http/http.dart' as http;
+
 
 class StarterPageScreen extends StatefulWidget {
-  const StarterPageScreen({Key? key}) : super(key: key);
+  String id;
+  StarterPageScreen({Key? key,this.id = "",}) : super(key: key);
 
   @override
   State<StarterPageScreen> createState() => _StarterPageScreenState();
@@ -11,6 +19,9 @@ class StarterPageScreen extends StatefulWidget {
 class _StarterPageScreenState extends State<StarterPageScreen> {
 
   bool isGalleryVisible= false;
+  List<SingleServiceModel> userService = [];
+  bool isLoading = true;
+  Service? service;
 
   void showGallery() {
     setState(() {
@@ -19,12 +30,19 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getServiceData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width  = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Scaffold(
-          body: SizedBox(
+          body: isLoading?Center(child: loader()):SizedBox(
               height:MediaQuery.of(context).size.height,
               width:MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -54,7 +72,7 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                             ],
                           ))
                   ),
-                  Container(
+                  userService.isEmpty?Center(child: Text("No Data Found !!! \n\n Please Try Again.")):Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15))
                     ),
@@ -63,24 +81,17 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Dental Prosthetics",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w700,),),
+                          Text("${userService[0].title}",style: GoogleFonts.lato(fontSize: 19,fontWeight: FontWeight.w700,),),
                           SizedBox(height: 5,),
-                          Text("AED 800",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0)),),
+                          Text("${userService[0].price}",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0)),),
                           SizedBox(height: height*0.020,),
                           Divider(thickness: 1,color: Color(0xFFE7E7E7),),
                           SizedBox(height: height*0.020,),
-                          Text("Desription",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,),),
+                          Text("Description",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,),),
                           SizedBox(height: height*0.020,),
-                          isGalleryVisible ? Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-                              "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
-                              "when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                              " It has survived not only five centuries, but also the leap into electronic typesetting, "
-                              "remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, "
-                              "and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                          style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),maxLines: 12,overflow: TextOverflow.ellipsis,)
-                              : Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-                              "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
-                              "when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                          !isGalleryVisible ? Text("${userService[0].description}",
+                              style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),maxLines: 4,overflow: TextOverflow.ellipsis,)
+                              : Text("${userService[0].description}",
                             style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF707070)),maxLines: 12,overflow: TextOverflow.ellipsis,),
                           SizedBox(height: height*0.020,),
                           Visibility(
@@ -100,15 +111,18 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
                                         return Container(
                                           height: height*0.20,
                                           width: width*0.37,
-                                          decoration: const BoxDecoration(
-                                              image: DecorationImage(image: AssetImage("assets/image/gallery1.png"),fit: BoxFit.fill)
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image:  NetworkImage(userService.first.serviceImags[index] ?? ""),
+                                                  fit: BoxFit.fill
+                                              )
                                           ),
                                         );
                                       },
                                       separatorBuilder: (context, index) {
                                       return SizedBox(width: width*0.025,);
                                       },
-                                      itemCount: 6),
+                                      itemCount: userService.first.serviceImags.length),
                                 ),
                                 SizedBox(height: height*0.030,),
                               ],
@@ -220,5 +234,17 @@ class _StarterPageScreenState extends State<StarterPageScreen> {
             ),
           ),
         ));
+  }
+
+  getServiceData() async{
+    Response response = await LabServices.getSingleService(widget.id);
+    if(response.statusCode == 200) {
+      service = Service.fromJson(jsonDecode(response.body));
+      print(service);
+      userService.addAll(service!.serviceData ?? []);
+      print(userService.length);
+    }
+    isLoading = false;
+    setState(() {});
   }
 }
