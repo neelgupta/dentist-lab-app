@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dentalapp/screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,68 +19,68 @@ class Utils {
 
   static SharedPreferences? prefs;
 
-  static setToken(String token){
-    prefs!.setString('token', token);
+  static setToken(String token) async {
+    await prefs!.setString("token", token);
   }
 
   static getToken() {
-    return prefs!.getString('token');
+    return prefs!.getString("token");
   }
 
-  static setFirstName(String token){
-    prefs!.setString('firstName', token);
+  static setFirstName(String firstName) async {
+    prefs!.setString("firstName", firstName);
   }
 
   static getFirstName() {
-    return prefs!.getString('firstName');
+    return prefs!.getString("firstName");
   }
 
-  static setLastName(String token){
-    prefs!.setString('lastName', token);
+  static setLastName(String lastName) async {
+    await prefs!.setString("lastName", lastName);
   }
 
   static getLastName() {
-    return prefs!.getString('lastName');
+    return prefs!.getString("lastName");
   }
 
-  static setProfileImage(String token){
-    prefs!.setString('profileImage', token);
+  static setProfileImage(String profileImage) async {
+    await prefs!.setString("profileImage", profileImage);
   }
 
   static getProfileImage() {
-    return prefs!.getString('profileImage');
+    return prefs!.getString("profileImage");
   }
 
-  static setEstablishDate(String token){
-    prefs!.setString('establishDate', token);
+  static setEstablishDate(String establishDate) async {
+    await prefs!.setString("establishDate", establishDate);
   }
 
   static getEstablishDate() {
-    return prefs!.getString('establishDate');
+    return prefs!.getString("establishDate");
   }
 
-  static setUserType(String type) {
-    prefs!.setString('userType', type);
+  static setUserType(String type) async {
+    await prefs!.setString("userType", type);
   }
 
   static getUserType() {
-    return prefs!.getString('userType');
+    return prefs!.getString("userType");
   }
 
-  static setScreenStatus(String status) {
-    prefs!.setString('screenStatus', status);
+  static setScreenStatus(String status) async {
+    await prefs!.setString("screenStatus", status);
   }
 
   static getScreenStatus() {
-    return prefs!.getString('screenStatus');
+    return prefs!.getString("screenStatus");
   }
 
-  static setLoginStatus(bool value) {
-    prefs!.setBool('userLogged', value);
+  static setLoginStatus(bool value) async {
+    await prefs!.setBool("userLogged", value);
   }
 
   static getLoginStatus() {
-    return prefs!.getBool('userLogged');
+    return prefs!.getBool("userLogged");
   }
 
   static var apiHeader = {"Content-Type" : "application/json","Authorization" : "Bearer ${getToken()}"};
@@ -137,7 +138,21 @@ class Utils {
       throw 'Could not launch $url';
     }
   }
+
+
+  static void logout(context) async {
+    setLoginStatus(false);
+    setToken(" ");
+    setUserType(" ");
+    showSuccessToast("Logout Successfully");
+    setScreenStatus("0");
+    apiHeader = {};
+    await Utils.prefs!.clear();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+      return const LoginScreen();},), (route) => false);
+  }
 }
+
 Widget loader() {
   return const Center(
     child: CircularProgressIndicator(color: Color(0xFF116D6E)),

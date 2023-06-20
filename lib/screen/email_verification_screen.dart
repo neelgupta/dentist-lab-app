@@ -194,7 +194,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         } else {
           Utils.showErrorToast(map["message"]);
         }
-      }else{
+      } else{
         Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
   }

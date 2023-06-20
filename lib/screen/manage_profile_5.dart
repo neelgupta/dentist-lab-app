@@ -168,7 +168,9 @@ class _ManageProfile5State extends State<ManageProfile5> {
         } else {
           Utils.showErrorToast(map['message']);
         }
-      }else{
+      } else if (response.statusCode == 401) {
+        Utils.logout(context);
+      } else{
         Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
   }

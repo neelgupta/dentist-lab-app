@@ -321,6 +321,8 @@ class _PaymentStatusState extends State<PaymentStatus> {
       quoteStatus = quoteData!.quoteStatus!.first;
       labDetails = quoteData!.labDetails!.first;
       orderDetails = quoteData!.orderDetails!.first;
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
     isLoading = false;
     setState(() {});

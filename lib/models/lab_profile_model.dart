@@ -25,6 +25,7 @@ class LabData {
   String? paymentMethod;
   List<UserDetails>? userDetails;
   List<WorkingHours>? workingHours;
+  List<Service>? services;
 
   LabData(
       {this.id,
@@ -35,11 +36,14 @@ class LabData {
         this.deliveryMethod,
         this.paymentMethod,
         this.userDetails,
-        this.workingHours});
+        this.workingHours,
+        this.services,
+      });
 
   factory LabData.fromJson(Map<String, dynamic> json) {
     List user = json['userDetails'];
     List workHour = json['workingHours'];
+    List serviceList = json['serviceDetails'];
     return LabData(
       id : json['_id'],
       labName : json['labName'],
@@ -50,6 +54,7 @@ class LabData {
       paymentMethod : json['paymentMethod'],
       userDetails : user.map((v) => UserDetails.fromJson(v)).toList(),
       workingHours : workHour.map((v) =>  WorkingHours.fromJson(v)).toList(),
+      services: serviceList.map((e) => Service.fromjson(e)).toList(),
     );
   }
 }
@@ -59,8 +64,9 @@ class UserDetails {
   String? firstName;
   String? lastName;
   String? email;
+  String? profileImage;
 
-  UserDetails({this.id, this.firstName, this.lastName, this.email});
+  UserDetails({this.id, this.firstName, this.lastName, this.email, this.profileImage});
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
@@ -68,6 +74,7 @@ class UserDetails {
       firstName : json['firstName'],
       lastName : json['lastName'],
       email : json['email'],
+      profileImage : json['profileImage'] ?? "",
     );
   }
 }
@@ -108,6 +115,20 @@ class DayDetail {
       startTime : json['startTime'],
       endTime : json['endTime'],
       isOpen : json['isOpen'],
+    );
+  }
+}
+
+class Service {
+  String? title;
+  List? serviceImages;
+
+  Service({this.title, this.serviceImages});
+
+  factory Service.fromjson(Map<String, dynamic> json) {
+    return Service(
+      title: json['title'],
+      serviceImages: json['serviceImags']
     );
   }
 }

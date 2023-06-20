@@ -296,6 +296,8 @@ class _ManageProfile6State extends State<ManageProfile6> {
           Utils.setScreenStatus("7");
           Utils.showSuccessToast(map['message']);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SuccessfulProfileSetUp(),),(route) => false,);
+        } else if (response.statusCode == 401) {
+          Utils.logout(context);
         } else {
           Utils.showErrorToast(map['message']);
         }

@@ -22,7 +22,7 @@ class SingleServiceModel {
   String? labId;
   String? title;
   String? description;
-  int? price;
+  String? price;
   List<String> serviceImags;
   int? status;
   DateTime? createdAt;
@@ -43,7 +43,7 @@ class SingleServiceModel {
     labId: json["labId"],
     title: json["title"],
     description: json["description"],
-    price: json["price"],
+    price: json["price"].toString(),
     serviceImags: json["serviceImags"] == null ? [] : List<String>.from(json["serviceImags"]!.map((x) => x)),
     status: json["status"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),

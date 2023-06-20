@@ -22,6 +22,7 @@ class PaymentData {
   String? paymentMethod;
   String? createdAt;
   List<LabDetails>? labDetails;
+  List<ClinicDetails>? clinicDetails;
   String? type;
 
   PaymentData(
@@ -31,10 +32,12 @@ class PaymentData {
         this.paymentMethod,
         this.createdAt,
         this.labDetails,
+        this.clinicDetails,
         this.type});
 
   factory PaymentData.fromJson(Map<String, dynamic> json) {
-    List labDetail = json['labDetails'];
+    List labDetail = json['labDetails'] ?? [];
+    List clinicDetails = json['clinicDetails'] ?? [];
     return PaymentData(
       id : json['_id'],
       orderId : json['orderId'],
@@ -42,6 +45,7 @@ class PaymentData {
       paymentMethod : json['paymentMethod'],
       createdAt : json['createdAt'],
       labDetails : labDetail.map((v) => LabDetails.fromJson(v)).toList(),
+      clinicDetails : clinicDetails.map((v) => ClinicDetails.fromJson(v)).toList(),
       type : json['type'].toString(),
     );
   }
@@ -57,6 +61,20 @@ class LabDetails {
     return LabDetails(
       id : json['_id'],
       labName : json['labName'],
+    );
+  }
+}
+
+class ClinicDetails {
+  String? id;
+  String? clinicName;
+
+  ClinicDetails({this.id, this.clinicName});
+
+  factory ClinicDetails.fromJson(Map<String, dynamic> json) {
+    return ClinicDetails(
+      id : json['_id'],
+      clinicName : json['clinicName'],
     );
   }
 }

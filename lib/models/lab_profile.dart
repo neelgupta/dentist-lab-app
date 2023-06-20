@@ -121,19 +121,22 @@ class UserDetail {
   String? firstName;
   String? lastName;
   String? email;
+  String? profileImage;
 
   UserDetail({
     required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.profileImage,
   });
 
   factory UserDetail.fromJson(Map<String, dynamic> json) => UserDetail(
-    id: json["_id"]?? " ",
-    firstName: json["firstName"]?? " ",
-    lastName: json["lastName"]?? " ",
-    email: json["email"]?? " ",
+    id: json["_id"] ?? " ",
+    firstName: json["firstName"] ?? " ",
+    lastName: json["lastName"] ?? " ",
+    email: json["email"] ?? " ",
+    profileImage: json["profileImage"] ?? " ",
   );
 
   Map<String, dynamic> toJson() => {
@@ -141,6 +144,7 @@ class UserDetail {
     "firstName": firstName,
     "lastName": lastName,
     "email": email,
+    "profileImage": profileImage,
   };
 }
 

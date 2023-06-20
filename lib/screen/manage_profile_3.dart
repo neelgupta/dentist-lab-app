@@ -644,7 +644,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
       } else {
         Utils.showErrorToast(map['message']);
       }
-    }else{
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else{
       Utils.showErrorToast(jsonDecode(res.body)['message']);
     }
   }

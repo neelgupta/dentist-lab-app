@@ -528,6 +528,8 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
           Utils.setScreenStatus("4");
           Utils.showSuccessToast(map["message"]);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SuccessfulProfileSetUp(),),(route) => false,);
+        } else if (response.statusCode == 401) {
+          Utils.logout(context);
         } else {
           Utils.showErrorToast(map["message"]);
         }
