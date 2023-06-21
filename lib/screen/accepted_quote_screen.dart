@@ -1,6 +1,10 @@
-import 'package:dentalapp/screen/acceptedquote_details_screen.dart';
+import 'dart:convert';
+import 'package:dentalapp/services/lab_service/lab_quote_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import '../models/lab_all_quote_model.dart';
+import '../util/utils.dart';
 
 class AcceptedQuoteScreen extends StatefulWidget {
   const AcceptedQuoteScreen({Key? key}) : super(key: key);
@@ -11,21 +15,37 @@ class AcceptedQuoteScreen extends StatefulWidget {
 
 class _AcceptedQuoteScreenState extends State<AcceptedQuoteScreen> {
 
-  bool  isFeedColor = true;
-  Color feedSelected = Colors.white;
-  Color feedUnselected = Color(0xFFEBEFEE);
+  bool isLoading = true;
+  bool accepted = true;
+  bool completed = false;
 
-  void changeColors() {
+  List<LabQuoteStatus> labQuoteList = [];
+  LabQuote ? labquote;
+
+  getQuoteType() {
+    if(accepted) {
+      return "Accepted";
+    } else if(completed) {
+      return "Completed";
+    }
+  }
+  changeQuoteType(type) {
     setState(() {
-      if (isFeedColor) {
-        feedSelected = Colors.white;
-        feedUnselected = Color(0xFFEBEFEE);
-      } else {
-        feedSelected = Color(0xFFEBEFEE);
-        feedUnselected = Colors.white;
+      accepted = false;
+      completed = false;
+      if(type == "Accepted") {
+        accepted = true;
+      } else if(type == "Completed") {
+        completed = true;
       }
-      isFeedColor = !isFeedColor;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLabQuoteData();
   }
 
   @override
@@ -43,7 +63,7 @@ class _AcceptedQuoteScreenState extends State<AcceptedQuoteScreen> {
               children: [
                 Container(
                     height: height*0.15,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color(0xFF116D6E),
                         image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                             fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
@@ -83,15 +103,16 @@ class _AcceptedQuoteScreenState extends State<AcceptedQuoteScreen> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              changeColors();
+                              changeQuoteType("Accepted");
+                              getLabQuoteData();
                             },
                             child: Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: feedSelected,
+                                color: accepted ? Colors.white : Color(0xFFEBEFEE),
                                 borderRadius: BorderRadius.circular(11),
                               ),
-                              child: !isFeedColor ? Text("Accepted",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),))
+                              child: accepted ? Text("Accepted",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),))
                                   : Text("Accepted",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700))
                             ),
                           ),
@@ -99,15 +120,16 @@ class _AcceptedQuoteScreenState extends State<AcceptedQuoteScreen> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              changeColors();
+                                changeQuoteType("Completed");
+                                getLabQuoteData();
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color:feedUnselected,
+                                color: completed ? Colors.white : Color(0xFFEBEFEE),
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               alignment: Alignment.center,
-                                child: isFeedColor ? Text("Completed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),))
+                                child: completed ? Text("Completed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700,color: Color(0xFF116D6E),))
                                     : Text("Completed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700))
                             ),
                           ),
@@ -116,327 +138,84 @@ class _AcceptedQuoteScreenState extends State<AcceptedQuoteScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: height*0.03,horizontal: width*0.055),
-                  child: Column(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                SizedBox(height: height*0.016,),
+                Container(
+                  height: height,
+                  child: !isLoading? ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return  Padding(
+                          padding: EdgeInsets.symmetric(horizontal: width*0.055),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Dental Crowns and Bridges",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600 )),
-                              Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                height: height*0.031,
-                                width: width*0.17,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFF5959),
-                                  borderRadius: BorderRadius.circular(15)
-                                ),
-                                child: Text("Urgent",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w600,color: Colors.white)),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            children: [
-                              Text("Dental Prosthetics",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-                              SizedBox(width: width*0.022,),
-                              Text("Orthodontic Appliances",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                      style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                ),
-                              ),
-                              SizedBox(width: width*0.020,),
-                              Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF414141),
-                                  borderRadius: BorderRadius.circular(5)
-                                ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                    child: Text("Waiting For Payment",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                  )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Divider(
-                            thickness: 1,
-                            color: Color(0xFFE7E7E7),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: height*0.018,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Clear Aligners",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600 )),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            children: [
-                              Text("Implant Restorations",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-                              SizedBox(width: width*0.022,),
-                              Text("Cosmetic Dentistry",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                      style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                ),
-                              ),
-                              SizedBox(width: width*0.020,),
-                              !isFeedColor ? Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFFFFD059),
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.030),
-                                    child: Text("Work Started",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400)),
-                                  ))
-                                  : Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF414141),
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                    child: Text("Waiting For Payment",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                  ))
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Divider(
-                            thickness: 1,
-                            color: Color(0xFFE7E7E7),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: height*0.018,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Implant Crown",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600 )),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            children: [
-                              Text("Orthodontic Appliances",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-                              SizedBox(width: width*0.022,),
-                              Text("Implant Restorations",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                      style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                ),
-                              ),
-                              SizedBox(width: width*0.020,),
-                              !isFeedColor ? Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF414141),
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                    child: Text("Delivery Rejected",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                  ))
-                                  : Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFFFFD059),
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.030),
-                                    child: Text("Payment Received",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400)),
-                                  )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Divider(
-                            thickness: 1,
-                            color: Color(0xFFE7E7E7),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: height*0.018,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text("Dentures (Complete)",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600 )),
-                              Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                height: height*0.031,
-                                width: width*0.17,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFFF5959),
-                                    borderRadius: BorderRadius.circular(15)
-                                ),
-                                child: Text("Urgent",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w600,color: Colors.white)),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            children: [
-                              Text("Implant Restorations",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-                              SizedBox(width: width*0.022,),
-                              Text("Cosmetic Dentistry",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                      style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                ),
-                              ),
-                              SizedBox(width: width*0.020,),
-                              !isFeedColor ? Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF219653),
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                    child: Text("Payment Received",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                  ))
-                                  : Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF2F80ED),
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                    child: Text("Job Successfully Done",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                  ))
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Divider(
-                            thickness: 1,
-                            color: Color(0xFFE7E7E7),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: height*0.018,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text("Dental Crowns and Bridges",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600 )),
-                              Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                height: height*0.031,
-                                width: width*0.17,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFFF5959),
-                                    borderRadius: BorderRadius.circular(15)
-                                ),
-                                child: Text("Urgent",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w600,color: Colors.white)),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          Row(
-                            children: [
-                              Text("Dental Prosthetics",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-                              SizedBox(width: width*0.022,),
-                              Text("Orthodontic Appliances",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
-
-                            ],
-                          ),
-                          SizedBox(height: height*0.010,),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AcceptedQuoteDetailsScreen()));
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                        style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                  ),
-                                ),
-                                SizedBox(width: width*0.020,),
-                                !isFeedColor ? Container(
+                              SizedBox(height: height*0.01,),
+                              Row(
+                                children: [
+                                  // Text("Dental Crowns and Bridges"
+                                      Text(labQuoteList[index].title ?? ""
+                                      ,style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600 )),
+                                  Spacer(),
+                                  Container(
                                     alignment: Alignment.center,
+                                    height: height*0.031,
+                                    width: width*0.17,
                                     decoration: BoxDecoration(
-                                        color: Color(0xFF2F80ED),
-                                        borderRadius: BorderRadius.circular(5)
+                                        color: Color(0xFFFF5959),
+                                        borderRadius: BorderRadius.circular(15)
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                      child: Text("Out For Delivery",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                    ))
-                                    : Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFF219653),
-                                        borderRadius: BorderRadius.circular(5)
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
-                                      child: Text("Delivery Success",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
-                                    )),
+                                    child: Text("Urgent",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w600,color: Colors.white)),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: height*0.010,),
+                              Row(
+                                children: [
+                                  Text("Dental Prosthetics",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
+                                  SizedBox(width: width*0.022,),
+                                  Text("Orthodontic Appliances",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF116D6E) )),
 
-                              ],
-                            ),
+                                ],
+                              ),
+                              SizedBox(height: height*0.010,),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
+                                          style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
+                                    ),
+                                  ),
+                                  SizedBox(width: width*0.020,),
+                                  Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFF414141),
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
+                                        child: Text("Waiting For Payment",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.white)),
+                                      )),
+
+                                ],
+                              ),
+                              SizedBox(height: height*0.010,),
+                              Divider(
+                                thickness: 1,
+                                color: Color(0xFFE7E7E7),
+                              )
+                            ],
                           ),
-                          SizedBox(height: height*0.010,),
-                          Divider(
-                            thickness: 1,
-                            color: Color(0xFFE7E7E7),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: height*0.0,);
+                      },
+                      itemCount: labQuoteList.length) :
+                  Center(child: loader()),
+                ),
               ],
             ),
           ),
@@ -444,4 +223,30 @@ class _AcceptedQuoteScreenState extends State<AcceptedQuoteScreen> {
       ),
     );
   }
+
+  getLabQuoteData({bool showLoading = true}) async {
+    if(showLoading) {
+      setState(() {
+        labQuoteList.clear();
+        isLoading = true;
+      });
+    }
+    String type = getQuoteType();
+    var body = {
+       "type": type
+    };
+    Response response = await GetLabQuote.getQuotes(body: body);
+
+    if(response.statusCode==200) {
+      labquote = LabQuote.fromJson(jsonDecode(response.body));
+        labQuoteList.addAll(labquote!.data!.quotesData ?? []);
+    }
+
+    if(showLoading) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
 }

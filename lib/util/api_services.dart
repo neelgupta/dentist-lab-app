@@ -40,6 +40,10 @@ class ApiServices {
   static String getService = "${baseUrl}quotes/getServices";
   static String getLabs= "${baseUrl}quotes/getLabs";
 
+  ///LabQuote APIs
+
+  static String getLabAllQuote = "${baseUrl}lab/getAllLabQuotes";
+
   /// Quote APIs
   static String createQuote = "${baseUrl}quotes/createQuotes";
   static String getQuote = "${baseUrl}quotes/getAllClinicQuotes";
