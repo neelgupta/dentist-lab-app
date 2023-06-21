@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:dentalapp/clinic_screen/create_quote.dart';
@@ -31,13 +33,12 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if(widget.userService!=null) {
+    if (widget.userService != null) {
       titleController.text = widget.userService!.title ?? "";
       descriptionController.text = widget.userService!.description ?? "";
       servicePriceController.text = widget.userService!.price ?? "";
-      for(var item in widget.userService!.serviceImags) {
+      for (var item in widget.userService!.serviceImags) {
         selectedServicesImage.add(ImageData("1", item, "network"));
       }
     }
@@ -91,7 +92,9 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                 height: height * 0.05,
                               ),
                               Text(
-                                widget.userService!=null?"Edit Service":"Add Service",
+                                widget.userService != null
+                                    ? "Edit Service"
+                                    : "Add Service",
                                 style: GoogleFonts.lato(
                                   fontSize: 32,
                                   fontWeight: FontWeight.w600,
@@ -133,7 +136,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide:
-                                const BorderSide(color: Color(0xFF707070))),
+                                    const BorderSide(color: Color(0xFF707070))),
                             labelText: 'Title',
                             hintText: 'Enter Title',
                             hintStyle: const TextStyle(
@@ -167,7 +170,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide:
-                                const BorderSide(color: Color(0xFF707070))),
+                                    const BorderSide(color: Color(0xFF707070))),
                             labelText: 'Description',
                             labelStyle: const TextStyle(
                               fontSize: 14,
@@ -189,7 +192,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                           controller: servicePriceController,
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            if(value == null || value.isEmpty){
+                            if (value == null || value.isEmpty) {
                               return 'Please Enter Service Price';
                             }
                             return null;
@@ -200,18 +203,22 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                               counterText: "",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide:
-                                  const BorderSide(color: Color(0xFF707070))),
-                            prefixIcon: Container(
-                              width: width * 0.15,
-                              margin: EdgeInsets.symmetric(horizontal: width * 0.02,vertical: 5),
-                              decoration: const BoxDecoration(
-                                border: Border(right: BorderSide(color: Color(0xFF707070)))
-                              ),
-                              alignment: Alignment.center,
-                              child: const Text("AED",style: TextStyle(color: Color(0xFF707070)),),
-                            )
-                          ),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF707070))),
+                              prefixIcon: Container(
+                                width: width * 0.15,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: width * 0.02, vertical: 5),
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                        right: BorderSide(
+                                            color: Color(0xFF707070)))),
+                                alignment: Alignment.center,
+                                child: const Text(
+                                  "AED",
+                                  style: TextStyle(color: Color(0xFF707070)),
+                                ),
+                              )),
                         ),
                         SizedBox(
                           height: height * 0.020,
@@ -242,134 +249,143 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                           padding: EdgeInsets.zero,
                           child: selectedServicesImage.isNotEmpty
                               ? GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: width * 0.02),
-                            itemCount: selectedServicesImage.length + 1,
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3),
-                            itemBuilder: (context, index) {
-                              return index == selectedServicesImage.length
-                                  ? InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    pickImages1();
-                                  });
-                                },
-                                child: Container(
-                                  margin:
-                                  EdgeInsets.all(width * 0.01),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: const Color(
-                                              0xFF116D6E)),
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/image/camera.png"),
-                                          fit: BoxFit.none)),
-                                ),
-                              )
-                                  : Stack(
-                                alignment: Alignment.topRight,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.all(
-                                        width * 0.01),
-                                    decoration: selectedServicesImage[index].type=="file"?BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            10),
-                                        image: DecorationImage(
-                                            image: FileImage(File(
-                                                selectedServicesImage[
-                                                index]
-                                                    .path)),
-                                            fit: BoxFit.fill)):BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            10),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                selectedServicesImage[
-                                                index]
-                                                    .path),
-                                            fit: BoxFit.fill)),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      if(selectedServicesImage[index].type=='network') {
-                                        oldImages.add(selectedServicesImage[index].path);
-                                      }
-                                      selectedServicesImage.removeAt(index);
-                                      setState(() {});
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(
-                                          width * 0.005),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: Colors.red)),
-                                      child: const Icon(
-                                        Icons.delete_outline,
-                                        size: 15,
-                                        color: Colors.red,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: width * 0.02),
+                                  itemCount: selectedServicesImage.length + 1,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3),
+                                  itemBuilder: (context, index) {
+                                    return index == selectedServicesImage.length
+                                        ? InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                pickImages1();
+                                              });
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  EdgeInsets.all(width * 0.01),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: const Color(
+                                                          0xFF116D6E)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: Colors.white,
+                                                  image: const DecorationImage(
+                                                      image: AssetImage(
+                                                          "assets/image/camera.png"),
+                                                      fit: BoxFit.none)),
+                                            ),
+                                          )
+                                        : Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.all(
+                                                    width * 0.01),
+                                                decoration: selectedServicesImage[index].type ==
+                                                        "file"
+                                                    ? BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        image: DecorationImage(
+                                                            image: FileImage(File(
+                                                                selectedServicesImage[index]
+                                                                    .path)),
+                                                            fit: BoxFit.fill))
+                                                    : BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                selectedServicesImage[index].path),
+                                                            fit: BoxFit.fill)),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  if (selectedServicesImage[
+                                                              index]
+                                                          .type ==
+                                                      'network') {
+                                                    oldImages.add(
+                                                        selectedServicesImage[
+                                                                index]
+                                                            .path);
+                                                  }
+                                                  selectedServicesImage
+                                                      .removeAt(index);
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(
+                                                      width * 0.005),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: Colors.red)),
+                                                  child: const Icon(
+                                                    Icons.delete_outline,
+                                                    size: 15,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                  },
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                    height: height * 0.13,
+                                    width: width,
+                                    alignment: Alignment.center,
+                                    color: const Color(0xFFF5F7F7),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          pickImages1();
+                                        });
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                color: Colors.white,
+                                                image: const DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/image/camera.png"),
+                                                    fit: BoxFit.none)),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text("Upload file",
+                                              style: GoogleFonts.lato(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xFF707070)))
+                                        ],
                                       ),
                                     ),
-                                  )
-                                ],
-                              );
-                            },
-                          )
-                              : ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              height: height * 0.13,
-                              width: width,
-                              alignment: Alignment.center,
-                              color: const Color(0xFFF5F7F7),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    pickImages1();
-                                  });
-                                },
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(50),
-                                          color: Colors.white,
-                                          image: const DecorationImage(
-                                              image: AssetImage("assets/image/camera.png"),
-                                              fit: BoxFit.none)),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text("Upload file",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xFF707070)))
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -382,7 +398,12 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Color(titleController.text.isNotEmpty && descriptionController.text.isNotEmpty && servicePriceController.text.isNotEmpty && selectedServicesImage.isNotEmpty?0xFF116D6E:0xFFA0A0A0)),
+                          color: Color(titleController.text.isNotEmpty &&
+                                  descriptionController.text.isNotEmpty &&
+                                  servicePriceController.text.isNotEmpty &&
+                                  selectedServicesImage.isNotEmpty
+                              ? 0xFF116D6E
+                              : 0xFFA0A0A0)),
                       child: TextButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -390,7 +411,9 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                 Utils.showErrorToast(
                                     "Please Upload Service Images");
                               } else {
-                                widget.userService!=null?updateService():getAddService();
+                                widget.userService != null
+                                    ? updateService()
+                                    : getAddService();
                               }
                             } else {
                               autoValidate = AutovalidateMode.always;
@@ -422,7 +445,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
         type: FileType.custom);
 
     if (result != null) {
-      for(var item in result.files) {
+      for (var item in result.files) {
         selectedServicesImage.add(ImageData("1", item.path!, "file"));
       }
       setState(() {});
@@ -445,7 +468,8 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
     request.fields.addAll(bodyData);
 
     for (var image in selectedServicesImage) {
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags", image.path);
+      http.MultipartFile multipartFile =
+          await http.MultipartFile.fromPath("serviceImags", image.path);
       request.files.add(multipartFile);
     }
 
@@ -453,7 +477,11 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
 
     final res = await http.Response.fromStream(response);
 
-    Utils.logAPIResponse(response: res,apiName: ApiServices.addLabServices,function: "getAddService", body: request.fields);
+    Utils.logAPIResponse(
+        response: res,
+        apiName: ApiServices.addLabServices,
+        function: "getAddService",
+        body: request.fields);
     Navigator.pop(context);
 
     if (response.statusCode == 200) {
@@ -483,7 +511,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
     if (oldImages.isNotEmpty) {
       for (var i = 0; i < oldImages.length; i++) {
         Map<String, String> oldServiceImage = {
-          'removeImages[$i]' : oldImages[i],
+          'removeImages[$i]': oldImages[i],
         };
         request.fields.addAll(oldServiceImage);
       }
@@ -491,7 +519,8 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
     int index = 0;
     for (var image in selectedServicesImage) {
       if (image.type == "file") {
-        http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags[$index]", image.path);
+        http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+            "serviceImags[$index]", image.path);
         request.files.add(multipartFile);
         index++;
       }
@@ -501,7 +530,11 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
 
     final res = await http.Response.fromStream(response);
 
-    Utils.logAPIResponse(response: res,apiName: ApiServices.editLabServices,function: "updateService", body: request.fields);
+    Utils.logAPIResponse(
+        response: res,
+        apiName: ApiServices.editLabServices,
+        function: "updateService",
+        body: request.fields);
     Navigator.pop(context);
 
     if (response.statusCode == 200) {

@@ -1,12 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
-
 
 class ClientProfile {
   getClinicProfile() async {
@@ -16,7 +11,10 @@ class ClientProfile {
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getClinicProfile",apiName: ApiServices.getClinicProfileAPI,response: response);
+    Utils.logAPIResponse(
+        function: "getClinicProfile",
+        apiName: ApiServices.getClinicProfileAPI,
+        response: response);
 
     return response;
   }
@@ -28,7 +26,10 @@ class ClientProfile {
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getServices",apiName: ApiServices.getService,response: response);
+    Utils.logAPIResponse(
+        function: "getServices",
+        apiName: ApiServices.getService,
+        response: response);
 
     return response;
   }
@@ -41,7 +42,11 @@ class ClientProfile {
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getLabNames",apiName: ApiServices.getLabs,response: response, body: body);
+    Utils.logAPIResponse(
+        function: "getLabNames",
+        apiName: ApiServices.getLabs,
+        response: response,
+        body: body);
 
     return response;
   }

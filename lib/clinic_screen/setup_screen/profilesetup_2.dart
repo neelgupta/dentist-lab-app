@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,7 +8,6 @@ import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -87,8 +88,8 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                               borderRadius: BorderRadius.circular(50),
                               border: Border.all(color: Colors.white, width: 1),
                               image: const DecorationImage(
-                                  image:
-                                      AssetImage("assets/image/Ellipse 108.png"),
+                                  image: AssetImage(
+                                      "assets/image/Ellipse 108.png"),
                                   fit: BoxFit.fill)),
                           child: Text(
                             "N",
@@ -143,7 +144,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         textInputAction: TextInputAction.next,
                         controller: licenseAuthorityController,
                         validator: (value) {
-                          if(value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please Enter Licensing Authority';
                           }
                           return null;
@@ -173,7 +174,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         controller: medicalLicenseController,
                         keyboardType: TextInputType.name,
                         validator: (value) {
-                          if(value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please Enter Medical License Number';
                           }
                           return null;
@@ -203,10 +204,12 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                             fontWeight: FontWeight.w400,
                             color: const Color(0xff707070),
                           )),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       DottedBorder(
                         borderType: BorderType.RRect,
-                        dashPattern: [3, 3, 3],
+                        dashPattern: const [3, 3, 3],
                         radius: const Radius.circular(12),
                         color: const Color(0xFF116D6E),
                         child: ClipRRect(
@@ -238,10 +241,12 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                                 height: width * 0.25,
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                        image: FileImage(medicalLicense!),
+                                                        image: FileImage(
+                                                            medicalLicense!),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
-                                                        BorderRadius.circular(12)),
+                                                        BorderRadius.circular(
+                                                            12)),
                                                 // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
                                               ),
                                             ),
@@ -252,20 +257,25 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                               setState(() {});
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(width*0.005),
+                                              padding:
+                                                  EdgeInsets.all(width * 0.005),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
-                                                  border: Border.all(color: Colors.red)
+                                                  border: Border.all(
+                                                      color: Colors.red)),
+                                              child: const Icon(
+                                                Icons.delete_outline,
+                                                size: 15,
+                                                color: Colors.red,
                                               ),
-                                              child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
-                                if (medicalLicense==null)
+                                if (medicalLicense == null)
                                   InkWell(
                                     onTap: () {
                                       _pickImage1();
@@ -308,7 +318,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         controller: tradeLicenseController,
                         keyboardType: TextInputType.name,
                         validator: (value) {
-                          if(value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please Enter Trade License Number';
                           }
                           return null;
@@ -338,10 +348,12 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                             fontWeight: FontWeight.w400,
                             color: const Color(0xff707070),
                           )),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       DottedBorder(
                         borderType: BorderType.RRect,
-                        dashPattern: [3, 3, 3],
+                        dashPattern: const [3, 3, 3],
                         radius: const Radius.circular(12),
                         color: const Color(0xFF116D6E),
                         child: ClipRRect(
@@ -373,10 +385,12 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                                 height: width * 0.25,
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                        image: FileImage(tradeLicense!),
+                                                        image: FileImage(
+                                                            tradeLicense!),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
-                                                    BorderRadius.circular(12)),
+                                                        BorderRadius.circular(
+                                                            12)),
                                                 // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
                                               ),
                                             ),
@@ -387,49 +401,52 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                               setState(() {});
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(width*0.005),
+                                              padding:
+                                                  EdgeInsets.all(width * 0.005),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
-                                                  border: Border.all(color: Colors.red)
+                                                  border: Border.all(
+                                                      color: Colors.red)),
+                                              child: const Icon(
+                                                Icons.delete_outline,
+                                                size: 15,
+                                                color: Colors.red,
                                               ),
-                                              child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
-                                if (tradeLicense==null)
+                                if (tradeLicense == null)
                                   InkWell(
                                     onTap: () {
                                       _pickImage2();
                                     },
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                color: Colors.white,
-                                                image: const DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/image/camera.png"),
-                                                    fit: BoxFit.none)),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text("Upload file",
-                                              style: GoogleFonts.lato(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: const Color(0xFF707070)))
-                                        ],
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white,
+                                              image: const DecorationImage(
+                                                  image: AssetImage(
+                                                      "assets/image/camera.png"),
+                                                  fit: BoxFit.none)),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text("Upload file",
+                                            style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xFF707070)))
+                                      ],
                                     ),
                                   ),
                               ],
@@ -445,7 +462,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         controller: trnNumberController,
                         keyboardType: TextInputType.name,
                         validator: (value) {
-                          if(value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please Enter TRN Number';
                           }
                           return null;
@@ -475,10 +492,12 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                             fontWeight: FontWeight.w400,
                             color: const Color(0xff707070),
                           )),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       DottedBorder(
                         borderType: BorderType.RRect,
-                        dashPattern: [3, 3, 3],
+                        dashPattern: const [3, 3, 3],
                         radius: const Radius.circular(12),
                         color: const Color(0xFF116D6E),
                         child: ClipRRect(
@@ -513,7 +532,8 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                                         image: FileImage(trn!),
                                                         fit: BoxFit.fill),
                                                     borderRadius:
-                                                    BorderRadius.circular(12)),
+                                                        BorderRadius.circular(
+                                                            12)),
                                                 // child: imageFile != null ? Image.file(File(imageFile!.path), fit: BoxFit.cover,) : Placeholder(),
                                               ),
                                             ),
@@ -524,49 +544,52 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                               setState(() {});
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(width*0.005),
+                                              padding:
+                                                  EdgeInsets.all(width * 0.005),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
-                                                  border: Border.all(color: Colors.red)
+                                                  border: Border.all(
+                                                      color: Colors.red)),
+                                              child: const Icon(
+                                                Icons.delete_outline,
+                                                size: 15,
+                                                color: Colors.red,
                                               ),
-                                              child: const Icon(Icons.delete_outline,size: 15,color: Colors.red,),
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
-                                if (trn==null)
+                                if (trn == null)
                                   InkWell(
                                     onTap: () {
                                       _pickImage3();
                                     },
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                color: Colors.white,
-                                                image: const DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/image/camera.png"),
-                                                    fit: BoxFit.none)),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text("Upload file",
-                                              style: GoogleFonts.lato(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: const Color(0xFF707070)))
-                                        ],
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white,
+                                              image: const DecorationImage(
+                                                  image: AssetImage(
+                                                      "assets/image/camera.png"),
+                                                  fit: BoxFit.none)),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text("Upload file",
+                                            style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xFF707070)))
+                                      ],
                                     ),
                                   ),
                               ],
@@ -589,16 +612,15 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         child: TextButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                if (medicalLicense==null) {
-                                  Utils.showErrorToast("Please Upload Medical License");
-                                }
-                                else if (tradeLicense==null) {
-                                  Utils.showErrorToast("Please Upload Trade License");
-                                }
-                                else if(trn==null) {
+                                if (medicalLicense == null) {
+                                  Utils.showErrorToast(
+                                      "Please Upload Medical License");
+                                } else if (tradeLicense == null) {
+                                  Utils.showErrorToast(
+                                      "Please Upload Trade License");
+                                } else if (trn == null) {
                                   Utils.showErrorToast("Please Upload TRN");
-                                }
-                                else {
+                                } else {
                                   profileSetup2();
                                 }
                               } else {
@@ -657,41 +679,48 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
   }
 
   Future<void> profileSetup2() async {
-      Utils.showLoadingDialog(context);
-      var bodyData = {
-        "licensingAuthority": licenseAuthorityController.text.toString(),
-        "medicalLicenseNumber": medicalLicenseController.text.toString(),
-        "tradeLicenceNumber": tradeLicenseController.text.toString(),
-        "TRN_number": trnNumberController.text.toString(),
-      };
-      var postUri = Uri.parse(ApiServices.addAdditionalClinicDetails);
-      var request = http.MultipartRequest("POST", postUri);
-      request.headers.addAll(Utils.apiHeader);
-      request.fields.addAll(bodyData);
-      http.MultipartFile multipartFile1 = await http.MultipartFile.fromPath("licensFile",medicalLicense!.path);
-      http.MultipartFile multipartFile2 = await http.MultipartFile.fromPath("tradeFile",tradeLicense!.path);
-      http.MultipartFile multipartFile3 = await http.MultipartFile.fromPath("trnFile",trn!.path);
-       request.files.add(multipartFile1,);
-       request.files.add(multipartFile2);
-       request.files.add(multipartFile3);
-      http.StreamedResponse response = await request.send();
-      final res = await http.Response.fromStream(response);
-      print('code: ${response.statusCode}');
-      print('body: ${res.body}');
-      Navigator.pop(context);
-      if (response.statusCode==200) {
-        Map map = jsonDecode(res.body);
-        if (map['status'] == 200) {
-          Utils.showSuccessToast(map['message']);
-          Utils.setScreenStatus("3");
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSetup3(),));
-        } else {
-          Utils.showErrorToast(map['message']);
-        }
-      } else if (response.statusCode == 401) {
-        Utils.logout(context);
+    Utils.showLoadingDialog(context);
+    var bodyData = {
+      "licensingAuthority": licenseAuthorityController.text.toString(),
+      "medicalLicenseNumber": medicalLicenseController.text.toString(),
+      "tradeLicenceNumber": tradeLicenseController.text.toString(),
+      "TRN_number": trnNumberController.text.toString(),
+    };
+    var postUri = Uri.parse(ApiServices.addAdditionalClinicDetails);
+    var request = http.MultipartRequest("POST", postUri);
+    request.headers.addAll(Utils.apiHeader);
+    request.fields.addAll(bodyData);
+    http.MultipartFile multipartFile1 =
+        await http.MultipartFile.fromPath("licensFile", medicalLicense!.path);
+    http.MultipartFile multipartFile2 =
+        await http.MultipartFile.fromPath("tradeFile", tradeLicense!.path);
+    http.MultipartFile multipartFile3 =
+        await http.MultipartFile.fromPath("trnFile", trn!.path);
+    request.files.add(
+      multipartFile1,
+    );
+    request.files.add(multipartFile2);
+    request.files.add(multipartFile3);
+    http.StreamedResponse response = await request.send();
+    final res = await http.Response.fromStream(response);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Map map = jsonDecode(res.body);
+      if (map['status'] == 200) {
+        Utils.showSuccessToast(map['message']);
+        Utils.setScreenStatus("3");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileSetup3(),
+            ));
       } else {
-        Utils.showErrorToast(jsonDecode(res.body)['message']);
+        Utils.showErrorToast(map['message']);
       }
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(res.body)['message']);
+    }
   }
 }

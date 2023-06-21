@@ -8,10 +8,9 @@ class AcceptedQuote {
   factory AcceptedQuote.fromJson(Map<String, dynamic> json) {
     List quoteData = json['quoteData'];
     return AcceptedQuote(
-    status : json['status'],
-    success : json['success'],
-      quoteData : quoteData.map((v) => QuoteData.fromJson(v)).toList()
-    );
+        status: json['status'],
+        success: json['success'],
+        quoteData: quoteData.map((v) => QuoteData.fromJson(v)).toList());
   }
 }
 
@@ -23,35 +22,41 @@ class QuoteData {
   String? priority;
   List<QuoteStatus>? quoteStatus;
   List<LabDetails>? labDetails;
+  List<ClinicDetail>? clinicDetails;
   List<PropsalDetails>? propsalDetails;
   List<OrderDetails>? orderDetails;
 
   QuoteData(
       {this.id,
-        this.quoteNumber,
-        this.title,
-        this.description,
-        this.priority,
-        this.quoteStatus,
-        this.labDetails,
-        this.propsalDetails,
-        this.orderDetails});
+      this.quoteNumber,
+      this.title,
+      this.description,
+      this.priority,
+      this.quoteStatus,
+      this.labDetails,
+      this.clinicDetails,
+      this.propsalDetails,
+      this.orderDetails});
 
   factory QuoteData.fromJson(Map<String, dynamic> json) {
     List quoteStatus = json['quoteStatus'];
     List labDetails = json['labDetails'];
+    List clinicDetails = json['clinicDetails'];
     List propsalDetails = json['propsalDetails'];
     List orderDetails = json['orderDetails'];
     return QuoteData(
-    id : json['_id'],
-    quoteNumber : json['quoteNumber'],
-    title : json['title'],
-    description : json['description'],
-    priority : json['priority'],
-    quoteStatus: quoteStatus.map((v) => QuoteStatus.fromJson(v)).toList(),
-        labDetails: labDetails.map((v) => LabDetails.fromJson(v)).toList(),
-        propsalDetails: propsalDetails.map((v) => PropsalDetails.fromJson(v)).toList(),
-        orderDetails: orderDetails.map((v) => OrderDetails.fromJson(v)).toList(),
+      id: json['_id'],
+      quoteNumber: json['quoteNumber'],
+      title: json['title'],
+      description: json['description'],
+      priority: json['priority'],
+      quoteStatus: quoteStatus.map((v) => QuoteStatus.fromJson(v)).toList(),
+      labDetails: labDetails.map((v) => LabDetails.fromJson(v)).toList(),
+      clinicDetails:
+          clinicDetails.map((v) => ClinicDetail.fromJson(v)).toList(),
+      propsalDetails:
+          propsalDetails.map((v) => PropsalDetails.fromJson(v)).toList(),
+      orderDetails: orderDetails.map((v) => OrderDetails.fromJson(v)).toList(),
     );
   }
 }
@@ -65,9 +70,43 @@ class QuoteStatus {
 
   factory QuoteStatus.fromJson(Map<String, dynamic> json) {
     return QuoteStatus(
-      id : json['_id'],
-      clinicStatus : json['clinicStatus'],
-      labStatus : json['labStatus'],
+      id: json['_id'],
+      clinicStatus: json['clinicStatus'],
+      labStatus: json['labStatus'],
+    );
+  }
+}
+
+class ClinicDetail {
+  String? id;
+  String? address;
+  String? city;
+  String? country;
+  String? clinicName;
+  String? landLineNumber;
+  String? mobileNumber;
+  String? countryCode;
+
+  ClinicDetail(
+      {this.id,
+      this.address,
+      this.city,
+      this.country,
+      this.clinicName,
+      this.landLineNumber,
+      this.mobileNumber,
+      this.countryCode});
+
+  factory ClinicDetail.fromJson(Map<String, dynamic> json) {
+    return ClinicDetail(
+      id: json['_id'],
+      address: json['address'],
+      city: json['city'],
+      country: json['country'],
+      clinicName: json['clinicName'],
+      landLineNumber: json['landLineNumber'].toString(),
+      mobileNumber: json['mobileNumber'].toString(),
+      countryCode: json['countryCode'].toString(),
     );
   }
 }
@@ -80,25 +119,29 @@ class LabDetails {
   String? labName;
   String? landLineNumber;
   String? mobileNumber;
+  String? countryCode;
 
-  LabDetails(
-      {this.id,
-        this.address,
-        this.city,
-        this.country,
-        this.labName,
-        this.landLineNumber,
-        this.mobileNumber});
+  LabDetails({
+    this.id,
+    this.address,
+    this.city,
+    this.country,
+    this.labName,
+    this.landLineNumber,
+    this.mobileNumber,
+    this.countryCode,
+  });
 
   factory LabDetails.fromJson(Map<String, dynamic> json) {
     return LabDetails(
-      id : json['_id'],
-      address : json['address'],
-      city : json['city'],
-      country : json['country'],
-      labName : json['labName'],
-      landLineNumber : json['landLineNumber'].toString(),
-      mobileNumber : json['mobileNumber'].toString(),
+      id: json['_id'],
+      address: json['address'],
+      city: json['city'],
+      country: json['country'],
+      labName: json['labName'],
+      landLineNumber: json['landLineNumber'].toString(),
+      mobileNumber: json['mobileNumber'].toString(),
+      countryCode: json['countryCode'].toString(),
     );
   }
 }
@@ -113,10 +156,10 @@ class PropsalDetails {
 
   factory PropsalDetails.fromJson(Map<String, dynamic> json) {
     return PropsalDetails(
-      id : json['_id'],
-      quoteId : json['quoteId'],
-      labId : json['labId'],
-      amount : json['amount'].toString(),
+      id: json['_id'],
+      quoteId: json['quoteId'],
+      labId: json['labId'],
+      amount: json['amount'].toString(),
     );
   }
 }
@@ -132,10 +175,10 @@ class OrderDetails {
 
   factory OrderDetails.fromJson(Map<String, dynamic> json) {
     return OrderDetails(
-      id : json['_id'],
-      advanceAmount : double.parse(json['advanceAmount'].toString()),
-      remainingAmount : double.parse(json['remainingAmount'].toString()),
-      totalAmount : double.parse(json['totalAmount'].toString()),
+      id: json['_id'],
+      advanceAmount: double.parse(json['advanceAmount'].toString()),
+      remainingAmount: double.parse(json['remainingAmount'].toString()),
+      totalAmount: double.parse(json['totalAmount'].toString()),
     );
   }
 }

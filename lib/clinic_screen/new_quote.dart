@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
-import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/clinic_screen/bottom_navigation_bar.dart';
 import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/quote_after_acceept.dart';
 import 'package:dentalapp/clinic_screen/quote_detail_pending.dart';
@@ -29,18 +31,17 @@ class _NewQuoteState extends State<NewQuote> {
   List<QuotesData> quotesList = [];
 
   getSelectedQuoteType() {
-    if(quoteNew) {
+    if (quoteNew) {
       return "new";
-    } else if(quoteAccepted) {
+    } else if (quoteAccepted) {
       return "accepted";
-    } else if(quoteCompleted) {
+    } else if (quoteCompleted) {
       return "completed";
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getQuoteData();
   }
@@ -63,19 +64,32 @@ class _NewQuoteState extends State<NewQuote> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  height: height*0.15,
+                  height: height * 0.15,
                   decoration: const BoxDecoration(
                       color: Color(0xFF116D6E),
-                      image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                          fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                  ),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      image: DecorationImage(
+                          image: AssetImage("assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter,
+                          opacity: 0.3)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: height*0.02,),
-                      Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      Center(
+                          child: Text(
+                        textAlign: TextAlign.center,
+                        "Quote",
+                        style: GoogleFonts.lato(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      )),
                     ],
-                  )
-              ),
+                  )),
               SizedBox(
                 height: height * 0.03,
               ),
@@ -198,10 +212,29 @@ class _NewQuoteState extends State<NewQuote> {
                   ),
                 ),
               ),
-              isLoading ?Expanded(child: Center(child: loader())):
-              quoteNew ? Expanded(child: quotesList.isNotEmpty?quoteNewList(context) : const Center(child: Text("No New Quotes Found!!")))  :
-              quoteAccepted ? Expanded(child: quotesList.isNotEmpty?quoteAcceptedList(context) : const Center(child: Text("No Accepted Quotes Found!!"))) :
-              quoteCompleted ? Expanded(child: quotesList.isNotEmpty?quoteCompletedList(context) : const Center(child: Text("No Completed Quotes Found!!"))) : const SizedBox(),
+              isLoading
+                  ? Expanded(child: Center(child: loader()))
+                  : quoteNew
+                      ? Expanded(
+                          child: quotesList.isNotEmpty
+                              ? quoteNewList(context)
+                              : const Center(
+                                  child: Text("No New Quotes Found!!")))
+                      : quoteAccepted
+                          ? Expanded(
+                              child: quotesList.isNotEmpty
+                                  ? quoteAcceptedList(context)
+                                  : const Center(
+                                      child:
+                                          Text("No Accepted Quotes Found!!")))
+                          : quoteCompleted
+                              ? Expanded(
+                                  child: quotesList.isNotEmpty
+                                      ? quoteCompletedList(context)
+                                      : const Center(
+                                          child: Text(
+                                              "No Completed Quotes Found!!")))
+                              : const SizedBox(),
             ],
           ),
         ),
@@ -214,11 +247,11 @@ class _NewQuoteState extends State<NewQuote> {
       quoteNew = false;
       quoteAccepted = false;
       quoteCompleted = false;
-      if(type == "new") {
+      if (type == "new") {
         quoteNew = true;
-      } else if(type == "accepted") {
+      } else if (type == "accepted") {
         quoteAccepted = true;
-      } else if(type == "completed") {
+      } else if (type == "completed") {
         quoteCompleted = true;
       }
       getQuoteData();
@@ -227,434 +260,480 @@ class _NewQuoteState extends State<NewQuote> {
 
   /// New
   Widget quoteNewList(BuildContext context) {
-  double height = MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.top -
-      MediaQuery.of(context).padding.bottom;
-  double width = MediaQuery.of(context).size.width -
-      MediaQuery.of(context).padding.right -
-      MediaQuery.of(context).padding.left;
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: width*0.05),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-                alignment: Alignment.topLeft,
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: quotesList.length,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      thickness: 1,
-                      color: Color(0xffE7E7E7),
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        ///pending Condition
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return QuoteDetailPending(quoteId: quotesList[index].id!);
-                        },)).then((value) => getQuoteData(showLoading: true));
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  quotesList[index].title ?? "",
-                                  maxLines: 1,
-                                   overflow: TextOverflow.ellipsis, softWrap: false,
-                                  style: GoogleFonts.lato(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                              ),
-                              const Spacer(),
-                              if(quotesList[index].priority == "urgent")
-                                Container(
-                                padding: EdgeInsets.symmetric(horizontal: width*0.03,vertical: 5),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffFF5959),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
+    double width = MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.right -
+        MediaQuery.of(context).padding.left;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                  alignment: Alignment.topLeft,
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: quotesList.length,
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        thickness: 1,
+                        color: Color(0xffE7E7E7),
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          ///pending Condition
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return QuoteDetailPending(
+                                  quoteId: quotesList[index].id!);
+                            },
+                          )).then((value) => getQuoteData(showLoading: true));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
                                   child: Text(
-                                    "Urgent",
+                                    quotesList[index].title ?? "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
                                     style: GoogleFonts.lato(
-                                      fontSize: 10,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: const Color(0xff252525),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: width * 0.03,
-                              ),
-                              quotesList[index].proposal== "0"?GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                      return CreateQuote(quotesData: quotesList[index]);
-                                    },)).then((value) => getQuoteData(showLoading: true));
-                                  },
-                                  child:  Image(
-                                      width: width*0.05,
-                                      image: const AssetImage(
-                                          "assets/image/editgreen.png"))):Container(),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Wrap(
-                            runSpacing: width*0.01,
-                            spacing: width*0.03,
-                            children: (quotesList[index].serviceDetails ?? []).map((item) {
-                              return Text(item.title ?? "",style: GoogleFonts.lato(color: const Color(0xff116D6E)));
-                            }).toList(),
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Text(
-                            quotesList[index].description ?? "",
-                            style: GoogleFonts.lato(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xff252525),
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.015,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${quotesList[index].proposal} Proposals",
-                                style: GoogleFonts.lato(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xff116D6E),
+                                const Spacer(),
+                                if (quotesList[index].priority == "urgent")
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.03, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xffFF5959),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Text(
+                                        "Urgent",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                SizedBox(
+                                  width: width * 0.03,
                                 ),
+                                quotesList[index].proposal == "0"
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return CreateQuote(
+                                                  quotesData:
+                                                      quotesList[index]);
+                                            },
+                                          )).then((value) =>
+                                              getQuoteData(showLoading: true));
+                                        },
+                                        child: Image(
+                                            width: width * 0.05,
+                                            image: const AssetImage(
+                                                "assets/image/editgreen.png")))
+                                    : Container(),
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            Wrap(
+                              runSpacing: width * 0.01,
+                              spacing: width * 0.03,
+                              children: (quotesList[index].serviceDetails ?? [])
+                                  .map((item) {
+                                return Text(item.title ?? "",
+                                    style: GoogleFonts.lato(
+                                        color: const Color(0xff116D6E)));
+                              }).toList(),
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Text(
+                              quotesList[index].description ?? "",
+                              style: GoogleFonts.lato(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff252525),
                               ),
-                              QuotesWidget.getQuoteStatus(width, quotesList[index].quoteStatus![0].clinicStatus),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )),
+                            ),
+                            SizedBox(
+                              height: height * 0.015,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${quotesList[index].proposal} Proposals",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff116D6E),
+                                  ),
+                                ),
+                                QuotesWidget.getQuoteStatus(
+                                    width,
+                                    quotesList[index]
+                                        .quoteStatus![0]
+                                        .clinicStatus),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  )),
+            ),
           ),
-        ),
-        SizedBox(
-          height: height * 0.03,
-        ),
-      ],
-    ),
-  );
-}
+          SizedBox(
+            height: height * 0.03,
+          ),
+        ],
+      ),
+    );
+  }
 
   ///Accepted
   Widget quoteAcceptedList(BuildContext context) {
-  double height = MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.top -
-      MediaQuery.of(context).padding.bottom;
-  double width = MediaQuery.of(context).size.width -
-      MediaQuery.of(context).padding.right -
-      MediaQuery.of(context).padding.left;
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: width*0.05),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-                alignment: Alignment.topLeft,
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: quotesList.length,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      thickness: 1,
-                      color: Color(0xffE7E7E7),
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return QuoteAfterAccept(quoteId: quotesList[index].id!,);
-                        },)).then((value) => getQuoteData(showLoading: true));
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  quotesList[index].title ?? "",
-                                  maxLines: null,
-                                  overflow: TextOverflow.ellipsis, softWrap: false,
-                                  style: GoogleFonts.lato(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                              ),
-                              const Spacer(),
-                              if(quotesList[index].priority == "urgent")
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: width*0.03,vertical: 5),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffFF5959),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                    child: Text(
-                                      "Urgent",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
+    double width = MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.right -
+        MediaQuery.of(context).padding.left;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                  alignment: Alignment.topLeft,
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: quotesList.length,
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        thickness: 1,
+                        color: Color(0xffE7E7E7),
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return QuoteAfterAccept(
+                                quoteId: quotesList[index].id!,
+                              );
+                            },
+                          )).then((value) => getQuoteData(showLoading: true));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    quotesList[index].title ?? "",
+                                    maxLines: null,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: GoogleFonts.lato(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff252525),
                                     ),
                                   ),
                                 ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Wrap(
-                            runSpacing: width*0.01,
-                            spacing: width*0.03,
-                            children: (quotesList[index].serviceDetails ?? []).map((item) {
-                              return Text(item.title ?? "",style: GoogleFonts.lato(color: const Color(0xff116D6E)));
-                            }).toList(),
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Text(
-                            quotesList[index].description ?? "",
-                            style: GoogleFonts.lato(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xff252525),
+                                const Spacer(),
+                                if (quotesList[index].priority == "urgent")
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.03, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xffFF5959),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Text(
+                                        "Urgent",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: height * 0.015,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  quotesList[index].labsDetails![0].labName ?? "",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis, softWrap: false,
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff116D6E),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            Wrap(
+                              runSpacing: width * 0.01,
+                              spacing: width * 0.03,
+                              children: (quotesList[index].serviceDetails ?? [])
+                                  .map((item) {
+                                return Text(item.title ?? "",
+                                    style: GoogleFonts.lato(
+                                        color: const Color(0xff116D6E)));
+                              }).toList(),
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Text(
+                              quotesList[index].description ?? "",
+                              style: GoogleFonts.lato(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff252525),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.015,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    quotesList[index].labsDetails![0].labName ??
+                                        "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: GoogleFonts.lato(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff116D6E),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              QuotesWidget.getQuoteStatus(width, quotesList[index].quoteStatus![0].clinicStatus),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )),
+                                QuotesWidget.getQuoteStatus(
+                                    width,
+                                    quotesList[index]
+                                        .quoteStatus![0]
+                                        .clinicStatus),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  )),
+            ),
           ),
-        ),
-        SizedBox(
-          height: height * 0.03,
-        ),
-      ],
-    ),
-  );
-}
+          SizedBox(
+            height: height * 0.03,
+          ),
+        ],
+      ),
+    );
+  }
 
   ///completed
   Widget quoteCompletedList(BuildContext context) {
-  double height = MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.top -
-      MediaQuery.of(context).padding.bottom;
-  double width = MediaQuery.of(context).size.width -
-      MediaQuery.of(context).padding.right -
-      MediaQuery.of(context).padding.left;
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: width*0.05),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-                alignment: Alignment.topLeft,
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: quotesList.length,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      thickness: 1,
-                      color: Color(0xffE7E7E7),
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return QuoteAfterAccept(quoteId: quotesList[index].id!,);
-                        },)).then((value) => getQuoteData(showLoading: true));
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  quotesList[index].title ?? "",
-                                  maxLines: null,
-                                  overflow: TextOverflow.ellipsis, softWrap: false,
-                                  style: GoogleFonts.lato(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                              ),
-                              const Spacer(),
-                              if(quotesList[index].priority=="urgent")
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: width*0.03,vertical: 5),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffFF5959),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                    child: Text(
-                                      "Urgent",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
+    double width = MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.right -
+        MediaQuery.of(context).padding.left;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                  alignment: Alignment.topLeft,
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: quotesList.length,
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        thickness: 1,
+                        color: Color(0xffE7E7E7),
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return QuoteAfterAccept(
+                                quoteId: quotesList[index].id!,
+                              );
+                            },
+                          )).then((value) => getQuoteData(showLoading: true));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    quotesList[index].title ?? "",
+                                    maxLines: null,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: GoogleFonts.lato(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff252525),
                                     ),
                                   ),
                                 ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Wrap(
-                            runSpacing: width*0.01,
-                            spacing: width*0.03,
-                            children: (quotesList[index].serviceDetails ?? []).map((item) {
-                              return Text(item.title ?? "",style: GoogleFonts.lato(color: const Color(0xff116D6E)));
-                            }).toList(),
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          Text(
-                            quotesList[index].description ?? "",
-                            style: GoogleFonts.lato(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xff252525),
+                                const Spacer(),
+                                if (quotesList[index].priority == "urgent")
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.03, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xffFF5959),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Text(
+                                        "Urgent",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: height * 0.015,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  quotesList[index].labsDetails![0].labName ?? "",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis, softWrap: false,
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff116D6E),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            Wrap(
+                              runSpacing: width * 0.01,
+                              spacing: width * 0.03,
+                              children: (quotesList[index].serviceDetails ?? [])
+                                  .map((item) {
+                                return Text(item.title ?? "",
+                                    style: GoogleFonts.lato(
+                                        color: const Color(0xff116D6E)));
+                              }).toList(),
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Text(
+                              quotesList[index].description ?? "",
+                              style: GoogleFonts.lato(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff252525),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.015,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    quotesList[index].labsDetails![0].labName ??
+                                        "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: GoogleFonts.lato(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff116D6E),
+                                    ),
                                   ),
                                 ),
-                              ),
-
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  )),
+            ),
           ),
-        ),
-        SizedBox(
-          height: height * 0.03,
-        ),
-      ],
-    ),
-  );
-}
+          SizedBox(
+            height: height * 0.03,
+          ),
+        ],
+      ),
+    );
+  }
 
   getQuoteData({bool showLoading = true}) async {
-    if(showLoading) {
+    if (showLoading) {
       setState(() {
         quotesList.clear();
         isLoading = true;
       });
     }
     String type = getSelectedQuoteType();
-    var body = {
-      "type": type
-    };
+    var body = {"type": type};
     Response response = await quoteService.getQuotes(body: body);
 
-    if(response.statusCode==200) {
+    if (response.statusCode == 200) {
       quotes = Quotes.fromJson(jsonDecode(response.body));
       quotesList.addAll(quotes!.data!.quotesData ?? []);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
 
-    if(showLoading) {
+    if (showLoading) {
       setState(() {
         isLoading = false;
       });
@@ -662,9 +741,11 @@ class _NewQuoteState extends State<NewQuote> {
   }
 
   Future<bool> goBack() async {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-      return const BottomNavigation(index: 0);
-    },), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+      builder: (context) {
+        return const BottomNavigation(index: 0);
+      },
+    ), (route) => false);
     return true;
   }
 }

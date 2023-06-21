@@ -7,9 +7,9 @@ class PendingQuote {
 
   factory PendingQuote.fromJson(Map<String, dynamic> json) {
     return PendingQuote(
-    status : json['status'],
-    success : json['success'],
-    data : Data.fromJson(json['data']),
+      status: json['status'],
+      success: json['success'],
+      data: Data.fromJson(json['data']),
     );
   }
 }
@@ -25,9 +25,9 @@ class Data {
     List quotesData = json['quotesData'];
     List proposalData = json['propsaldata'];
     return Data(
-      quotesData : quotesData.map((v) => QuotesData.fromJson(v)).toList(),
-      count : json['count'],
-      propsaldata : proposalData.map((v) => Propsaldata.fromJson(v)).toList(),
+      quotesData: quotesData.map((v) => QuotesData.fromJson(v)).toList(),
+      count: json['count'],
+      propsaldata: proposalData.map((v) => Propsaldata.fromJson(v)).toList(),
     );
   }
 }
@@ -44,25 +44,26 @@ class QuotesData {
 
   QuotesData(
       {this.id,
-        this.quoteNumber,
-        this.title,
-        this.description,
-        this.priority,
-        this.chooseFor,
-        this.tillDate,
-        this.serviceDetails});
+      this.quoteNumber,
+      this.title,
+      this.description,
+      this.priority,
+      this.chooseFor,
+      this.tillDate,
+      this.serviceDetails});
 
   factory QuotesData.fromJson(Map<String, dynamic> json) {
     List serviceDetail = json['serviceDetails'];
     return QuotesData(
-      id : json['_id'],
-      quoteNumber : json['quoteNumber'],
-      title : json['title'],
-      description : json['description'],
-      priority : json['priority'],
-      chooseFor : json['chooseFor'],
-      tillDate : json['tillDate'],
-      serviceDetails : serviceDetail.map((v) => ServiceDetails.fromJson(v)).toList(),
+      id: json['_id'],
+      quoteNumber: json['quoteNumber'],
+      title: json['title'],
+      description: json['description'],
+      priority: json['priority'],
+      chooseFor: json['chooseFor'],
+      tillDate: json['tillDate'],
+      serviceDetails:
+          serviceDetail.map((v) => ServiceDetails.fromJson(v)).toList(),
     );
   }
 }
@@ -75,8 +76,8 @@ class ServiceDetails {
 
   factory ServiceDetails.fromJson(Map<String, dynamic> json) {
     return ServiceDetails(
-      id : json['_id'],
-      title : json['title'],
+      id: json['_id'],
+      title: json['title'],
     );
   }
 }
@@ -92,24 +93,23 @@ class Propsaldata {
 
   Propsaldata(
       {this.id,
-        this.quoteId,
-        this.labId,
-        this.amount,
-        this.status,
-        this.createdAt,
-        this.labDetails});
+      this.quoteId,
+      this.labId,
+      this.amount,
+      this.status,
+      this.createdAt,
+      this.labDetails});
 
   factory Propsaldata.fromJson(Map<String, dynamic> json) {
     List labDetail = json['labDetails'];
-      return Propsaldata(
-      id : json['_id'],
-      quoteId : json['quoteId'],
-      labId : json['labId'],
-      amount : json['amount'],
-      status : json['status'],
-      createdAt : json['createdAt'],
-      labDetails : labDetail.map((v) => LabDetails.fromJson(v)).toList()
-    );
+    return Propsaldata(
+        id: json['_id'],
+        quoteId: json['quoteId'],
+        labId: json['labId'],
+        amount: json['amount'],
+        status: json['status'],
+        createdAt: json['createdAt'],
+        labDetails: labDetail.map((v) => LabDetails.fromJson(v)).toList());
   }
 }
 
@@ -121,29 +121,31 @@ class LabDetails {
   String? labName;
   String? landLineNumber;
   String? mobileNumber;
+  String? countryCode;
   String? description;
 
   LabDetails(
       {this.id,
-        this.createdAt,
-        this.city,
-        this.country,
-        this.labName,
-        this.landLineNumber,
-        this.mobileNumber,
-        this.description
-      });
+      this.createdAt,
+      this.city,
+      this.country,
+      this.labName,
+      this.landLineNumber,
+      this.mobileNumber,
+      this.countryCode,
+      this.description});
 
   factory LabDetails.fromJson(Map<String, dynamic> json) {
     return LabDetails(
-      id : json['_id'],
-      createdAt : json['createdAt'],
-      city : json['city'],
-      country : json['country'],
-      labName : json['labName'],
-      landLineNumber : json['landLineNumber'].toString(),
-      mobileNumber : json['mobileNumber'].toString(),
-      description : json['description'],
+      id: json['_id'],
+      createdAt: json['createdAt'],
+      city: json['city'],
+      country: json['country'],
+      labName: json['labName'],
+      landLineNumber: json['landLineNumber'].toString(),
+      mobileNumber: json['mobileNumber'].toString(),
+      countryCode: json['countryCode'],
+      description: json['description'],
     );
   }
 }

@@ -1,5 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
+import 'package:dentalapp/custom_widget/button.dart';
+import 'package:dentalapp/models/accepeted_quote_model.dart';
+import 'package:dentalapp/models/comment_model.dart';
+import 'package:dentalapp/services/clinic_services/quote_services.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class Item {
   String name;
@@ -9,329 +19,792 @@ class Item {
 }
 
 class AcceptedQuoteDetailsScreen extends StatefulWidget {
-  const AcceptedQuoteDetailsScreen({Key? key}) : super(key: key);
+  final String quoteId;
+  const AcceptedQuoteDetailsScreen({Key? key, required this.quoteId})
+      : super(key: key);
 
   @override
-  State<AcceptedQuoteDetailsScreen> createState() => _AcceptedQuoteDetailsScreenState();
+  State<AcceptedQuoteDetailsScreen> createState() =>
+      _AcceptedQuoteDetailsScreenState();
 }
 
-class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen> {
-
-   List<Item> detailsList = [];
-  String titleComment = "";
-  String description = "";
-
-  bool isCommentVisible= false;
+class _AcceptedQuoteDetailsScreenState
+    extends State<AcceptedQuoteDetailsScreen> {
+  final formKey = GlobalKey<FormState>();
+  var autoValidate = AutovalidateMode.disabled;
+  bool isShareComments = false;
   TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController commentController = TextEditingController();
+  QuoteService quoteService = QuoteService();
+  bool isLoading = true;
+  AcceptedQuote? acceptedQuote;
+  QuoteData? quoteData;
+  PropsalDetails? propsalDetails;
+  ClinicDetail? clinicDetails;
+  OrderDetails? orderDetails;
+  QuoteStatus? quoteStatus;
+  Comments? comments;
+  List<CommentData> commentList = [];
 
-  void showComment() {
-    setState(() {
-      isCommentVisible = !isCommentVisible;
-    });
+  @override
+  void initState() {
+    super.initState();
+    getQuoteDetail();
+    getComments();
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
+    double width = MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.right -
+        MediaQuery.of(context).padding.left;
     return SafeArea(
-        child: Scaffold(
-          body: SizedBox(
-            height: height,
-            width: width,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Container(
-                      height: height*0.15,
-                      decoration: BoxDecoration(
-                          color: Color(0xFF116D6E),
-                          image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                              fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width*0.020),
-                        child: Row(
+      child: Scaffold(
+        body: isLoading
+            ? Center(child: loader())
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        height: height * 0.15,
+                        decoration: const BoxDecoration(
+                            color: Color(0xFF116D6E),
+                            image: DecorationImage(
+                                image:
+                                    AssetImage("assets/image/Group 12305.png"),
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.bottomCenter,
+                                opacity: 0.3)),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
+                            SizedBox(
+                              height: height * 0.02,
                             ),
-                            Spacer(),
-                            Text("Quote Detail",style: GoogleFonts.lato(fontSize: 30,fontWeight: FontWeight.w600,color: Colors.white,)),
-                            Spacer(),
-                            SizedBox(height: height*0.050,width: width*0.050),
-                          ],
-                        ),
-                      )
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: height*0.03,horizontal: width*0.055),
-                    child: Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text("Dental Crowns and Bridges",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600 )),
-                                Spacer(),
-                                Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFF414141),
-                                        borderRadius: BorderRadius.circular(5)
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: height*0.0061,horizontal: width*0.025),
-                                      child: Text("Delivery Rejected",style: GoogleFonts.lato(fontSize: 11,fontWeight: FontWeight.w400,color: Colors.white)),
-                                    ))
-                              ],
-                            ),
-                            SizedBox(height: height*0.010,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  width: width*0.7,
-                                  child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                      style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                ),
-                                SizedBox(width: width*0.020,),
-
-                              ],
-                            ),
-                            SizedBox(height: height*0.020,),
-                            Divider(
-                              thickness: 1,
-                              color: Color(0xFFE7E7E7),
-                            ),
-                            SizedBox(height: height*0.020,),
-                            Row(
-                              children: [
-                                Text("Subtotal :",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
-                                Spacer(),
-                                Text("AED 500",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
-
-                              ],
-                            ),
-                            SizedBox(height: height*0.020,),
-                            Row(
-                              children: [
-                                Text("Advance 30% (Paid)",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
-                                Spacer(),
-                                Text("AED 75",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
-                              ],
-                            ),
-                            SizedBox(height: height*0.020,),
-                            Row(
-                              children: [
-                                Text("Priority :",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
-                                Spacer(),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFF707070),
-                                    borderRadius: BorderRadius.circular(5)
-                                  ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: width*0.05,vertical: height*0.006),
-                                      child: Text("Normal",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white)),
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: height*0.022,),
-                            Row(
-                              children: [
-                                Text("Clinic Name ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,)),
-                                Spacer(),
-                                Text("Apt 30",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,)),
-                              ],
-                            ),
-                            SizedBox(height: height*0.020,),
-                            Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    Image(image: AssetImage("assets/image/finalLocation.png")),
-                                    SizedBox(width: width*0.015,),
-                                    Text("Ottawa, Canada",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                                  ],
-                                ),
-                                SizedBox(width: width*0.030,),
-                                Row(
-                                  children: [
-                                    Image(image: AssetImage("assets/image/phone.png")),
-                                    SizedBox(width: width*0.015,),
-                                    Text("+9675852",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(height: height*0.020,),
-                            Text("Toronto. DE 63324",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
-                            isCommentVisible ? SizedBox(height: height*0.022,) : SizedBox(height: height*0.2,),
-                            Container(
-                              height: height*0.064,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Color(0xFF116D6E)
-                              ),
-                              child: TextButton(
-                                  onPressed: () {
-                                    showCommentBox(context);
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
-                                  },
-                                  child: Text("Share Comment",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
-                            ),
-                            SizedBox(height: height*0.025,),
-                            InkWell(
-                              onTap: () {
-                                showComment();
-                              },
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.03),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text("Comments",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 )),
-                                  Spacer(),
-                                  !isCommentVisible ? Icon(Icons.expand_more_rounded) : Icon(Icons.expand_less_rounded)
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Icon(
+                                        Icons.keyboard_backspace,
+                                        color: Colors.white,
+                                      )),
+                                  const Spacer(),
+                                  Center(
+                                      child: Text(
+                                    textAlign: TextAlign.center,
+                                    "Quote Detail",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                                  const Spacer(),
+                                  const Icon(
+                                    Icons.keyboard_backspace,
+                                    color: Colors.transparent,
+                                  )
                                 ],
                               ),
                             ),
-                            SizedBox(height: height*0.010,),
-                            Visibility(
-                              visible: isCommentVisible,
-                              child: Container(
-                                width: width,
-                                height: height*0.5,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.vertical,
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Divider(
-                                            thickness: 1,
-                                            color: Color(0xFFE7E7E7),
-                                          ),
-                                          SizedBox(height: height*0.010,),
-                                          Text("${detailsList[index].name}",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700 )),
-                                          SizedBox(height: height*0.010,),
-                                          Row(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                width: width*0.7,
-                                                child: Text("${detailsList[index].description}",
-                                                    style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
+                          ],
+                        )),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    quoteData == null
+                        ? Container(
+                            height: height * 0.5,
+                            alignment: Alignment.center,
+                            child: const Text(
+                                "No Data Found !!! \n\n Please Try Again"),
+                          )
+                        : Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width * 0.05),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                SizedBox(
+                                  height: height * 0.65,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              quoteData!.title ?? "",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xff252525),
                                               ),
-                                              SizedBox(width: width*0.020,),
+                                            ),
+                                            const Spacer(),
+                                            QuotesWidget.getQuoteStatus(
+                                                width, quoteStatus!.labStatus!)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.02,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.75,
+                                          child: Text(
+                                            quoteData!.description ?? "",
+                                            style: GoogleFonts.lato(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                              color: const Color(0xff252525),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.01,
+                                        ),
+                                        const Divider(
+                                          thickness: 1,
+                                          color: Color(0xffE7E7E7),
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Subtotal :",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xff707070),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "AED ${orderDetails!.totalAmount}",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.02,
+                                        ),
+                                        if (quoteStatus!.labStatus !=
+                                            "waitForPayment")
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Advance 30% (Paid)",
+                                                    style: GoogleFonts.lato(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: const Color(
+                                                          0xff707070),
+                                                    ),
+                                                  ),
+                                                  const Spacer(),
+                                                  Text(
+                                                    "AED ${orderDetails!.advanceAmount}",
+                                                    style: GoogleFonts.lato(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: const Color(
+                                                          0xff252525),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.02,
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(height: height*0.010,),
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(height: height*0.010,);
-                                    },
-                                    itemCount: detailsList.length),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Priority :",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xff707070),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: width * 0.04,
+                                                  vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: Color(
+                                                    quoteData!.priority ==
+                                                            "normal"
+                                                        ? 0xff707070
+                                                        : 0xffFF5959),
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  quoteData!.priority ==
+                                                          "normal"
+                                                      ? "Normal"
+                                                      : "Urgent",
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        const Color(0xffFFFFFF),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.02,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Clinic Name ",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              clinicDetails!.clinicName ?? "",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.02,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image(
+                                              width: width * 0.03,
+                                              image: const AssetImage(
+                                                "assets/image/locationgrren.png",
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            SizedBox(
+                                              width: width * 0.02,
+                                            ),
+                                            Text(
+                                              "${clinicDetails!.city ?? " "}, ${clinicDetails!.country ?? ""}",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff116D6E),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: width * 0.03,
+                                            ),
+                                            Image(
+                                              width: width * 0.04,
+                                              image: const AssetImage(
+                                                "assets/image/call.png",
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            SizedBox(
+                                              width: width * 0.02,
+                                            ),
+                                            Text(
+                                              "${clinicDetails!.countryCode ?? ""} ${clinicDetails!.mobileNumber ?? ""}",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff116D6E),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.02,
+                                        ),
+                                        Text(
+                                          "${clinicDetails!.city ?? ""} ${clinicDetails!.country ?? ""}",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xff252525),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                quoteStatus!.labStatus == "waitForPayment" ||
+                                        quoteStatus!.labStatus ==
+                                            "outForDelivery" ||
+                                        quoteStatus!.labStatus ==
+                                            "deliverySuccess"
+                                    ? commonButton(context, 'Call Clinic', 13,
+                                        FontWeight.w700, Colors.white, () {
+                                        makePhoneCall();
+                                      })
+                                    : quoteStatus!.labStatus == "workStarted"
+                                        ? SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                commonButton(
+                                                    context,
+                                                    'Call Clinic',
+                                                    13,
+                                                    FontWeight.w700,
+                                                    Colors.white, () {
+                                                  makePhoneCall();
+                                                }),
+                                                SizedBox(
+                                                  height: height * 0.02,
+                                                ),
+                                                commonButton(
+                                                    context,
+                                                    'Out For Delivery',
+                                                    13,
+                                                    FontWeight.w700,
+                                                    Colors.white, () {
+                                                  completeWork();
+                                                }),
+                                              ],
+                                            ),
+                                          )
+                                        : quoteStatus!.clinicStatus ==
+                                                'deliveryRejected'
+                                            ? Column(
+                                                children: [
+                                                  commonButton(
+                                                      context,
+                                                      'Share Comment',
+                                                      13,
+                                                      FontWeight.w700,
+                                                      Colors.white, () {
+                                                    showShareMyDialog();
+                                                  }),
+                                                  if (commentList.isNotEmpty)
+                                                    Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: height * 0.02,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              isShareComments =
+                                                                  !isShareComments;
+                                                            });
+                                                          },
+                                                          child: SizedBox(
+                                                            width: width,
+                                                            height:
+                                                                height * 0.04,
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Comments",
+                                                                    style:
+                                                                        GoogleFonts
+                                                                            .lato(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color: const Color(
+                                                                          0xff111111),
+                                                                    )),
+                                                                const Spacer(),
+                                                                !isShareComments
+                                                                    ? const Image(
+                                                                        height:
+                                                                            7,
+                                                                        width:
+                                                                            14,
+                                                                        image:
+                                                                            AssetImage(
+                                                                          "assets/image/upicon.png",
+                                                                        ),
+                                                                        fit: BoxFit
+                                                                            .fill,
+                                                                      )
+                                                                    : const Image(
+                                                                        height:
+                                                                            6,
+                                                                        width:
+                                                                            14,
+                                                                        image:
+                                                                            AssetImage(
+                                                                          "assets/image/downicon.png",
+                                                                        ),
+                                                                        fit: BoxFit
+                                                                            .fill,
+                                                                      ),
+                                                                SizedBox(
+                                                                  width: width *
+                                                                      0.01,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        !isShareComments
+                                                            ? const SizedBox()
+                                                            : ListView.builder(
+                                                                shrinkWrap:
+                                                                    true,
+                                                                physics:
+                                                                    const NeverScrollableScrollPhysics(),
+                                                                itemCount:
+                                                                    commentList
+                                                                        .length,
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  return Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      if (index ==
+                                                                          0)
+                                                                        Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(top: height * 0.01),
+                                                                          child:
+                                                                              const Divider(
+                                                                            thickness:
+                                                                                1,
+                                                                            color:
+                                                                                Color(0xffE7E7E7),
+                                                                          ),
+                                                                        ),
+                                                                      SizedBox(
+                                                                        height: height *
+                                                                            0.01,
+                                                                      ),
+                                                                      Text(
+                                                                          commentList[index].isMessage == "clinic"
+                                                                              ? commentList[index].clinicDetails!.first.clinicName ??
+                                                                                  ""
+                                                                              : commentList[index].labDetails!.first.labName ??
+                                                                                  "",
+                                                                          style:
+                                                                              GoogleFonts.lato(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            color:
+                                                                                const Color(0xff252525),
+                                                                          )),
+                                                                      SizedBox(
+                                                                        height: height *
+                                                                            0.01,
+                                                                      ),
+                                                                      Text(
+                                                                          commentList[index].comment ??
+                                                                              '',
+                                                                          style:
+                                                                              GoogleFonts.lato(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                            color:
+                                                                                const Color(0xff111111),
+                                                                          )),
+                                                                      SizedBox(
+                                                                        height: height *
+                                                                            0.01,
+                                                                      ),
+                                                                      const Divider(
+                                                                        thickness:
+                                                                            1,
+                                                                        color: Color(
+                                                                            0xffE7E7E7),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              ),
+                                                      ],
+                                                    ),
+                                                ],
+                                              )
+                                            : Container()
+                              ],
+                            ),
+                          ),
+                  ],
+                ),
               ),
-            ),
-          ),
-        ));
+      ),
+    );
   }
-  void showCommentBox(BuildContext context){
-    double height = MediaQuery.of(context).size.height;
+
+  void showShareMyDialog() {
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
     double width = MediaQuery.of(context).size.width;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: width * 0.05),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             title: Container(
-              height: height*0.3,
               width: width,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: width*0.030),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF707070)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          titleComment = value;
-                        });
-                      },
-                      controller: titleController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Name",
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height*0.015,),
-                  Container(
-                    padding: EdgeInsets.only(left: width*0.030),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF707070)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          description = value;
-                        });
-                      },
-                      controller: descriptionController,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Comment"
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
-                        padding: MaterialStateProperty.all( EdgeInsets.symmetric(horizontal: width*0.09,vertical: height*0.018)),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  return Form(
+                    key: formKey,
+                    autovalidateMode: autoValidate,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: titleController,
+                          keyboardType: TextInputType.name,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Enter Title';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFF707070)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF707070),
+                              ),
+                            ),
+                            labelText: 'Title',
+                            labelStyle:
+                                const TextStyle(color: Color(0xff707070)),
+                            hintText: 'Title',
+                            hintStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF707070)),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: height * 0.02,
+                                horizontal: width * 0.03),
                           ),
                         ),
-                      ),
-                      onPressed: () {
-                        detailsList.add(Item(name: titleComment, description: description));
-                        Navigator.pop(context);
-                        showComment();
-                      },
-                      child: Text("Share Comment",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
-                ],
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: commentController,
+                          keyboardType: TextInputType.name,
+                          maxLines: 3,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Enter Comment';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFF707070)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF707070),
+                              ),
+                            ),
+                            labelText: 'Comment',
+                            labelStyle:
+                                const TextStyle(color: Color(0xff707070)),
+                            hintText: 'Comment',
+                            hintStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF707070)),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: height * 0.02,
+                                horizontal: width * 0.03),
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        TextButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xFF116D6E)),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      horizontal: width * 0.1,
+                                      vertical: height * 0.02)),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                addComments();
+                              } else {
+                                autoValidate = AutovalidateMode.always;
+                              }
+                            },
+                            child: Text("Share Comment",
+                                style: GoogleFonts.lato(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ))),
+                      ],
+                    ),
+                  );
+                },
               ),
-            )
-        );
+            ));
       },
     );
   }
-}
 
+  getQuoteDetail() async {
+    var body = {"quoteId": widget.quoteId};
+    Response response = await quoteService.getAcceptedQuoteDetail(body: body);
+    if (response.statusCode == 200) {
+      acceptedQuote = AcceptedQuote.fromJson(jsonDecode(response.body));
+      quoteData = acceptedQuote!.quoteData!.first;
+      quoteStatus = quoteData!.quoteStatus!.first;
+      propsalDetails = quoteData!.propsalDetails!.first;
+      clinicDetails = quoteData!.clinicDetails!.first;
+      orderDetails = quoteData!.orderDetails!.first;
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    }
+    isLoading = false;
+    setState(() {});
+  }
+
+  makePhoneCall() {
+    Utils.makePhoneCall(
+        "${clinicDetails!.countryCode ?? ""} ${clinicDetails!.mobileNumber ?? ''}");
+  }
+
+  deliveryAcceptReject({isAccept = true}) async {
+    Utils.showLoadingDialog(context);
+    var body = {"quoteId": widget.quoteId};
+    Response response =
+        await quoteService.acceptRejectDelivery(body: body, isAccept: isAccept);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+  }
+
+  addComments() async {
+    Utils.showLoadingDialog(context);
+    var body = {
+      "quoteId": widget.quoteId,
+      "title": titleController.text,
+      "comment": commentController.text
+    };
+    Response response = await quoteService.addComments(body: body);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      titleController.text = "";
+      commentController.text = "";
+      Navigator.pop(context);
+      getComments();
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+  }
+
+  getComments() async {
+    commentList.clear();
+    var body = {
+      "quoteId": widget.quoteId,
+    };
+    Response response = await quoteService.getComments(body: body);
+    if (response.statusCode == 200) {
+      comments = Comments.fromJson(jsonDecode(response.body));
+      commentList.addAll(comments!.commentData ?? []);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    }
+    setState(() {});
+  }
+
+  completeWork() async {
+    Utils.showLoadingDialog(context);
+    var body = {"quoteId": widget.quoteId};
+    Response response = await quoteService.completeWork(body: body);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+  }
+}

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:dentalapp/screen/manage_profile_5.dart';
 import 'package:dentalapp/util/api_services.dart';
@@ -16,11 +18,10 @@ class ManageProfile4 extends StatefulWidget {
 }
 
 class _ManageProfile4State extends State<ManageProfile4> {
-
   var openingTime = "01:00";
   var closingTime = "24:00";
   bool onOff = false;
-  bool isTimeSelectedStatus=false;
+  bool isTimeSelectedStatus = false;
   List<DayDetails> days = [];
   List startTime = [
     "00:00 ",
@@ -221,462 +222,608 @@ class _ManageProfile4State extends State<ManageProfile4> {
     "24:00",
   ];
   int index = 0;
-  List daysName = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+  List daysName = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    days = List.generate(daysName.length, (index) => DayDetails(day: daysName[index], startTime: "", endTime: "", isOpen: false));
+    days = List.generate(
+        daysName.length,
+        (index) => DayDetails(
+            day: daysName[index], startTime: "", endTime: "", isOpen: false));
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width  = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
-        child:Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Container(
-                    height: height*0.25,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/image/01.png"),fit: BoxFit.fill)
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+        child: Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Container(
+                height: height * 0.25,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/image/01.png"),
+                        fit: BoxFit.fill)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            const SizedBox(width: 20,),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill)),
-                          ],
+                        const SizedBox(
+                          width: 20,
                         ),
-                        const SizedBox(height: 20,),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 70,
-                            width: 70,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(color: Colors.white,width: 1),
-                                image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
-                            ),
-                            child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
-                          ),
-                        ),
-
+                        InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Image(
+                                image: AssetImage("assets/image/left.png"),
+                                fit: BoxFit.fill)),
                       ],
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.027),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 10,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("4/",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                            Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
-                          ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: Colors.white, width: 1),
+                            image: const DecorationImage(
+                                image:
+                                    AssetImage("assets/image/Ellipse 108.png"),
+                                fit: BoxFit.fill)),
+                        child: Text(
+                          "N",
+                          style: GoogleFonts.lato(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
                         ),
-                        const SizedBox(height: 10,),
-                        isTimeSelectedStatus==false?Column(crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Working time",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
-                            const SizedBox(height: 30,),
-                            ListView(
-                              shrinkWrap: true,
-                              children: [
-                                for(int i=0; i<days.length; i++)
-                                  Column(
-                                    children: [
-                                      const SizedBox(height: 10,),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                              width: width * 0.4,
-                                              child: Text(days[i].day,style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
-                                          Text(days[i].isOpen?"${days[i].startTime} - ${days[i].endTime}":"Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
-                                          const Spacer(),
-                                          InkWell(
-                                              onTap: (){
-                                                setState(() {
-                                                  isTimeSelectedStatus=true;
-                                                  index = i;
-                                                  onOff = days[i].isOpen;
-                                                  openingTime = "00:00";
-                                                  closingTime = "00:00";
-                                                });
-                                              },
-                                              child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10,),
-                                      const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     SizedBox(
-                            //         width: 70,
-                            //         child: Text("Monday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
-                            //     const Spacer(),
-                            //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.center ,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Container(
-                            //       width: 75,
-                            //       child: Text("Tuesday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                            //     ),
-                            //     const Spacer(),
-                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Container(
-                            //       width: 77,
-                            //       child: Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1),
-                            //     ),
-                            //     const Spacer(),
-                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.center ,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Container(
-                            //       width: 75,
-                            //       child: Text("Thursday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                            //     ),
-                            //     const Spacer(),
-                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.center ,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Container(
-                            //       width: 75,
-                            //       child: Text("Friday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                            //     ),
-                            //     const Spacer(),
-                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.center ,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Container(
-                            //       width: 75,
-                            //       child: Text("Saturday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                            //     ),
-                            //     const Spacer(),
-                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.center ,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Container(
-                            //       width: 75,
-                            //       child: Text("Sunday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                            //     ),
-                            //     const Spacer(),
-                            //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                            //     const Spacer(),
-                            //     InkWell(
-                            //         onTap: (){
-                            //           setState(() {
-                            //             isTimeSelectedStatus=true;
-                            //           });
-                            //         },
-                            //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                            //     const SizedBox(width: 10,),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 10,),
-                            // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                            // const SizedBox(height: 10,),
-                            SizedBox(height: height*0.050,),
-                            Container(
-                              height: height*0.064,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: const Color(0xFF116D6E),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.057, vertical: height * 0.027),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "4/",
+                          style: GoogleFonts.lato(
+                              fontSize: 17, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          "6",
+                          style: GoogleFonts.lato(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFFA0A0A0)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    isTimeSelectedStatus == false
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Working time",
+                                style: GoogleFonts.lato(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
                               ),
-                              child: TextButton(
-                                  onPressed: () {
-                                    manageProfile4();
-                                  },
-                                  child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
-                            ),
-                            SizedBox(height: height*0.025,),
-                          ],
-                        ):
-                              Column(
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              ListView(
+                                shrinkWrap: true,
                                 children: [
-                                  Container(
-                                    height:height*0.65,
-                                    width: width,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                  for (int i = 0; i < days.length; i++)
+                                    Column(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10,right: 10),
-                                          child: Row(
-                                            children: [
-                                              Text(days[index].day,style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
-                                              const Spacer(),
-                                              Column(
-                                                children: [
-                                                  FlutterSwitch(
-                                                    width: 55.0,
-                                                    height: 25.0,
-                                                    valueFontSize: 12.0,
-                                                    toggleSize: 18.0,
-                                                    activeColor: const Color(0xff01635D),
-                                                    value:  onOff,
-                                                    onToggle: (value) {
-                                                      setState(() {
-                                                        onOff = value;
-                                                      });
-                                                    },
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  onOff ? const Text("Open",
-                                                    style: TextStyle(fontSize: 12, color: Color(0xff707070),fontFamily: "spartan"),
-                                                  ) : const Text("Close", style: TextStyle(fontSize: 12, color: Color(0xff707070), fontFamily: "spartan")),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Divider(
-                                          color: Color(0xFFE7E7E7),
+                                        const SizedBox(
+                                          height: 10,
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             SizedBox(
-                                              width: width*0.30,
-                                              height: height*0.45,
-                                              child: CupertinoPicker(
-                                                magnification: 1.22,
-                                                squeeze: 1.2,
-                                                useMagnifier: true,
-                                                itemExtent: 40,
-                                                onSelectedItemChanged: (index) {
+                                                width: width * 0.4,
+                                                child: Text(
+                                                  days[i].day,
+                                                  style: GoogleFonts.lato(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                )),
+                                            Text(
+                                              days[i].isOpen
+                                                  ? "${days[i].startTime} - ${days[i].endTime}"
+                                                  : "Closed",
+                                              style: GoogleFonts.lato(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            const Spacer(),
+                                            InkWell(
+                                                onTap: () {
                                                   setState(() {
-                                                    openingTime = startTime[index];
+                                                    isTimeSelectedStatus = true;
+                                                    index = i;
+                                                    onOff = days[i].isOpen;
+                                                    openingTime = "00:00";
+                                                    closingTime = "00:00";
                                                   });
                                                 },
-                                                selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
-                                                children: startTime
-                                                    .map((text) => Center(
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    decoration: const BoxDecoration(
-                                                    ),
-                                                    child: Text(text,style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                  ),
-                                                ))
-                                                    .toList(),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20,),
-                                            Text("To",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600),),
-                                            const SizedBox(width: 20,),
-                                            SizedBox(
-                                              width: width*0.30,
-                                              height: height*0.45,
-                                              child: CupertinoPicker(
-                                                magnification: 1.22,
-                                                squeeze: 1.2,
-                                                useMagnifier: true,
-                                                itemExtent: 40,
-                                                onSelectedItemChanged: (index) {
-                                                  setState(() {
-                                                    closingTime = endTime[index];
-                                                  });
-                                                },
-                                                selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
-                                                children: endTime.map((text) => Center(
-                                                  child: Container(
-                                                      alignment: Alignment.center,
-                                                      decoration: const BoxDecoration(
-                                                      ),
-                                                      child: Text(text,style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500))),
-                                                ))
-                                                    .toList(),
-                                              ),
-                                            ),
+                                                child: const Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Color(0xFF707070),
+                                                  size: 15,
+                                                )),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                                          child: Container(
-                                            height: height*0.065,
-                                            width: MediaQuery.of(context).size.width,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(12),
-                                                color: const Color(0xFF116D6E)
-                                            ),
-                                            child: TextButton(
-                                                onPressed: () {
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Divider(
+                                            color: Color(0xFFE7E7E7),
+                                            thickness: 1),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     SizedBox(
+                              //         width: 70,
+                              //         child: Text("Monday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
+                              //     const Spacer(),
+                              //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center ,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(
+                              //       width: 75,
+                              //       child: Text("Tuesday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                              //     ),
+                              //     const Spacer(),
+                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(
+                              //       width: 77,
+                              //       child: Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1),
+                              //     ),
+                              //     const Spacer(),
+                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center ,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(
+                              //       width: 75,
+                              //       child: Text("Thursday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                              //     ),
+                              //     const Spacer(),
+                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center ,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(
+                              //       width: 75,
+                              //       child: Text("Friday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                              //     ),
+                              //     const Spacer(),
+                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center ,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(
+                              //       width: 75,
+                              //       child: Text("Saturday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                              //     ),
+                              //     const Spacer(),
+                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center ,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(
+                              //       width: 75,
+                              //       child: Text("Sunday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
+                              //     ),
+                              //     const Spacer(),
+                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
+                              //     const Spacer(),
+                              //     InkWell(
+                              //         onTap: (){
+                              //           setState(() {
+                              //             isTimeSelectedStatus=true;
+                              //           });
+                              //         },
+                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
+                              //     const SizedBox(width: 10,),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10,),
+                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
+                              // const SizedBox(height: 10,),
+                              SizedBox(
+                                height: height * 0.050,
+                              ),
+                              Container(
+                                height: height * 0.064,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: const Color(0xFF116D6E),
+                                ),
+                                child: TextButton(
+                                    onPressed: () {
+                                      manageProfile4();
+                                    },
+                                    child: Text("Continue",
+                                        style: GoogleFonts.lato(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white))),
+                              ),
+                              SizedBox(
+                                height: height * 0.025,
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              SizedBox(
+                                height: height * 0.65,
+                                width: width,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: Row(
+                                        children: [
+                                          Text(days[index].day,
+                                              style: GoogleFonts.lato(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18)),
+                                          const Spacer(),
+                                          Column(
+                                            children: [
+                                              FlutterSwitch(
+                                                width: 55.0,
+                                                height: 25.0,
+                                                valueFontSize: 12.0,
+                                                toggleSize: 18.0,
+                                                activeColor:
+                                                    const Color(0xff01635D),
+                                                value: onOff,
+                                                onToggle: (value) {
                                                   setState(() {
-                                                    if(onOff) {
-                                                      if(openingTime==closingTime) {
-                                                        Utils.showErrorToast("Start Time and End Time Cannot be Same");
-                                                      } else if(int.parse(openingTime.replaceAll(":", ""))>int.parse(closingTime.replaceAll(":", ""))) {
-                                                        Utils.showErrorToast("Start Time cannot be after End Time");
-                                                      } else {
-                                                        isTimeSelectedStatus = false;
-                                                        days[index].isOpen = true;
-                                                        days[index].startTime = openingTime;
-                                                        days[index].endTime = closingTime; 
-                                                      }
-                                                    } else {
-                                                      isTimeSelectedStatus = false;
-                                                      days[index].isOpen = false;
-                                                      days[index].startTime = "";
-                                                      days[index].endTime = "";
-                                                    }
+                                                    onOff = value;
                                                   });
                                                 },
-                                                child: Text("Save",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              onOff
+                                                  ? const Text(
+                                                      "Open",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xff707070),
+                                                          fontFamily:
+                                                              "spartan"),
+                                                    )
+                                                  : const Text("Close",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xff707070),
+                                                          fontFamily:
+                                                              "spartan")),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Divider(
+                                      color: Color(0xFFE7E7E7),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: width * 0.30,
+                                          height: height * 0.45,
+                                          child: CupertinoPicker(
+                                            magnification: 1.22,
+                                            squeeze: 1.2,
+                                            useMagnifier: true,
+                                            itemExtent: 40,
+                                            onSelectedItemChanged: (index) {
+                                              setState(() {
+                                                openingTime = startTime[index];
+                                              });
+                                            },
+                                            selectionOverlay:
+                                                const CupertinoPickerDefaultSelectionOverlay(
+                                              background: Colors.transparent,
+                                            ),
+                                            children: startTime
+                                                .map((text) => Center(
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            const BoxDecoration(),
+                                                        child: Text(text,
+                                                            style: GoogleFonts.lato(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500)),
+                                                      ),
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          "To",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.30,
+                                          height: height * 0.45,
+                                          child: CupertinoPicker(
+                                            magnification: 1.22,
+                                            squeeze: 1.2,
+                                            useMagnifier: true,
+                                            itemExtent: 40,
+                                            onSelectedItemChanged: (index) {
+                                              setState(() {
+                                                closingTime = endTime[index];
+                                              });
+                                            },
+                                            selectionOverlay:
+                                                const CupertinoPickerDefaultSelectionOverlay(
+                                              background: Colors.transparent,
+                                            ),
+                                            children: endTime
+                                                .map((text) => Center(
+                                                      child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          decoration:
+                                                              const BoxDecoration(),
+                                                          child: Text(text,
+                                                              style: GoogleFonts.lato(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500))),
+                                                    ))
+                                                .toList(),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                      ],),
-                  )
-                ],
-              ),
-            ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      child: Container(
+                                        height: height * 0.065,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: const Color(0xFF116D6E)),
+                                        child: TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                if (onOff) {
+                                                  if (openingTime ==
+                                                      closingTime) {
+                                                    Utils.showErrorToast(
+                                                        "Start Time and End Time Cannot be Same");
+                                                  } else if (int.parse(
+                                                          openingTime
+                                                              .replaceAll(
+                                                                  ":", "")) >
+                                                      int.parse(closingTime
+                                                          .replaceAll(
+                                                              ":", ""))) {
+                                                    Utils.showErrorToast(
+                                                        "Start Time cannot be after End Time");
+                                                  } else {
+                                                    isTimeSelectedStatus =
+                                                        false;
+                                                    days[index].isOpen = true;
+                                                    days[index].startTime =
+                                                        openingTime;
+                                                    days[index].endTime =
+                                                        closingTime;
+                                                  }
+                                                } else {
+                                                  isTimeSelectedStatus = false;
+                                                  days[index].isOpen = false;
+                                                  days[index].startTime = "";
+                                                  days[index].endTime = "";
+                                                }
+                                              });
+                                            },
+                                            child: Text("Save",
+                                                style: GoogleFonts.lato(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white))),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                  ],
+                ),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 
   manageProfile4() async {
     Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.manageProfile4Api);
     List workingDays = [];
-    for(int i = 0;i < days.length; i++) {
+    for (int i = 0; i < days.length; i++) {
       Map times = {
-        "day" : days[i].day,
-        "startTime" : days[i].startTime,
-        "endTime" : days[i].endTime,
-        "isOpen" : days[i].isOpen,
+        "day": days[i].day,
+        "startTime": days[i].startTime,
+        "endTime": days[i].endTime,
+        "isOpen": days[i].isOpen,
       };
       workingDays.add(times);
     }
@@ -689,22 +836,29 @@ class _ManageProfile4State extends State<ManageProfile4> {
       body: jsonEncode(bodyData),
       headers: Utils.apiHeader,
     );
-    Utils.logAPIResponse(body: bodyData,response: response,apiName: ApiServices.manageProfile4Api,function: "manageProfile4");
+    Utils.logAPIResponse(
+        body: bodyData,
+        response: response,
+        apiName: ApiServices.manageProfile4Api,
+        function: "manageProfile4");
     Navigator.pop(context);
     if (response.statusCode == 200) {
       Map map = jsonDecode(response.body);
       if (map["status"] == 200) {
         Utils.setScreenStatus("5");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile5(),));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ManageProfile5(),
+            ));
         Utils.showErrorToast(map['message']);
       } else {
         Utils.showErrorToast(map['message']);
       }
     } else if (response.statusCode == 401) {
       Utils.logout(context);
-    } else{
+    } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }
   }
 }
-

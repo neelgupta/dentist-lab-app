@@ -10,9 +10,10 @@ class Service {
   factory Service.fromJson(Map<String, dynamic> json) {
     List serviceData = json['serviceData'];
     return Service(
-      status : json['status'],
-      success : json['success'],
-      serviceData : serviceData.map((v) => SingleServiceModel.fromJson(v)).toList(),
+      status: json['status'],
+      success: json['success'],
+      serviceData:
+          serviceData.map((v) => SingleServiceModel.fromJson(v)).toList(),
     );
   }
 }
@@ -24,8 +25,6 @@ class SingleServiceModel {
   String? description;
   String? price;
   List<String> serviceImags;
-  int? status;
-  DateTime? createdAt;
 
   SingleServiceModel({
     this.id,
@@ -34,29 +33,16 @@ class SingleServiceModel {
     this.description,
     this.price,
     required this.serviceImags,
-    this.status,
-    this.createdAt,
   });
 
-  factory SingleServiceModel.fromJson(Map<String, dynamic> json) => SingleServiceModel(
-    id: json["_id"],
-    labId: json["labId"],
-    title: json["title"],
-    description: json["description"],
-    price: json["price"].toString(),
-    serviceImags: json["serviceImags"] == null ? [] : List<String>.from(json["serviceImags"]!.map((x) => x)),
-    status: json["status"],
-    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "labId": labId,
-    "title": title,
-    "description": description,
-    "price": price,
-    "serviceImags": serviceImags == null ? [] : List<dynamic>.from(serviceImags!.map((x) => x)),
-    "status": status,
-    "createdAt": createdAt?.toIso8601String(),
-  };
+  factory SingleServiceModel.fromJson(Map<String, dynamic> json) {
+    return SingleServiceModel(
+      id: json["_id"],
+      labId: json["labId"],
+      title: json["title"],
+      description: json["description"],
+      price: json["price"].toString(),
+      serviceImags: json["serviceImags"] ?? [],
+    );
+  }
 }

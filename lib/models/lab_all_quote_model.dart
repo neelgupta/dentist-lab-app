@@ -17,20 +17,14 @@ class LabQuote {
 }
 
 class Data {
-  int? count;
   List<LabQuoteStatus>? quotesData;
 
-  Data({this.count, this.quotesData});
+  Data({this.quotesData});
 
   factory Data.fromJson(Map<String, dynamic> json) {
-    List? quotes = json['quotesdata'];
+    List quotes = json['quotedata'] ?? [];
     return Data(
-      count: json['count'],
-      quotesData: quotes != null
-          ? List<LabQuoteStatus>.from(
-        quotes.map((e) => LabQuoteStatus.fromJson(e)),
-      )
-          : null,
+      quotesData: quotes.map((e) => LabQuoteStatus.fromJson(e)).toList(),
     );
   }
 }
@@ -41,11 +35,8 @@ class LabQuoteStatus {
   String? quoteNumber;
   String? title;
   String? description;
-  List<String>? serviceIds;
   String? priority;
   List<QuoteStatus>? quoteStatus;
-  DateTime? createdAt;
-  String? isAceptedLab;
   List<ServiceDetail>? serviceDetails;
 
   LabQuoteStatus({
@@ -54,57 +45,26 @@ class LabQuoteStatus {
     this.quoteNumber,
     this.title,
     this.description,
-    this.serviceIds,
     this.priority,
     this.quoteStatus,
-    this.createdAt,
-    this.isAceptedLab,
     this.serviceDetails,
   });
 
-  factory LabQuoteStatus.fromJson(Map<String, dynamic> json) => LabQuoteStatus(
-    id: json["_id"],
-    clinicId: json["clinicId"],
-    quoteNumber: json["quoteNumber"],
-    title: json["title"],
-    description: json["description"],
-    serviceIds: json["serviceIds"] == null
-        ? null
-        : List<String>.from(json["serviceIds"].map((x) => x)),
-    priority: json["priority"],
-    quoteStatus: json["quoteStatus"] == null
-        ? null
-        : List<QuoteStatus>.from(
-        json["quoteStatus"].map((x) => QuoteStatus.fromJson(x))),
-    createdAt: json["createdAt"] == null
-        ? null
-        : DateTime.parse(json["createdAt"]),
-    isAceptedLab: json["isAceptedLab"],
-    serviceDetails: json["serviceDetails"] == null
-        ? null
-        : List<ServiceDetail>.from(
-        json["serviceDetails"].map((x) => ServiceDetail.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "clinicId": clinicId,
-    "quoteNumber": quoteNumber,
-    "title": title,
-    "description": description,
-    "serviceIds": serviceIds == null
-        ? null
-        : List<dynamic>.from(serviceIds!.map((x) => x)),
-    "priority": priority,
-    "quoteStatus": quoteStatus == null
-        ? null
-        : List<dynamic>.from(quoteStatus!.map((x) => x.toJson())),
-    "createdAt": createdAt?.toIso8601String(),
-    "isAceptedLab": isAceptedLab,
-    "serviceDetails": serviceDetails == null
-        ? null
-        : List<dynamic>.from(serviceDetails!.map((x) => x.toJson())),
-  };
+  factory LabQuoteStatus.fromJson(Map<String, dynamic> json) {
+    List quoteStatus = json["quoteStatus"] ?? [];
+    List serviceDetail = json["serviceDetails"] ?? [];
+    return LabQuoteStatus(
+      id: json["_id"],
+      clinicId: json["clinicId"],
+      quoteNumber: json["quoteNumber"],
+      title: json["title"],
+      description: json["description"],
+      priority: json["priority"],
+      quoteStatus: quoteStatus.map((x) => QuoteStatus.fromJson(x)).toList(),
+      serviceDetails:
+          serviceDetail.map((x) => ServiceDetail.fromJson(x)).toList(),
+    );
+  }
 }
 
 class QuoteStatus {
@@ -117,14 +77,9 @@ class QuoteStatus {
   });
 
   factory QuoteStatus.fromJson(Map<String, dynamic> json) => QuoteStatus(
-    id: json["_id"],
-    labStatus: json["labStatus"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "labStatus": labStatus,
-  };
+        id: json["_id"],
+        labStatus: json["labStatus"],
+      );
 }
 
 class ServiceDetail {
@@ -137,12 +92,7 @@ class ServiceDetail {
   });
 
   factory ServiceDetail.fromJson(Map<String, dynamic> json) => ServiceDetail(
-    id: json["_id"],
-    title: json["title"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "title": title,
-  };
+        id: json["_id"],
+        title: json["title"],
+      );
 }

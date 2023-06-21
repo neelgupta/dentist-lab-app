@@ -1,11 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
-
-import 'dart:math';
-
-import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/clinic_screen/bottom_navigation_bar.dart';
 import 'package:dentalapp/clinic_screen/clinic_notification.dart';
 import 'package:dentalapp/clinic_screen/payment_history.dart';
-import 'package:dentalapp/screen/login_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +23,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       firstName = Utils.getFirstName();
@@ -82,8 +77,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           shape: BoxShape.circle,
                           color: const Color(0xff116D6E),
                           border: Border.all(color: Colors.black),
-                          image: DecorationImage(image: NetworkImage(profileImage),fit: BoxFit.fill)
-                      ),
+                          image: DecorationImage(
+                              image: NetworkImage(profileImage),
+                              fit: BoxFit.fill)),
                     ),
                     SizedBox(
                       width: width * 0.02,
@@ -99,12 +95,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
-                        if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
-                            style: GoogleFonts.lato(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            )
-                        ),
+                        if (establishDate.isNotEmpty)
+                          Text(
+                              "Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              )),
                       ],
                     ),
                     const Spacer(),
@@ -125,9 +122,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 0);
-              },), (route) => false);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return const BottomNavigation(index: 0);
+                },
+              ), (route) => false);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -157,9 +156,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 1);
-              },), (route) => false);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return const BottomNavigation(index: 1);
+                },
+              ), (route) => false);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -189,9 +190,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 2);
-              },), (route) => false);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return const BottomNavigation(index: 2);
+                },
+              ), (route) => false);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -221,9 +224,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                return const PaymentHistory();
-              },));
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  return const PaymentHistory();
+                },
+              ));
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -253,9 +258,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                return const ClinicNotification();
-              },));
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  return const ClinicNotification();
+                },
+              ));
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
@@ -342,12 +349,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   void showMyDialog() {
-    double height = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom;
-    double width = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.right -
-        MediaQuery.of(context).padding.left;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -362,9 +363,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 100,
-
-                  child: Image.asset("assets/image/logout.png",fit: BoxFit.fill,),
+                SizedBox(
+                  height: 100,
+                  child: Image.asset(
+                    "assets/image/logout.png",
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -386,7 +390,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       backgroundColor:
                           MaterialStateProperty.all(const Color(0xFF116D6E)),
                       padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 12)),
+                          const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 12)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

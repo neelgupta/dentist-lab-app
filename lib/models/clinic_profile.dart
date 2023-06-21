@@ -7,9 +7,9 @@ class ClinicProfile {
 
   factory ClinicProfile.fromJson(Map<String, dynamic> json) {
     return ClinicProfile(
-    status : json['status'],
-    success : json['success'],
-    data : json['data'] != null ? new Data.fromJson(json['data']) : null,
+      status: json['status'],
+      success: json['success'],
+      data: json['data'] != null ? Data.fromJson(json['data']) : null,
     );
   }
 }
@@ -43,67 +43,80 @@ class Data {
   String? medicalDirectorName;
   String? medicalDirectorNumber;
   String? directorLicensFile;
+  String? countryCode;
+  String? clinicMangerCountryCode;
+  String? medicalDirectorCountryCode;
+  String? finacialMangerCountryCode;
 
-  Data(
-      {this.id,
-        this.userId,
-        this.address,
-        this.city,
-        this.clinicName,
-        this.country,
-        this.dateOfEstablishment,
-        this.landLineNumber,
-        this.mobileNumber,
-        this.poBox,
-        this.licensFile,
-        this.tradeFile,
-        this.trnFile,
-        this.tRNNumber,
-        this.licensingAuthority,
-        this.medicalLicenseNumber,
-        this.tradeLicenceNumber,
-        this.clinicMangerEmail,
-        this.clinicMangerName,
-        this.clinicMangerNumber,
-        this.directorLicensNumber,
-        this.finacialMangerEmail,
-        this.finacialMangerName,
-        this.finacialMangerNumber,
-        this.medicalDirectorEmail,
-        this.medicalDirectorName,
-        this.medicalDirectorNumber,
-        this.directorLicensFile});
+  Data({
+    this.id,
+    this.userId,
+    this.address,
+    this.city,
+    this.clinicName,
+    this.country,
+    this.dateOfEstablishment,
+    this.landLineNumber,
+    this.mobileNumber,
+    this.poBox,
+    this.licensFile,
+    this.tradeFile,
+    this.trnFile,
+    this.tRNNumber,
+    this.licensingAuthority,
+    this.medicalLicenseNumber,
+    this.tradeLicenceNumber,
+    this.clinicMangerEmail,
+    this.clinicMangerName,
+    this.clinicMangerNumber,
+    this.directorLicensNumber,
+    this.finacialMangerEmail,
+    this.finacialMangerName,
+    this.finacialMangerNumber,
+    this.medicalDirectorEmail,
+    this.medicalDirectorName,
+    this.medicalDirectorNumber,
+    this.directorLicensFile,
+    this.countryCode,
+    this.clinicMangerCountryCode,
+    this.medicalDirectorCountryCode,
+    this.finacialMangerCountryCode,
+  });
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-    id : json['_id'].toString(),
-    userId : json['userId'] != null ? UserId.fromJson(json['userId']) : null,
-    address : json['address'].toString(),
-    city : json['city'].toString(),
-    clinicName : json['clinicName'].toString(),
-    country : json['country'].toString(),
-    dateOfEstablishment : json['dateOfEstablishment'].toString(),
-    landLineNumber : json['landLineNumber'].toString(),
-    mobileNumber : json['mobileNumber'].toString(),
-    poBox : json['poBox'].toString(),
-    licensFile : json['licensFile'].toString(),
-    tradeFile : json['tradeFile'].toString(),
-    trnFile : json['trnFile'].toString(),
-    tRNNumber : json['TRN_number'].toString(),
-    licensingAuthority : json['licensingAuthority'].toString(),
-    medicalLicenseNumber : json['medicalLicenseNumber'].toString(),
-    tradeLicenceNumber : json['tradeLicenceNumber'].toString(),
-    clinicMangerEmail : json['clinicMangerEmail'].toString(),
-    clinicMangerName : json['clinicMangerName'].toString(),
-    clinicMangerNumber : json['clinicMangerNumber'].toString(),
-    directorLicensNumber : json['directorLicensNumber'].toString(),
-    finacialMangerEmail : json['finacialMangerEmail'].toString(),
-    finacialMangerName : json['finacialMangerName'].toString(),
-    finacialMangerNumber : json['finacialMangerNumber'].toString(),
-    medicalDirectorEmail : json['medicalDirectorEmail'].toString(),
-    medicalDirectorName : json['medicalDirectorName'].toString(),
-    medicalDirectorNumber : json['medicalDirectorNumber'].toString(),
-    directorLicensFile : json['directorLicensFile'].toString(),
+      id: json['_id'].toString(),
+      userId: json['userId'] != null ? UserId.fromJson(json['userId']) : null,
+      address: json['address'].toString(),
+      city: json['city'].toString(),
+      clinicName: json['clinicName'].toString(),
+      country: json['country'].toString(),
+      dateOfEstablishment: json['dateOfEstablishment'].toString(),
+      landLineNumber: json['landLineNumber'].toString(),
+      mobileNumber: json['mobileNumber'].toString(),
+      poBox: json['poBox'].toString(),
+      licensFile: json['licensFile'].toString(),
+      tradeFile: json['tradeFile'].toString(),
+      trnFile: json['trnFile'].toString(),
+      tRNNumber: json['TRN_number'].toString(),
+      licensingAuthority: json['licensingAuthority'].toString(),
+      medicalLicenseNumber: json['medicalLicenseNumber'].toString(),
+      tradeLicenceNumber: json['tradeLicenceNumber'].toString(),
+      clinicMangerEmail: json['clinicMangerEmail'].toString(),
+      clinicMangerName: json['clinicMangerName'].toString(),
+      clinicMangerNumber: json['clinicMangerNumber'].toString(),
+      directorLicensNumber: json['directorLicensNumber'].toString(),
+      finacialMangerEmail: json['finacialMangerEmail'].toString(),
+      finacialMangerName: json['finacialMangerName'].toString(),
+      finacialMangerNumber: json['finacialMangerNumber'].toString(),
+      medicalDirectorEmail: json['medicalDirectorEmail'].toString(),
+      medicalDirectorName: json['medicalDirectorName'].toString(),
+      medicalDirectorNumber: json['medicalDirectorNumber'].toString(),
+      directorLicensFile: json['directorLicensFile'].toString(),
+      countryCode: json['countryCode'],
+      clinicMangerCountryCode: json['clinicMangerCountryCode'],
+      medicalDirectorCountryCode: json['medicalDirectorCountryCode'],
+      finacialMangerCountryCode: json['finacialMangerCountryCode'],
     );
   }
 }
@@ -115,22 +128,21 @@ class UserId {
   String? email;
   String? profileImage;
 
-  UserId(
-      {this.id,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.profileImage,
-      });
+  UserId({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.profileImage,
+  });
 
   factory UserId.fromJson(Map<String, dynamic> json) {
     return UserId(
-      id : json['_id'].toString(),
-      firstName : json['firstName'].toString(),
-      lastName : json['lastName'].toString(),
-      email : json['email'].toString(),
-      profileImage : json['profileImage'].toString(),
+      id: json['_id'].toString(),
+      firstName: json['firstName'].toString(),
+      lastName: json['lastName'].toString(),
+      email: json['email'].toString(),
+      profileImage: json['profileImage'].toString(),
     );
   }
-
 }

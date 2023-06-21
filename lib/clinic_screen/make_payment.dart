@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:dentalapp/clinic_screen/payment_successfully.dart';

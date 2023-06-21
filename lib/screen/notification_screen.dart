@@ -1,7 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:dentalapp/models/notification_model.dart';
-import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
+import 'package:dentalapp/screen/bottom_navigation_bar_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +27,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }

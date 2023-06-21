@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
-import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/clinic_screen/bottom_navigation_bar.dart';
 import 'package:dentalapp/models/payment_history_clinic_model.dart';
 import 'package:dentalapp/services/clinic_services/clinic_services.dart';
 import 'package:dentalapp/util/utils.dart';
@@ -23,7 +25,6 @@ class _PaymentHistoryState extends State<PaymentHistory> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getHistory();
   }
@@ -40,156 +41,200 @@ class _PaymentHistoryState extends State<PaymentHistory> {
       onWillPop: goBack,
       child: SafeArea(
         child: Scaffold(
-          body: isLoading?Center(child: loader(),):Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  height: height*0.15,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF116D6E),
-                      image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                          fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                  ),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: height*0.02,),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-                        child: Row(crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  goBack();
-                                },
-                                child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
-                            const Spacer(),
-                            Center(child: Text(textAlign: TextAlign.center,"Payments",style: GoogleFonts.lato(fontSize: 26,fontWeight: FontWeight.w600,color: Colors.white,),)),
-                            const Spacer(),
-                            const Icon(Icons.keyboard_backspace,color: Colors.transparent,)
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              Expanded(
-                child: history.isEmpty?const Center(child: Text("No Payment History Found !!!",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600))):ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  //shrinkWrap: true,
-                  itemCount: history.length,
-                  separatorBuilder: (context, index) {
-                    return  Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: width*0.07,vertical: 2),
-                      child: const Divider(
-                        thickness: 1,
-                        color: Color(0xffE7E7E7),
-                      ),
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: width*0.07),
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
+          body: isLoading
+              ? Center(
+                  child: loader(),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        height: height * 0.15,
+                        decoration: const BoxDecoration(
+                            color: Color(0xFF116D6E),
+                            image: DecorationImage(
+                                image:
+                                    AssetImage("assets/image/Group 12305.png"),
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.bottomCenter,
+                                opacity: 0.3)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              height: height * 0.005,
+                              height: height * 0.02,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Lab Name",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  history[index].labDetails!.first.labName ?? "",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: height * 0.015,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Subtotal",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff707070),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  "AED ${history[index].totalAmount}",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: height * 0.015,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Payment Mode",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff707070),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  getPaymentMethodName(history[index].paymentMethod ?? ""),
-                                  style: GoogleFonts.lato(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xff252525),
-                                  ),
-                                ),
-                              ],
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.03),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        goBack();
+                                      },
+                                      child: const Icon(
+                                        Icons.keyboard_backspace,
+                                        color: Colors.white,
+                                      )),
+                                  const Spacer(),
+                                  Center(
+                                      child: Text(
+                                    textAlign: TextAlign.center,
+                                    "Payments",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                                  const Spacer(),
+                                  const Icon(
+                                    Icons.keyboard_backspace,
+                                    color: Colors.transparent,
+                                  )
+                                ],
+                              ),
                             ),
                           ],
-                        ),
-                      ),
-                    );
-                  },
+                        )),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Expanded(
+                      child: history.isEmpty
+                          ? const Center(
+                              child: Text("No Payment History Found !!!",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600)))
+                          : ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              //shrinkWrap: true,
+                              itemCount: history.length,
+                              separatorBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width * 0.07, vertical: 2),
+                                  child: const Divider(
+                                    thickness: 1,
+                                    color: Color(0xffE7E7E7),
+                                  ),
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: width * 0.07),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: height * 0.005,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Lab Name",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              history[index]
+                                                      .labDetails!
+                                                      .first
+                                                      .labName ??
+                                                  "",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.015,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Subtotal",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff707070),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "AED ${history[index].totalAmount}",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.015,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Payment Mode",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff707070),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              getPaymentMethodName(
+                                                  history[index]
+                                                          .paymentMethod ??
+                                                      ""),
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 
-  getHistory() async{
+  getHistory() async {
     Response response = await clinicService.getPaymentHistory();
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       payment = Payment.fromJson(jsonDecode(response.body));
       history.addAll(payment!.paymentData ?? []);
     } else if (response.statusCode == 401) {
@@ -201,20 +246,22 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   }
 
   String getPaymentMethodName(status) {
-    if(status == 'cheque') {
+    if (status == 'cheque') {
       return "Cheque";
-    } else if(status == 'cash') {
+    } else if (status == 'cash') {
       return "Cash";
-    } else if (status == "onlinePayment"){
+    } else if (status == "onlinePayment") {
       return "Online Payment";
     }
     return "";
   }
 
   Future<bool> goBack() async {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-      return const BottomNavigation(index: 0);
-    },), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+      builder: (context) {
+        return const BottomNavigation(index: 0);
+      },
+    ), (route) => false);
     return true;
   }
 }

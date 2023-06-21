@@ -1,15 +1,12 @@
-
 // ignore_for_file: sort_child_properties_last
 
-import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
+import 'package:dentalapp/clinic_screen/bottom_navigation_bar.dart';
 import 'package:dentalapp/clinic_screen/clinic_notification.dart';
 import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/payment_history.dart';
-import 'package:dentalapp/clinic_screen/profile_edit.dart';
 import 'package:dentalapp/custom_widget/drawer.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -29,7 +26,6 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       firstName = Utils.getFirstName();
@@ -47,7 +43,9 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return Scaffold(key: _key,drawer: const CustomDrawer(),
+    return Scaffold(
+      key: _key,
+      drawer: const CustomDrawer(),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
@@ -85,24 +83,27 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               _key.currentState!.openDrawer();
                             },
                             child: Image(
-                                image: const AssetImage("assets/image/Menu.png"),height: width * 0.07),
+                                image:
+                                    const AssetImage("assets/image/Menu.png"),
+                                height: width * 0.07),
                           ),
                         ),
                         Stack(
                           children: [
                             Container(
-                              height: width * 0.2,
-                              width: width * 0.2,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.white, width: 1),
-                                shape: BoxShape.circle,
-                                image: DecorationImage(image: NetworkImage(profileImage),fit: BoxFit.fill)
-                              )),
+                                height: width * 0.2,
+                                width: width * 0.2,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 1),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(profileImage),
+                                        fit: BoxFit.fill))),
                             Positioned(
                                 bottom: 0,
                                 right: 0,
@@ -115,7 +116,7 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: height*0.01,
+                          height: height * 0.01,
                         ),
                         Text("$firstName $lastName",
                             style: GoogleFonts.lato(
@@ -124,33 +125,37 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                               color: Colors.white,
                             )),
                         SizedBox(
-                          height: height*0.005,
+                          height: height * 0.005,
                         ),
-                        if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
-                            style: GoogleFonts.lato(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                            )),
+                        if (establishDate.isNotEmpty)
+                          Text(
+                              "Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
+                              style: GoogleFonts.lato(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              )),
                       ],
                     ),
                   )),
-
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Column(
                   children: [
                     Expanded(child: Container()),
-                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
                           children: [
                             InkWell(
-                              onTap: (){
-                                Navigator.push(context,MaterialPageRoute(builder: (context) {
-                                  return const CreateQuote();
-                                },));
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return const CreateQuote();
+                                  },
+                                ));
                               },
                               child: Container(
                                 width: width * 0.35,
@@ -160,20 +165,27 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        color: const Color(0xff116D6E)
+                                            .withOpacity(0.5),
                                         blurRadius: 2.0,
                                         spreadRadius: 1.0,
-                                        offset: const Offset(0.0, 3.0)
-                                    ),
+                                        offset: const Offset(0.0, 3.0)),
                                   ],
                                 ),
-
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 40,width: 40,
-                                        child: Image.asset('assets/image/newQuoteIcon.png',fit: BoxFit.fill,)),
-                                    SizedBox(height: height*0.01,),
+                                    SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.asset(
+                                          'assets/image/newQuoteIcon.png',
+                                          fit: BoxFit.fill,
+                                        )),
+                                    SizedBox(
+                                      height: height * 0.01,
+                                    ),
                                     Text("New Quote",
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
@@ -184,12 +196,17 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: height*0.02,),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                  return const BottomNavigation(index: 1);
-                                },), (route) => false);
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(
+                                  builder: (context) {
+                                    return const BottomNavigation(index: 1);
+                                  },
+                                ), (route) => false);
                               },
                               child: Container(
                                 width: width * 0.35,
@@ -199,20 +216,27 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        color: const Color(0xff116D6E)
+                                            .withOpacity(0.5),
                                         blurRadius: 2.0,
                                         spreadRadius: 1.0,
-                                        offset: const Offset(0.0, 3.0)
-                                    ),
+                                        offset: const Offset(0.0, 3.0)),
                                   ],
                                 ),
-
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 40,width: 40,
-                                        child: Image.asset('assets/image/quoteIcon.png',fit: BoxFit.fill,)),
-                                    SizedBox(height: height*0.01,),
+                                    SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.asset(
+                                          'assets/image/quoteIcon.png',
+                                          fit: BoxFit.fill,
+                                        )),
+                                    SizedBox(
+                                      height: height * 0.01,
+                                    ),
                                     Text("Quote",
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
@@ -223,12 +247,16 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: height*0.02,),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return const ClinicNotification();
-                                },));
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return const ClinicNotification();
+                                  },
+                                ));
                               },
                               child: Container(
                                 width: width * 0.35,
@@ -238,19 +266,27 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        color: const Color(0xff116D6E)
+                                            .withOpacity(0.5),
                                         blurRadius: 2.0,
                                         spreadRadius: 1.0,
-                                        offset: const Offset(0.0, 3.0)
-                                    ),
+                                        offset: const Offset(0.0, 3.0)),
                                   ],
                                 ),
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 40,width: 40,
-                                        child: Image.asset('assets/image/notificationIcon.png',fit: BoxFit.fill,)),
-                                    SizedBox(height: height*0.01,),
+                                    SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.asset(
+                                          'assets/image/notificationIcon.png',
+                                          fit: BoxFit.fill,
+                                        )),
+                                    SizedBox(
+                                      height: height * 0.01,
+                                    ),
                                     Text("Notifications",
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
@@ -261,7 +297,9 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: height*0.14,)
+                            SizedBox(
+                              height: height * 0.14,
+                            )
                           ],
                         ),
                         SizedBox(width: width * 0.05),
@@ -270,10 +308,13 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: (){
-                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                  return const BottomNavigation(index: 2);
-                                },), (route) => false);
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(
+                                  builder: (context) {
+                                    return const BottomNavigation(index: 2);
+                                  },
+                                ), (route) => false);
                               },
                               child: Container(
                                 width: width * 0.35,
@@ -283,20 +324,27 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        color: const Color(0xff116D6E)
+                                            .withOpacity(0.5),
                                         blurRadius: 2.0,
                                         spreadRadius: 1.0,
-                                        offset: const Offset(0.0, 3.0)
-                                    ),
+                                        offset: const Offset(0.0, 3.0)),
                                   ],
                                 ),
-
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 40,width: 40,
-                                        child: Image.asset('assets/image/profileIcon.png',fit: BoxFit.fill,)),
-                                    SizedBox(height: height*0.01,),
+                                    SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.asset(
+                                          'assets/image/profileIcon.png',
+                                          fit: BoxFit.fill,
+                                        )),
+                                    SizedBox(
+                                      height: height * 0.01,
+                                    ),
                                     Text("Profile",
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
@@ -307,13 +355,16 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: height * 0.02,),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
                             InkWell(
-                              onTap: (){
-                                Navigator.push(context,MaterialPageRoute(builder: (context) {
-                                  return const PaymentHistory();
-                                },));
-
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return const PaymentHistory();
+                                  },
+                                ));
                               },
                               child: Container(
                                 width: width * 0.35,
@@ -323,20 +374,27 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        color: const Color(0xff116D6E)
+                                            .withOpacity(0.5),
                                         blurRadius: 2.0,
                                         spreadRadius: 1.0,
-                                        offset: const Offset(0.0, 3.0)
-                                    ),
+                                        offset: const Offset(0.0, 3.0)),
                                   ],
                                 ),
-
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 40,width: 40,
-                                        child: Image.asset('assets/image/paymentIcon.png',fit: BoxFit.fill,)),
-                                    SizedBox(height: height*0.01,),
+                                    SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.asset(
+                                          'assets/image/paymentIcon.png',
+                                          fit: BoxFit.fill,
+                                        )),
+                                    SizedBox(
+                                      height: height * 0.01,
+                                    ),
                                     Text("Payment",
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
@@ -347,7 +405,9 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: height*0.1,)
+                            SizedBox(
+                              height: height * 0.1,
+                            )
                           ],
                         ),
                       ],
@@ -361,6 +421,4 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
       ),
     );
   }
-
 }
-

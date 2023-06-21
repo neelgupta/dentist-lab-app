@@ -62,6 +62,7 @@ class ApiServices {
   static String deliveryRejected = "${baseUrl}quotes/deliveryRejected";
   static String getLabProfile = "${baseUrl}quotes/getProposalLab";
   static String updateQuote = "${baseUrl}quotes/updateQuote";
+  static String completeWork = "${baseUrl}lab/outForDelivery";
 
   /// Payment APIs
   static String makeAdvancePayment = "${baseUrl}quotes/makeAdvancePayment";
