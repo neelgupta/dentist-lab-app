@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dentalapp/models/notification_model.dart';
 import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
-import 'package:dentalapp/services/clinic_services/clinic_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -163,17 +162,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       notificationList = notification!.data!.notificationData ?? [];
     } else if (response.statusCode == 401) {
       Utils.logout(context);
-    }
-    isLoading = false;
-    setState(() {});
-  }
-
-  getNotification() async {
-    Response response = await getDataNotification.getNotification();
-
-    if (response.statusCode == 200) {
-      labNotification = LabNotification.fromJson(jsonDecode(response.body));
-      notificationList = labNotification!.data ?? [];
     }
     isLoading = false;
     setState(() {});
