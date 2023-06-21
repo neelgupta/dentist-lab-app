@@ -436,6 +436,8 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
       pendingQuote = PendingQuote.fromJson(jsonDecode(response.body));
       proposals.addAll(pendingQuote!.data!.propsaldata ?? []);
       quotesData = (pendingQuote!.data!.quotesData ?? []).first;
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
     isLoading = false;
     setState(() {});
@@ -452,6 +454,8 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
     if(response.statusCode == 200) {
       Navigator.pop(context);
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }

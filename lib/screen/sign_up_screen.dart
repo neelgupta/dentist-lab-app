@@ -123,9 +123,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please Enter Email';
+                              return 'Please Enter Email Address';
                             } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
-                              return "Please Enter Valid Email";
+                              return "Please Enter Valid Email Address";
                             }
                             return null;
                           },

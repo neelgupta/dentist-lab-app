@@ -12,7 +12,8 @@ import 'package:dentalapp/screen/manage_profile_5.dart';
 import 'package:dentalapp/screen/manage_profile_6.dart';
 
 class BottomNavigatorBarWidget extends StatefulWidget {
-  const BottomNavigatorBarWidget({Key? key}) : super(key: key);
+  final int index;
+  const BottomNavigatorBarWidget({Key? key, required this.index}) : super(key: key);
 
   @override
   State<BottomNavigatorBarWidget> createState() => _BottomNavigatorBarWidgetState();
@@ -22,11 +23,10 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
 
   int selectedScreenIndex = 0;
 
-  List  selectedScreenList= [
-    DashBoard1Screen(),
-    SizedBox(),
-    SizedBox(),
-    PublicProfileScreen(),
+  List  selectedScreenList = [
+     const DashBoard1Screen(),
+    const SizedBox(),
+    const PublicProfileScreen(),
   ];
 
 
@@ -41,6 +41,7 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedScreenIndex = widget.index;
     screenStatus = Utils.getScreenStatus();
     print(Utils.apiHeader.toString());
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -71,17 +72,9 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
               label: "DashBoard",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset("assets/image/Setting.png",
-                  height: 20,
-                  color: selectedScreenIndex == 1
-                      ? const Color(0xFF116D6E)
-                      : const Color(0xFFA0A0A0)),
-              label: "Setting",
-            ),
-            BottomNavigationBarItem(
               icon: Image.asset("assets/image/category.png",
                   height: 20,
-                  color: selectedScreenIndex == 2
+                  color: selectedScreenIndex == 1
                       ? const Color(0xFF116D6E)
                       : const Color(0xFFA0A0A0)),
               label: "Quote",
@@ -89,12 +82,11 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
             BottomNavigationBarItem(
               icon: Image.asset("assets/image/profile.png",
                   height: 20,
-                  color: selectedScreenIndex == 3
+                  color: selectedScreenIndex == 2
                       ? const Color(0xFF116D6E)
                       : const Color(0xFFA0A0A0)),
               label: "Profile",
             ),
-
           ]
       ),
     );

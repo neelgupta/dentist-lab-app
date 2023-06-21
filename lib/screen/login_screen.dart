@@ -4,14 +4,12 @@ import 'dart:convert';
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/models/sign_in_model.dart';
 import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
-import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/register_type_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -212,17 +210,19 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           else {
             Utils.prefs = await SharedPreferences.getInstance();
-            Utils.setToken(signInModel!.token);
-            Utils.setUserType(signInModel!.type);
-            Utils.setLoginStatus(true);
-            Utils.showSuccessToast(signInModel!.message);
-            Utils.setScreenStatus(signInModel!.screenStatus);
-            Utils.setFirstName(signInModel!.firstName);
-            Utils.setLastName(signInModel!.lastName);
-            Utils.setProfileImage(signInModel!.profileImage);
-            Utils.setEstablishDate(signInModel!.dateOfEstablishment);
-            setState(() {});
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const BottomNavigatorBarWidget():const BottomNavigation(index: 0)));
+            setState(() {
+              Utils.setToken(signInModel!.token);
+              Utils.setUserType(signInModel!.type);
+              Utils.setLoginStatus(true);
+              Utils.showSuccessToast(signInModel!.message);
+              Utils.setScreenStatus(signInModel!.screenStatus);
+              Utils.setFirstName(signInModel!.firstName);
+              Utils.setLastName(signInModel!.lastName);
+              Utils.setProfileImage(signInModel!.profileImage);
+              Utils.setEstablishDate(signInModel!.dateOfEstablishment);
+              Utils.apiHeader = {"Content-Type" : "application/json","Authorization" : "Bearer ${Utils.getToken()}"};
+            });
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signInModel!.type=="lab"?const BottomNavigatorBarWidget(index: 0):const BottomNavigation(index: 0)));
           }
         } else {
           Utils.showErrorToast(map["message"]);

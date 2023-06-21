@@ -23,29 +23,36 @@ class LabServices {
     return response;
   }
 
-  static Future<Map> allAddedService() async {
-    final response = await http.get(Uri.parse(ApiServices.allLabServices),
+  static getAllService() async {
+    final response = await http.get(Uri.parse(ApiServices.getAllServices),
       headers: Utils.apiHeader,
     );
 
-    if (response.statusCode == 200) {
-      String data = response.body;
-      Map listData = jsonDecode(data);
-      return listData;
-    } else {
-      return {};
-    }
+    Utils.logAPIResponse(function: "getAllService",apiName: ApiServices.getAllServices,response: response);
+
+    return response;
   }
 
- static getSingleService(String Id) async {
-    var postUri = Uri.parse("${ApiServices.singleLabService}/$Id");
-    print("${ApiServices.singleLabService}$Id");
+ static getSingleService(String id) async {
+    var postUri = Uri.parse("${ApiServices.singleLabService}/$id");
     var response = await http.get(
       postUri,
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getSingleService",apiName: ApiServices.singleLabService,response: response);
+    Utils.logAPIResponse(function: "getSingleService", apiName: "${ApiServices.singleLabService}/$id", response: response);
+
+    return response;
+  }
+
+  static deleteService(String id) async {
+    var postUri = Uri.parse("${ApiServices.deleteService}/$id");
+    var response = await http.delete(
+      postUri,
+      headers: Utils.apiHeader,
+    );
+
+    Utils.logAPIResponse(function: "deleteService", apiName: "${ApiServices.deleteService}/$id", response: response);
 
     return response;
   }

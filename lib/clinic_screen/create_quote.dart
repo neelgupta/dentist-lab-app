@@ -70,7 +70,7 @@ class _CreateQuoteState extends State<CreateQuote> {
       descriptionController.text = widget.quotesData!.description ?? "";
       priorityValue = widget.quotesData!.priority ?? "normal";
       if(priorityValue=='urgent') {
-        dateInputController.text = DateFormat('yyyy-MM-dd').format(DateTime.parse(widget.quotesData!.tillDate ??DateTime.now().toString()));
+        dateInputController.text = DateFormat('yyyy-MM-dd').format(DateTime.parse(widget.quotesData!.tillDate ?? DateTime.now().toString()));
       }
       quoteTypeValue = widget.quotesData!.chooseFor ?? "labList";
       for (var item in widget.quotesData!.quoteImages ?? []) {
@@ -79,9 +79,10 @@ class _CreateQuoteState extends State<CreateQuote> {
       for (var item in widget.quotesData!.serviceDetails ?? []) {
         selectedService.add(ServiceData(id: item.id, title: item.title));
       }
-
-      for(var item in widget.quotesData!.chooseForLab ?? []) {
-        selectedLabs.add(LabData(id: item.id, labName: item.labName));
+      if (quoteTypeValue == "labList") {
+        for(var item in widget.quotesData!.chooseForLab ?? []) {
+          selectedLabs.add(LabData(id: item.id, labName: item.labName));
+        }
       }
     }
     getAllServices();
@@ -620,7 +621,7 @@ class _CreateQuoteState extends State<CreateQuote> {
   }
 
   Future<void> pickImages() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'pdf', 'jpeg'],type: FileType.custom);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,allowedExtensions: ['jpg', 'png', 'jpeg'],type: FileType.custom);
 
     if (result != null) {
       for(var item in result.files) {
@@ -667,6 +668,7 @@ class _CreateQuoteState extends State<CreateQuote> {
     selectedService.forEach((element) {serviceIds.add(element.id);});
 
     var labIds = [];
+
     selectedLabs.forEach((element) {labIds.add(element.id);});
     var body = {
       "title": titleController.text,
@@ -682,7 +684,7 @@ class _CreateQuoteState extends State<CreateQuote> {
     if(response.statusCode == 200) {
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-        return QuoteSuccessfully();
+        return const QuoteSuccessfully();
       },), (route) => false);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
@@ -717,6 +719,8 @@ class _CreateQuoteState extends State<CreateQuote> {
     if(response.statusCode == 200) {
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
       Navigator.pop(context);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }

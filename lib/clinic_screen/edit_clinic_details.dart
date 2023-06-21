@@ -343,7 +343,6 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
   updateClinicDetails() async {
     Utils.showLoadingDialog(context);
     var body = {
-      {
         "clinicName": labNameController.text,
         "dateOfEstablishment": dateInputController.text, // yyyy-mm-dd
         "landLineNumber": landLineNumberController.text,
@@ -352,13 +351,14 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
         "city": cityController.text,
         "address": addressController.text,
         "poBox": poBoxController.text
-      }
     };
     Response response = await clinicService.updateClinicDetail(body: body);
     Navigator.pop(context);
     if(response.statusCode == 200) {
       Navigator.pop(context);
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }

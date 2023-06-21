@@ -1,5 +1,14 @@
+import 'dart:convert';
+
+import 'package:dentalapp/models/notification_model.dart';
+import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
+import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+
+import '../services/lab_service/lab_services.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -9,85 +18,152 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  bool isLoading = true;
+  LabService labService = LabService();
+  Notifications? notification;
+  List<NotificationData> notificationList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-        child: Scaffold(
-          body: SizedBox(
-            height: height,
-            width: width,
-            child: Column(
-              children: [
-                Container(
-                    height: height*0.15,
-                    decoration: BoxDecoration(
-                        color: Color(0xFF116D6E),
-                        image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                            fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
+    return WillPopScope(
+      onWillPop: goBack,
+      child: SafeArea(
+          child: Scaffold(
+        body: SizedBox(
+          height: height,
+          width: width,
+          child: Column(
+            children: [
+              Container(
+                  height: height * 0.15,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF116D6E),
+                      image: DecorationImage(
+                          image: AssetImage("assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter,
+                          opacity: 0.3)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.020),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              goBack();
+                            },
+                            child: const Icon(
+                              Icons.keyboard_backspace,
+                              color: Colors.white,
+                            )),
+                        const Spacer(),
+                        Text("Notification",
+                            style: GoogleFonts.lato(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            )),
+                        const Spacer(),
+                        const Icon(
+                          Icons.keyboard_backspace,
+                          color: Colors.transparent,
+                        )
+                      ],
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width*0.020),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
-                          ),
-                          Spacer(),
-                          Text("Payment",style: GoogleFonts.lato(fontSize: 30,fontWeight: FontWeight.w600,color: Colors.white,)),
-                          Spacer(),
-                          SizedBox(height: height*0.050,width: width*0.050),
-                        ],
-                      ),
-                    )
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width*0.035,vertical: height*0.027),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: height*0.010,),
-                      Text("Notifications",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 )),
-                      SizedBox(height: height*0.020,),
-                      Container(
-                        height: height*0.65,
-                        width: width,
-                        child: ListView.separated(
-                          scrollDirection: Axis.vertical,
+                  )),
+              SizedBox(height: height * 0.03),
+              Expanded(
+                child: isLoading
+                    ? Center(child: loader())
+                    : notificationList.isEmpty
+                        ? const Center(
+                            child: Text("No Notification Found !!!",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600)))
+                        : ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width * 0.05),
                             itemBuilder: (context, index) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("job successfully Done",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 )),
-                                  SizedBox(height: height*0.010,),
-                                  Text("Lorem Ipsum has been the industry's standard dummy text ever since",
-                                      style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFFA0A0A0)),
-                                    maxLines: 2,),
-                                  SizedBox(height: height*0.010,),
-                                  Text("31 Mar 2023",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w600)),
-                                  SizedBox(height: height*0.020,),
-                                  Divider(thickness: 1,color: Color(0xFFE7E7E7),)
+                                  Text(notificationList[index].title ?? "",
+                                      style: GoogleFonts.lato(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600)),
+                                  SizedBox(
+                                    height: height * 0.010,
+                                  ),
+                                  Text(
+                                    notificationList[index].description ?? "",
+                                    style: GoogleFonts.lato(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color(0xFFA0A0A0)),
+                                    maxLines: 2,
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.010,
+                                  ),
+                                  Text(
+                                      DateFormat("dd MMMM yyyy").format(
+                                          DateTime.parse(notificationList[index]
+                                                  .createdAt ??
+                                              DateTime.now().toString())),
+                                      style: GoogleFonts.lato(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600)),
+                                  SizedBox(height: height * 0.01),
+                                  const Divider(
+                                    thickness: 1,
+                                    color: Color(0xFFE7E7E7),
+                                  )
                                 ],
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return SizedBox(height: height*0.020,);
+                              return SizedBox(height: height * 0.01);
                             },
-                            itemCount: 6),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                            itemCount: notificationList.length),
+              )
+            ],
           ),
-        ));
+        ),
+      )),
+    );
   }
 
+  Future<bool> goBack() async {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+      builder: (context) {
+        return const BottomNavigatorBarWidget(index: 0);
+      },
+    ), (route) => false);
+    return true;
+  }
+
+  getData() async {
+    Response response = await labService.getLabNotification();
+
+    if (response.statusCode == 200) {
+      notification = Notifications.fromJson(jsonDecode(response.body));
+      notificationList = notification!.data!.notificationData ?? [];
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    }
+    isLoading = false;
+    setState(() {});
+  }
 }

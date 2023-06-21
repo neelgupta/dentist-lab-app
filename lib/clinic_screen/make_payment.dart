@@ -787,6 +787,8 @@ class _MakePaymentState extends State<MakePayment> {
         ),
         (route) => false,
       );
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }

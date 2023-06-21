@@ -688,6 +688,8 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
         } else {
           Utils.showErrorToast(map['message']);
         }
+      } else if (response.statusCode == 401) {
+        Utils.logout(context);
       } else {
         Utils.showErrorToast(jsonDecode(res.body)['message']);
       }

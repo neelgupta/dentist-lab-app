@@ -70,11 +70,10 @@ class _QuoteSuccessfullyState extends State<QuoteSuccessfully> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children:  [
                       SizedBox(height: height*0.18,),
-                      const Image(image: AssetImage("assets/image/Group 12680.png")),
+                      Image(image: AssetImage("assets/image/Group 12680.png"),height: height*0.25),
                       SizedBox(height: height*0.05,),
                       Text("Quote successfully Live",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600 ),),
                       SizedBox(height: height*0.02,),
-                      Text("Lorem Ipsum has been the industry's standard dummy text ever since",textAlign: TextAlign.center,style: GoogleFonts.lato(fontSize: 16.5,fontWeight: FontWeight.w500,color: const Color(0xFF707070) ),),
                     ],
                   ),
                 ),

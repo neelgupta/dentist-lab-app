@@ -1,23 +1,24 @@
 import 'dart:convert';
 
-import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/models/payment_history_clinic_model.dart';
-import 'package:dentalapp/services/clinic_services/clinic_services.dart';
+import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 
-class PaymentHistory extends StatefulWidget {
-  const PaymentHistory({Key? key}) : super(key: key);
+import '../services/lab_service/lab_services.dart';
+
+class LabPaymentHistory extends StatefulWidget {
+  const LabPaymentHistory({Key? key}) : super(key: key);
 
   @override
-  State<PaymentHistory> createState() => _PaymentHistoryState();
+  State<LabPaymentHistory> createState() => _LabPaymentHistoryState();
 }
 
-class _PaymentHistoryState extends State<PaymentHistory> {
+class _LabPaymentHistoryState extends State<LabPaymentHistory> {
   bool isLoading = true;
-  ClinicService clinicService = ClinicService();
+  LabService labService = LabService();
   Payment? payment;
   List<PaymentData> history = [];
 
@@ -103,7 +104,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                             Row(
                               children: [
                                 Text(
-                                  "Lab Name",
+                                  "Clinic Name",
                                   style: GoogleFonts.lato(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
@@ -112,7 +113,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  history[index].labDetails!.first.labName ?? "",
+                                  history[index].clinicDetails!.isEmpty?"Test":history[index].clinicDetails!.first.clinicName ?? "",
                                   style: GoogleFonts.lato(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
@@ -186,8 +187,15 @@ class _PaymentHistoryState extends State<PaymentHistory> {
     );
   }
 
+  Future<bool> goBack() async {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+      return const BottomNavigatorBarWidget(index: 0);
+    },), (route) => false);
+    return true;
+  }
+
   getHistory() async{
-    Response response = await clinicService.getPaymentHistory();
+    Response response = await labService.getLabPaymentHistory();
 
     if(response.statusCode == 200) {
       payment = Payment.fromJson(jsonDecode(response.body));
@@ -209,12 +217,5 @@ class _PaymentHistoryState extends State<PaymentHistory> {
       return "Online Payment";
     }
     return "";
-  }
-
-  Future<bool> goBack() async {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-      return const BottomNavigation(index: 0);
-    },), (route) => false);
-    return true;
   }
 }

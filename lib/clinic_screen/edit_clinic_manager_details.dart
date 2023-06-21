@@ -558,6 +558,8 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
     if(response.statusCode == 200) {
       Navigator.pop(context);
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }

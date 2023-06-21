@@ -15,15 +15,13 @@ class Notifications {
 }
 
 class Data {
-  int? count;
   List<NotificationData>? notificationData;
 
-  Data({this.count, this.notificationData});
+  Data({this.notificationData});
 
   factory Data.fromJson(Map<String, dynamic> json) {
     List notification = json['notificationData'];
     return Data(
-     count : json['count'],
       notificationData : notification.map((v) =>  NotificationData.fromJson(v)).toList()
     );
   }
