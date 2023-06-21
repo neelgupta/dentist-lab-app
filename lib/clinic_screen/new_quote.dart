@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
 import 'package:dentalapp/clinic_screen/create_quote.dart';
 import 'package:dentalapp/clinic_screen/quote_after_acceept.dart';
 import 'package:dentalapp/clinic_screen/quote_detail_pending.dart';
@@ -52,154 +53,157 @@ class _NewQuoteState extends State<NewQuote> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                height: height*0.15,
-                decoration: const BoxDecoration(
-                    color: Color(0xFF116D6E),
-                    image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
-                        fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
-                ),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: height*0.02,),
-                    Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
-                  ],
-                )
-            ),
-            SizedBox(
-              height: height * 0.03,
-            ),
-            Container(
-              alignment: Alignment.center,
-              height: height * 0.1,
-              width: width,
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                child: Container(
-                  height: height * 0.075,
-                  width: width - 30,
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFEBEFEE),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 7, right: 7, top: 7, bottom: 7),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("new");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: quoteNew
-                                    ? const Color(0xffFFFFFF)
-                                    : const Color(0xFFEBEFEE),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "New",
-                                  style: TextStyle(
-                                      color: quoteNew
-                                          ? const Color(0xff116D6E)
-                                          : const Color(0xff252525),
-                                      fontFamily: 'spartan',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700),
+    return WillPopScope(
+      onWillPop: goBack,
+      child: Scaffold(
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  height: height*0.15,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF116D6E),
+                      image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
+                  ),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: height*0.02,),
+                      Center(child: Text(textAlign: TextAlign.center,"Quote",style: GoogleFonts.lato(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white,),)),
+                    ],
+                  )
+              ),
+              SizedBox(
+                height: height * 0.03,
+              ),
+              Container(
+                alignment: Alignment.center,
+                height: height * 0.1,
+                width: width,
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    height: height * 0.075,
+                    width: width - 30,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFEBEFEE),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 7, right: 7, top: 7, bottom: 7),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!isLoading) {
+                                  changeQuoteType("new");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: quoteNew
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xFFEBEFEE),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "New",
+                                    style: TextStyle(
+                                        color: quoteNew
+                                            ? const Color(0xff116D6E)
+                                            : const Color(0xff252525),
+                                        fontFamily: 'spartan',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: width * 0.015,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("accepted");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: quoteAccepted
-                                    ? const Color(0xffFFFFFF)
-                                    : const Color(0xFFEBEFEE),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Accepted",
-                                  style: TextStyle(
-                                      color: quoteAccepted
-                                          ? const Color(0xff116D6E)
-                                          : const Color(0xff252525),
-                                      fontFamily: 'spartan',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700),
+                          SizedBox(
+                            width: width * 0.015,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!isLoading) {
+                                  changeQuoteType("accepted");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: quoteAccepted
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xFFEBEFEE),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Accepted",
+                                    style: TextStyle(
+                                        color: quoteAccepted
+                                            ? const Color(0xff116D6E)
+                                            : const Color(0xff252525),
+                                        fontFamily: 'spartan',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: width * 0.015,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("completed");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: quoteCompleted
-                                    ? const Color(0xffFFFFFF)
-                                    : const Color(0xFFEBEFEE),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Completed",
-                                  style: TextStyle(
-                                      color: quoteCompleted
-                                          ? const Color(0xff116D6E)
-                                          : const Color(0xff252525),
-                                      fontFamily: 'spartan',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700),
+                          SizedBox(
+                            width: width * 0.015,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!isLoading) {
+                                  changeQuoteType("completed");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: quoteCompleted
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xFFEBEFEE),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Completed",
+                                    style: TextStyle(
+                                        color: quoteCompleted
+                                            ? const Color(0xff116D6E)
+                                            : const Color(0xff252525),
+                                        fontFamily: 'spartan',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            isLoading ?Expanded(child: Center(child: loader())):
-            quoteNew ? Expanded(child: quotesList.isNotEmpty?quoteNewList(context) : const Center(child: Text("No New Quotes Found!!")))  :
-            quoteAccepted ? Expanded(child: quotesList.isNotEmpty?quoteAcceptedList(context) : const Center(child: Text("No Accepted Quotes Found!!"))) :
-            quoteCompleted ? Expanded(child: quotesList.isNotEmpty?quoteCompletedList(context) : const Center(child: Text("No Completed Quotes Found!!"))) : const SizedBox(),
-          ],
+              isLoading ?Expanded(child: Center(child: loader())):
+              quoteNew ? Expanded(child: quotesList.isNotEmpty?quoteNewList(context) : const Center(child: Text("No New Quotes Found!!")))  :
+              quoteAccepted ? Expanded(child: quotesList.isNotEmpty?quoteAcceptedList(context) : const Center(child: Text("No Accepted Quotes Found!!"))) :
+              quoteCompleted ? Expanded(child: quotesList.isNotEmpty?quoteCompletedList(context) : const Center(child: Text("No Completed Quotes Found!!"))) : const SizedBox(),
+            ],
+          ),
         ),
       ),
     );
@@ -299,7 +303,7 @@ class _NewQuoteState extends State<NewQuote> {
                               SizedBox(
                                 width: width * 0.03,
                               ),
-                              GestureDetector(
+                              quotesList[index].proposal== "0"?GestureDetector(
                                   onTap: () {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) {
                                       return CreateQuote(quotesData: quotesList[index]);
@@ -308,7 +312,7 @@ class _NewQuoteState extends State<NewQuote> {
                                   child:  Image(
                                       width: width*0.05,
                                       image: const AssetImage(
-                                          "assets/image/editgreen.png"))),
+                                          "assets/image/editgreen.png"))):Container(),
                             ],
                           ),
                           SizedBox(
@@ -646,6 +650,8 @@ class _NewQuoteState extends State<NewQuote> {
     if(response.statusCode==200) {
       quotes = Quotes.fromJson(jsonDecode(response.body));
       quotesList.addAll(quotes!.data!.quotesData ?? []);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
 
     if(showLoading) {
@@ -653,5 +659,12 @@ class _NewQuoteState extends State<NewQuote> {
         isLoading = false;
       });
     }
+  }
+
+  Future<bool> goBack() async {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+      return const BottomNavigation(index: 0);
+    },), (route) => false);
+    return true;
   }
 }

@@ -584,6 +584,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
       propsalDetails = quoteData!.propsalDetails!.first;
       labDetails = quoteData!.labDetails!.first;
       orderDetails = quoteData!.orderDetails!.first;
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
     isLoading = false;
     setState(() {});
@@ -603,6 +605,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
     if(response.statusCode == 200) {
       Navigator.pop(context);
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }
@@ -623,6 +627,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
       Navigator.pop(context);
       getComments();
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     } else {
       Utils.showErrorToast(jsonDecode(response.body)['message']);
     }
@@ -637,6 +643,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
     if(response.statusCode == 200) {
       comments = Comments.fromJson(jsonDecode(response.body));
       commentList.addAll(comments!.commentData ?? []);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
     setState(() {});
   }

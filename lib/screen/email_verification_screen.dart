@@ -129,6 +129,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                       onPressed: () {
                         if(isOTPFilled){
                             verifyOtp();
+                        } else {
+                          Utils.showErrorToast("Please Enter OTP");
                         }
                       },
                       child: Text("Submit Code",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
@@ -194,7 +196,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         } else {
           Utils.showErrorToast(map["message"]);
         }
-      }else{
+      } else{
         Utils.showErrorToast(jsonDecode(response.body)['message']);
       }
   }

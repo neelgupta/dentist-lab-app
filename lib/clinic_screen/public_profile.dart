@@ -23,6 +23,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
   LabData? labData;
   UserDetails? userDetails;
   List<DayDetail> days = [];
+  List<Service> serviceList = [];
 
   @override
   void initState() {
@@ -48,9 +49,11 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: height*0.01),
                   InkWell(onTap: () {
                     Navigator.pop(context);
                   },child: const Icon(Icons.keyboard_backspace,color: Colors.black)),
+                  SizedBox(height: height*0.01),
                   Stack(
                     alignment: Alignment.center,
                     children: [
@@ -58,19 +61,17 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                         alignment: Alignment.center,
                         child: Container(
                           alignment: Alignment.center,
-                          height: height*0.22,
+                          height: width*0.22,
                           width: width*0.22,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(image: AssetImage("assets/image/profileBG.png")),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(image: NetworkImage(userDetails!.profileImage ?? ""),fit: BoxFit.fill),
                               shape: BoxShape.circle,
-                              color: Color(0xFFEBEFEE)
+                              color: const Color(0xFFEBEFEE)
                           ),
-                          child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: const Color(0xFF116D6E))),
-                        ),
-                      ),
+                      )),
                     ],
                   ),
-                  SizedBox(height: height*0.04,),
+                  SizedBox(height: height*0.02),
                   Text("Profile Info",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
                   SizedBox(height: height*0.025,),
                   Text(userDetails!.firstName ?? "",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
@@ -244,6 +245,62 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                     color: Color(0xFFE7E7E7),
                   ),
                   SizedBox(height: height*0.020,),
+                  Text(
+                    "Services",
+                    style: GoogleFonts.lato(
+                        fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: height * 0.020,
+                  ),
+                  SizedBox(
+                    height: height * 0.26,
+                    child: serviceList.isEmpty ? const Center(child: Text("No Service Found !!"),) :  ListView.builder(
+                      itemCount: serviceList.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.015),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                BorderRadius.circular(12)),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: height * 0.18,
+                                  width: width * 0.38,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(8),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              serviceList[index].serviceImages!.first),
+                                          fit: BoxFit.cover)),
+                                ),
+                                SizedBox(
+                                  height: height * 0.012,
+                                ),
+                                Text(
+                                  serviceList[index].title ??
+                                      '',
+                                  style: GoogleFonts.lato(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  height: height * 0.008,
+                                ),
+                              ],
+                            ));
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -285,6 +342,9 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
       if((labData!.workingHours ?? []).isNotEmpty) {
         days = labData!.workingHours!.first.dayDetails ?? [];
       }
+      serviceList = labData!.services ?? [];
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
     isLoading = false;
     setState(() {});

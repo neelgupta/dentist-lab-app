@@ -36,13 +36,13 @@ class _SetUpDoneScreenState extends State<SetUpDoneScreen> {
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(left: 15,top: 40),
+                            padding: const EdgeInsets.only(left: 15,top: 40),
                             alignment: Alignment.centerLeft,
                             child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Icon(Icons.keyboard_backspace,color: Colors.white,)),
+                                child: const Icon(Icons.keyboard_backspace,color: Colors.white,)),
                           ),
                           SizedBox(height: height*0.05,),
                           Text("Set Up Profile",style: GoogleFonts.lato(fontSize: 32,fontWeight: FontWeight.w600,color: Colors.white,),),
@@ -61,11 +61,11 @@ class _SetUpDoneScreenState extends State<SetUpDoneScreen> {
                     SizedBox(height: height*0.012,),
                     Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                         style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,
-                            color: Color(0xFF707070) ),maxLines: 2,textAlign: TextAlign.center),
+                            color: const Color(0xFF707070) ),maxLines: 2,textAlign: TextAlign.center),
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width*0.057,vertical: height*0.020),
                 child: Container(
@@ -73,11 +73,11 @@ class _SetUpDoneScreenState extends State<SetUpDoneScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Color(0xFF116D6E)
+                      color: const Color(0xFF116D6E)
                   ),
                   child: TextButton(
                       onPressed: () {
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavigatorBarWidget(),));
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavigatorBarWidget(index: 9),));
                       },
                       child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                 ),

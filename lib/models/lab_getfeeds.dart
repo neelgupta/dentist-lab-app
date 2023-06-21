@@ -4,22 +4,22 @@
 
 import 'dart:convert';
 
-GetfeedsModel getfeedsModelFromJson(String str) => GetfeedsModel.fromJson(json.decode(str));
+GetFeedsModel getfeedsModelFromJson(String str) => GetFeedsModel.fromJson(json.decode(str));
 
-String getfeedsModelToJson(GetfeedsModel data) => json.encode(data.toJson());
+String getfeedsModelToJson(GetFeedsModel data) => json.encode(data.toJson());
 
-class GetfeedsModel {
+class GetFeedsModel {
   int? status;
   bool? success;
   Data? data;
 
-  GetfeedsModel({
+  GetFeedsModel({
     this.status,
     this.success,
     this.data,
   });
 
-  factory GetfeedsModel.fromJson(Map<String, dynamic> json) => GetfeedsModel(
+  factory GetFeedsModel.fromJson(Map<String, dynamic> json) => GetFeedsModel(
     status: json["status"]?? 0,
     success: json["success"]?? false,
     data: json["data"] == null ? null : Data.fromJson(json["data"]),
@@ -58,6 +58,7 @@ class Quotesdatum {
   String? description;
   DateTime? createdAt;
   DateTime? tillDate;
+  String? isSend;
 
   Quotesdatum({
     this.id,
@@ -65,6 +66,7 @@ class Quotesdatum {
     this.description,
     this.createdAt,
     this.tillDate,
+    this.isSend,
   });
 
   factory Quotesdatum.fromJson(Map<String, dynamic> json) => Quotesdatum(
@@ -73,6 +75,7 @@ class Quotesdatum {
     description: json["description"]?? "",
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     tillDate: json["tillDate"] == null ? null : DateTime.parse(json["tillDate"]),
+    isSend: (json["isSend"] ?? 0).toString()
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class Quotesdatum {
     "description": description,
     "createdAt": createdAt?.toIso8601String(),
     "tillDate": tillDate?.toIso8601String(),
+    "isSend": isSend,
   };
 }

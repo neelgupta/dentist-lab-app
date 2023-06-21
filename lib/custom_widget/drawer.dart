@@ -129,41 +129,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 return const BottomNavigation(index: 0);
               },), (route) => false);
             },
-            child: SizedBox(
-              height: height * 0.07,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 20),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: height * 0.06,
-                      width: width * 0.07,
-                      child: Image.asset("assets/image/d_home.png",
-                          color: selectedIndex == 0
-                              ? const Color(0xff116D6E)
-                              : Colors.black),
-                    ),
-                    SizedBox(width: width * 0.05),
-                    Text(
-                      "Home",
-                      style: TextStyle(
-                          color: selectedIndex == 0
-                              ? const Color(0xff116D6E)
-                              : Colors.black,
-                          fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 5),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                return const BottomNavigation(index: 0);
-              },), (route) => false);
-            },
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 20),
               child: Row(
@@ -429,15 +394,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                     ),
                     onPressed: () async {
-                      Utils.setLoginStatus(false);
-                      Utils.setToken(" ");
-                      Utils.setUserType(" ");
-                      Utils.showSuccessToast("Logout Successfully");
-                      Utils.setScreenStatus("0");
-                      await Utils.prefs!.clear();
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                        return const LoginScreen();
-                      },), (route) => false);
+                      Utils.logout(context);
                     },
                     child: Text("Logout",
                         style: GoogleFonts.lato(

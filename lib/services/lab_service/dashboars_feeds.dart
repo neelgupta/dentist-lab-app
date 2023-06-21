@@ -4,7 +4,7 @@ import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 
-class LabDashBoard{
+class LabDashBoardServices{
 
 
   getFeed({required body}) async {
@@ -20,14 +20,15 @@ class LabDashBoard{
     return response;
   }
 
-  sentProposal({required body}) async {
-    var postUri = Uri.parse(ApiServices.postSentProposal);
+  sendProposal({required body}) async {
+    var postUri = Uri.parse(ApiServices.sendProposal);
     var response = await http.post(
       postUri,
       body: jsonEncode(body),
       headers: Utils.apiHeader,
     );
-    Utils.logAPIResponse(function: "getProposal",apiName: ApiServices.postSentProposal,response: response, body: body);
+
+    Utils.logAPIResponse(function: "sendProposal",apiName: ApiServices.sendProposal,response: response, body: body);
 
     return response;
   }

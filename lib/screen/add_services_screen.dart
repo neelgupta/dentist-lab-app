@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dentalapp/screen/services_%20screen.dart';
-import 'package:dentalapp/services/lab_services/add_services_api.dart';
+import 'package:dentalapp/clinic_screen/create_quote.dart';
+import 'package:dentalapp/models/single_service_model.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -9,12 +9,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../util/api_services.dart';
-import '../util/utils.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddServicesScreen extends StatefulWidget {
-  const AddServicesScreen({Key? key}) : super(key: key);
+  final SingleServiceModel? userService;
+  const AddServicesScreen({Key? key, this.userService}) : super(key: key);
 
   @override
   State<AddServicesScreen> createState() => _AddServicesScreenState();
@@ -28,7 +26,24 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
 
-  List<File> selectedServicesImage = [];
+  List<ImageData> selectedServicesImage = [];
+  List oldImages = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.userService!=null) {
+      titleController.text = widget.userService!.title ?? "";
+      descriptionController.text = widget.userService!.description ?? "";
+      servicePriceController.text = widget.userService!.price ?? "";
+      for(var item in widget.userService!.serviceImags) {
+        selectedServicesImage.add(ImageData("1", item, "network"));
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -76,7 +91,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                 height: height * 0.05,
                               ),
                               Text(
-                                "Add Services",
+                                widget.userService!=null?"Edit Service":"Add Service",
                                 style: GoogleFonts.lato(
                                   fontSize: 32,
                                   fontWeight: FontWeight.w600,
@@ -148,6 +163,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                             return null;
                           },
                           decoration: InputDecoration(
+                            alignLabelWithHint: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide:
@@ -156,9 +172,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                             labelStyle: const TextStyle(
                               fontSize: 14,
                             ),
-                            hintText:
-                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
-                                'when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                            hintText: 'Enter Description',
                             hintStyle: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -171,64 +185,32 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                         SizedBox(
                           height: height * 0.020,
                         ),
-                        Container(
-                          height: 50,
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFF707070)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "AED",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF707070),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: VerticalDivider(
-                                    thickness: 1,
-                                    width: 5,
-                                    color: Color(0xFF707070),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    maxLength: 10,
-                                    controller: servicePriceController,
-                                    keyboardType: TextInputType.number,
-                                    // validator: (value) {
-                                    //   if(value == null || value.isEmpty){
-                                    //     return 'Please Enter Service Price';
-                                    //   }
-                                    //   return null;
-                                    // },
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Service Price",
-                                        counterText: "",
-                                        contentPadding: EdgeInsets.only(
-                                            bottom: 13, top: 5, left: 5)),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        TextFormField(
+                          controller: servicePriceController,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if(value == null || value.isEmpty){
+                              return 'Please Enter Service Price';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Service Price",
+                              hintText: "Enter Service Price",
+                              counterText: "",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide:
+                                  const BorderSide(color: Color(0xFF707070))),
+                            prefixIcon: Container(
+                              width: width * 0.15,
+                              margin: EdgeInsets.symmetric(horizontal: width * 0.02,vertical: 5),
+                              decoration: const BoxDecoration(
+                                border: Border(right: BorderSide(color: Color(0xFF707070)))
+                              ),
+                              alignment: Alignment.center,
+                              child: const Text("AED",style: TextStyle(color: Color(0xFF707070)),),
+                            )
                           ),
                         ),
                         SizedBox(
@@ -298,7 +280,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                   Container(
                                     margin: EdgeInsets.all(
                                         width * 0.01),
-                                    decoration: BoxDecoration(
+                                    decoration: selectedServicesImage[index].type=="file"?BoxDecoration(
                                         borderRadius:
                                         BorderRadius.circular(
                                             10),
@@ -307,12 +289,23 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                                 selectedServicesImage[
                                                 index]
                                                     .path)),
+                                            fit: BoxFit.fill)):BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            10),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                selectedServicesImage[
+                                                index]
+                                                    .path),
                                             fit: BoxFit.fill)),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      selectedServicesImage
-                                          .removeAt(index);
+                                      if(selectedServicesImage[index].type=='network') {
+                                        oldImages.add(selectedServicesImage[index].path);
+                                      }
+                                      selectedServicesImage.removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -389,19 +382,15 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: const Color(0xFF116D6E)),
+                          color: Color(titleController.text.isNotEmpty && descriptionController.text.isNotEmpty && servicePriceController.text.isNotEmpty && selectedServicesImage.isNotEmpty?0xFF116D6E:0xFFA0A0A0)),
                       child: TextButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              if (servicePriceController.text.isEmpty) {
-                                Utils.showErrorToast(
-                                    "Please Enter Service Price");
-                              } else if (selectedServicesImage.isEmpty &&
-                                  selectedServicesImage == null) {
+                              if (selectedServicesImage.isEmpty) {
                                 Utils.showErrorToast(
                                     "Please Upload Service Images");
                               } else {
-                                getAddService(selectedServicesImage);
+                                widget.userService!=null?updateService():getAddService();
                               }
                             } else {
                               autoValidate = AutovalidateMode.always;
@@ -429,18 +418,20 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
   Future<void> pickImages1() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
-        allowedExtensions: ['jpg', 'pdf', 'jpeg'],
+        allowedExtensions: ['jpg', 'png', 'jpeg'],
         type: FileType.custom);
 
     if (result != null) {
-      selectedServicesImage.addAll(result.paths.map((path) => File(path!)));
+      for(var item in result.files) {
+        selectedServicesImage.add(ImageData("1", item.path!, "file"));
+      }
       setState(() {});
     } else {
       // User canceled the picker
     }
   }
 
-  getAddService(selectedServicesImages) async {
+  getAddService() async {
     Utils.showLoadingDialog(context);
     var bodyData = {
       "title": titleController.text.toString(),
@@ -453,33 +444,73 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
     request.headers.addAll(Utils.apiHeader);
     request.fields.addAll(bodyData);
 
-      for (var image in selectedServicesImage) {
-        http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags", image.path);
-        request.files.add(multipartFile);
-      }
+    for (var image in selectedServicesImage) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags", image.path);
+      request.files.add(multipartFile);
+    }
 
-      http.StreamedResponse response = await request.send();
+    http.StreamedResponse response = await request.send();
 
-      // print("body ====> $bodyData");
-      // print("body ====> ${response.statusCode}");
+    final res = await http.Response.fromStream(response);
 
-      final res = await http.Response.fromStream(response);
+    Utils.logAPIResponse(response: res,apiName: ApiServices.addLabServices,function: "getAddService", body: request.fields);
+    Navigator.pop(context);
+
+    if (response.statusCode == 200) {
       Navigator.pop(context);
-
-      // print('body: ${res.body}');
-
-      if (response.statusCode == 200) {
-        Map map = jsonDecode(res.body);
-        if (map["status"] == 200) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(
-            description: descriptionController.text,
-          ),));
-          Utils.showSuccessToast(map['message']);
-        } else {
-          Utils.showErrorToast(map['message']);
-        }
-      } else {
-        Utils.showErrorToast(jsonDecode(res.body)['message']);
-      }
+      Utils.showSuccessToast(jsonDecode(res.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(res.body)['message']);
     }
   }
+
+  updateService() async {
+    Utils.showLoadingDialog(context);
+    var bodyData = {
+      "serviceId": widget.userService!.id ?? "",
+      "title": titleController.text.toString(),
+      "description": descriptionController.text.toString(),
+      "price": servicePriceController.text.toString(),
+    };
+    var postUri = Uri.parse(ApiServices.editLabServices);
+    var request = http.MultipartRequest("PUT", postUri);
+
+    request.headers.addAll(Utils.apiHeader);
+    request.fields.addAll(bodyData);
+
+    if (oldImages.isNotEmpty) {
+      for (var i = 0; i < oldImages.length; i++) {
+        Map<String, String> oldServiceImage = {
+          'removeImages[$i]' : oldImages[i],
+        };
+        request.fields.addAll(oldServiceImage);
+      }
+    }
+    int index = 0;
+    for (var image in selectedServicesImage) {
+      if (image.type == "file") {
+        http.MultipartFile multipartFile = await http.MultipartFile.fromPath("serviceImags[$index]", image.path);
+        request.files.add(multipartFile);
+        index++;
+      }
+    }
+
+    http.StreamedResponse response = await request.send();
+
+    final res = await http.Response.fromStream(response);
+
+    Utils.logAPIResponse(response: res,apiName: ApiServices.editLabServices,function: "updateService", body: request.fields);
+    Navigator.pop(context);
+
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(res.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(res.body)['message']);
+    }
+  }
+}

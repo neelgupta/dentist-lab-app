@@ -1,7 +1,5 @@
 import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
-import 'package:dentalapp/clinic_screen/dasboard_screen.dart';
 import 'package:dentalapp/screen/bottomNavigationBar_screen.dart';
-import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,17 +73,6 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                             style: GoogleFonts.lato(
                                 fontSize: 17, fontWeight: FontWeight.w600),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.lato(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF707070)),
-                          ),
                         ],
                       ),
                     ),
@@ -136,7 +123,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
   }
 
   Future<bool> goBack() async {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => userType=="lab"?const BottomNavigatorBarWidget():const BottomNavigation(index: 0)),);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => userType=="lab"?const BottomNavigatorBarWidget(index: 0):const BottomNavigation(index: 0)),);
     return true;
   }
 }

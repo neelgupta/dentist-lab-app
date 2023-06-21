@@ -1,8 +1,4 @@
-import 'package:dentalapp/clinic_screen/Bottom_Navibar.dart';
-import 'package:dentalapp/screen/dashboard_screen.dart';
-import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/login_screen.dart';
-import 'package:dentalapp/screen/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
