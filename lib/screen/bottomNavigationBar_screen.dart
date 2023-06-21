@@ -1,3 +1,4 @@
+import 'package:dentalapp/screen/accepted_quote_screen.dart';
 import 'package:dentalapp/screen/dashboard_1_screen.dart';
 import 'package:dentalapp/screen/public_profile_screen.dart';
 import 'package:dentalapp/util/utils.dart';
@@ -24,8 +25,8 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
   int selectedScreenIndex = 0;
 
   List  selectedScreenList = [
-     const DashBoard1Screen(),
-    const SizedBox(),
+    const DashBoard1Screen(),
+    const AcceptedQuoteScreen(),
     const PublicProfileScreen(),
   ];
 

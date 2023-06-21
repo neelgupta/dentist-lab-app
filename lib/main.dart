@@ -1,3 +1,4 @@
+import 'package:dentalapp/screen/acceptedquote_details_screen.dart';
 import 'package:dentalapp/screen/splash.dart';
 import 'package:flutter/material.dart';
 

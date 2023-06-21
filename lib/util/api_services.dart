@@ -12,10 +12,8 @@ class ApiServices {
 
   /// Clinic
   static String addClinicDetails = "${baseUrl}clinic/addClinicDetails";
-  static String addAdditionalClinicDetails =
-      "${baseUrl}clinic/addaditionalClinicDetails";
-  static String addClinicMangerDetails =
-      "${baseUrl}clinic/addClinicMangerDetails";
+  static String addAdditionalClinicDetails = "${baseUrl}clinic/addaditionalClinicDetails";
+  static String addClinicMangerDetails = "${baseUrl}clinic/addClinicMangerDetails";
   static String getClinicProfileAPI = "${baseUrl}clinic/getClinicProfile";
   static String updateProfileImage = "${baseUrl}clinic/editProfileImage";
 
@@ -49,8 +47,12 @@ class ApiServices {
   static String getLabs = "${baseUrl}quotes/getLabs";
 
   ///LabQuote APIs
-
   static String getLabAllQuote = "${baseUrl}lab/getAllLabQuotes";
+  static String getAcceptQuote = "${baseUrl}quotes/getAcceptedQuote";
+
+  ///LabQuote Comment APIs
+  static String addLabComment = "${baseUrl}quotes/addClinicComment";
+  static String getLabComment = "${baseUrl}quotes/getComments";
 
   /// Quote APIs
   static String createQuote = "${baseUrl}quotes/createQuotes";

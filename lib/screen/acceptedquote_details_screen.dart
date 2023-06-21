@@ -1,15 +1,18 @@
+import 'dart:convert';
+
+import 'package:dentalapp/services/lab_service/lab_quote_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
-class Item {
-  String name;
-  String description;
+import '../models/accept_labQuote_model.dart';
+import '../models/labQuote_comment_model.dart';
+import '../util/utils.dart';
 
-  Item({required this.name, required this.description});
-}
 
 class AcceptedQuoteDetailsScreen extends StatefulWidget {
-  const AcceptedQuoteDetailsScreen({Key? key}) : super(key: key);
+  final String quoteId;
+   const AcceptedQuoteDetailsScreen({Key? key,this.quoteId = ""}) : super(key: key);
 
   @override
   State<AcceptedQuoteDetailsScreen> createState() => _AcceptedQuoteDetailsScreenState();
@@ -17,11 +20,20 @@ class AcceptedQuoteDetailsScreen extends StatefulWidget {
 
 class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen> {
 
-   List<Item> detailsList = [];
   String titleComment = "";
   String description = "";
+  bool isLoading = true;
+
+  QuoteComments? quoteComments;
+  List<CommentData> commentList = [];
+
+  List<QuoteDatum> getAcceptQuote = [];
+  AcceptLabQuoteModel? acceptLabQuoteModel;
 
   bool isCommentVisible= false;
+  final formKey = GlobalKey<FormState>();
+  var autoValidate = AutovalidateMode.disabled;
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -30,6 +42,12 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
       isCommentVisible = !isCommentVisible;
     });
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getQuoteDetail();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +55,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Scaffold(
-          body: SizedBox(
+          body: !isLoading ? SizedBox(
             height: height,
             width: width,
             child: SingleChildScrollView(
@@ -46,7 +64,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                 children: [
                   Container(
                       height: height*0.15,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Color(0xFF116D6E),
                           image: DecorationImage(image: AssetImage("assets/image/Group 12305.png"),
                               fit: BoxFit.fitWidth,alignment: Alignment.bottomCenter,opacity: 0.3)
@@ -80,8 +98,9 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                           children: [
                             Row(
                               children: [
-                                Text("Dental Crowns and Bridges",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600 )),
+                                Text("${getAcceptQuote[0].title}",style: GoogleFonts.lato(fontSize: 16,fontWeight: FontWeight.w600 )),
                                 Spacer(),
+                                if(getAcceptQuote[0].quoteStatus!.first.labStatus=="deliveryRejected")
                                 Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
@@ -90,8 +109,19 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(vertical: height*0.0061,horizontal: width*0.025),
-                                      child: Text("Delivery Rejected",style: GoogleFonts.lato(fontSize: 11,fontWeight: FontWeight.w400,color: Colors.white)),
-                                    ))
+                                      child: Text("${getAcceptQuote[0].quoteStatus!.first.labStatus}",style: GoogleFonts.lato(fontSize: 11,fontWeight: FontWeight.w400,color: Colors.white)),
+                                    )),
+                                if(getAcceptQuote[0].quoteStatus!.first.labStatus=="workStarted")
+                                  Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFFFD059),
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: height*0.0065,horizontal: width*0.032),
+                                        child: Text("${getAcceptQuote[0].quoteStatus!.first.labStatus}",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400)),
+                                      )),
                               ],
                             ),
                             SizedBox(height: height*0.010,),
@@ -100,7 +130,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                               children: [
                                 Container(
                                   width: width*0.7,
-                                  child: Text("Lorem Ipsum has been the industry's standard dummy text ever since",
+                                  child: Text("${getAcceptQuote[0].description}",
                                       style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
                                 ),
                                 SizedBox(width: width*0.020,),
@@ -108,7 +138,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                               ],
                             ),
                             SizedBox(height: height*0.020,),
-                            Divider(
+                            const Divider(
                               thickness: 1,
                               color: Color(0xFFE7E7E7),
                             ),
@@ -117,7 +147,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                               children: [
                                 Text("Subtotal :",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
                                 Spacer(),
-                                Text("AED 500",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                                Text("AED ${getAcceptQuote[0].orderDetails!.first.totalAmount}",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
 
                               ],
                             ),
@@ -126,7 +156,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                               children: [
                                 Text("Advance 30% (Paid)",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070))),
                                 Spacer(),
-                                Text("AED 75",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
+                                Text("AED ${getAcceptQuote[0].orderDetails!.first.advanceAmount}",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF252525))),
                               ],
                             ),
                             SizedBox(height: height*0.020,),
@@ -141,7 +171,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                                   ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(horizontal: width*0.05,vertical: height*0.006),
-                                      child: Text("Normal",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white)),
+                                      child: Text("${getAcceptQuote[0].priority}",style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w500,color: Colors.white),textAlign: TextAlign.center),
                                     )),
                               ],
                             ),
@@ -150,7 +180,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                               children: [
                                 Text("Clinic Name ",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,)),
                                 Spacer(),
-                                Text("Apt 30",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,)),
+                                Text("${getAcceptQuote[0].clinicDetails!.first.clinicName}",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600,)),
                               ],
                             ),
                             SizedBox(height: height*0.020,),
@@ -160,7 +190,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                                   children: [
                                     Image(image: AssetImage("assets/image/finalLocation.png")),
                                     SizedBox(width: width*0.015,),
-                                    Text("Ottawa, Canada",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
+                                    Text("${getAcceptQuote[0].clinicDetails!.first.country}",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                                   ],
                                 ),
                                 SizedBox(width: width*0.030,),
@@ -168,7 +198,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                                   children: [
                                     Image(image: AssetImage("assets/image/phone.png")),
                                     SizedBox(width: width*0.015,),
-                                    Text("+9675852",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
+                                    Text("${getAcceptQuote[0].clinicDetails!.first.countryCode} ${getAcceptQuote[0].clinicDetails!.first.mobileNumber}  ",style: GoogleFonts.lato(fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF116D6E))),
                                   ],
                                 )
                               ],
@@ -186,7 +216,6 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                               child: TextButton(
                                   onPressed: () {
                                     showCommentBox(context);
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
                                   },
                                   child: Text("Share Comment",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                             ),
@@ -220,14 +249,15 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                                             color: Color(0xFFE7E7E7),
                                           ),
                                           SizedBox(height: height*0.010,),
-                                          Text("${detailsList[index].name}",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700 )),
+                                          Text(commentList[index].isMessage=="lab"? commentList[index].clinicDetails!.first.clinicName ?? "" :  commentList[index].labDetails!.first.labName ?? "",
+                                              style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w700 )),
                                           SizedBox(height: height*0.010,),
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Container(
                                                 width: width*0.7,
-                                                child: Text("${detailsList[index].description}",
+                                                child: Text("${commentList[index].comment}",
                                                     style: GoogleFonts.lato(fontSize: 13,fontWeight: FontWeight.w400,),maxLines: 2,overflow: TextOverflow.ellipsis),
                                               ),
                                               SizedBox(width: width*0.020,),
@@ -240,7 +270,7 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                                     separatorBuilder: (context, index) {
                                       return SizedBox(height: height*0.010,);
                                     },
-                                    itemCount: detailsList.length),
+                                    itemCount: commentList.length),
                               ),
                             )
                           ],
@@ -251,87 +281,176 @@ class _AcceptedQuoteDetailsScreenState extends State<AcceptedQuoteDetailsScreen>
                 ],
               ),
             ),
-          ),
+          ) : Center(child: CircularProgressIndicator(),),
         ));
   }
   void showCommentBox(BuildContext context){
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
     double width = MediaQuery.of(context).size.width;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
             title: Container(
-              height: height*0.3,
               width: width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: width*0.030),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF707070)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          titleComment = value;
-                        });
-                      },
+              child: Form(
+                key: formKey,
+                autovalidateMode: autoValidate,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
                       controller: titleController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Name",
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height*0.015,),
-                  Container(
-                    padding: EdgeInsets.only(left: width*0.030),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF707070)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          description = value;
-                        });
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if(value == null || value.isEmpty){
+                          return 'Please Enter Title';
+                        }
+                        return null;
                       },
-                      controller: descriptionController,
-                      maxLines: 3,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Comment"
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Color(0xFF707070)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Color(0xFF707070), ),
+                        ),
+
+                        labelText: 'Title',labelStyle: const TextStyle(color: Color(0xff707070)),
+                        hintText: 'Title',
+                        hintStyle: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                        contentPadding:  EdgeInsets.symmetric(vertical: height*0.02,horizontal: width*0.03),
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(const Color(0xFF116D6E)),
-                        padding: MaterialStateProperty.all( EdgeInsets.symmetric(horizontal: width*0.09,vertical: height*0.018)),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                    SizedBox(height: height*0.015,),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: descriptionController,
+                      keyboardType: TextInputType.name,
+                      maxLines: 3,
+                      validator: (value) {
+                        if(value == null || value.isEmpty){
+                          return 'Please Enter Comment';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Color(0xFF707070)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Color(0xFF707070), ),
+                        ),
+                        labelText: 'Comment',labelStyle: const TextStyle(color: Color(0xff707070)),
+                        hintText: 'Comment',
+                        hintStyle: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                        contentPadding:  EdgeInsets.symmetric(vertical: height*0.02,horizontal: width*0.03),
+                      ),
+                    ),
+                    SizedBox(height: height*0.02,),
+                    TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Color(0xFF116D6E)),
+                          padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(horizontal: width*0.1, vertical:height*0.02)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                         ),
-                      ),
-                      onPressed: () {
-                        detailsList.add(Item(name: titleComment, description: description));
-                        Navigator.pop(context);
-                        showComment();
-                      },
-                      child: Text("Share Comment",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.white,))),
-                ],
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            addQuoteComments();
+                          } else {
+                            autoValidate = AutovalidateMode.always;
+                          }
+                        },
+                        child: Text("Share Comment",
+                            style: GoogleFonts.lato(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ))),
+                  ],
+                ),
               ),
             )
         );
       },
     );
   }
+
+
+
+  addQuoteComments() async {
+    Utils.showLoadingDialog(context);
+    var body = {
+      "quoteId": widget.quoteId,
+      "title": titleController.text,
+      "comment": descriptionController.text
+    };
+    Response response = await GetLabQuote.addQuoteComment(body: body);
+    Navigator.pop(context);
+    if(response.statusCode == 200) {
+      titleController.text = "";
+      descriptionController.text = "";
+      Navigator.pop(context);
+      getQuoteComments();
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+  }
+
+  getQuoteComments() async {
+    commentList.clear();
+    var body = {
+      "quoteId": widget.quoteId,
+    };
+    Response response = await GetLabQuote.getQuoteComment(body: body);
+    if(response.statusCode == 200) {
+      quoteComments = QuoteComments.fromJson(jsonDecode(response.body));
+      commentList.addAll(quoteComments!.commentData ?? []);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    }
+    setState(() {});
+  }
+
+
+  getQuoteDetail() async {
+    var body = {
+      "quoteId": widget.quoteId,
+    };
+    Response response = await GetLabQuote.getAcceptQuotes(body: body);
+    if(response.statusCode == 200) {
+      AcceptLabQuoteModel acceptLabQuoteModel = AcceptLabQuoteModel.fromJson(jsonDecode(response.body));
+
+      if(acceptLabQuoteModel.success == true && acceptLabQuoteModel.quoteData != null){
+        getAcceptQuote.addAll(acceptLabQuoteModel.quoteData ?? []);
+      }
+
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    }
+    isLoading = false;
+    setState(() {});
+  }
+
+
 }
 
