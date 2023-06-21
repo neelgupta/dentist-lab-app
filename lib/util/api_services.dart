@@ -1,5 +1,3 @@
-
-
 class ApiServices {
   static String baseUrl = "https://energetic-kit-dove.cyclic.app/api/v1/";
 
@@ -14,8 +12,10 @@ class ApiServices {
 
   /// Clinic
   static String addClinicDetails = "${baseUrl}clinic/addClinicDetails";
-  static String addAdditionalClinicDetails = "${baseUrl}clinic/addaditionalClinicDetails";
-  static String addClinicMangerDetails = "${baseUrl}clinic/addClinicMangerDetails";
+  static String addAdditionalClinicDetails =
+      "${baseUrl}clinic/addaditionalClinicDetails";
+  static String addClinicMangerDetails =
+      "${baseUrl}clinic/addClinicMangerDetails";
   static String getClinicProfileAPI = "${baseUrl}clinic/getClinicProfile";
   static String updateProfileImage = "${baseUrl}clinic/editProfileImage";
 
@@ -41,9 +41,12 @@ class ApiServices {
   static String getFeeds = "${baseUrl}lab/getFeeds";
   static String sendProposal = "${baseUrl}lab/addProposal";
 
+  ///Payment APIs
+  static String getNotification = "${baseUrl}lab/getLabNotification";
+
   /// Services APIs
   static String getService = "${baseUrl}quotes/getServices";
-  static String getLabs= "${baseUrl}quotes/getLabs";
+  static String getLabs = "${baseUrl}quotes/getLabs";
 
   /// Quote APIs
   static String createQuote = "${baseUrl}quotes/createQuotes";
@@ -70,6 +73,8 @@ class ApiServices {
   /// Profiles
   static String editProfile = "${baseUrl}lab/editProfile";
   static String editClinicInfo = "${baseUrl}clinic/editClinicDetails";
-  static String editClinicAdditionalInfo = "${baseUrl}clinic/editaditionalClinicDetails";
-  static String editClinicManagerInfo = "${baseUrl}clinic/editClinicMangerDetails";
+  static String editClinicAdditionalInfo =
+      "${baseUrl}clinic/editaditionalClinicDetails";
+  static String editClinicManagerInfo =
+      "${baseUrl}clinic/editClinicMangerDetails";
 }

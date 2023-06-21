@@ -152,37 +152,35 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   return const CreateQuote();
                                 },));
                               },
-                              child: Card(
-                                child: Container(
-                                  width: width * 0.35,
-                                  height: width * 0.35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: const Color(0xff116D6E).withOpacity(0.5),
-                                          blurRadius: 2.0,
-                                          spreadRadius: 1.0,
-                                          offset: const Offset(0.0, 3.0)
-                                      ),
-                                    ],
-                                  ),
+                              child: Container(
+                                width: width * 0.35,
+                                height: width * 0.35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        blurRadius: 2.0,
+                                        spreadRadius: 1.0,
+                                        offset: const Offset(0.0, 3.0)
+                                    ),
+                                  ],
+                                ),
 
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 40,width: 40,
-                                          child: Image.asset('assets/image/newQuoteIcon.png',fit: BoxFit.fill,)),
-                                      SizedBox(height: height*0.01,),
-                                      Text("New Quote",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
-                                          )),
-                                    ],
-                                  ),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 40,width: 40,
+                                        child: Image.asset('assets/image/newQuoteIcon.png',fit: BoxFit.fill,)),
+                                    SizedBox(height: height*0.01,),
+                                    Text("New Quote",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff116D6E),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ),
@@ -193,37 +191,35 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   return const BottomNavigation(index: 1);
                                 },), (route) => false);
                               },
-                              child: Card(
-                                child: Container(
-                                  width: width * 0.35,
-                                  height: width * 0.35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: const Color(0xff116D6E).withOpacity(0.5),
-                                          blurRadius: 2.0,
-                                          spreadRadius: 1.0,
-                                          offset: const Offset(0.0, 3.0)
-                                      ),
-                                    ],
-                                  ),
+                              child: Container(
+                                width: width * 0.35,
+                                height: width * 0.35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        blurRadius: 2.0,
+                                        spreadRadius: 1.0,
+                                        offset: const Offset(0.0, 3.0)
+                                    ),
+                                  ],
+                                ),
 
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 40,width: 40,
-                                          child: Image.asset('assets/image/quoteIcon.png',fit: BoxFit.fill,)),
-                                      SizedBox(height: height*0.01,),
-                                      Text("Quote",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
-                                          )),
-                                    ],
-                                  ),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 40,width: 40,
+                                        child: Image.asset('assets/image/quoteIcon.png',fit: BoxFit.fill,)),
+                                    SizedBox(height: height*0.01,),
+                                    Text("Quote",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff116D6E),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ),
@@ -234,36 +230,34 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   return const ClinicNotification();
                                 },));
                               },
-                              child: Card(
-                                child: Container(
-                                  width: width * 0.35,
-                                  height: width * 0.35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: const Color(0xff116D6E).withOpacity(0.5),
-                                          blurRadius: 2.0,
-                                          spreadRadius: 1.0,
-                                          offset: const Offset(0.0, 3.0)
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 40,width: 40,
-                                          child: Image.asset('assets/image/notificationIcon.png',fit: BoxFit.fill,)),
-                                      SizedBox(height: height*0.01,),
-                                      Text("Notifications",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
-                                          )),
-                                    ],
-                                  ),
+                              child: Container(
+                                width: width * 0.35,
+                                height: width * 0.35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        blurRadius: 2.0,
+                                        spreadRadius: 1.0,
+                                        offset: const Offset(0.0, 3.0)
+                                    ),
+                                  ],
+                                ),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 40,width: 40,
+                                        child: Image.asset('assets/image/notificationIcon.png',fit: BoxFit.fill,)),
+                                    SizedBox(height: height*0.01,),
+                                    Text("Notifications",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff116D6E),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ),
@@ -281,37 +275,35 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                   return const BottomNavigation(index: 2);
                                 },), (route) => false);
                               },
-                              child: Card(
-                                child: Container(
-                                  width: width * 0.35,
-                                  height: width * 0.35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: const Color(0xff116D6E).withOpacity(0.5),
-                                          blurRadius: 2.0,
-                                          spreadRadius: 1.0,
-                                          offset: const Offset(0.0, 3.0)
-                                      ),
-                                    ],
-                                  ),
+                              child: Container(
+                                width: width * 0.35,
+                                height: width * 0.35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        blurRadius: 2.0,
+                                        spreadRadius: 1.0,
+                                        offset: const Offset(0.0, 3.0)
+                                    ),
+                                  ],
+                                ),
 
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 40,width: 40,
-                                          child: Image.asset('assets/image/profileIcon.png',fit: BoxFit.fill,)),
-                                      SizedBox(height: height*0.01,),
-                                      Text("Profile",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
-                                          )),
-                                    ],
-                                  ),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 40,width: 40,
+                                        child: Image.asset('assets/image/profileIcon.png',fit: BoxFit.fill,)),
+                                    SizedBox(height: height*0.01,),
+                                    Text("Profile",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff116D6E),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ),
@@ -323,37 +315,35 @@ class _DasBoardScreenState extends State<DasBoardScreen> {
                                 },));
 
                               },
-                              child: Card(
-                                child: Container(
-                                  width: width * 0.35,
-                                  height: width * 0.35,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: const Color(0xff116D6E).withOpacity(0.5),
-                                          blurRadius: 2.0,
-                                          spreadRadius: 1.0,
-                                          offset: const Offset(0.0, 3.0)
-                                      ),
-                                    ],
-                                  ),
+                              child: Container(
+                                width: width * 0.35,
+                                height: width * 0.35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: const Color(0xff116D6E).withOpacity(0.5),
+                                        blurRadius: 2.0,
+                                        spreadRadius: 1.0,
+                                        offset: const Offset(0.0, 3.0)
+                                    ),
+                                  ],
+                                ),
 
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 40,width: 40,
-                                          child: Image.asset('assets/image/paymentIcon.png',fit: BoxFit.fill,)),
-                                      SizedBox(height: height*0.01,),
-                                      Text("Payment",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
-                                          )),
-                                    ],
-                                  ),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 40,width: 40,
+                                        child: Image.asset('assets/image/paymentIcon.png',fit: BoxFit.fill,)),
+                                    SizedBox(height: height*0.01,),
+                                    Text("Payment",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff116D6E),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ),
