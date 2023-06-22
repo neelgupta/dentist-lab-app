@@ -44,6 +44,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
   String medicalManagerCountryCode = "+971";
   String financialManagerCountryCode = "+971";
 
+  bool isFileSelected = false;
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
@@ -70,7 +71,8 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
     financialManagerEmailController.text =
         widget.data.finacialMangerEmail ?? "";
     labManagerCountryCode = widget.data.clinicMangerCountryCode ?? "+971";
-    medicalManagerCountryCode = widget.data.medicalDirectorCountryCode ?? "+971";
+    medicalManagerCountryCode =
+        widget.data.medicalDirectorCountryCode ?? "+971";
     financialManagerCountryCode =
         widget.data.finacialMangerCountryCode ?? "+971";
   }
@@ -169,7 +171,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Clinic Manager Name',
-                                      hintText: 'Manager Name',
+                                      hintText: 'Clinic Manager Name',
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
@@ -181,54 +183,64 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  TextFormField(
-                                    controller: labManagerNumberController,
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please Enter Clinic Manager Mobile Number';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: "Mobile Number",
-                                        hintText: "Enter Mobile Number",
-                                        counterText: "",
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            borderSide: const BorderSide(
-                                                color: Color(0xFF707070))),
-                                        prefixIcon: InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                              width: width * 0.2,
-                                              margin: EdgeInsets.only(
-                                                  right: width * 0.03, top: 8, bottom: 8),
-                                              decoration: const BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Color(
-                                                              0xFF707070)))),
-                                              alignment: Alignment.center,
-                                              child: CountryCodePicker(
-                                                onChanged: (value) {
-                                                  labManagerCountryCode =
-                                                      value.dialCode!;
-                                                  setState(() {});
-                                                },
-                                                showFlag: false,
-                                                initialSelection:
-                                                    labManagerCountryCode,
-                                                padding: EdgeInsets.zero,
-                                                showDropDownButton: false,
-                                                favorite: const ['+971'],
-                                                showCountryOnly: false,
-                                                showOnlyCountryWhenClosed:
-                                                    false,
-                                                alignLeft: false,
-                                              )),
-                                        )),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            labManagerCountryCode =
+                                                value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection:
+                                              labManagerCountryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller:
+                                              labManagerNumberController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Clinic Manager Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: "Mobile Number",
+                                            hintText: "Mobile Number",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                    color: Color(0xFF707070))),
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    left: 18,
+                                                    top: 16,
+                                                    bottom: 16),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -239,7 +251,11 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Clinic Manager Email Address';
+                                        return 'Please Enter Email Address';
+                                      } else if (!RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                        return "Please Enter Valid Email Address";
                                       }
                                       return null;
                                     },
@@ -250,7 +266,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Email Address',
-                                      hintText: 'user@gmail.com',
+                                      hintText: 'Email Address',
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
@@ -295,7 +311,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Medical Director  Name',
-                                      hintText: 'Manager Name',
+                                      hintText: 'Medical Director Name',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -308,50 +324,64 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  TextFormField(
-                                    controller: medicalManagerNumberController,
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please Enter Medical Director Contact Number';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: "Mobile Number",
-                                        hintText: "Enter Mobile Number",
-                                        counterText: "",
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            borderSide: const BorderSide(
-                                                color: Color(0xFF707070))),
-                                        prefixIcon: Container(
-                                            width: width * 0.2,
-                                            margin: EdgeInsets.only(
-                                                right: width * 0.03, top: 8, bottom: 8),
-                                            decoration: const BoxDecoration(
-                                                border: Border(
-                                                    right: BorderSide(
-                                                        color: Color(
-                                                            0xFF707070)))),
-                                            alignment: Alignment.center,
-                                            child: CountryCodePicker(
-                                              onChanged: (value) {
-                                                medicalManagerCountryCode =
-                                                    value.dialCode!;
-                                                setState(() {});
-                                              },
-                                              showFlag: false,
-                                              initialSelection:
-                                                  medicalManagerCountryCode,
-                                              padding: EdgeInsets.zero,
-                                              showDropDownButton: false,
-                                              favorite: const ['+971'],
-                                              showCountryOnly: false,
-                                              showOnlyCountryWhenClosed: false,
-                                              alignLeft: false,
-                                            ))),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            medicalManagerCountryCode =
+                                                value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection:
+                                              medicalManagerCountryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller:
+                                              medicalManagerNumberController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Medical Director Contact Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: "Mobile Number",
+                                            hintText: "Mobile Number",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                    color: Color(0xFF707070))),
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    left: 18,
+                                                    top: 16,
+                                                    bottom: 16),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -362,7 +392,11 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Medical Director Email Address';
+                                        return 'Please Enter Email Address';
+                                      } else if (!RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                        return "Please Enter Valid Email Address";
                                       }
                                       return null;
                                     },
@@ -373,7 +407,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Email Address',
-                                      hintText: 'user@gmail.com',
+                                      hintText: 'Email Address',
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
@@ -402,7 +436,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'License Number',
-                                      hintText: '12345 67890',
+                                      hintText: 'License Number',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -617,6 +651,12 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileSelected &&
+                                      financialManagerFile == null &&
+                                      financeFile.isEmpty)
+                                    Utils.showCustomError(
+                                        message:
+                                            "Please Select Medical License File"),
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -653,7 +693,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Financial Manager Name ',
-                                      hintText: 'Manager Name',
+                                      hintText: 'Financial Manager Name',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -666,55 +706,64 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  TextFormField(
-                                    controller:
-                                        financialManagerNumberController,
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please Enter Financial Manager Mobile Number';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: "Mobile Number",
-                                        hintText: "Enter Mobile Number",
-                                        counterText: "",
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            borderSide: const BorderSide(
-                                                color: Color(0xFF707070))),
-                                        prefixIcon: InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                              width: width * 0.2,
-                                              margin: EdgeInsets.only(
-                                                  right: width * 0.03, top: 8, bottom: 8),
-                                              decoration: const BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Color(
-                                                              0xFF707070)))),
-                                              alignment: Alignment.center,
-                                              child: CountryCodePicker(
-                                                onChanged: (value) {
-                                                  financialManagerCountryCode =
-                                                      value.dialCode!;
-                                                  setState(() {});
-                                                },
-                                                showFlag: false,
-                                                initialSelection:
-                                                    financialManagerCountryCode,
-                                                padding: EdgeInsets.zero,
-                                                showDropDownButton: false,
-                                                favorite: const ['+971'],
-                                                showCountryOnly: false,
-                                                showOnlyCountryWhenClosed:
-                                                    false,
-                                                alignLeft: false,
-                                              )),
-                                        )),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            financialManagerCountryCode =
+                                                value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection:
+                                              financialManagerCountryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller:
+                                              financialManagerNumberController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Financial Manager Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: "Mobile Number",
+                                            hintText: "Mobile Number",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                    color: Color(0xFF707070))),
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    left: 18,
+                                                    top: 16,
+                                                    bottom: 16),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -725,7 +774,11 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Financial Manager Email Address';
+                                        return 'Please Enter Email Address';
+                                      } else if (!RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                        return "Please Enter Valid Email Address";
                                       }
                                       return null;
                                     },
@@ -736,7 +789,7 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Email Address',
-                                      hintText: 'user@gmail.com',
+                                      hintText: 'Email Address',
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
@@ -761,14 +814,17 @@ class _EditClinicManagerDetailState extends State<EditClinicManagerDetail> {
                                         onPressed: () {
                                           if (formKey.currentState!
                                               .validate()) {
+                                            isFileSelected = true;
                                             if (financialManagerFile == null &&
                                                 financeFile.isEmpty) {
                                               Utils.showErrorToast(
                                                   "Please Upload File");
                                             } else {
+                                              isFileSelected = false;
                                               updateClinicManagerDetails();
                                             }
                                           } else {
+                                            isFileSelected = true;
                                             autoValidate =
                                                 AutovalidateMode.always;
                                           }

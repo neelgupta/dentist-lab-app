@@ -74,7 +74,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: Column(
                           children: [
                             Container(
-                              padding: const EdgeInsets.only(left: 15, top: 40),
+                              padding: EdgeInsets.only(
+                                  left: width * 0.05, top: height * 0.03),
                               alignment: Alignment.centerLeft,
                               child: InkWell(
                                   onTap: () {
@@ -193,6 +194,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please Enter Email Address';
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                            return "Please Enter Valid Email Address";
                           }
                           return null;
                         },

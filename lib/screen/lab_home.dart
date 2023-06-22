@@ -1,5 +1,5 @@
-import 'package:dentalapp/screen/accepted_quote_screen.dart';
-import 'package:dentalapp/screen/dashboard_1_screen.dart';
+import 'package:dentalapp/screen/quote_screen.dart';
+import 'package:dentalapp/screen/dashboard_screen.dart';
 import 'package:dentalapp/screen/public_profile_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,22 +12,20 @@ import 'package:dentalapp/screen/manage_profile_4.dart';
 import 'package:dentalapp/screen/manage_profile_5.dart';
 import 'package:dentalapp/screen/manage_profile_6.dart';
 
-class BottomNavigatorBarWidget extends StatefulWidget {
+class LabHome extends StatefulWidget {
   final int index;
-  const BottomNavigatorBarWidget({Key? key, required this.index})
-      : super(key: key);
+  const LabHome({Key? key, required this.index}) : super(key: key);
 
   @override
-  State<BottomNavigatorBarWidget> createState() =>
-      _BottomNavigatorBarWidgetState();
+  State<LabHome> createState() => _LabHomeState();
 }
 
-class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
+class _LabHomeState extends State<LabHome> {
   int selectedScreenIndex = 0;
 
   List selectedScreenList = [
-    const DashBoard1Screen(),
-    const AcceptedQuoteScreen(),
+    const DashBoardScreen(),
+    const QuoteScreen(),
     const PublicProfileScreen(),
   ];
 
@@ -50,42 +48,44 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: selectedScreenList[selectedScreenIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedScreenIndex,
-          // backgroundColor: const Color(0xff116D6E),
-          selectedItemColor: const Color(0xFF116D6E),
-          unselectedItemColor: const Color(0xFFA0A0A0),
-          onTap: _selectScreen,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/dasboard.png",
-                  height: 20,
-                  color: selectedScreenIndex == 0
-                      ? const Color(0xFF116D6E)
-                      : const Color(0xFFA0A0A0)),
-              label: "DashBoard",
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/category.png",
-                  height: 20,
-                  color: selectedScreenIndex == 1
-                      ? const Color(0xFF116D6E)
-                      : const Color(0xFFA0A0A0)),
-              label: "Quote",
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/image/profile.png",
-                  height: 20,
-                  color: selectedScreenIndex == 2
-                      ? const Color(0xFF116D6E)
-                      : const Color(0xFFA0A0A0)),
-              label: "Profile",
-            ),
-          ]),
+    return SafeArea(
+      child: Scaffold(
+        body: selectedScreenList[selectedScreenIndex],
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedScreenIndex,
+            // backgroundColor: const Color(0xff116D6E),
+            selectedItemColor: const Color(0xFF116D6E),
+            unselectedItemColor: const Color(0xFFA0A0A0),
+            onTap: _selectScreen,
+            showUnselectedLabels: true,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/dasboard.png",
+                    height: 20,
+                    color: selectedScreenIndex == 0
+                        ? const Color(0xFF116D6E)
+                        : const Color(0xFFA0A0A0)),
+                label: "DashBoard",
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/category.png",
+                    height: 20,
+                    color: selectedScreenIndex == 1
+                        ? const Color(0xFF116D6E)
+                        : const Color(0xFFA0A0A0)),
+                label: "Quote",
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset("assets/image/profile.png",
+                    height: 20,
+                    color: selectedScreenIndex == 2
+                        ? const Color(0xFF116D6E)
+                        : const Color(0xFFA0A0A0)),
+                label: "Profile",
+              ),
+            ]),
+      ),
     );
   }
 
@@ -103,7 +103,7 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -115,20 +115,6 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
                       textAlign: TextAlign.center),
                   const SizedBox(
                     height: 20,
-                  ),
-                  Text(
-                      "Lorem ipsum dolor sit, consecteturamet adipiscing."
-                      " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                      style: GoogleFonts.lato(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF707070),
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center),
-                  const SizedBox(
-                    height: 30,
                   ),
                   TextButton(
                       style: ButtonStyle(

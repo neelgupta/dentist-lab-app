@@ -48,6 +48,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
+  bool isFileUpload = false;
 
   @override
   Widget build(BuildContext context) {
@@ -100,24 +101,16 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     alignment: Alignment.center,
                                     child: Container(
                                       alignment: Alignment.center,
-                                      height: 70,
-                                      width: 70,
+                                      height: width * 0.18,
+                                      width: width * 0.18,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                          shape: BoxShape.circle,
                                           border: Border.all(
                                               color: Colors.white, width: 1),
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/image/Ellipse 108.png"),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  Utils.getProfileImage()),
                                               fit: BoxFit.fill)),
-                                      child: Text(
-                                        "N",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white),
-                                      ),
                                     ),
                                   ),
                                 ],
@@ -180,7 +173,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Lab Manager Name',
-                                      hintText: 'Manager Name',
+                                      hintText: 'Lab Manager Name',
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
@@ -192,53 +185,64 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  SizedBox(
-                                    child: TextFormField(
-                                      controller: labManagerNumberController,
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please Enter Lab Manager Mobile Number';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: "Mobile Number",
-                                          hintText: "Enter Mobile Number",
-                                          counterText: "",
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xFF707070))),
-                                          prefixIcon: Container(
-                                              width: width * 0.2,
-                                              margin: EdgeInsets.only(
-                                                  right: width * 0.03, top: 8, bottom: 8),
-                                              decoration: const BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Color(
-                                                              0xFF707070)))),
-                                              alignment: Alignment.center,
-                                              child: CountryCodePicker(
-                                                onChanged: (value) {
-                                                  labManagerCountryCode =
-                                                      value.dialCode!;
-                                                  setState(() {});
-                                                },
-                                                showFlag: false,
-                                                padding: EdgeInsets.zero,
-                                                initialSelection:
-                                                    labManagerCountryCode,
-                                                showDropDownButton: false,
-                                                favorite: const ['+971'],
-                                                showCountryOnly: false,
-                                                showOnlyCountryWhenClosed:
-                                                    false,
-                                                alignLeft: false,
-                                              ))),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            labManagerCountryCode =
+                                                value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection:
+                                              labManagerCountryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller:
+                                              labManagerNumberController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Lab Manager Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              labelText: "Mobile Number",
+                                              hintText: "Mobile Number",
+                                              counterText: "",
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color:
+                                                          Color(0xFF707070))),
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 18,
+                                                      top: 16,
+                                                      bottom: 16)),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -249,9 +253,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Enter Lab Manager Email Address';
+                                        return 'Please Enter Email Address';
                                       } else if (!RegExp(
-                                              "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                           .hasMatch(value)) {
                                         return "Please Enter Valid Email Address";
                                       }
@@ -308,7 +312,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                               BorderRadius.circular(12),
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
-                                      labelText: 'Technical Manager Name',
+                                      labelText: 'Manager Name',
                                       hintText: 'Manager Name',
                                       counterText: "",
                                       hintStyle: const TextStyle(
@@ -322,54 +326,64 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  SizedBox(
-                                    child: TextFormField(
-                                      controller:
-                                          technicalManagerNumberController,
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Enter Technical Manager Mobile Number';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: "Mobile Number",
-                                          hintText: "Enter Mobile Number",
-                                          counterText: "",
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xFF707070))),
-                                          prefixIcon: Container(
-                                              width: width * 0.2,
-                                              margin: EdgeInsets.only(
-                                                  right: width * 0.03, top: 8, bottom: 8),
-                                              decoration: const BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Color(
-                                                              0xFF707070)))),
-                                              alignment: Alignment.center,
-                                              child: CountryCodePicker(
-                                                onChanged: (value) {
-                                                  techDirectorCountryCode =
-                                                      value.dialCode!;
-                                                  setState(() {});
-                                                },
-                                                showFlag: false,
-                                                padding: EdgeInsets.zero,
-                                                initialSelection:
-                                                    techDirectorCountryCode,
-                                                showDropDownButton: false,
-                                                favorite: const ['+971'],
-                                                showCountryOnly: false,
-                                                showOnlyCountryWhenClosed:
-                                                    false,
-                                                alignLeft: false,
-                                              ))),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            techDirectorCountryCode =
+                                                value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection:
+                                              techDirectorCountryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller:
+                                              technicalManagerNumberController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Enter Technical Manager Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: "Mobile Number",
+                                            hintText: "Mobile Number",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                    color: Color(0xFF707070))),
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    left: 18,
+                                                    top: 16,
+                                                    bottom: 16),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -380,9 +394,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Enter Technical Manager Email Address';
+                                        return 'Please Enter Email Address';
                                       } else if (!RegExp(
-                                              "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                           .hasMatch(value)) {
                                         return "Please Enter Valid Email Address";
                                       }
@@ -573,6 +587,11 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileUpload &&
+                                      technicalManagerLicense == null)
+                                    Utils.showCustomError(
+                                        message:
+                                            "Please Select Technical Manager License File"),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -608,7 +627,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                               BorderRadius.circular(12),
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
-                                      labelText: 'Financial Manager Name  ',
+                                      labelText: 'Manager Name  ',
                                       hintText: 'Manager Name',
                                       counterText: "",
                                       hintStyle: const TextStyle(
@@ -622,54 +641,64 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  SizedBox(
-                                    child: TextFormField(
-                                      controller:
-                                          financialManagerNumberController,
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Enter Financial Manager Mobile Number';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: "Mobile Number",
-                                          hintText: "Enter Mobile Number",
-                                          counterText: "",
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xFF707070))),
-                                          prefixIcon: Container(
-                                              width: width * 0.2,
-                                              margin: EdgeInsets.only(
-                                                  right: width * 0.03,top: 8, bottom: 8),
-                                              decoration: const BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Color(
-                                                              0xFF707070)))),
-                                              alignment: Alignment.center,
-                                              child: CountryCodePicker(
-                                                onChanged: (value) {
-                                                  financialManagerCountryCode =
-                                                      value.dialCode!;
-                                                  setState(() {});
-                                                },
-                                                showFlag: false,
-                                                padding: EdgeInsets.zero,
-                                                initialSelection:
-                                                    financialManagerCountryCode,
-                                                showDropDownButton: false,
-                                                favorite: const ['+971'],
-                                                showCountryOnly: false,
-                                                showOnlyCountryWhenClosed:
-                                                    false,
-                                                alignLeft: false,
-                                              ))),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            financialManagerCountryCode =
+                                                value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection:
+                                              financialManagerCountryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller:
+                                              financialManagerNumberController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Enter Financial Manager Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              labelText: "Mobile Number",
+                                              hintText: "Mobile Number",
+                                              counterText: "",
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color:
+                                                          Color(0xFF707070))),
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 18,
+                                                      top: 16,
+                                                      bottom: 16)),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -680,9 +709,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Enter Financial Manager Email Address';
+                                        return 'Please Enter Email Address';
                                       } else if (!RegExp(
-                                              "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                           .hasMatch(value)) {
                                         return "Please Enter Valid Email Address";
                                       }
@@ -725,7 +754,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                               color: Color(0xFF707070))),
                                       labelText:
                                           'Total Number of Lab Technicians',
-                                      hintText: '',
+                                      hintText:
+                                          'Total Number of Lab Technicians',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -872,6 +902,11 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileUpload &&
+                                      financialManagerLicense == null)
+                                    Utils.showCustomError(
+                                        message:
+                                            "Please Select List of Lab Tech File"),
                                   SizedBox(
                                     height: height * 0.050,
                                   ),
@@ -883,17 +918,26 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                         color: const Color(0xFF116D6E)),
                                     child: TextButton(
                                         onPressed: () {
+                                          if (technicalManagerLicense == null ||
+                                              financialManagerLicense == null) {
+                                            isFileUpload = true;
+                                            setState(() {});
+                                          }
+
                                           if (formKey.currentState!
                                               .validate()) {
                                             if (technicalManagerLicense ==
                                                 null) {
+                                              isFileUpload = true;
                                               Utils.showErrorToast(
                                                   "Please Select Technical Manager License");
                                             } else if (financialManagerLicense ==
                                                 null) {
+                                              isFileUpload = true;
                                               Utils.showErrorToast(
                                                   "Please Select lab Technicians File");
                                             } else {
+                                              isFileUpload = false;
                                               manageProfile3();
                                             }
                                           } else {

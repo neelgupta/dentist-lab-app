@@ -151,7 +151,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         if (isOTPFilled) {
                           verifyOtp();
                         } else {
-                          Utils.showErrorToast("Please Enter OTP");
+                          Utils.showErrorToast("Please Enter Correct OTP");
                         }
                       },
                       child: Text("Submit Code",

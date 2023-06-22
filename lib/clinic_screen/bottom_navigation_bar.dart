@@ -122,20 +122,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                      "Lorem ipsum dolor sit, consecteturamet adipiscing."
-                      " Pellentesque tristique elit in nibh ultricies rhoncus.",
-                      style: GoogleFonts.lato(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF707070),
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   TextButton(
                       style: ButtonStyle(
                         backgroundColor:

@@ -440,6 +440,7 @@ class _CreateQuoteState extends State<CreateQuote> {
                                               fontWeight: FontWeight.w500,
                                               color: Color(0xFF707070)),
                                           counterText: "",
+                                          hintText: 'Date till',
                                           hintStyle: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,

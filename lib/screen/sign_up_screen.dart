@@ -157,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Email Address';
                                   } else if (!RegExp(
-                                          "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                       .hasMatch(value)) {
                                     return "Please Enter Valid Email Address";
                                   }
@@ -168,9 +168,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         borderRadius: BorderRadius.circular(12),
                                         borderSide: const BorderSide(
                                             color: Color(0xFF707070))),
-                                    labelText: 'Email',
+                                    labelText: 'Email Address',
                                     counterText: "",
-                                    hintText: 'admin@gmail.com',
+                                    hintText: 'Email Address',
                                     hintStyle: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,

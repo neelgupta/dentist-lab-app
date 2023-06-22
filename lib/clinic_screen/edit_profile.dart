@@ -199,6 +199,10 @@ class _EditProfileState extends State<EditProfile> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please Enter Email Address';
+                                } else if (!RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                                  return "Please Enter Valid Email Address";
                                 }
                                 return null;
                               },

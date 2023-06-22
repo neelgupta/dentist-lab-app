@@ -24,7 +24,7 @@ class SingleServiceModel {
   String? title;
   String? description;
   String? price;
-  List<String> serviceImags;
+  List? serviceImags;
 
   SingleServiceModel({
     this.id,

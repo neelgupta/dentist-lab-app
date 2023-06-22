@@ -1,5 +1,5 @@
 import 'package:dentalapp/clinic_screen/bottom_navigation_bar.dart';
-import 'package:dentalapp/screen/bottom_navigation_bar_screen.dart';
+import 'package:dentalapp/screen/lab_home.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -145,7 +145,7 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
       context,
       MaterialPageRoute(
           builder: (context) => userType == "lab"
-              ? const BottomNavigatorBarWidget(index: 0)
+              ? const LabHome(index: 0)
               : const BottomNavigation(index: 0)),
     );
     return true;

@@ -30,6 +30,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
 
   List<ImageData> selectedServicesImage = [];
   List oldImages = [];
+  bool isImageSelected = false;
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
       titleController.text = widget.userService!.title ?? "";
       descriptionController.text = widget.userService!.description ?? "";
       servicePriceController.text = widget.userService!.price ?? "";
-      for (var item in widget.userService!.serviceImags) {
+      for (var item in widget.userService!.serviceImags ?? []) {
         selectedServicesImage.add(ImageData("1", item, "network"));
       }
     }
@@ -128,7 +129,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                           controller: titleController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please Enter Service Title';
+                              return 'Please Enter Title';
                             }
                             return null;
                           },
@@ -138,7 +139,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                 borderSide:
                                     const BorderSide(color: Color(0xFF707070))),
                             labelText: 'Title',
-                            hintText: 'Enter Title',
+                            hintText: 'Title',
                             hintStyle: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -175,7 +176,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                             labelStyle: const TextStyle(
                               fontSize: 14,
                             ),
-                            hintText: 'Enter Description',
+                            hintText: 'Description',
                             hintStyle: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -199,7 +200,7 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                           },
                           decoration: InputDecoration(
                               labelText: "Service Price",
-                              hintText: "Enter Service Price",
+                              hintText: "Service Price",
                               counterText: "",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -387,6 +388,9 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                                   ),
                                 ),
                         ),
+                        if (isImageSelected && selectedServicesImage.isEmpty)
+                          Utils.showCustomError(
+                              message: "Please Select Service Image")
                       ],
                     ),
                   ),
@@ -406,11 +410,17 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                               : 0xFFA0A0A0)),
                       child: TextButton(
                           onPressed: () {
+                            if (selectedServicesImage.isEmpty) {
+                              isImageSelected = true;
+                              setState(() {});
+                            }
                             if (formKey.currentState!.validate()) {
                               if (selectedServicesImage.isEmpty) {
+                                isImageSelected = true;
                                 Utils.showErrorToast(
                                     "Please Upload Service Images");
                               } else {
+                                isImageSelected = false;
                                 widget.userService != null
                                     ? updateService()
                                     : getAddService();

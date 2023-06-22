@@ -36,6 +36,7 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
   File? medicalLicense;
   File? tradeLicense;
   File? trn;
+  bool isFileSelected = false;
 
   bool isLoading = false;
   ClinicService clinicService = ClinicService();
@@ -172,7 +173,7 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                               borderSide:
                                   const BorderSide(color: Color(0xFF707070))),
                           labelText: 'Medical License Number',
-                          hintText: '123456789',
+                          hintText: 'Medical License Number',
                           counterText: "",
                           hintStyle: const TextStyle(
                               fontSize: 15,
@@ -351,6 +352,11 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                           ),
                         ),
                       ),
+                      if (isFileSelected &&
+                          medicalFile.isEmpty &&
+                          medicalLicense == null)
+                        Utils.showCustomError(
+                            message: "Please Select Trade License File"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -370,7 +376,7 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                               borderSide:
                                   const BorderSide(color: Color(0xFF707070))),
                           labelText: 'Trade License Number',
-                          hintText: '123456789',
+                          hintText: 'Trade License Number',
                           counterText: "",
                           hintStyle: const TextStyle(
                               fontSize: 15,
@@ -567,7 +573,7 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                               borderSide:
                                   const BorderSide(color: Color(0xFF707070))),
                           labelText: 'TRN Number',
-                          hintText: '123456789',
+                          hintText: 'TRN Number',
                           counterText: "",
                           hintStyle: const TextStyle(
                               fontSize: 15,
@@ -744,6 +750,9 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                           ),
                         ),
                       ),
+                      if (isFileSelected && trn == null && trnFile.isEmpty)
+                        Utils.showCustomError(
+                            message: "Please Select TRN File"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -759,20 +768,24 @@ class _EditAdditionalInfoState extends State<EditAdditionalInfo> {
                         child: TextButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
+                                isFileSelected = true;
                                 if (medicalLicense == null &&
                                     medicalFile.isEmpty) {
                                   Utils.showErrorToast(
                                       "Please Upload Medical License");
                                 } else if (tradeLicense == null &&
                                     tradeFile.isEmpty) {
+                                  isFileSelected = true;
                                   Utils.showErrorToast(
                                       "Please Upload Trade License");
                                 } else if (trn == null && trnFile.isEmpty) {
                                   Utils.showErrorToast("Please Upload TRN");
                                 } else {
+                                  isFileSelected = false;
                                   updateClinicAdditionalDetails();
                                 }
                               } else {
+                                isFileSelected = true;
                                 autoValidate = AutovalidateMode.always;
                                 setState(() {});
                               }

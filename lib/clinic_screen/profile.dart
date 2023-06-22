@@ -1572,6 +1572,9 @@ class _ProfileState extends State<Profile> {
   }
 
   getProfileData() async {
+    setState(() {
+      isLoading = true;
+    });
     Response response = await clientProfile.getClinicProfile();
 
     if (response.statusCode == 200) {

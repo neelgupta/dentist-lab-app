@@ -26,6 +26,12 @@ class ApiServices {
   static String manageProfile4Api = "${baseUrl}lab/addLabWorkHours";
   static String manageProfile5Api = "${baseUrl}lab/addAboutLab";
   static String manageProfile6Api = "${baseUrl}lab/labPaymentMethods";
+  static String editLabDetails = "${baseUrl}lab/editLabDetails";
+  static String editMangersDetails = "${baseUrl}lab/editMangersDetails";
+  static String editPaymenthod = "${baseUrl}lab/editPaymenthod";
+  static String editLabAdditionalDetails =
+      "${baseUrl}lab/editAdditionalDetails";
+  static String editLabWorkingHour = "${baseUrl}lab/editLabWorkingHour";
   static String getLabProfileApi = "${baseUrl}lab/getlabProfile";
   static String putEditProfileApi = "${baseUrl}lab/editProfile";
 

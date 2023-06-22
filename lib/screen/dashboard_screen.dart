@@ -12,14 +12,14 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../models/lab_getfeeds.dart';
 
-class DashBoard1Screen extends StatefulWidget {
-  const DashBoard1Screen({Key? key}) : super(key: key);
+class DashBoardScreen extends StatefulWidget {
+  const DashBoardScreen({Key? key}) : super(key: key);
 
   @override
-  State<DashBoard1Screen> createState() => _DashBoard1ScreenState();
+  State<DashBoardScreen> createState() => _DashBoardScreenState();
 }
 
-class _DashBoard1ScreenState extends State<DashBoard1Screen> {
+class _DashBoardScreenState extends State<DashBoardScreen> {
   TextEditingController amountController = TextEditingController();
 
   LabDashBoardServices labDashBoardServices = LabDashBoardServices();
@@ -85,8 +85,8 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                     opacity: 0.3)),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: height * 0.03,
-                                  horizontal: width * 0.055),
+                                  vertical: height * 0.02,
+                                  horizontal: width * 0.05),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -115,7 +115,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: height * 0.016,
+                                    height: height * 0.01,
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -130,8 +130,8 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                         border: Border.all(
                                             color: const Color(0xFFFFFFFF))),
                                   ),
-                                  const SizedBox(
-                                    height: 15,
+                                  SizedBox(
+                                    height: height * 0.005,
                                   ),
                                   Text(
                                       "${Utils.getFirstName()} ${Utils.getLastName()}",
@@ -140,8 +140,8 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                         fontWeight: FontWeight.w700,
                                         color: Colors.white,
                                       )),
-                                  const SizedBox(
-                                    height: 8,
+                                  SizedBox(
+                                    height: height * 0.005,
                                   ),
                                   if (establishDate.isNotEmpty)
                                     Text(

@@ -1,4 +1,4 @@
-import 'package:dentalapp/screen/bottom_navigation_bar_screen.dart';
+import 'package:dentalapp/screen/lab_home.dart';
 import 'package:dentalapp/screen/notification_screen.dart';
 import 'package:dentalapp/screen/payment_history.dart';
 import 'package:dentalapp/screen/services_screen.dart';
@@ -111,7 +111,7 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {
-                  return const BottomNavigatorBarWidget(index: 0);
+                  return const LabHome(index: 0);
                 },
               ), (route) => false);
             },
@@ -145,7 +145,7 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {
-                  return const BottomNavigatorBarWidget(index: 1);
+                  return const LabHome(index: 1);
                 },
               ), (route) => false);
             },
@@ -179,7 +179,7 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
             onTap: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {
-                  return const BottomNavigatorBarWidget(index: 2);
+                  return const LabHome(index: 2);
                 },
               ), (route) => false);
             },

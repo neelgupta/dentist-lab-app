@@ -23,8 +23,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
   TextEditingController labNameController = TextEditingController();
   TextEditingController labMobileController = TextEditingController();
   TextEditingController landLineNumberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -82,23 +80,16 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                     alignment: Alignment.center,
                                     child: Container(
                                       alignment: Alignment.center,
-                                      height: 70,
-                                      width: 70,
+                                      height: width * 0.18,
+                                      width: width * 0.18,
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                               color: Colors.white, width: 1),
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/image/Ellipse 108.png"),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  Utils.getProfileImage()),
                                               fit: BoxFit.fill)),
-                                      child: Text(
-                                        "N",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white),
-                                      ),
                                     ),
                                   ),
                                 ],
@@ -173,54 +164,61 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  SizedBox(
-                                    child: TextFormField(
-                                      controller: labMobileController,
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please Enter Lab Mobile Number';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: "Mobile Number",
-                                          hintText: "Enter Mobile Number",
-                                          counterText: "",
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xFF707070))),
-                                          prefixIcon: InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                                width: width * 0.2,
-                                                margin: EdgeInsets.only(
-                                                    right: width * 0.03,top: 8,bottom: 8),
-                                                decoration: const BoxDecoration(
-                                                    border: Border(
-                                                        right: BorderSide(
-                                                            color: Color(
-                                                                0xFF707070)))),
-                                                alignment: Alignment.center,
-                                                child: CountryCodePicker(
-                                                  onChanged: (value) {
-                                                    countryCode = value.dialCode!;
-                                                    setState(() {});
-                                                  },
-                                                  padding: EdgeInsets.zero,
-                                                  showFlag: false,
-                                                  initialSelection: countryCode,
-                                                  showDropDownButton: false,
-                                                  favorite: const ['+971'],
-                                                  showCountryOnly: false,
-                                                  showOnlyCountryWhenClosed:
-                                                      false,
-                                                  alignLeft: false,
-                                                )),
-                                          )),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            countryCode = value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection: countryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: labMobileController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Lab Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              labelText: "Mobile Number",
+                                              hintText: "Mobile Number",
+                                              counterText: "",
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color:
+                                                          Color(0xFF707070))),
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 18,
+                                                      top: 16,
+                                                      bottom: 16)),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -242,7 +240,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Land Line Number',
-                                      hintText: '123456789',
+                                      hintText: 'Land Line Number',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -364,10 +362,10 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                   TextFormField(
                                     keyboardType: TextInputType.name,
                                     controller: poBoxController,
-                                    textInputAction: TextInputAction.next,
+                                    textInputAction: TextInputAction.done,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter P.O Box Number';
+                                        return 'Please Enter P.O. Box Number';
                                       }
                                       return null;
                                     },
@@ -414,6 +412,12 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                     textInputAction: TextInputAction.next,
                                     controller: dateInputController,
                                     readOnly: true,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please Select Establish Date';
+                                      }
+                                      return null;
+                                    },
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                             borderRadius:

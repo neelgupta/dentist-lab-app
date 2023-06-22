@@ -110,12 +110,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               controller: emailController,
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please Enter Email';
+                                if (value == null || value.isEmpty) {
+                                  return 'Please Enter Email Address';
                                 } else if (!RegExp(
-                                        "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                     .hasMatch(value)) {
-                                  return "Please Enter Valid Email";
+                                  return "Please Enter Valid Email Address";
                                 }
                                 return null;
                               },
@@ -124,8 +124,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: const BorderSide(
                                           color: Color(0xFF707070))),
-                                  labelText: 'Email',
-                                  hintText: 'admin@gmail.com',
+                                  labelText: 'Email Address',
+                                  hintText: 'Email Address',
                                   hintStyle: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,

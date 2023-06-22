@@ -106,10 +106,10 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter Password';
+                                  return 'Please Enter Password';
                                 }
                                 if (value.length < 6) {
-                                  return "Enter 6 character password";
+                                  return "Enter 6 Character Password";
                                 }
                                 return null;
                               },
@@ -121,7 +121,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                       borderSide: const BorderSide(
                                           color: Color(0xFF707070))),
                                   labelText: 'New Password',
-                                  hintText: 'Password@123',
+                                  hintText: 'New Password',
                                   hintStyle: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
@@ -145,9 +145,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter ConfirmPassword';
+                                  return 'Please Enter Confirm Password';
                                 } else if (value.length < 6) {
-                                  return "Enter 6 character password";
+                                  return "Enter 6 Character Password";
                                 } else if (value != passwordController.text) {
                                   return "Password Doesn't Match";
                                 }
@@ -161,7 +161,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                       borderSide: const BorderSide(
                                           color: Color(0xFF707070))),
                                   labelText: 'Confirm Password',
-                                  hintText: 'Password@123',
+                                  hintText: 'Confirm Password',
                                   hintStyle: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,

@@ -29,6 +29,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
   File? trn;
   File? noOfDevice;
 
+  bool isFileUpload = false;
+
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
@@ -94,24 +96,16 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                     alignment: Alignment.center,
                                     child: Container(
                                       alignment: Alignment.center,
-                                      height: 70,
-                                      width: 70,
+                                      height: width * 0.18,
+                                      width: width * 0.18,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                          shape: BoxShape.circle,
                                           border: Border.all(
                                               color: Colors.white, width: 1),
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/image/Ellipse 108.png"),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  Utils.getProfileImage()),
                                               fit: BoxFit.fill)),
-                                      child: Text(
-                                        "N",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white),
-                                      ),
                                     ),
                                   ),
                                 ],
@@ -174,7 +168,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Medical License Number',
-                                      hintText: '123456789',
+                                      hintText: 'Medical License Number',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -320,6 +314,10 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileUpload && medicalLicense == null)
+                                    Utils.showCustomError(
+                                        message:
+                                            "Please Select Medical License File"),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -340,7 +338,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Trade License Number',
-                                      hintText: '123456789',
+                                      hintText: 'Trade License Number',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -486,6 +484,10 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileUpload && tradeLicense == null)
+                                    Utils.showCustomError(
+                                        message:
+                                            "Please Select Trade License File"),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -506,7 +508,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'TRN Number',
-                                      hintText: '123456789',
+                                      hintText: 'TRN Number',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -653,6 +655,9 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileUpload && trn == null)
+                                    Utils.showCustomError(
+                                        message: "Please Select TRN File"),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -662,7 +667,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                     keyboardType: TextInputType.number,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Enter Total Number of devices used';
+                                        return 'Enter Total Number of Devices Used';
                                       }
                                       return null;
                                     },
@@ -673,7 +678,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Total Number of Devices Used',
-                                      hintText: '123456789',
+                                      hintText: 'Total Number of Devices Used',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -819,6 +824,10 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                       ),
                                     ),
                                   ),
+                                  if (isFileUpload && noOfDevice == null)
+                                    Utils.showCustomError(
+                                        message:
+                                            "Please Select List of Devices File"),
                                   SizedBox(
                                     height: height * 0.065,
                                   ),
@@ -843,21 +852,33 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                             : 0xFFA0A0A0)),
                                     child: TextButton(
                                         onPressed: () {
+                                          if (medicalLicense == null ||
+                                              tradeLicense == null ||
+                                              trn == null ||
+                                              noOfDevice == null) {
+                                            isFileUpload = true;
+                                            setState(() {});
+                                          }
                                           if (formKey.currentState!
                                               .validate()) {
                                             if (medicalLicense == null) {
+                                              isFileUpload = true;
                                               Utils.showErrorToast(
                                                   "Please Select Medical License");
                                             } else if (tradeLicense == null) {
+                                              isFileUpload = true;
                                               Utils.showErrorToast(
                                                   "Please Select Trade License");
                                             } else if (trn == null) {
+                                              isFileUpload = true;
                                               Utils.showErrorToast(
                                                   "Please Select TRN");
                                             } else if (noOfDevice == null) {
+                                              isFileUpload = true;
                                               Utils.showErrorToast(
                                                   "Please Select Device Used File");
                                             } else {
+                                              isFileUpload = false;
                                               manageProfile2();
                                             }
                                           } else {

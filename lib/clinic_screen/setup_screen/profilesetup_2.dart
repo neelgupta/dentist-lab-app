@@ -26,6 +26,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
   TextEditingController medicalLicenseController = TextEditingController();
   TextEditingController tradeLicenseController = TextEditingController();
   TextEditingController trnNumberController = TextEditingController();
+  bool isFileSelected = false;
 
   File? medicalLicense;
   File? tradeLicense;
@@ -82,22 +83,14 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         alignment: Alignment.center,
                         child: Container(
                           alignment: Alignment.center,
-                          height: 70,
-                          width: 70,
+                          height: width * 0.18,
+                          width: width * 0.18,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
+                              shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 1),
-                              image: const DecorationImage(
-                                  image: AssetImage(
-                                      "assets/image/Ellipse 108.png"),
+                              image: DecorationImage(
+                                  image: NetworkImage(Utils.getProfileImage()),
                                   fit: BoxFit.fill)),
-                          child: Text(
-                            "N",
-                            style: GoogleFonts.lato(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
-                          ),
                         ),
                       ),
                     ],
@@ -185,7 +178,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                               borderSide:
                                   const BorderSide(color: Color(0xFF707070))),
                           labelText: 'Medical License Number',
-                          hintText: '123456789',
+                          hintText: 'Medical License Number',
                           counterText: "",
                           hintStyle: const TextStyle(
                               fontSize: 15,
@@ -310,6 +303,9 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                         ),
                       ),
+                      if (isFileSelected && medicalLicense == null)
+                        Utils.showCustomError(
+                            message: "Please Select Medical License File"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -329,7 +325,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                               borderSide:
                                   const BorderSide(color: Color(0xFF707070))),
                           labelText: 'Trade License Number',
-                          hintText: '123456789',
+                          hintText: 'Trade License Number',
                           counterText: "",
                           hintStyle: const TextStyle(
                               fontSize: 15,
@@ -454,6 +450,9 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                         ),
                       ),
+                      if (isFileSelected && tradeLicense == null)
+                        Utils.showCustomError(
+                            message: "Please Select Trade License File"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -473,7 +472,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                               borderSide:
                                   const BorderSide(color: Color(0xFF707070))),
                           labelText: 'TRN Number',
-                          hintText: '123456789',
+                          hintText: 'TRN Number',
                           counterText: "",
                           hintStyle: const TextStyle(
                               fontSize: 15,
@@ -597,6 +596,9 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                         ),
                       ),
+                      if (isFileSelected && trn == null)
+                        Utils.showCustomError(
+                            message: "Please Select TRN File"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -612,6 +614,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                         child: TextButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
+                                isFileSelected = true;
                                 if (medicalLicense == null) {
                                   Utils.showErrorToast(
                                       "Please Upload Medical License");
@@ -621,9 +624,11 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                 } else if (trn == null) {
                                   Utils.showErrorToast("Please Upload TRN");
                                 } else {
+                                  isFileSelected = false;
                                   profileSetup2();
                                 }
                               } else {
+                                isFileSelected = true;
                                 autoValidate = AutovalidateMode.always;
                                 setState(() {});
                               }

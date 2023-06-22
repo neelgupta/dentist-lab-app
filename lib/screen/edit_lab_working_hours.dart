@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:dentalapp/screen/manage_profile_5.dart';
+import 'package:dentalapp/models/lab_profile.dart';
 import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,14 +10,15 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
-class ManageProfile4 extends StatefulWidget {
-  const ManageProfile4({Key? key}) : super(key: key);
+class EditLabWorkingHours extends StatefulWidget {
+  final LabDatum labData;
+  const EditLabWorkingHours({super.key, required this.labData});
 
   @override
-  State<ManageProfile4> createState() => _ManageProfile4State();
+  State<EditLabWorkingHours> createState() => _EditLabWorkingHoursState();
 }
 
-class _ManageProfile4State extends State<ManageProfile4> {
+class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
   var openingTime = "01:00";
   var closingTime = "24:00";
   bool onOff = false;
@@ -239,6 +240,15 @@ class _ManageProfile4State extends State<ManageProfile4> {
         daysName.length,
         (index) => DayDetails(
             day: daysName[index], startTime: "", endTime: "", isOpen: false));
+    for (var i = 0; i < days.length; i++) {
+      days[i].day = widget.labData.workingHours!.first.dayDetails![i].day ?? "";
+      days[i].startTime =
+          widget.labData.workingHours!.first.dayDetails![i].startTime ?? "";
+      days[i].endTime =
+          widget.labData.workingHours!.first.dayDetails![i].endTime ?? "";
+      days[i].isOpen =
+          widget.labData.workingHours!.first.dayDetails![i].isOpen ?? false;
+    }
   }
 
   @override
@@ -256,76 +266,56 @@ class _ManageProfile4State extends State<ManageProfile4> {
           child: Column(
             children: [
               Container(
-                height: height * 0.25,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/image/01.png"),
-                        fit: BoxFit.fill)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Image(
-                                image: AssetImage("assets/image/left.png"),
-                                fit: BoxFit.fill)),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
+                  height: height * 0.24,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF116D6E),
+                      image: DecorationImage(
+                          image: AssetImage("assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter,
+                          opacity: 0.3)),
+                  child: Align(
                       alignment: Alignment.center,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: width * 0.18,
-                        width: width * 0.18,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 1),
-                            image: DecorationImage(
-                                image: NetworkImage(Utils.getProfileImage()),
-                                fit: BoxFit.fill)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: width * 0.05, top: height * 0.03),
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                                onTap: () {
+                                  if (isTimeSelectedStatus) {
+                                    isTimeSelectedStatus =
+                                        !isTimeSelectedStatus;
+                                    setState(() {});
+                                  } else {
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: const Icon(
+                                  Icons.keyboard_backspace,
+                                  color: Colors.white,
+                                )),
+                          ),
+                          SizedBox(
+                            height: height * 0.04,
+                          ),
+                          Text(
+                            "Edit Additional Details",
+                            style: GoogleFonts.lato(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ))),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: width * 0.057, vertical: height * 0.027),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "4/",
-                          style: GoogleFonts.lato(
-                              fontSize: 17, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "6",
-                          style: GoogleFonts.lato(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFFA0A0A0)),
-                        ),
-                      ],
-                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -339,7 +329,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                     fontSize: 18, fontWeight: FontWeight.w600),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 10,
                               ),
                               ListView(
                                 shrinkWrap: true,
@@ -400,171 +390,6 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                     ),
                                 ],
                               ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     SizedBox(
-                              //         width: 70,
-                              //         child: Text("Monday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
-                              //     const Spacer(),
-                              //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Tuesday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 77,
-                              //       child: Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Thursday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Friday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Saturday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Sunday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
                               SizedBox(
                                 height: height * 0.050,
                               ),
@@ -577,7 +402,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                 ),
                                 child: TextButton(
                                     onPressed: () {
-                                      manageProfile4();
+                                      updateWorkHours();
                                     },
                                     child: Text("Continue",
                                         style: GoogleFonts.lato(
@@ -807,9 +632,9 @@ class _ManageProfile4State extends State<ManageProfile4> {
     ));
   }
 
-  manageProfile4() async {
+  updateWorkHours() async {
     Utils.showLoadingDialog(context);
-    var postUri = Uri.parse(ApiServices.manageProfile4Api);
+    var postUri = Uri.parse(ApiServices.editLabWorkingHour);
     List workingDays = [];
     for (int i = 0; i < days.length; i++) {
       Map times = {
@@ -824,7 +649,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
       "dayDetails": workingDays,
     };
 
-    var response = await http.post(
+    var response = await http.put(
       postUri,
       body: jsonEncode(bodyData),
       headers: Utils.apiHeader,
@@ -832,22 +657,12 @@ class _ManageProfile4State extends State<ManageProfile4> {
     Utils.logAPIResponse(
         body: bodyData,
         response: response,
-        apiName: ApiServices.manageProfile4Api,
-        function: "manageProfile4");
+        apiName: ApiServices.editLabWorkingHour,
+        function: "updateWorkHours");
     Navigator.pop(context);
     if (response.statusCode == 200) {
-      Map map = jsonDecode(response.body);
-      if (map["status"] == 200) {
-        Utils.setScreenStatus("5");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ManageProfile5(),
-            ));
-        Utils.showErrorToast(map['message']);
-      } else {
-        Utils.showErrorToast(map['message']);
-      }
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     } else {

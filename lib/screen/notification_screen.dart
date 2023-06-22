@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:dentalapp/models/notification_model.dart';
-import 'package:dentalapp/screen/bottom_navigation_bar_screen.dart';
+import 'package:dentalapp/screen/lab_home.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -149,7 +149,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Future<bool> goBack() async {
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (context) {
-        return const BottomNavigatorBarWidget(index: 0);
+        return const LabHome(index: 0);
       },
     ), (route) => false);
     return true;

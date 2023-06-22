@@ -9,6 +9,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
+  static showCustomError({required String message}) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Text(
+            message,
+            style: TextStyle(color: Colors.red[700], fontSize: 12),
+          ),
+        ),
+      ],
+    );
+  }
+
   static logAPIResponse(
       {String? apiName, String? function, Response? response, Map? body}) {
     log("API Name : $apiName");

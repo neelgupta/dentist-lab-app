@@ -18,18 +18,15 @@ class Item {
   Item({required this.name, required this.description});
 }
 
-class AcceptedQuoteDetailsScreen extends StatefulWidget {
+class QuoteDetailsScreen extends StatefulWidget {
   final String quoteId;
-  const AcceptedQuoteDetailsScreen({Key? key, required this.quoteId})
-      : super(key: key);
+  const QuoteDetailsScreen({Key? key, required this.quoteId}) : super(key: key);
 
   @override
-  State<AcceptedQuoteDetailsScreen> createState() =>
-      _AcceptedQuoteDetailsScreenState();
+  State<QuoteDetailsScreen> createState() => _QuoteDetailsScreenState();
 }
 
-class _AcceptedQuoteDetailsScreenState
-    extends State<AcceptedQuoteDetailsScreen> {
+class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
   bool isShareComments = false;
@@ -70,7 +67,7 @@ class _AcceptedQuoteDetailsScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        height: height * 0.15,
+                        height: height * 0.2,
                         decoration: const BoxDecoration(
                             color: Color(0xFF116D6E),
                             image: DecorationImage(

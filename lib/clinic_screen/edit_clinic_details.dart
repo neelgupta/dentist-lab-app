@@ -120,7 +120,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "Edit Clinic Details",
+                                    "Clinic Details",
                                     style: GoogleFonts.lato(
                                         fontSize: 19,
                                         fontWeight: FontWeight.w600),
@@ -157,52 +157,61 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  TextFormField(
-                                    controller: labMobileController,
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please Enter Mobile Number';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: "Mobile Number",
-                                        hintText: "Enter Mobile Number",
-                                        counterText: "",
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            borderSide: const BorderSide(
-                                                color: Color(0xFF707070))),
-                                        prefixIcon: InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                              width: width * 0.2,
-                                              margin: EdgeInsets.only(
-                                                  right: width * 0.03, bottom: 8, top: 8),
-                                              decoration: const BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          color: Color(
-                                                              0xFF707070)))),
-                                              alignment: Alignment.center,
-                                              child: CountryCodePicker(
-                                                onChanged: (value) {
-                                                  countryCode = value.dialCode!;
-                                                  setState(() {});
-                                                },
-                                                showFlag: false,
-                                                padding: EdgeInsets.zero,
-                                                initialSelection: countryCode,
-                                                showDropDownButton: false,
-                                                favorite: const ['+971'],
-                                                showCountryOnly: false,
-                                                showOnlyCountryWhenClosed:
-                                                    false,
-                                                alignLeft: false,
-                                              )),
-                                        )),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: const Color(0xFF707070)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: CountryCodePicker(
+                                          onChanged: (value) {
+                                            countryCode = value.dialCode!;
+                                            setState(() {});
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          showFlag: false,
+                                          initialSelection: countryCode,
+                                          showDropDownButton: false,
+                                          favorite: const ['+971'],
+                                          showCountryOnly: false,
+                                          showOnlyCountryWhenClosed: false,
+                                          alignLeft: false,
+                                        ),
+                                      ),
+                                      SizedBox(width: width * 0.02),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: labMobileController,
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please Enter Mobile Number';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: "Mobile Number",
+                                            hintText: "Mobile Number",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                    color: Color(0xFF707070))),
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    left: 18,
+                                                    top: 16,
+                                                    bottom: 16),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -218,7 +227,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
                                           borderSide: const BorderSide(
                                               color: Color(0xFF707070))),
                                       labelText: 'Land Line Number',
-                                      hintText: '123456789',
+                                      hintText: 'Land Line Number',
                                       counterText: "",
                                       hintStyle: const TextStyle(
                                           fontSize: 15,
@@ -365,7 +374,7 @@ class _EditClinicDetailsState extends State<EditClinicDetails> {
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter P.O.Box';
+                                        return 'Please Enter P.O. Box';
                                       }
                                       return null;
                                     },

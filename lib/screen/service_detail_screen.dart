@@ -134,7 +134,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                     height: height * 0.020,
                                   ),
                                   if (isGalleryVisible &&
-                                      userService!.serviceImags.isNotEmpty)
+                                      (userService!.serviceImags ?? [])
+                                          .isNotEmpty)
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -173,13 +174,15 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                                       image: DecorationImage(
                                                           image: NetworkImage(
                                                               userService!
-                                                                      .serviceImags[
+                                                                      .serviceImags![
                                                                   index]),
                                                           fit: BoxFit.fill)),
                                                 );
                                               },
-                                              itemCount: userService!
-                                                  .serviceImags.length),
+                                              itemCount:
+                                                  (userService!.serviceImags ??
+                                                          [])
+                                                      .length),
                                         ),
                                         SizedBox(height: height * 0.02),
                                       ],

@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'package:dentalapp/screen/add_services_screen.dart';
-import 'package:dentalapp/screen/bottom_navigation_bar_screen.dart';
+import 'package:dentalapp/screen/lab_home.dart';
 import 'package:dentalapp/screen/service_detail_screen.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +62,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                 child: Column(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, top: 40),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.06,
+                                          top: height * 0.03),
                                       alignment: Alignment.centerLeft,
                                       child: InkWell(
                                           onTap: () {
@@ -75,7 +76,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                           )),
                                     ),
                                     SizedBox(
-                                      height: height * 0.05,
+                                      height: height * 0.04,
                                     ),
                                     Text(
                                       "Services",
@@ -266,7 +267,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
   Future<bool> goBack() async {
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (context) {
-        return const BottomNavigatorBarWidget(index: 0);
+        return const LabHome(index: 0);
       },
     ), (route) => false);
     return true;

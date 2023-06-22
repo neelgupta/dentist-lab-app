@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:dentalapp/clinic_screen/bottom_navigation_bar.dart';
 import 'package:dentalapp/models/sign_in_model.dart';
-import 'package:dentalapp/screen/bottom_navigation_bar_screen.dart';
+import 'package:dentalapp/screen/lab_home.dart';
 import 'package:dentalapp/screen/email_verification_screen.dart';
 import 'package:dentalapp/screen/register_type_screen.dart';
 import 'package:dentalapp/screen/reset_password_screen.dart';
@@ -95,9 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please Enter Email Address';
                                 } else if (!RegExp(
-                                        "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                     .hasMatch(value)) {
-                                  return "Please Enter Valid Email";
+                                  return "Please Enter Valid Email Address";
                                 }
                                 return null;
                               },
@@ -106,8 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: const BorderSide(
                                           color: Color(0xFF707070))),
-                                  labelText: 'Email',
-                                  hintText: 'admin@gmail.com',
+                                  labelText: 'Email Address',
+                                  hintText: 'Email Address',
                                   hintStyle: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
@@ -287,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => signInModel!.type == "lab"
-                      ? const BottomNavigatorBarWidget(index: 0)
+                      ? const LabHome(index: 0)
                       : const BottomNavigation(index: 0)));
         }
       } else {

@@ -73,23 +73,16 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   alignment: Alignment.center,
                                   child: Container(
                                     alignment: Alignment.center,
-                                    height: 70,
-                                    width: 70,
+                                    height: width * 0.18,
+                                    width: width * 0.18,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
+                                        shape: BoxShape.circle,
                                         border: Border.all(
                                             color: Colors.white, width: 1),
-                                        image: const DecorationImage(
-                                            image: AssetImage(
-                                                "assets/image/Ellipse 108.png"),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                Utils.getProfileImage()),
                                             fit: BoxFit.fill)),
-                                    child: Text(
-                                      "N",
-                                      style: GoogleFonts.lato(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
-                                    ),
                                   ),
                                 ),
                               ],
@@ -134,16 +127,6 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                 ),
                                 const SizedBox(
                                   height: 10,
-                                ),
-                                Text(
-                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                  style: GoogleFonts.lato(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF707070)),
-                                ),
-                                const SizedBox(
-                                  height: 20,
                                 ),
                                 Container(
                                   height: height * 0.065,
@@ -261,16 +244,6 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                 ),
                                 const SizedBox(
                                   height: 10,
-                                ),
-                                Text(
-                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                  style: GoogleFonts.lato(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF707070)),
-                                ),
-                                const SizedBox(
-                                  height: 20,
                                 ),
                                 Container(
                                   height: height * 0.065,
