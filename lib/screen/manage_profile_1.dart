@@ -76,9 +76,11 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: Colors.white,width: 1),
-                                    image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                //    image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                                  image: DecorationImage(image: NetworkImage(Utils.getProfileImage()), fit: BoxFit.fill),
+
                                 ),
-                                child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
+                               // child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                               ),
                             ),
 

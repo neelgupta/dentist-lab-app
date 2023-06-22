@@ -62,9 +62,8 @@ class _ManageProfile5State extends State<ManageProfile5> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Colors.white,width: 1),
-                                image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
+                              image: DecorationImage(image: NetworkImage(Utils.getProfileImage()), fit: BoxFit.fill),
                             ),
-                            child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                           ),
                         ),
 

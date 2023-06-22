@@ -25,7 +25,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
   TextEditingController medicalLicenseController = TextEditingController();
   TextEditingController tradeLicenseController = TextEditingController();
   TextEditingController trnNumberController = TextEditingController();
-
+  bool isImageValidatorStatus=false;
   File? medicalLicense;
   File? tradeLicense;
   File? trn;
@@ -300,6 +300,9 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                         ),
                       ),
+                      SizedBox(height: height*0.008),
+
+                      isImageValidatorStatus?medicalLicense==null?const Text("Please Upload Medical License",style: TextStyle(color: Colors.red, fontSize: 12),):SizedBox():SizedBox(),
                       const SizedBox(
                         height: 20,
                       ),
@@ -437,6 +440,8 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                         ),
                       ),
+                      SizedBox(height: height*0.008),
+                      isImageValidatorStatus?tradeLicense==null?const Text("Please Upload Trade License",style: TextStyle(color: Colors.red, fontSize: 12),):const SizedBox():const SizedBox(),
                       const SizedBox(
                         height: 20,
                       ),
@@ -574,6 +579,8 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                           ),
                         ),
                       ),
+                      SizedBox(height: height*0.008),
+                      isImageValidatorStatus?trn==null?const Text("Please Upload TRN",style: TextStyle(color: Colors.red, fontSize: 12),):const SizedBox():SizedBox(),
                       const SizedBox(
                         height: 20,
                       ),
@@ -590,13 +597,16 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 if (medicalLicense==null) {
-                                  Utils.showErrorToast("Please Upload Medical License");
+                                  isImageValidatorStatus=true;
+                                  //Utils.showErrorToast("Please Upload Medical License");
                                 }
                                 else if (tradeLicense==null) {
-                                  Utils.showErrorToast("Please Upload Trade License");
+                                  isImageValidatorStatus=true;
+                               //   Utils.showErrorToast("Please Upload Trade License");
                                 }
                                 else if(trn==null) {
-                                  Utils.showErrorToast("Please Upload TRN");
+                                  isImageValidatorStatus=true;
+                                //  Utils.showErrorToast("Please Upload TRN");
                                 }
                                 else {
                                   profileSetup2();
@@ -605,6 +615,7 @@ class _ProfileSetup2State extends State<ProfileSetup2> {
                                 autoValidate = AutovalidateMode.always;
                                 setState(() {});
                               }
+                              setState(() {});
                             },
                             child: Text("Continue",
                                 style: GoogleFonts.lato(
