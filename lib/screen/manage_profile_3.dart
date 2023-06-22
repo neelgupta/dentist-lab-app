@@ -30,7 +30,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
   TextEditingController financialManagerEmailController = TextEditingController();
   TextEditingController totalTechnicianController = TextEditingController();
 
-
+  bool isImageValidatorStatus=false;
   File? technicalManagerLicense;
   File? financialManagerLicense;
 
@@ -140,6 +140,11 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Lab Manager Contact Number';
                                 }
+                                else if(value.length > 12)
+                                {
+                                  return 'Please Enter valid Contact Number';
+                                }
+
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -162,7 +167,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               validator: (value) {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Lab Manager Email Address';
-                                } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                } else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
                                   return "Please Enter Valid Email Address";
                                 }
                                 return null;
@@ -217,6 +222,10 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Technical Manager Contact Number';
                                 }
+                                else if(value.length > 12)
+                                {
+                                  return 'Please Enter valid Technical Manager Contact Number';
+                                }
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -239,7 +248,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               validator: (value) {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Technical Manager Email Address';
-                                }else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                }else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
                                   return "Please Enter Valid Email Address";
                                 }
                                 return null;
@@ -373,6 +382,8 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: height*0.008),
+                            isImageValidatorStatus? technicalManagerLicense == null ? const Text("Please Select Technical Manager License",style: TextStyle(color: Colors.red, fontSize: 12),) : SizedBox():SizedBox(),
                             const SizedBox(height: 20,),
                             const Divider(
                               color: Color(0xFFE7E7E7),
@@ -412,6 +423,10 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Financial Manager Contact Number';
                                 }
+                                else if(value.length > 12)
+                                {
+                                  return 'Please Enter valid Financial Manager Contact Number';
+                                }
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -434,7 +449,7 @@ class _ManageProfile3State extends State<ManageProfile3> {
                               validator: (value) {
                                 if(value == null || value.isEmpty){
                                   return 'Enter Financial Manager Email Address';
-                                }else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                                }else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
                                   return "Please Enter Valid Email Address";
                                 }
                                 return null;
@@ -568,7 +583,9 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: height*0.050,),
+                            SizedBox(height: height*0.008),
+                            isImageValidatorStatus? financialManagerLicense == null ? const Text("Please Select lab Technicians File",style: TextStyle(color: Colors.red, fontSize: 12),) : SizedBox():SizedBox(),
+                            const SizedBox(height: 20,),
                             Container(
                               height: height*0.064,
                               width: MediaQuery.of(context).size.width,
@@ -580,15 +597,18 @@ class _ManageProfile3State extends State<ManageProfile3> {
                                   onPressed: () {
                                     if (formKey.currentState!.validate()){
                                       if(technicalManagerLicense==null) {
-                                        Utils.showErrorToast("Please Select Technical Manager License");
+                                        isImageValidatorStatus=true;
+                                        // Utils.showErrorToast("Please Select Technical Manager License");
                                       } else if(financialManagerLicense==null) {
-                                        Utils.showErrorToast("Please Select lab Technicians File");
+                                        isImageValidatorStatus=true;
+                                        //Utils.showErrorToast("Please Select lab Technicians File");
                                       } else {
                                         manageProfile3();
                                       }
                                     }else{
                                       autoValidate = AutovalidateMode.always;
                                     }
+                                    setState(() {});
                                   },
                                   child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),
                             ),

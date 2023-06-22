@@ -116,7 +116,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           TextFormField(
                             controller: lastNameController,
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -137,6 +137,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           const SizedBox(height: 20,),
                           TextFormField(
+
+                             enabled: false,
                             textInputAction: TextInputAction.next,
                             controller: emailAddressController,
                             keyboardType: TextInputType.number,
@@ -158,6 +160,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               return null;
                             },
                           ),
+
+                          // Text("Email Adress",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
+                          // SizedBox(height: height*0.010,),
+                          // Text(widget.userDetails.email.toString(),style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600,color: const Color(0xFF707070)),),
+                          SizedBox(height: height*0.020,),
+
                           SizedBox(height: height*0.020,),
                           const Divider(
                             thickness: 1,
@@ -297,7 +305,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var body = {
       "firstName" : firstNameController.text.toString(),
       "lastName" : lastNameController.text.toString(),
-      "email" : emailAddressController.text.toString(),
+   //   "email" : emailAddressController.text.toString(),
       if(currentPasswordController.text.isNotEmpty)"oldPassword" : currentPasswordController.text.toString(),
       if(currentPasswordController.text.isNotEmpty)"newPassword" : newPasswordController.text.toString(),
     };

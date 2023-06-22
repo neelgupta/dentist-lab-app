@@ -23,7 +23,7 @@ class _ManageProfile2State extends State<ManageProfile2> {
   TextEditingController tradeLicenseController = TextEditingController();
   TextEditingController trnNumberController = TextEditingController();
   TextEditingController totalDeviceController = TextEditingController();
-
+bool isImageStatus=false;
   File? medicalLicense;
   File? tradeLicense;
   File? trn;
@@ -232,6 +232,9 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                 ),
                               ),
                             ),
+
+                            SizedBox(height: height*0.008),
+                            isImageStatus? medicalLicense == null ? const Text("Please Select Medical License",style: TextStyle(color: Colors.red, fontSize: 12),) : SizedBox():SizedBox(),
                             const SizedBox(height: 20,),
                             TextFormField(
                               textInputAction: TextInputAction.next,
@@ -350,6 +353,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: height*0.008),
+                            isImageStatus? tradeLicense == null ? const Text("Please Select Trade License",style: TextStyle(color: Colors.red, fontSize: 12),) : SizedBox():SizedBox(),
                             const SizedBox(height: 20,),
                             TextFormField(
                               textInputAction: TextInputAction.next,
@@ -468,6 +473,8 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: height*0.008),
+                            isImageStatus? trn == null ? const Text("Please Select TRN",style: TextStyle(color: Colors.red, fontSize: 12),) : SizedBox():SizedBox(),
                             const SizedBox(height: 20,),
                             TextFormField(
                               textInputAction: TextInputAction.next,
@@ -586,7 +593,9 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                 ),
                               ),
                             ),
-                            SizedBox(height:height*0.065,),
+                            SizedBox(height: height*0.008),
+                            isImageStatus? noOfDevice == null ? const Text("Please Select Device Used File",style: TextStyle(color: Colors.red, fontSize: 12),) : SizedBox():SizedBox(),
+                            const SizedBox(height: 20,),
                             Container(
                               height: height*0.064,
                               width: MediaQuery.of(context).size.width,
@@ -599,19 +608,26 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                   onPressed: () {
                                     if (formKey.currentState!.validate()){
                                       if(medicalLicense == null) {
-                                        Utils.showErrorToast("Please Select Medical License");
+                                        isImageStatus=true;
+
                                       } else if(tradeLicense == null) {
-                                        Utils.showErrorToast("Please Select Trade License");
+                                        isImageStatus=true;
+
                                       } else if(trn == null) {
-                                        Utils.showErrorToast("Please Select TRN");
+                                        isImageStatus=true;
+
                                       } else if(noOfDevice == null) {
-                                        Utils.showErrorToast("Please Select Device Used File");
+                                        isImageStatus=true;
+
                                       } else{
                                         manageProfile2();
                                       }
                                     }else{
                                       autoValidate = AutovalidateMode.always;
                                     }
+                                    setState(() {
+
+                                    });
 
                                   },
                                   child: Text("Continue",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white))),

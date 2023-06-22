@@ -299,8 +299,7 @@ class _profileSetup1State extends State<profileSetup1> {
                                     borderSide: const BorderSide(color: Color(0xFF707070))
                                 ),
                                 labelText: 'Date of establishment',
-                               labelStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
-                               // hintText: '12 jan 2022',
+                                hintText: 'Date of establishment',
                                 counterText: "",
                                 hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                                 contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),

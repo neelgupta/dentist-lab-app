@@ -77,8 +77,11 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${Utils.getFirstName()} ${Utils.getLastName()}",
-                      style: const TextStyle(color: Color(0xff252525), fontSize: 16, fontWeight: FontWeight.w700),),
+                    SizedBox(
+                      width: width*0.5,
+                      child: Text("${Utils.getFirstName()} ${Utils.getLastName()}",  maxLines: null,  overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: Color(0xff252525), fontSize: 14, fontWeight: FontWeight.w700),),
+                    ),
                     if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
                       style: const TextStyle(color: Color(0xff252525), fontSize: 13, fontWeight: FontWeight.w400),
                     ),

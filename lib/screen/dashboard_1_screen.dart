@@ -53,6 +53,8 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
     // TODO: implement initState
     super.initState();
     establishDate = Utils.getEstablishDate();
+
+    print("establishDate=====$establishDate");
     getFeeds();
   }
   @override
@@ -112,7 +114,7 @@ class _DashBoard1ScreenState extends State<DashBoard1Screen> {
                                       ),
                                     ),
                                     const SizedBox(height: 15,),
-                                    Text("${Utils.getFirstName()} ${Utils.getLastName()}",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.white,)),
+                                    Text(textAlign: TextAlign.center,"${Utils.getFirstName()} ${Utils.getLastName()}",style: GoogleFonts.lato(fontSize: 20,fontWeight: FontWeight.w700,color: Colors.white,)),
                                     const SizedBox(height: 8,),
                                     if(establishDate.isNotEmpty)Text("Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
                                   ],

@@ -274,8 +274,8 @@ class _ManageProfile4State extends State<ManageProfile4> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Colors.white,width: 1),
-                                image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)
-                            ),
+                                image: const DecorationImage(image: AssetImage("assets/image/Ellipse 108.png"),fit: BoxFit.fill)),
+                                //image:  DecorationImage(image: NetworkImage(Utils.getProfileImage()),fit: BoxFit.fill)),
                             child: Text("N",style: GoogleFonts.lato(fontSize: 24,fontWeight: FontWeight.w600,color: Colors.white),),
                           ),
                         ),
@@ -296,7 +296,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                             Text("6",style: GoogleFonts.lato(fontSize: 17,fontWeight: FontWeight.w600,color: const Color(0xFFA0A0A0)),),
                           ],
                         ),
-                        const SizedBox(height: 10,),
+
                         isTimeSelectedStatus==false?Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Working time",style: GoogleFonts.lato(fontSize: 18,fontWeight: FontWeight.w600),),
@@ -527,8 +527,8 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 10,right: 10),
-                                          child: Row(
+                                          padding:  EdgeInsets.symmetric(horizontal: height*0.02),
+                                          child: Row(crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(days[index].day,style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 18)),
                                               const Spacer(),

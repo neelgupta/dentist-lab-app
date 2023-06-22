@@ -163,7 +163,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please Enter Clinic Manager Email Address';
-                              } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                              } else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
                                 return "Please Enter Valid Email Address";
                               }
                               return null;
@@ -174,7 +174,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                                   borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
+                              hintText: 'Email Address',
                               hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                               contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
@@ -240,7 +240,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please Enter Medical Director Email Address';
-                              } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                              } else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
                                 return "Please Enter Valid Email Address";
                               }
                               return null;
@@ -251,7 +251,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                                   borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
+                              hintText: 'Email Address',
                               hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                               contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),
@@ -437,7 +437,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                             validator: (value) {
                               if(value == null || value.isEmpty){
                                 return 'Please Enter Financial Manager Email Address';
-                              } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+                              } else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
                                 return "Please Enter Valid Email Address";
                               }
                               return null;
@@ -448,7 +448,7 @@ class _ProfileSetup3State extends State<ProfileSetup3> {
                                   borderSide: const BorderSide(color: Color(0xFF707070))
                               ),
                               labelText: 'Email Address',
-                              hintText: 'user@gmail.com',
+                              hintText: 'Email Address',
                               hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                               contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16),
                             ),

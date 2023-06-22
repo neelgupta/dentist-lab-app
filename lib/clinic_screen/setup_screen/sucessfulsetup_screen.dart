@@ -68,11 +68,15 @@ class _SuccessfulProfileSetUpState extends State<SuccessfulProfileSetUp> {
                             height: height*0.030,
                           ),
                           Text(
-                            "Congratulations on a successful profile set up",
+                            "Congratulation.. Your Profile Setup Successfully Done",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.lato(
                                 fontSize: 17, fontWeight: FontWeight.w600),
                           ),
+                          SizedBox(height: height*0.012,),
+                          Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                              style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF707070) ),maxLines: 2,textAlign: TextAlign.center),
                         ],
                       ),
                     ),

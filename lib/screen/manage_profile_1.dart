@@ -128,9 +128,16 @@ class _ManageProfile1State extends State<ManageProfile1> {
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.number,
                               validator: (value) {
-                                if(value == null || value.isEmpty){
-                                  return 'Please Enter Lab Mobile Number';
+                                if (value == null || value.isEmpty) {
+                                  return 'Please Enter Mobile Number';
                                 }
+                                // else if(!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(value)){
+                                //   return "Please Enter Valid Mobile Number";
+                                // }
+                                else if(value.length > 12)
+                                  {
+                                    return 'Please Enter valid Phone Number';
+                                  }
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -154,6 +161,11 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                 if(value == null || value.isEmpty){
                                   return 'Please Enter Land Line Number';
                                 }
+                                else if(value.length > 12)
+                                {
+                                  return 'Please Enter valid Land Line Number';
+                                }
+
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -295,7 +307,7 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: const BorderSide(color: Color(0xFF707070))
                                   ),
-                                  labelStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
+                               //   labelStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                                   labelText: 'Date of establishment',
                                   hintText: 'Date of establishment',
                                   counterText: "",

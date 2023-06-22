@@ -115,7 +115,7 @@ class _BottomNavigatorBarWidgetState extends State<BottomNavigatorBarWidget> {
                       Text("Lorem ipsum dolor sit, consecteturamet adipiscing."
                           " Pellentesque tristique elit in nibh ultricies rhoncus.",
                           style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070),),
-                          maxLines: 3,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                          maxLines: 4,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
                       const SizedBox(height: 30,),
                       TextButton(
                           style: ButtonStyle(

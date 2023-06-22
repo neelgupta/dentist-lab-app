@@ -46,7 +46,7 @@ class _ManageProfile5State extends State<ManageProfile5> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Row(
+                         const Row(
                           children: [
                             SizedBox(width: 20,),
                             Image(image: AssetImage("assets/image/left.png"),fit: BoxFit.fill),
@@ -98,6 +98,10 @@ class _ManageProfile5State extends State<ManageProfile5> {
                           validator: (value) {
                             if(value == null || value.isEmpty){
                               return 'Please Enter Description';
+                            }
+                            else if(value.length > 1000)
+                            {
+                              return 'Please Enter valid max limit 1000 character';
                             }
                             return null;
                           },

@@ -87,8 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please Enter Email Address';
-                          } else if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
-                            return "Please Enter Valid Email";
+                          } else if(!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9-]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)){
+                            return "Please enter a valid email address";
                           }
                           return null;
                         },
@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderSide: const BorderSide(color: Color(0xFF707070))
                           ),
                           labelText: 'Email',
-                          hintText: 'admin@gmail.com',
+                          hintText: 'Email Address',
                           hintStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xFF707070)),
                           contentPadding: const EdgeInsets.only(left: 18,top: 16,bottom: 16)
                         ),
