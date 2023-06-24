@@ -9,6 +9,7 @@ import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 class PaymentHistory extends StatefulWidget {
   const PaymentHistory({Key? key}) : super(key: key);
@@ -19,14 +20,29 @@ class PaymentHistory extends StatefulWidget {
 
 class _PaymentHistoryState extends State<PaymentHistory> {
   bool isLoading = true;
+  bool isLoadMore = false;
   ClinicService clinicService = ClinicService();
   Payment? payment;
   List<PaymentData> history = [];
+  int total = 10;
 
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
-    getHistory();
+    getHistory(isShowLoading: true);
+
+    scrollController.addListener(() {
+      if (history.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getHistory();
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -111,8 +127,10 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600)))
                           : ListView.separated(
+                              scrollDirection: Axis.vertical,
                               physics: const BouncingScrollPhysics(),
-                              //shrinkWrap: true,
+                              controller: scrollController,
+                              shrinkWrap: true,
                               itemCount: history.length,
                               separatorBuilder: (context, index) {
                                 return Padding(
@@ -169,7 +187,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                         Row(
                                           children: [
                                             Text(
-                                              "Subtotal",
+                                              "Amount",
                                               style: GoogleFonts.lato(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w400,
@@ -214,6 +232,30 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                             ),
                                           ],
                                         ),
+                                        SizedBox(
+                                          height: height * 0.015,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Payment Date",
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff707070),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              DateFormat("dd/MM/yyyy").format(DateTime.parse(history[index].createdAt ?? DateTime.now().toString())),
+                                              style: GoogleFonts.lato(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff252525),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -221,8 +263,9 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                               },
                             ),
                     ),
+                    if(!isLoading && isLoadMore)loader(),
                     SizedBox(
-                      height: height * 0.01,
+                      height: height * 0.003,
                     ),
                   ],
                 ),
@@ -231,17 +274,24 @@ class _PaymentHistoryState extends State<PaymentHistory> {
     );
   }
 
-  getHistory() async {
-    Response response = await clinicService.getPaymentHistory();
+  getHistory({isShowLoading = false}) async {
+    if(isShowLoading) {
+      history.clear();
+      isLoading = true;
+    }
+    isLoadMore = true;
+    setState(() {});
+    Response response = await clinicService.getPaymentHistory(offset: history.length);
 
     if (response.statusCode == 200) {
       payment = Payment.fromJson(jsonDecode(response.body));
+      total = payment!.count ?? 0;
       history.addAll(payment!.paymentData ?? []);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
-
     isLoading = false;
+    isLoadMore = false;
     setState(() {});
   }
 

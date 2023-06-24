@@ -21,11 +21,26 @@ class ServicesScreen extends StatefulWidget {
 class _ServicesScreenState extends State<ServicesScreen> {
   List<AllAddedServicesModel> getServicesList = [];
   bool isLoading = true;
+  bool isLoadMore = false;
+  int total = 10;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     getServiceList();
+
+    scrollController.addListener(() {
+      if (getServicesList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getServiceList(showLoading: false);
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -42,170 +57,151 @@ class _ServicesScreenState extends State<ServicesScreen> {
             width: MediaQuery.of(context).size.width,
             child: isLoading
                 ? Center(child: loader())
-                : SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: height * 0.24,
-                            decoration: const BoxDecoration(
-                                color: Color(0xFF116D6E),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        "assets/image/Group 12305.png"),
-                                    fit: BoxFit.fitWidth,
-                                    alignment: Alignment.bottomCenter,
-                                    opacity: 0.3)),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          left: width * 0.06,
-                                          top: height * 0.03),
-                                      alignment: Alignment.centerLeft,
-                                      child: InkWell(
-                                          onTap: () {
-                                            goBack();
-                                          },
-                                          child: const Icon(
-                                            Icons.keyboard_backspace,
-                                            color: Colors.white,
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      height: height * 0.04,
-                                    ),
-                                    Text(
-                                      "Services",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 32,
-                                        fontWeight: FontWeight.w600,
+                : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: height * 0.24,
+                        decoration: const BoxDecoration(
+                            color: Color(0xFF116D6E),
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    "assets/image/Group 12305.png"),
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.bottomCenter,
+                                opacity: 0.3)),
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: width * 0.04,
+                                      top: height * 0.03),
+                                  alignment: Alignment.centerLeft,
+                                  child: InkWell(
+                                      onTap: () {
+                                        goBack();
+                                      },
+                                      child: const Icon(
+                                        Icons.keyboard_backspace,
                                         color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ))),
-                        getServicesList.isNotEmpty
-                            ? Padding(
-                                padding: EdgeInsets.all(width * 0.05),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: height * 0.010,
-                                    ),
-                                    Text(
-                                      "Services",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: height * 0.025,
-                                    ),
-                                    SizedBox(
-                                      height: height * 0.65,
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context, index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ServiceDetailsScreen(
-                                                      id: getServicesList[index]
-                                                          .id,
-                                                    ),
-                                                  ));
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    InkWell(
-                                                        onTap: () {
-                                                          deleteService(index);
-                                                        },
-                                                        child: const Image(
-                                                            height: 20,
-                                                            image: AssetImage(
-                                                                "assets/image/Delete.png"))),
-                                                    SizedBox(
-                                                        width: width * 0.05),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          getServicesList[index]
-                                                              .title,
-                                                          style:
-                                                              GoogleFonts.lato(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height:
-                                                              height * 0.005,
-                                                        ),
-                                                        Text(
-                                                          "AED ${getServicesList[index].price}",
-                                                          style: GoogleFonts.lato(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: const Color(
-                                                                  0xFFA0A0A0)),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    const Spacer(),
-                                                    const Icon(
-                                                      Icons.navigate_next,
-                                                      color: Color(0XFF707070),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: height * 0.010,
-                                                ),
-                                                const Divider(
-                                                  color: Color(0xFFE7E7E7),
-                                                  thickness: 1,
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(
-                                            height: height * 0.020,
-                                          );
-                                        },
-                                        itemCount: getServicesList.length,
-                                      ),
-                                    ),
-                                  ],
+                                      )),
                                 ),
-                              )
-                            : Container(
-                                height: height * 0.5,
-                                alignment: Alignment.center,
-                                child: const Text("No Service Found !!!"),
-                              ),
-                      ],
-                    ),
-                  ),
+                                SizedBox(
+                                  height: height * 0.03,
+                                ),
+                                Text(
+                                  "Services",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ))),
+                    getServicesList.isNotEmpty
+                        ? Expanded(
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.all(width * 0.05),
+                              controller: scrollController,
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ServiceDetailsScreen(
+                                            id: getServicesList[index]
+                                                .id,
+                                          ),
+                                        ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                              onTap: () {
+                                                deleteService(index);
+                                              },
+                                              child: const Image(
+                                                  height: 20,
+                                                  image: AssetImage(
+                                                      "assets/image/Delete.png"))),
+                                          SizedBox(
+                                              width: width * 0.05),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                            children: [
+                                              Text(
+                                                getServicesList[index]
+                                                    .title,
+                                                style:
+                                                    GoogleFonts.lato(
+                                                  fontSize: 18,
+                                                  fontWeight:
+                                                      FontWeight.w500,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height:
+                                                    height * 0.005,
+                                              ),
+                                              Text(
+                                                "AED ${getServicesList[index].price.toStringAsFixed(2)}",
+                                                style: GoogleFonts.lato(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight
+                                                            .w400,
+                                                    color: const Color(
+                                                        0xFFA0A0A0)),
+                                              )
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          const Icon(
+                                            Icons.navigate_next,
+                                            color: Color(0XFF707070),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.010,
+                                      ),
+                                      const Divider(
+                                        color: Color(0xFFE7E7E7),
+                                        thickness: 1,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: height * 0.020,
+                                );
+                              },
+                              itemCount: getServicesList.length,
+                            ),
+                          )
+                        : Container(
+                            height: height * 0.5,
+                            alignment: Alignment.center,
+                            child: const Text("No Service Found !!!"),
+                          ),
+                    if(!isLoading && isLoadMore) loader(),
+                    SizedBox(height: height * 0.01)
+                  ],
+                ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -223,26 +219,28 @@ class _ServicesScreenState extends State<ServicesScreen> {
     );
   }
 
-  getServiceList() async {
-    setState(() {
+  getServiceList({showLoading = true}) async {
+    if(showLoading) {
+      getServicesList.clear();
       isLoading = true;
-    });
-    Response response = await LabServices.getAllService();
+    }
+    isLoadMore = true;
+    setState(() {});
+    Response response = await LabServices.getAllService(offset: getServicesList.length);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       List services = data["serviceData"] ?? [];
+      total = data['count'] ?? 0;
       if (services.isNotEmpty) {
-        getServicesList.clear();
         for (var e in services) {
           getServicesList.add(AllAddedServicesModel.fromJson(e));
         }
       }
     } else if (response.statusCode == 401) {
       Utils.logout(context);
-    } else {
-      getServicesList = [];
     }
+    isLoadMore = false;
     isLoading = false;
     setState(() {});
   }
@@ -254,6 +252,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
     Navigator.pop(context);
     if (response.statusCode == 200) {
       getServicesList.removeAt(index);
+      total--;
       Utils.showSuccessToast(jsonDecode(response.body)['message']);
     } else if (response.statusCode == 401) {
       Utils.logout(context);

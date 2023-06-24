@@ -22,7 +22,6 @@ class LabData {
   String? mobileNumber;
   String? countryCode;
   String? description;
-  String? deliveryMethod;
   String? paymentMethod;
   List<UserDetails>? userDetails;
   List<WorkingHours>? workingHours;
@@ -35,7 +34,6 @@ class LabData {
     this.mobileNumber,
     this.countryCode,
     this.description,
-    this.deliveryMethod,
     this.paymentMethod,
     this.userDetails,
     this.workingHours,
@@ -53,7 +51,6 @@ class LabData {
       mobileNumber: json['mobileNumber'].toString(),
       countryCode: json['countryCode'].toString(),
       description: json['description'],
-      deliveryMethod: json['deliveryMethod'],
       paymentMethod: json['paymentMethod'],
       userDetails: user.map((v) => UserDetails.fromJson(v)).toList(),
       workingHours: workHour.map((v) => WorkingHours.fromJson(v)).toList(),

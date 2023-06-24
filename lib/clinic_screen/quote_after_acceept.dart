@@ -36,12 +36,25 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
   QuoteStatus? quoteStatus;
   Comments? comments;
   List<CommentData> commentList = [];
+  ScrollController scrollController = ScrollController();
+  int total = 20;
+  bool isLoadMore = false;
 
   @override
   void initState() {
     super.initState();
     getQuoteDetail();
-    getComments();
+    scrollController.addListener(() {
+      if (commentList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(isShareComments && !isLoadMore) {
+            isLoadMore = true;
+            getComments(showLoading: false);
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -56,81 +69,83 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
       child: Scaffold(
         body: isLoading
             ? Center(child: loader())
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        height: height * 0.15,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFF116D6E),
-                            image: DecorationImage(
-                                image:
-                                    AssetImage("assets/image/Group 12305.png"),
-                                fit: BoxFit.fitWidth,
-                                alignment: Alignment.bottomCenter,
-                                opacity: 0.3)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.03),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Icon(
-                                        Icons.keyboard_backspace,
-                                        color: Colors.white,
-                                      )),
-                                  const Spacer(),
-                                  Center(
-                                      child: Text(
-                                    textAlign: TextAlign.center,
-                                    "Quote Detail",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                                  const Spacer(),
-                                  Icon(
+            : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    height: height * 0.2,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF116D6E),
+                        image: DecorationImage(
+                            image:
+                                AssetImage("assets/image/Group 12305.png"),
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.bottomCenter,
+                            opacity: 0.3)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Icon(
                                     Icons.keyboard_backspace,
-                                    color: Colors.transparent,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                    SizedBox(
-                      height: height * 0.03,
-                    ),
-                    quoteData == null
-                        ? Container(
-                            height: height * 0.5,
-                            alignment: Alignment.center,
-                            child: const Text(
-                                "No Data Found !!! \n\n Please Try Again"),
-                          )
-                        : Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.05),
+                                    color: Colors.white,
+                                  )),
+                              const Spacer(),
+                              Center(
+                                  child: Text(
+                                textAlign: TextAlign.center,
+                                "Quote Detail",
+                                style: GoogleFonts.lato(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              )),
+                              const Spacer(),
+                              Icon(
+                                Icons.keyboard_backspace,
+                                color: Colors.transparent,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                Expanded(
+                  child: quoteData == null
+                      ? Container(
+                          height: height * 0.5,
+                          alignment: Alignment.center,
+                          child: const Text(
+                              "No Data Found !!! \n\n Please Try Again"),
+                        )
+                      : Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.05),
+                          child: SingleChildScrollView(
+                            controller: scrollController,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 SizedBox(
-                                  height: height * 0.65,
+                                  height: height * 0.6,
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment:
@@ -178,7 +193,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                         Row(
                                           children: [
                                             Text(
-                                              "Subtotal :",
+                                              "Total :",
                                               style: GoogleFonts.lato(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -187,7 +202,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              "AED ${orderDetails!.totalAmount}",
+                                              "AED ${(orderDetails!.totalAmount ?? 0).toStringAsFixed(2)}",
                                               style: GoogleFonts.lato(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
@@ -217,7 +232,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                   ),
                                                   const Spacer(),
                                                   Text(
-                                                    "AED ${orderDetails!.advanceAmount}",
+                                                    "AED ${(orderDetails!.advanceAmount ?? 0).toStringAsFixed(2)}",
                                                     style: GoogleFonts.lato(
                                                       fontSize: 13,
                                                       fontWeight:
@@ -314,7 +329,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                               width: width * 0.02,
                                             ),
                                             Text(
-                                              "${labDetails!.city ?? " "}, ${labDetails!.country ?? ""}",
+                                              "${labDetails!.city ?? ""}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
                                               style: GoogleFonts.lato(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -348,7 +363,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                           height: height * 0.02,
                                         ),
                                         Text(
-                                          "${labDetails!.city ?? ""} ${labDetails!.country ?? ""}",
+                                          "${labDetails!.city ?? ""}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
                                           style: GoogleFonts.lato(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -379,12 +394,13 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                   amount: (orderDetails!
                                                               .advanceAmount ??
                                                           0)
-                                                      .toStringAsFixed(0),
+                                                      .toStringAsFixed(2),
                                                   isAdvance: true,
                                                   status: "advancePending",
                                                   quoteId: quoteData!.id ?? '',
                                                   labName:
                                                       labDetails!.labName ?? "",
+                                                  paymentType: labDetails!.paymentMethod ?? "onlinePayment",
                                                 );
                                               },
                                             ));
@@ -435,36 +451,19 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                               )
                                             : quoteStatus!.clinicStatus ==
                                                     'deliveryAccepted'
-                                                ? commonButton(
-                                                    context,
-                                                    'Pay ${(orderDetails!.remainingAmount ?? 0).toStringAsFixed(0)}',
-                                                    13,
-                                                    FontWeight.w700,
-                                                    Colors.white, () {
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                      builder: (context) {
+                                                ? commonButton(context,'Pay ${(orderDetails!.remainingAmount ?? 0).toStringAsFixed(2)}',13,FontWeight.w700,Colors.white,
+                                                () {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
                                                         return MakePayment(
-                                                            title: quoteData!
-                                                                    .title ??
-                                                                "",
-                                                            description: quoteData!
-                                                                    .description ??
-                                                                "",
-                                                            amount: (orderDetails!
-                                                                        .remainingAmount ??
-                                                                    0)
-                                                                .toStringAsFixed(
-                                                                    0),
+                                                            title: quoteData!.title ?? "",
+                                                            description: quoteData!.description ?? "",
+                                                            amount: (orderDetails!.remainingAmount ?? 0).toStringAsFixed(2),
                                                             isAdvance: false,
-                                                            status:
-                                                                "deliveryAccepted",
-                                                            quoteId:
-                                                                quoteData!.id ??
-                                                                    '',
-                                                            labName: labDetails!
-                                                                    .labName ??
-                                                                "");
+                                                            status: "deliveryAccepted",
+                                                            quoteId: quoteData!.id ?? '',
+                                                            labName: labDetails!.labName ?? "",
+                                                          paymentType: labDetails!.paymentMethod ?? "onlinePayment"
+                                                        );
                                                       },
                                                     ));
                                                   })
@@ -473,15 +472,10 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                     ? Column(
                                                         children: [
                                                           commonButton(
-                                                              context,
-                                                              'Share Comment',
-                                                              13,
-                                                              FontWeight.w700,
-                                                              Colors.white, () {
+                                                              context,'Share Comment',13,FontWeight.w700,Colors.white, () {
                                                             showShareMyDialog();
                                                           }),
-                                                          if (commentList
-                                                              .isNotEmpty)
+                                                          if (commentList.isNotEmpty)
                                                             Column(
                                                               children: [
                                                                 SizedBox(
@@ -542,8 +536,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                                 ),
                                                                 !isShareComments
                                                                     ? const SizedBox()
-                                                                    : ListView
-                                                                        .builder(
+                                                                    : ListView.builder(
                                                                         shrinkWrap:
                                                                             true,
                                                                         physics:
@@ -596,6 +589,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                                           );
                                                                         },
                                                                       ),
+                                                                if(isLoadMore) loader(),
+                                                                SizedBox(height: height * 0.01)
                                                               ],
                                                             ),
                                                         ],
@@ -604,9 +599,10 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                               ],
                             ),
                           ),
-                  ],
+                        ),
                 ),
-              ),
+              ],
+            ),
       ),
     );
   }
@@ -761,6 +757,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
       propsalDetails = quoteData!.propsalDetails!.first;
       labDetails = quoteData!.labDetails!.first;
       orderDetails = quoteData!.orderDetails!.first;
+      if(quoteStatus!.clinicStatus =='deliveryRejected')getComments();
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
@@ -811,18 +808,27 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
     }
   }
 
-  getComments() async {
-    commentList.clear();
+  getComments({showLoading = true}) async {
+    if (showLoading) {
+      commentList.clear();
+    }
+    isLoadMore = true;
+    setState(() {});
+
     var body = {
       "quoteId": widget.quoteId,
+      "limit": "20",
+      "offset": commentList.length
     };
     Response response = await quoteService.getComments(body: body);
     if (response.statusCode == 200) {
       comments = Comments.fromJson(jsonDecode(response.body));
+      total = comments!.count ?? 0;
       commentList.addAll(comments!.commentData ?? []);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
+    isLoadMore = false;
     setState(() {});
   }
 }

@@ -1,4 +1,4 @@
-import 'package:dentalapp/clinic_screen/dasboard_screen.dart';
+import 'package:dentalapp/clinic_screen/dashboard_screen.dart';
 import 'package:dentalapp/clinic_screen/new_quote.dart';
 import 'package:dentalapp/clinic_screen/profile.dart';
 import 'package:dentalapp/clinic_screen/setup_screen/profilesetup_1.dart';
@@ -32,7 +32,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int selectedScreenIndex = 0;
 
   List selectedScreenList = [
-    const DasBoardScreen(),
+    const DashBoardScreen(),
     // const SizedBox(),
     const NewQuote(),
     const Profile(),

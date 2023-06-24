@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
                                   height: height * 0.3,
                                   padding: EdgeInsets.symmetric(
                                     vertical: height * 0.01,
-                                    horizontal: width * 0.02,
+                                    horizontal: width * 0.05,
                                   ),
                                   width: double.infinity,
                                   decoration: const BoxDecoration(
@@ -94,15 +94,15 @@ class _ProfileState extends State<Profile> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        height: height * 0.01,
+                                        height: height * 0.02,
                                       ),
                                       GestureDetector(
                                         onTap: () {
                                           _key.currentState!.openDrawer();
                                         },
-                                        child: const Image(
-                                            image: AssetImage(
-                                                "assets/image/Menu.png")),
+                                        child: Image(
+                                            image: const AssetImage(
+                                                "assets/image/Menu.png"),height: width * 0.07),
                                       ),
                                       Align(
                                         alignment: Alignment.center,
@@ -479,6 +479,31 @@ class _ProfileState extends State<Profile> {
                                                     fontWeight: FontWeight.w400,
                                                     color:
                                                         const Color(0xff111111),
+                                                  )),
+
+                                              ///State
+                                              SizedBox(
+                                                height: height * 0.03,
+                                              ),
+                                              Text("State",
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                    color:
+                                                    const Color(0xff707070),
+                                                  )),
+                                              SizedBox(
+                                                height: height * 0.01,
+                                              ),
+                                              Text(
+                                                  clinicProfile!
+                                                      .data!.state ??
+                                                      "",
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                    color:
+                                                    const Color(0xff111111),
                                                   )),
 
                                               ///City

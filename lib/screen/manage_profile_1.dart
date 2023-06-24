@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentalapp/screen/manage_profile_2.dart';
@@ -28,6 +29,9 @@ class _ManageProfile1State extends State<ManageProfile1> {
   TextEditingController addressController = TextEditingController();
   TextEditingController poBoxController = TextEditingController();
   String countryCode = "+971";
+  String? country;
+  String? city;
+  String? state;
 
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
@@ -192,12 +196,15 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                       SizedBox(width: width * 0.02),
                                       Expanded(
                                         child: TextFormField(
+                                          maxLength: 12,
                                           controller: labMobileController,
                                           keyboardType: TextInputType.number,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
-                                              return 'Please Enter Lab Mobile Number';
+                                              return 'Please Enter Mobile Number';
+                                            } else if(!RegExp(r'(^(?:[+0]9)?[0-9]{8,12}$)').hasMatch(value)) {
+                                              return 'Please Enter Valid Mobile Number';
                                             }
                                             return null;
                                           },
@@ -269,63 +276,91 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  TextFormField(
-                                    controller: countryController,
-                                    keyboardType: TextInputType.name,
-                                    textInputAction: TextInputAction.next,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please Enter Country';
-                                      }
-                                      return null;
+                                  CSCPicker(
+                                    cityDropdownLabel: "City",
+                                    countryDropdownLabel: "country",
+                                    stateDropdownLabel: "State",
+                                    currentCountry: country,
+                                    currentState: state,
+                                    currentCity: city,
+                                    disabledDropdownDecoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Color(0xFF707070))),
+                                    onCountryChanged: (value) {
+                                      country = value;
+                                      setState(() {});
                                     },
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          borderSide: const BorderSide(
-                                              color: Color(0xFF707070))),
-                                      labelText: 'Country',
-                                      hintText: 'Country',
-                                      counterText: "",
-                                      hintStyle: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xFF707070)),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 18, top: 16, bottom: 16),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextFormField(
-                                    controller: cityController,
-                                    keyboardType: TextInputType.name,
-                                    textInputAction: TextInputAction.next,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please Enter City';
-                                      }
-                                      return null;
+                                    onStateChanged: (value) {
+                                      state = value;
+                                      setState(() {});
                                     },
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          borderSide: const BorderSide(
-                                              color: Color(0xFF707070))),
-                                      labelText: 'City',
-                                      hintText: 'City',
-                                      counterText: "",
-                                      hintStyle: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xFF707070)),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 18, top: 16, bottom: 16),
-                                    ),
+                                    onCityChanged: (value) {
+                                      city = value;
+                                      setState(() {});
+                                    },
+                                    flagState: CountryFlag.DISABLE,
+                                    dropdownDialogRadius: 8,
+                                    dropdownDecoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Color(0xFF707070))),
                                   ),
+                                  // TextFormField(
+                                  //   controller: countryController,
+                                  //   keyboardType: TextInputType.name,
+                                  //   textInputAction: TextInputAction.next,
+                                  //   validator: (value) {
+                                  //     if (value == null || value.isEmpty) {
+                                  //       return 'Please Enter Country';
+                                  //     }
+                                  //     return null;
+                                  //   },
+                                  //   decoration: InputDecoration(
+                                  //     border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(12),
+                                  //         borderSide: const BorderSide(
+                                  //             color: Color(0xFF707070))),
+                                  //     labelText: 'Country',
+                                  //     hintText: 'Country',
+                                  //     counterText: "",
+                                  //     hintStyle: const TextStyle(
+                                  //         fontSize: 15,
+                                  //         fontWeight: FontWeight.w500,
+                                  //         color: Color(0xFF707070)),
+                                  //     contentPadding: const EdgeInsets.only(
+                                  //         left: 18, top: 16, bottom: 16),
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(
+                                  //   height: 20,
+                                  // ),
+                                  // TextFormField(
+                                  //   controller: cityController,
+                                  //   keyboardType: TextInputType.name,
+                                  //   textInputAction: TextInputAction.next,
+                                  //   validator: (value) {
+                                  //     if (value == null || value.isEmpty) {
+                                  //       return 'Please Enter City';
+                                  //     }
+                                  //     return null;
+                                  //   },
+                                  //   decoration: InputDecoration(
+                                  //     border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(12),
+                                  //         borderSide: const BorderSide(
+                                  //             color: Color(0xFF707070))),
+                                  //     labelText: 'City',
+                                  //     hintText: 'City',
+                                  //     counterText: "",
+                                  //     hintStyle: const TextStyle(
+                                  //         fontSize: 15,
+                                  //         fontWeight: FontWeight.w500,
+                                  //         color: Color(0xFF707070)),
+                                  //     contentPadding: const EdgeInsets.only(
+                                  //         left: 18, top: 16, bottom: 16),
+                                  //   ),
+                                  // ),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -460,10 +495,6 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                                     .text.isNotEmpty &&
                                                 landLineNumberController
                                                     .text.isNotEmpty &&
-                                                countryController
-                                                    .text.isNotEmpty &&
-                                                cityController
-                                                    .text.isNotEmpty &&
                                                 addressController
                                                     .text.isNotEmpty &&
                                                 poBoxController
@@ -480,6 +511,12 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                                 .text.isEmpty) {
                                               Utils.showErrorToast(
                                                   "Please Select Establish Date");
+                                            } else if(country == null) {
+                                              Utils.showErrorToast("Please Select Country");
+                                            } else if(state == null) {
+                                              Utils.showErrorToast("Please Select State");
+                                            } else if(city == null) {
+                                              Utils.showErrorToast("Please Select City");
                                             } else {
                                               manageProfile1();
                                             }
@@ -518,8 +555,9 @@ class _ManageProfile1State extends State<ManageProfile1> {
       "mobileNumber": labMobileController.text.toString(),
       "countryCode": countryCode,
       "landLineNumber": landLineNumberController.text.toString(),
-      "country": countryController.text.toString(),
-      "city": cityController.text.toString(),
+      "country": country,
+      "state": state,
+      "city": city,
       "address": addressController.text.toString(),
       "poBox": poBoxController.text.toString(),
       "dateOfEstablishment": dateInputController.text.toString()

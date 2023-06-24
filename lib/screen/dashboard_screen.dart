@@ -28,6 +28,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   List<Quotesdatum> quoteList = [];
 
   bool isLoading = true;
+  bool isLoadMore = true;
+  ScrollController scrollController = ScrollController();
+  int total = 10;
   String establishDate = "";
   bool isFeedColor = false;
   Color feedSelected = Colors.white;
@@ -53,6 +56,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     super.initState();
     establishDate = Utils.getEstablishDate();
     getFeeds();
+
+    scrollController.addListener(() {
+      if (quoteList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getFeeds(showLoading: false);
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -66,295 +81,301 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Column(
+          child: Column(
+            children: [
+              Container(
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF116D6E),
+                      image: DecorationImage(
+                          image: AssetImage(
+                              "assets/image/Group 12305.png"),
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter,
+                          opacity: 0.3)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: height * 0.02,
+                        horizontal: width * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Row(
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  _key.currentState!.openDrawer();
+                                },
+                                child: Image(
+                                    image: const AssetImage(
+                                        "assets/image/Menu.png"),height: width * 0.07,width: width * 0.07,)),
+                            const Spacer(),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NotificationScreen(),
+                                      ));
+                                },
+                                child: Image(
+                                    image: const AssetImage(
+                                        "assets/image/Notification 3.png"),height: width * 0.06,width: width * 0.06,))
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
                         Container(
-                            decoration: const BoxDecoration(
-                                color: Color(0xFF116D6E),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        "assets/image/Group 12305.png"),
-                                    fit: BoxFit.fitWidth,
-                                    alignment: Alignment.bottomCenter,
-                                    opacity: 0.3)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height * 0.02,
-                                  horizontal: width * 0.05),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                          onTap: () {
-                                            _key.currentState!.openDrawer();
-                                          },
-                                          child: const Image(
-                                              image: AssetImage(
-                                                  "assets/image/Menu.png"))),
-                                      const Spacer(),
-                                      InkWell(
-                                          onTap: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const NotificationScreen(),
-                                                ));
-                                          },
-                                          child: const Image(
-                                              image: AssetImage(
-                                                  "assets/image/Notification 3.png")))
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.01,
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: width * 0.20,
-                                    width: width * 0.20,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                Utils.getProfileImage()),
-                                            fit: BoxFit.fill),
-                                        border: Border.all(
-                                            color: const Color(0xFFFFFFFF))),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.005,
-                                  ),
-                                  Text(
-                                      "${Utils.getFirstName()} ${Utils.getLastName()}",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
-                                      )),
-                                  SizedBox(
-                                    height: height * 0.005,
-                                  ),
-                                  if (establishDate.isNotEmpty)
-                                    Text(
-                                        "Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
-                                        style: GoogleFonts.lato(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white,
-                                        )),
-                                ],
-                              ),
+                          alignment: Alignment.center,
+                          height: width * 0.20,
+                          width: width * 0.20,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      Utils.getProfileImage()),
+                                  fit: BoxFit.fill),
+                              border: Border.all(
+                                  color: const Color(0xFFFFFFFF))),
+                        ),
+                        SizedBox(
+                          height: height * 0.005,
+                        ),
+                        Text(
+                            "${Utils.getFirstName()} ${Utils.getLastName()}",
+                            style: GoogleFonts.lato(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
                             )),
+                        SizedBox(
+                          height: height * 0.005,
+                        ),
+                        if (establishDate.isNotEmpty)
+                          Text(
+                              "Since ${DateFormat('yyyy').format(DateTime.parse(establishDate))}",
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              )),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: height * 0.030, horizontal: width * 0.055),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: height * 0.065,
-                            width: width * 0.88,
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFEBEFEE),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (!isLoading) {
-                                          changeColors();
-                                          getFeeds();
-                                        }
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: feedSelected,
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                        ),
-                                        child: Text("Feeds",
-                                            style: GoogleFonts.lato(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700,
-                                              color: const Color(0xFF116D6E),
-                                            )),
-                                      ),
+                  )),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: height * 0.01, horizontal: width * 0.055),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Container(
+                        height: height * 0.065,
+                        width: width * 0.88,
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFEBEFEE),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    if (!isLoading) {
+                                      changeColors();
+                                      getFeeds();
+                                    }
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: feedSelected,
+                                      borderRadius:
+                                          BorderRadius.circular(30),
                                     ),
+                                    child: Text("Feeds",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: const Color(0xFF116D6E),
+                                        )),
                                   ),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (!isLoading) {
-                                          changeColors();
-                                          getFeeds();
-                                        }
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: feedUnselected,
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Text("Invite",
-                                            style: GoogleFonts.lato(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700,
-                                              color: const Color(0xFF116D6E),
-                                            )),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    if (!isLoading) {
+                                      changeColors();
+                                      getFeeds();
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: feedUnselected,
+                                      borderRadius:
+                                          BorderRadius.circular(30),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text("Invite",
+                                        style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: const Color(0xFF116D6E),
+                                        )),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            height: height * 0.023,
-                          ),
-                          isLoading
-                              ? Container()
-                              : quoteList.isNotEmpty
-                                  ? Text("Quote (${quoteList.length})",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ))
-                                  : const SizedBox(),
-                          SizedBox(
-                            height: height * 0.020,
-                          ),
-                          isLoading
-                              ? Center(child: loader())
-                              : quoteList.isNotEmpty
-                                  ? ListView.separated(
-                                      physics: const BouncingScrollPhysics(),
-                                      itemCount: quoteList.length,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                    quoteList[index].title ??
-                                                        "",
-                                                    style: GoogleFonts.lato(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    )),
-                                                const Spacer(),
-                                                Text(
-                                                    DateFormat('dd MMMM yyyy')
-                                                        .format(quoteList[index]
-                                                            .createdAt!),
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      isLoading
+                          ? Container()
+                          : quoteList.isNotEmpty
+                              ? Text("Quote ($total)",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ))
+                              : const SizedBox(),
+                      SizedBox(
+                        height: height * 0.015,
+                      ),
+                      isLoading
+                          ? Container(
+                            height: height * 0.4,
+                            alignment: Alignment.center,
+                            child: loader()
+                          ) : quoteList.isNotEmpty
+                              ? Expanded(
+                                child: ListView.separated(
+                                    controller: scrollController,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: quoteList.length,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                  quoteList[index].title ??
+                                                      "",
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600,
+                                                  )),
+                                              const Spacer(),
+                                              Text(
+                                                  DateFormat('dd MMMM yyyy')
+                                                      .format(quoteList[index]
+                                                          .createdAt!),
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400,
+                                                    color: const Color(
+                                                        0xFFA0A0A0),
+                                                  )),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.020,
+                                          ),
+                                          Text(
+                                              quoteList[index].description ??
+                                                  "",
+                                              style: GoogleFonts.lato(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: const Color(
+                                                      0xFF707070)),
+                                              maxLines: 3,
+                                              overflow:
+                                                  TextOverflow.ellipsis),
+                                          SizedBox(
+                                            height: height * 0.015,
+                                          ),
+                                          if (quoteList[index].isSend == "0")
+                                            TextButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty
+                                                          .all(const Color(
+                                                              0xFF116D6E)),
+                                                  padding:
+                                                      MaterialStateProperty
+                                                          .all(const EdgeInsets
+                                                                  .symmetric(
+                                                              horizontal: 25,
+                                                              vertical: 12)),
+                                                  shape: MaterialStateProperty
+                                                      .all(
+                                                    RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(12),
+                                                    ),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  amountController.text = "";
+                                                  showMyDialog(
+                                                      context, index);
+                                                },
+                                                child: Text("Sent Proposal",
                                                     style: GoogleFonts.lato(
                                                       fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w400,
-                                                      color: const Color(
-                                                          0xFFA0A0A0),
-                                                    )),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.020,
-                                            ),
-                                            Text(
-                                                quoteList[index].description ??
-                                                    "",
-                                                style: GoogleFonts.lato(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: const Color(
-                                                        0xFF707070)),
-                                                maxLines: 3,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                            SizedBox(
-                                              height: height * 0.015,
-                                            ),
-                                            if (quoteList[index].isSend == "0")
-                                              TextButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(const Color(
-                                                                0xFF116D6E)),
-                                                    padding:
-                                                        MaterialStateProperty
-                                                            .all(const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 25,
-                                                                vertical: 12)),
-                                                    shape: MaterialStateProperty
-                                                        .all(
-                                                      RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    amountController.text = "";
-                                                    showMyDialog(
-                                                        context, index);
-                                                  },
-                                                  child: Text("Sent Proposal",
-                                                      style: GoogleFonts.lato(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.white,
-                                                      ))),
-                                            SizedBox(
-                                              height: height * 0.010,
-                                            ),
-                                            const Divider(
-                                              thickness: 1,
-                                              color: Color(0xFFE7E7E7),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: height * 0.010,
-                                        );
-                                      },
-                                    )
-                                  : Center(
-                                      child: Text(isFeedColor
-                                          ? "No Invite Found!!"
-                                          : "No Feeds Found!!"),
-                                    ),
-                        ],
+                                                          FontWeight.w600,
+                                                      color: Colors.white,
+                                                    ))),
+                                          SizedBox(
+                                            height: height * 0.010,
+                                          ),
+                                          const Divider(
+                                            thickness: 1,
+                                            color: Color(0xFFE7E7E7),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(
+                                        height: height * 0.010,
+                                      );
+                                    },
+                                  ),
+                              )
+                              : Container(
+                                  height: height * 0.4,
+                                  alignment: Alignment.center,
+                                  child: Text(isFeedColor
+                                      ? "No Invite Found!!"
+                                      : "No Feeds Found!!"),
+                                ),
+                      if(!isLoading && isLoadMore) loader(),
+                      SizedBox(
+                        height: height * 0.005,
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
@@ -486,14 +507,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   getFeeds({bool showLoading = true}) async {
     if (showLoading) {
-      setState(() {
-        quoteList.clear();
-        isLoading = true;
-      });
+      quoteList.clear();
+      isLoading = true;
     }
+    isLoadMore = true;
+    setState(() {});
     String typeSelected = isFeedColor ? 'invited' : "";
     var body = {
       "type": typeSelected,
+      "limit": "5",
+      "offset": quoteList.length
     };
 
     Response response = await labDashBoardServices.getFeed(body: body);
@@ -501,9 +524,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     if (response.statusCode == 200) {
       getfeed = GetFeedsModel.fromJson(jsonDecode(response.body));
       if (getfeed != null) {
+        total = getfeed!.data!.count ?? 0;
         quoteList.addAll(getfeed!.data!.quotesdata ?? []);
       }
     }
+    isLoadMore = false;
     isLoading = false;
     setState(() {});
   }

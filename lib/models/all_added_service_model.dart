@@ -11,7 +11,7 @@ String allAddedServicesModelToJson(AllAddedServicesModel data) => json.encode(da
 class AllAddedServicesModel {
   String id;
   String title;
-  int price;
+  double price;
 
   AllAddedServicesModel({
     required this.id,
@@ -22,7 +22,7 @@ class AllAddedServicesModel {
   factory AllAddedServicesModel.fromJson(Map<String, dynamic> json) => AllAddedServicesModel(
     id: json["_id"],
     title: json["title"],
-    price: json["price"],
+    price: double.parse((json["price"] ?? 0).toString()),
   );
 
   Map<String, dynamic> toJson() => {

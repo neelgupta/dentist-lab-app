@@ -284,27 +284,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.start),
                                   SizedBox(
-                                    height: height * 0.025,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Delivery Methods",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        getDeliveryMethodName(),
-                                        style: GoogleFonts.lato(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xFF707070)),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
                                     height: height * 0.015,
                                   ),
                                   Row(
@@ -525,14 +504,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                   ),
       ),
     );
-  }
-
-  getDeliveryMethodName() {
-    if (labData!.deliveryMethod == "COD") {
-      return "COD";
-    } else if (labData!.deliveryMethod == "paidDelivery") {
-      return "Paid Delivery";
-    }
   }
 
   getPaymentMethodName() {

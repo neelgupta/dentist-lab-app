@@ -86,8 +86,7 @@ class Propsaldata {
   String? id;
   String? quoteId;
   String? labId;
-  int? amount;
-  int? status;
+  double? amount;
   String? createdAt;
   List<LabDetails>? labDetails;
 
@@ -96,7 +95,6 @@ class Propsaldata {
       this.quoteId,
       this.labId,
       this.amount,
-      this.status,
       this.createdAt,
       this.labDetails});
 
@@ -106,8 +104,7 @@ class Propsaldata {
         id: json['_id'],
         quoteId: json['quoteId'],
         labId: json['labId'],
-        amount: json['amount'],
-        status: json['status'],
+        amount: double.parse((json['amount'] ?? 0).toString()),
         createdAt: json['createdAt'],
         labDetails: labDetail.map((v) => LabDetails.fromJson(v)).toList());
   }
@@ -117,6 +114,7 @@ class LabDetails {
   String? id;
   String? createdAt;
   String? city;
+  String? state;
   String? country;
   String? labName;
   String? landLineNumber;
@@ -128,6 +126,7 @@ class LabDetails {
       {this.id,
       this.createdAt,
       this.city,
+      this.state,
       this.country,
       this.labName,
       this.landLineNumber,
@@ -140,6 +139,7 @@ class LabDetails {
       id: json['_id'],
       createdAt: json['createdAt'],
       city: json['city'],
+      state: json['state'],
       country: json['country'],
       labName: json['labName'],
       landLineNumber: json['landLineNumber'].toString(),

@@ -20,14 +20,28 @@ class ClinicNotification extends StatefulWidget {
 
 class _ClinicNotificationState extends State<ClinicNotification> {
   bool isLoading = true;
+  bool isLoadMore = false;
   ClinicService clinicService = ClinicService();
   Notifications? notification;
   List<NotificationData> notificationList = [];
+  ScrollController scrollController = ScrollController();
+  int total = 10;
 
   @override
   void initState() {
     super.initState();
-    getData();
+    getData(isShowLoading: true);
+    scrollController.addListener(() {
+      if (notificationList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getData();
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -94,6 +108,7 @@ class _ClinicNotificationState extends State<ClinicNotification> {
                             scrollDirection: Axis.vertical,
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
+                            controller: scrollController,
                             padding:
                                 EdgeInsets.symmetric(horizontal: width * 0.05),
                             itemBuilder: (context, index) {
@@ -138,7 +153,11 @@ class _ClinicNotificationState extends State<ClinicNotification> {
                               return SizedBox(height: height * 0.01);
                             },
                             itemCount: notificationList.length),
-              )
+              ),
+              if(!isLoading && isLoadMore)loader(),
+              SizedBox(
+                height: height * 0.005,
+              ),
             ],
           ),
         ),
@@ -146,15 +165,23 @@ class _ClinicNotificationState extends State<ClinicNotification> {
     );
   }
 
-  getData() async {
-    Response response = await clinicService.getNotification();
+  getData({isShowLoading = false}) async {
+    if(isShowLoading) {
+      notificationList.clear();
+      isLoading = true;
+    }
+    isLoadMore = true;
+    setState(() {});
+    Response response = await clinicService.getNotification(offset: notificationList.length);
 
     if (response.statusCode == 200) {
       notification = Notifications.fromJson(jsonDecode(response.body));
-      notificationList = notification!.data!.notificationData ?? [];
+      total = notification!.data!.count ?? 0;
+      notificationList.addAll(notification!.data!.notificationData ?? []);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
+    isLoadMore = false;
     isLoading = false;
     setState(() {});
   }

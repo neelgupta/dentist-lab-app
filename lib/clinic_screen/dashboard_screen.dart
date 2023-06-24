@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class DasBoardScreen extends StatefulWidget {
-  const DasBoardScreen({Key? key}) : super(key: key);
+class DashBoardScreen extends StatefulWidget {
+  const DashBoardScreen({Key? key}) : super(key: key);
 
   @override
-  State<DasBoardScreen> createState() => _DasBoardScreenState();
+  State<DashBoardScreen> createState() => _DashBoardScreenState();
 }
 
-class _DasBoardScreenState extends State<DasBoardScreen> {
+class _DashBoardScreenState extends State<DashBoardScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   String firstName = "";
   String lastName = "";

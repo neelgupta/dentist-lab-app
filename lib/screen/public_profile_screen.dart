@@ -600,6 +600,23 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
           height: height * 0.020,
         ),
         Text(
+          "State",
+          style: GoogleFonts.lato(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF707070)),
+        ),
+        SizedBox(
+          height: height * 0.007,
+        ),
+        Text(
+          labProfileData!.labData![0].state ?? "",
+          style: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w500),
+        ),
+        SizedBox(
+          height: height * 0.020,
+        ),
+        Text(
           "City",
           style: GoogleFonts.lato(
               fontSize: 13,
@@ -713,26 +730,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
             maxLines: 5,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.start),
-        SizedBox(
-          height: height * 0.02,
-        ),
-        Row(
-          children: [
-            Text(
-              "Delivery Methods",
-              style:
-                  GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-            const Spacer(),
-            Text(
-              getDeliveryMethodName(),
-              style: GoogleFonts.lato(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF707070)),
-            ),
-          ],
-        ),
         SizedBox(
           height: height * 0.015,
         ),
@@ -1379,7 +1376,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
           height: height * 0.02,
         ),
         Text(
-          'Finanical Manager Details',
+          'Financial Manager Details',
           style: GoogleFonts.lato(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -1638,14 +1635,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
       },
     ), (route) => false);
     return true;
-  }
-
-  getDeliveryMethodName() {
-    if (labProfileData!.labData![0].deliveryMethod == "COD") {
-      return "COD";
-    } else if (labProfileData!.labData![0].deliveryMethod == "paidDelivery") {
-      return "Paid Delivery";
-    }
   }
 
   getPaymentMethodName() {

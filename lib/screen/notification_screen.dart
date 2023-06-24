@@ -21,14 +21,28 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   bool isLoading = true;
+  bool isLoadMore = false;
   LabService labService = LabService();
   Notifications? notification;
   List<NotificationData> notificationList = [];
+  ScrollController scrollController = ScrollController();
+  int total = 10;
 
   @override
   void initState() {
     super.initState();
-    getData();
+    getData(isShowLoading: true);
+    scrollController.addListener(() {
+      if (notificationList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getData();
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -94,6 +108,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             scrollDirection: Axis.vertical,
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
+                            controller: scrollController,
                             padding:
                                 EdgeInsets.symmetric(horizontal: width * 0.05),
                             itemBuilder: (context, index) {
@@ -138,7 +153,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               return SizedBox(height: height * 0.01);
                             },
                             itemCount: notificationList.length),
-              )
+              ),
+              if(!isLoading && isLoadMore)loader(),
+              SizedBox(
+                height: height * 0.003,
+              ),
             ],
           ),
         ),
@@ -155,15 +174,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return true;
   }
 
-  getData() async {
-    Response response = await labService.getLabNotification();
+  getData({isShowLoading = false}) async {
+    if(isShowLoading) {
+      notificationList.clear();
+      isLoading = true;
+    }
+    isLoadMore = true;
+    setState(() {});
+    Response response = await labService.getLabNotification(offset: notificationList.length);
 
     if (response.statusCode == 200) {
       notification = Notifications.fromJson(jsonDecode(response.body));
-      notificationList = notification!.data!.notificationData ?? [];
+      total = notification!.data!.count ?? 0;
+      notificationList.addAll(notification!.data!.notificationData ?? []);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
+    isLoadMore = false;
     isLoading = false;
     setState(() {});
   }

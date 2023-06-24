@@ -23,12 +23,12 @@ class LabServices {
     return response;
   }
 
-  static getAllService() async {
-    final response = await http.get(Uri.parse(ApiServices.getAllServices),
+  static getAllService({required int offset}) async {
+    final response = await http.get(Uri.parse("${ApiServices.getAllServices}?limit=10&offset=$offset"),
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getAllService",apiName: ApiServices.getAllServices,response: response);
+    Utils.logAPIResponse(function: "getAllService",apiName: "${ApiServices.getAllServices}?limit=10&offset=$offset",response: response);
 
     return response;
   }

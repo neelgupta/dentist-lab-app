@@ -214,11 +214,14 @@ class _EditlabManagerDetailState extends State<EditlabManagerDetail> {
                                 SizedBox(width: width * 0.02),
                                 Expanded(
                                   child: TextFormField(
+                                    maxLength: 12,
                                     controller: labManagerNumberController,
                                     keyboardType: TextInputType.number,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Lab Manager Mobile Number';
+                                        return 'Please Enter Mobile Number';
+                                      } else if(!RegExp(r'(^(?:[+0]9)?[0-9]{8,12}$)').hasMatch(value)) {
+                                        return 'Please Enter Valid Mobile Number';
                                       }
                                       return null;
                                     },
@@ -343,12 +346,15 @@ class _EditlabManagerDetailState extends State<EditlabManagerDetail> {
                                 SizedBox(width: width * 0.02),
                                 Expanded(
                                   child: TextFormField(
+                                    maxLength: 12,
                                     controller:
                                         technicalManagerNumberController,
                                     keyboardType: TextInputType.number,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Enter Technical Manager Mobile Number';
+                                        return 'Please Enter Mobile Number';
+                                      } else if(!RegExp(r'(^(?:[+0]9)?[0-9]{8,12}$)').hasMatch(value)) {
+                                        return 'Please Enter Valid Mobile Number';
                                       }
                                       return null;
                                     },
@@ -694,12 +700,15 @@ class _EditlabManagerDetailState extends State<EditlabManagerDetail> {
                                 SizedBox(width: width * 0.02),
                                 Expanded(
                                   child: TextFormField(
+                                    maxLength: 12,
                                     controller:
                                         financialManagerNumberController,
                                     keyboardType: TextInputType.number,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Enter Financial Manager Mobile Number';
+                                        return 'Please Enter Mobile Number';
+                                      } else if(!RegExp(r'(^(?:[+0]9)?[0-9]{8,12}$)').hasMatch(value)) {
+                                        return 'Please Enter Valid Mobile Number';
                                       }
                                       return null;
                                     },

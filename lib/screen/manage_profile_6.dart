@@ -10,8 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 enum PaymentMethod { onlinePayment, cash, cheque, none }
 
-enum DeliveryMethods { COD, paidDelivery, none }
-
 class ManageProfile6 extends StatefulWidget {
   const ManageProfile6({Key? key}) : super(key: key);
 
@@ -21,7 +19,6 @@ class ManageProfile6 extends StatefulWidget {
 
 class _ManageProfile6State extends State<ManageProfile6> {
   PaymentMethod selectedPaymentOption = PaymentMethod.none;
-  DeliveryMethods selectedDeliveryOption = DeliveryMethods.none;
 
   bool isLoading = false;
 
@@ -32,8 +29,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: !isLoading
-                ? SizedBox(
+            body: SizedBox(
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     child: SingleChildScrollView(
@@ -117,123 +113,6 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Delivery Methods",
-                                  style: GoogleFonts.lato(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: height * 0.065,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Color(selectedDeliveryOption ==
-                                                  DeliveryMethods.COD
-                                              ? 0xFF116D6E
-                                              : 0xFF707070)),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 18,
-                                      ),
-                                      Image(
-                                          image: const AssetImage(
-                                              "assets/image/cod.png"),
-                                          color: Color(selectedDeliveryOption ==
-                                                  DeliveryMethods.COD
-                                              ? 0xFF116D6E
-                                              : 0xFF707070)),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      Text("COD",
-                                          style: GoogleFonts.lato(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(
-                                                  selectedDeliveryOption ==
-                                                          DeliveryMethods.COD
-                                                      ? 0xFF116D6E
-                                                      : 0xFF707070))),
-                                      const Spacer(),
-                                      Radio(
-                                        value: DeliveryMethods.COD,
-                                        activeColor: const Color(0xFF116D6E),
-                                        groupValue: selectedDeliveryOption,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedDeliveryOption = value!;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  height: height * 0.065,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Color(selectedDeliveryOption ==
-                                                  DeliveryMethods.paidDelivery
-                                              ? 0xFF116D6E
-                                              : 0xFF707070)),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 18,
-                                      ),
-                                      Image(
-                                          image: const AssetImage(
-                                              "assets/image/Dollar Square.png"),
-                                          color: Color(selectedDeliveryOption ==
-                                                  DeliveryMethods.paidDelivery
-                                              ? 0xFF116D6E
-                                              : 0xFF707070)),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      Text("Paid Delivery",
-                                          style: GoogleFonts.lato(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(
-                                                  selectedDeliveryOption ==
-                                                          DeliveryMethods
-                                                              .paidDelivery
-                                                      ? 0xFF116D6E
-                                                      : 0xFF707070))),
-                                      const Spacer(),
-                                      Radio(
-                                        value: DeliveryMethods.paidDelivery,
-                                        activeColor: const Color(0xFF116D6E),
-                                        groupValue: selectedDeliveryOption,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedDeliveryOption = value!;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                const Divider(
-                                    color: Color(0xFFE7E7E7), thickness: 2),
-                                const SizedBox(
                                   height: 25,
                                 ),
                                 Text(
@@ -243,7 +122,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 20,
                                 ),
                                 Container(
                                   height: height * 0.065,
@@ -405,19 +284,12 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Color(
-                                              selectedDeliveryOption !=
-                                                          DeliveryMethods
-                                                              .none &&
                                                       selectedPaymentOption !=
                                                           PaymentMethod.none
                                                   ? 0xFF116D6E
                                                   : 0xFFA0A0A0)),
                                       onPressed: () {
-                                        if (selectedDeliveryOption ==
-                                            DeliveryMethods.none) {
-                                          Utils.showErrorToast(
-                                              "Please Select Delivery Methods");
-                                        } else if (selectedPaymentOption ==
+                                        if (selectedPaymentOption ==
                                             PaymentMethod.none) {
                                           Utils.showErrorToast(
                                               "Please Select Payment Methods");
@@ -441,16 +313,14 @@ class _ManageProfile6State extends State<ManageProfile6> {
                       ),
                     ),
                   )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  )));
+        )
+    );
   }
 
   manageProfile6() async {
     Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.manageProfile6Api);
     var bodyData = {
-      "deliveryMethod": selectedDeliveryOption.name.toString(),
       "paymentMethod": selectedPaymentOption.name.toString()
     };
     var response = await http.post(

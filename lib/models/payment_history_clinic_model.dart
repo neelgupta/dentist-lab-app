@@ -1,15 +1,17 @@
 class Payment {
   int? status;
   bool? success;
+  int? count;
   List<PaymentData>? paymentData;
 
-  Payment({this.status, this.success, this.paymentData});
+  Payment({this.status, this.success, this.count, this.paymentData});
 
   factory Payment.fromJson(Map<String, dynamic> json) {
     List paymentData = json['paymentData'];
     return Payment(
       status : json['status'],
       success : json['success'],
+      count : json['count'] ?? 0,
       paymentData : paymentData.map((v) => PaymentData.fromJson(v)).toList(),
     );
   }

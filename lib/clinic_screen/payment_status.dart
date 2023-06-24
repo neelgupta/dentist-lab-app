@@ -138,7 +138,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                                     Row(
                                       children: [
                                         Text(
-                                          "Subtotal :",
+                                          "Total :",
                                           style: GoogleFonts.lato(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -147,7 +147,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                                         ),
                                         const Spacer(),
                                         Text(
-                                          "AED ${orderDetails!.totalAmount}",
+                                          "AED ${(orderDetails!.totalAmount ?? 0).toStringAsFixed(2)}",
                                           style: GoogleFonts.lato(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
@@ -176,7 +176,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                "AED ${orderDetails!.advanceAmount}",
+                                                "AED ${(orderDetails!.advanceAmount ?? 0).toStringAsFixed(2)}",
                                                 style: GoogleFonts.lato(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -269,7 +269,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                                           width: width * 0.02,
                                         ),
                                         Text(
-                                          "${labDetails!.city ?? " "}, ${labDetails!.country ?? ""}",
+                                          "${labDetails!.city ?? " "}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
                                           style: GoogleFonts.lato(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w400,

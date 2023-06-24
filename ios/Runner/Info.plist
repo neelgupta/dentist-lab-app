@@ -28,7 +28,17 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>tel</string>
+    </array>
+	<key>NSCameraUsageDescription</key>
+    <string>Need Camera Permission For Take Photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Need Photo Library Permission For Upload Photos</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need Microphone Permission For Record Videos</string>
+    <key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

@@ -5,27 +5,27 @@ import 'package:dentalapp/util/api_services.dart';
 import 'package:dentalapp/util/utils.dart';
 
 class ClinicService {
-  getPaymentHistory() async {
-    var postUri = Uri.parse(ApiServices.paymentHistory);
+  getPaymentHistory({required int offset}) async {
+    var postUri = Uri.parse("${ApiServices.paymentHistory}?limit=10&offset=$offset");
     var response = await http.get(
       postUri,
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getPaymentHistory",apiName: ApiServices.paymentHistory,response: response);
+    Utils.logAPIResponse(function: "getPaymentHistory",apiName: "${ApiServices.paymentHistory}?limit=10&offset=$offset",response: response);
 
     return response;
   }
 
 
-  getNotification() async {
-    var postUri = Uri.parse(ApiServices.notification);
+  getNotification({required int offset}) async {
+    var postUri = Uri.parse("${ApiServices.notification}?limit=10&offset=$offset");
     var response = await http.get(
       postUri,
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getNotification",apiName: ApiServices.notification,response: response);
+    Utils.logAPIResponse(function: "getNotification",apiName: "${ApiServices.notification}?limit=10&offset=$offset",response: response);
 
     return response;
   }

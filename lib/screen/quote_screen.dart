@@ -17,11 +17,15 @@ class QuoteScreen extends StatefulWidget {
 
 class _QuoteScreenState extends State<QuoteScreen> {
   bool isLoading = true;
+  bool isLoadMore = false;
   bool accepted = true;
   bool completed = false;
 
+  int total = 10;
+
   List<LabQuoteStatus> labQuoteList = [];
   LabQuote? labQuote;
+  ScrollController scrollController = ScrollController();
 
   getQuoteType() {
     if (accepted) {
@@ -40,14 +44,26 @@ class _QuoteScreenState extends State<QuoteScreen> {
       } else if (type == "Completed") {
         completed = true;
       }
-      getLabQuoteData(showLoading: true);
+      getLabQuoteData();
     });
   }
 
   @override
   void initState() {
     super.initState();
-    getLabQuoteData(showLoading: true);
+    getLabQuoteData();
+
+    scrollController.addListener(() {
+      if (labQuoteList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getLabQuoteData(showLoading: false);
+          }
+        }
+      }
+    });
   }
 
   Future<bool> goBack() async {
@@ -70,113 +86,113 @@ class _QuoteScreenState extends State<QuoteScreen> {
           body: SizedBox(
             height: height,
             width: width,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Container(
-                      height: height * 0.2,
-                      width: width,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                          color: Color(0xFF116D6E),
-                          image: DecorationImage(
-                              image: AssetImage("assets/image/Group 12305.png"),
-                              fit: BoxFit.fitWidth,
-                              alignment: Alignment.bottomCenter,
-                              opacity: 0.3)),
-                      child: Text("Quote",
-                          style: GoogleFonts.lato(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ))),
-                  SizedBox(
-                    height: height * 0.030,
-                  ),
-                  Container(
-                    height: height * 0.065,
-                    width: width * 0.88,
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFEBEFEE),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("Accepted");
-                              }
-                            },
-                            child: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: accepted
-                                      ? Colors.white
-                                      : const Color(0xFFEBEFEE),
-                                  borderRadius: BorderRadius.circular(11),
-                                ),
-                                child: accepted
-                                    ? Text("Accepted",
-                                        style: GoogleFonts.lato(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color(0xFF116D6E),
-                                        ))
-                                    : Text("Accepted",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700))),
-                          ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("Completed");
-                              }
-                            },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: completed
-                                      ? Colors.white
-                                      : const Color(0xFFEBEFEE),
-                                  borderRadius: BorderRadius.circular(11),
-                                ),
-                                alignment: Alignment.center,
-                                child: completed
-                                    ? Text("Completed",
-                                        style: GoogleFonts.lato(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color(0xFF116D6E),
-                                        ))
-                                    : Text("Completed",
-                                        style: GoogleFonts.lato(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700))),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * 0.016,
-                  ),
-                  isLoading
-                      ? Container(
-                          alignment: Alignment.center,
-                          height: height * 0.5,
-                          child: loader())
-                      : labQuoteList.isEmpty
-                          ? Container(
+            child: Column(
+              children: [
+                Container(
+                    height: height * 0.2,
+                    width: width,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF116D6E),
+                        image: DecorationImage(
+                            image: AssetImage("assets/image/Group 12305.png"),
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.bottomCenter,
+                            opacity: 0.3)),
+                    child: Text("Quote",
+                        style: GoogleFonts.lato(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ))),
+                SizedBox(
+                  height: height * 0.030,
+                ),
+                Container(
+                  height: height * 0.065,
+                  width: width * 0.88,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFEBEFEE),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            if (!isLoading) {
+                              changeQuoteType("Accepted");
+                            }
+                          },
+                          child: Container(
                               alignment: Alignment.center,
-                              height: height * 0.5,
-                              child: const Text("No Quotes Available!!!"))
-                          : ListView.separated(
+                              decoration: BoxDecoration(
+                                color: accepted
+                                    ? Colors.white
+                                    : const Color(0xFFEBEFEE),
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                              child: accepted
+                                  ? Text("Accepted",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color(0xFF116D6E),
+                                      ))
+                                  : Text("Accepted",
+                                      style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700))),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            if (!isLoading) {
+                              changeQuoteType("Completed");
+                            }
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: completed
+                                    ? Colors.white
+                                    : const Color(0xFFEBEFEE),
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                              alignment: Alignment.center,
+                              child: completed
+                                  ? Text("Completed",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color(0xFF116D6E),
+                                      ))
+                                  : Text("Completed",
+                                      style: GoogleFonts.lato(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700))),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.016,
+                ),
+                isLoading
+                    ? Container(
+                        alignment: Alignment.center,
+                        height: height * 0.3,
+                        child: loader())
+                    : labQuoteList.isEmpty
+                        ? Container(
+                            alignment: Alignment.center,
+                            height: height * 0.3,
+                            child: const Text("No Quotes Available!!!"))
+                        : Expanded(
+                          child: ListView.separated(
                               shrinkWrap: true,
+                              controller: scrollController,
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return InkWell(
@@ -294,8 +310,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
                                 );
                               },
                               itemCount: labQuoteList.length),
-                ],
-              ),
+                        ),
+                if(!isLoading && isLoadMore)loader(),
+                SizedBox(height: height * 0.01)
+              ],
             ),
           ),
         ),
@@ -305,21 +323,25 @@ class _QuoteScreenState extends State<QuoteScreen> {
 
   getLabQuoteData({bool showLoading = true}) async {
     if (showLoading) {
-      setState(() {
-        labQuoteList.clear();
-        isLoading = true;
-      });
+      labQuoteList.clear();
+      isLoading = true;
     }
+    isLoadMore = true;
+    setState(() {});
+
     String type = getQuoteType();
-    var body = {"type": type};
+
+    var body = {"type": type, "limit": "5", "offset": labQuoteList.length};
     Response response = await GetLabQuote.getQuotes(body: body);
 
     if (response.statusCode == 200) {
       labQuote = LabQuote.fromJson(jsonDecode(response.body));
       if (labQuote != null) {
+        total = labQuote!.data!.count ?? 0;
         labQuoteList.addAll(labQuote!.data!.quotesData ?? []);
       }
     }
+    isLoadMore = false;
     isLoading = false;
     setState(() {});
   }

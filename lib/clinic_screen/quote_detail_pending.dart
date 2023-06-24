@@ -25,11 +25,25 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
   List<Propsaldata> proposals = [];
   QuotesData? quotesData;
   bool isLoading = true;
+  bool isLoadMore = true;
+  int total = 10;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     getPendingDetails();
+    scrollController.addListener(() {
+      if (proposals.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(!isLoadMore) {
+            isLoadMore = true;
+            getPendingDetails(showLoading: false);
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -51,7 +65,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        height: height * 0.15,
+                        height: height * 0.2,
                         decoration: const BoxDecoration(
                             color: Color(0xFF116D6E),
                             image: DecorationImage(
@@ -60,47 +74,39 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                 fit: BoxFit.fitWidth,
                                 alignment: Alignment.bottomCenter,
                                 opacity: 0.3)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.03),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Icon(
-                                        Icons.keyboard_backspace,
-                                        color: Colors.white,
-                                      )),
-                                  const Spacer(),
-                                  Center(
-                                      child: Text(
-                                    textAlign: TextAlign.center,
-                                    "Quote Detail",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                                  const Spacer(),
-                                  const Icon(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Icon(
                                     Icons.keyboard_backspace,
-                                    color: Colors.transparent,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                                    color: Colors.white,
+                                  )),
+                              const Spacer(),
+                              Center(
+                                  child: Text(
+                                textAlign: TextAlign.center,
+                                "Quote Detail",
+                                style: GoogleFonts.lato(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              )),
+                              const Spacer(),
+                              const Icon(
+                                Icons.keyboard_backspace,
+                                color: Colors.transparent,
+                              )
+                            ],
+                          ),
                         )),
                     SizedBox(
                       height: height * 0.03,
@@ -111,284 +117,286 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                               child: Text(
                                   "No Data Found !!! \n\n Please Try Again"),
                             )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                isPendingAllDetail
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: height * 0.02),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  quotesData!.title ?? "",
+                          : SingleChildScrollView(
+                            controller: scrollController,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  isPendingAllDetail
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: height * 0.02),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    quotesData!.title ?? "",
+                                                    style: GoogleFonts.lato(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w600,
+                                                      color:
+                                                          const Color(0xff252525),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          isPendingAllDetail =
+                                                              false;
+                                                        });
+                                                      },
+                                                      child: const Image(
+                                                        height: 7,
+                                                        width: 14,
+                                                        image: AssetImage(
+                                                          "assets/image/downicon.png",
+                                                        ),
+                                                        fit: BoxFit.fill,
+                                                      )),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.015,
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.75,
+                                                child: Text(
+                                                  quotesData!.description ?? "",
                                                   style: GoogleFonts.lato(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
                                                     color:
                                                         const Color(0xff252525),
                                                   ),
                                                 ),
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        isPendingAllDetail =
-                                                            false;
-                                                      });
-                                                    },
-                                                    child: const Image(
-                                                      height: 7,
-                                                      width: 14,
-                                                      image: AssetImage(
-                                                        "assets/image/downicon.png",
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    )),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.015,
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.75,
-                                              child: Text(
-                                                quotesData!.description ?? "",
-                                                style: GoogleFonts.lato(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w400,
-                                                  color:
-                                                      const Color(0xff252525),
-                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.02,
-                                            ),
-                                            Wrap(
-                                              runSpacing: width * 0.01,
-                                              spacing: width * 0.03,
-                                              children:
-                                                  (quotesData!.serviceDetails ??
-                                                          [])
-                                                      .map((item) {
-                                                return Text(item.title ?? "",
+                                              SizedBox(
+                                                height: height * 0.02,
+                                              ),
+                                              Wrap(
+                                                runSpacing: width * 0.01,
+                                                spacing: width * 0.03,
+                                                children:
+                                                    (quotesData!.serviceDetails ??
+                                                            [])
+                                                        .map((item) {
+                                                  return Text(item.title ?? "",
+                                                      style: GoogleFonts.lato(
+                                                          color: const Color(
+                                                              0xff116D6E)));
+                                                }).toList(),
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.005,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Priority :",
                                                     style: GoogleFonts.lato(
-                                                        color: const Color(
-                                                            0xff116D6E)));
-                                              }).toList(),
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.005,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Priority :",
-                                                  style: GoogleFonts.lato(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        const Color(0xff707070),
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                      color:
+                                                          const Color(0xff707070),
+                                                    ),
                                                   ),
-                                                ),
-                                                const Spacer(),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: width * 0.04,
-                                                      vertical: 5),
-                                                  decoration: BoxDecoration(
-                                                    color: Color(
+                                                  const Spacer(),
+                                                  Container(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: width * 0.04,
+                                                        vertical: 5),
+                                                    decoration: BoxDecoration(
+                                                      color: Color(
+                                                          quotesData!.priority ==
+                                                                  "normal"
+                                                              ? 0xff707070
+                                                              : 0xffFF5959),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              2),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
                                                         quotesData!.priority ==
                                                                 "normal"
-                                                            ? 0xff707070
-                                                            : 0xffFF5959),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            2),
+                                                            ? "Normal"
+                                                            : "Urgent",
+                                                        style: GoogleFonts.lato(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: const Color(
+                                                              0xffFFFFFF),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.01,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Status :",
+                                                    style: GoogleFonts.lato(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                      color:
+                                                          const Color(0xff707070),
+                                                    ),
                                                   ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      quotesData!.priority ==
-                                                              "normal"
-                                                          ? "Normal"
-                                                          : "Urgent",
-                                                      style: GoogleFonts.lato(
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: const Color(
-                                                            0xffFFFFFF),
+                                                  const Spacer(),
+                                                  QuotesWidget.getQuoteStatus(
+                                                      width, "pending")
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.01,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Choose for :",
+                                                    style: GoogleFonts.lato(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                      color:
+                                                          const Color(0xff707070),
+                                                    ),
+                                                  ),
+                                                  const Spacer(),
+                                                  SizedBox(
+                                                    height: height * 0.03,
+                                                    width: width * 0.18,
+                                                    child: Center(
+                                                      child: Text(
+                                                        quotesData!.chooseFor ==
+                                                                "public"
+                                                            ? "Public"
+                                                            : "Lab List",
+                                                        style: GoogleFonts.lato(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: const Color(
+                                                              0xff252525),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.01,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Status :",
-                                                  style: GoogleFonts.lato(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        const Color(0xff707070),
-                                                  ),
+                                                ],
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.only(top: 10),
+                                                child: Divider(
+                                                  thickness: 1,
+                                                  color: Color(0xffE7E7E7),
                                                 ),
-                                                const Spacer(),
-                                                QuotesWidget.getQuoteStatus(
-                                                    width, "pending")
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.01,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Choose for :",
-                                                  style: GoogleFonts.lato(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        const Color(0xff707070),
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.01,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: height * 0.02),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    quotesData!.title ?? "",
+                                                    style: GoogleFonts.lato(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w600,
+                                                      color:
+                                                          const Color(0xff252525),
+                                                    ),
                                                   ),
-                                                ),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  height: height * 0.03,
-                                                  width: width * 0.18,
-                                                  child: Center(
+                                                  QuotesWidget.getQuoteStatus(
+                                                      width, "pending")
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: height * 0.02,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: width * 0.75,
                                                     child: Text(
-                                                      quotesData!.chooseFor ==
-                                                              "public"
-                                                          ? "Public"
-                                                          : "Lab List",
+                                                      quotesData!.description ??
+                                                          '',
                                                       style: GoogleFonts.lato(
-                                                        fontSize: 10,
+                                                        fontSize: 13,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                            FontWeight.w400,
                                                         color: const Color(
                                                             0xff252525),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Divider(
-                                                thickness: 1,
-                                                color: Color(0xffE7E7E7),
+                                                  const Spacer(),
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          isPendingAllDetail =
+                                                              true;
+                                                        });
+                                                      },
+                                                      child: const Image(
+                                                        height: 7,
+                                                        width: 14,
+                                                        image: AssetImage(
+                                                          "assets/image/upicon.png",
+                                                        ),
+                                                        fit: BoxFit.fill,
+                                                      )),
+                                                ],
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.01,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: height * 0.02),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  quotesData!.title ?? "",
-                                                  style: GoogleFonts.lato(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        const Color(0xff252525),
-                                                  ),
+                                              const Padding(
+                                                padding: EdgeInsets.only(top: 10),
+                                                child: Divider(
+                                                  thickness: 1,
+                                                  color: Color(0xffE7E7E7),
                                                 ),
-                                                QuotesWidget.getQuoteStatus(
-                                                    width, "pending")
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.02,
-                                            ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: width * 0.75,
-                                                  child: Text(
-                                                    quotesData!.description ??
-                                                        '',
-                                                    style: GoogleFonts.lato(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: const Color(
-                                                          0xff252525),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const Spacer(),
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        isPendingAllDetail =
-                                                            true;
-                                                      });
-                                                    },
-                                                    child: const Image(
-                                                      height: 7,
-                                                      width: 14,
-                                                      image: AssetImage(
-                                                        "assets/image/upicon.png",
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    )),
-                                              ],
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Divider(
-                                                thickness: 1,
-                                                color: Color(0xffE7E7E7),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: height * 0.01,
-                                            ),
-                                          ],
+                                              SizedBox(
+                                                height: height * 0.01,
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: height * 0.02),
+                                    child: Text(
+                                      "Proposals ($total)",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xff111111),
                                       ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: height * 0.02),
-                                  child: Text(
-                                    "Proposals (${proposals.length})",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xff111111),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
+                                  SizedBox(height: height*0.01,),
+                                  ListView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: proposals.length,
                                     itemBuilder: (context, index) {
@@ -398,8 +406,8 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                         child: Card(
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: height * 0.02,
-                                                vertical: height * 0.01),
+                                                horizontal: width * 0.03,
+                                                vertical: height * 0.02),
                                             child: Column(
                                               children: [
                                                 Row(
@@ -413,7 +421,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                               .labName ??
                                                           "",
                                                       style: GoogleFonts.lato(
-                                                        fontSize: 20,
+                                                        fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color: const Color(
@@ -433,7 +441,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                  height: height * 0.01,
+                                                  height: height * 0.02,
                                                 ),
                                                 Row(
                                                   children: [
@@ -449,7 +457,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                       width: width * 0.01,
                                                     ),
                                                     Text(
-                                                      "${proposals[index].labDetails![0].city ?? ""}, ${proposals[index].labDetails![0].country ?? ""}",
+                                                      "${proposals[index].labDetails![0].city ?? ""}, ${proposals[index].labDetails![0].state ?? ""}, ${proposals[index].labDetails![0].country ?? ""}",
                                                       style: GoogleFonts.lato(
                                                         fontSize: 12,
                                                         fontWeight:
@@ -524,9 +532,10 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                  height: height * 0.01,
+                                                  height: height * 0.02,
                                                 ),
                                                 Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     Expanded(
                                                       child: Text(
@@ -539,7 +548,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                             .ellipsis,
                                                         softWrap: false,
                                                         style: GoogleFonts.lato(
-                                                          fontSize: 13,
+                                                          fontSize: 12,
                                                           fontWeight:
                                                               FontWeight.w400,
                                                           color: const Color(
@@ -547,7 +556,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                         ),
                                                       ),
                                                     ),
-                                                    // Spacer(),
+                                                    SizedBox(width: width * 0.05),
                                                     InkWell(
                                                       onTap: () {
                                                         Navigator.push(context,
@@ -583,9 +592,13 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                       );
                                     },
                                   ),
-                                ),
-                              ],
-                            ),
+                                  if(!isLoading && isLoadMore) loader(),
+                                  SizedBox(
+                                    height: height * 0.02
+                                  ),
+                                ],
+                              ),
+                          ),
                     ),
                   ],
                 ),
@@ -594,17 +607,25 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
     );
   }
 
-  getPendingDetails() async {
-    var body = {"quoteId": widget.quoteId};
+  getPendingDetails({showLoading = true}) async {
+    if(showLoading) {
+      isLoading = true;
+      proposals.clear();
+    }
+    isLoadMore = true;
+    setState(() {});
+    var body = {"quoteId": widget.quoteId,"limit": "5", "offset": proposals.length};
     Response response = await quoteService.getPendingQuoteDetail(body: body);
 
     if (response.statusCode == 200) {
       pendingQuote = PendingQuote.fromJson(jsonDecode(response.body));
+      total = pendingQuote!.data!.count ?? 0;
       proposals.addAll(pendingQuote!.data!.propsaldata ?? []);
       quotesData = (pendingQuote!.data!.quotesData ?? []).first;
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
+    isLoadMore = false;
     isLoading = false;
     setState(() {});
   }

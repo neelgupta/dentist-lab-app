@@ -81,6 +81,7 @@ class ClinicDetail {
   String? id;
   String? address;
   String? city;
+  String? state;
   String? country;
   String? clinicName;
   String? landLineNumber;
@@ -91,6 +92,7 @@ class ClinicDetail {
       {this.id,
       this.address,
       this.city,
+      this.state,
       this.country,
       this.clinicName,
       this.landLineNumber,
@@ -102,6 +104,7 @@ class ClinicDetail {
       id: json['_id'],
       address: json['address'],
       city: json['city'],
+      state: json['state'],
       country: json['country'],
       clinicName: json['clinicName'],
       landLineNumber: json['landLineNumber'].toString(),
@@ -115,21 +118,25 @@ class LabDetails {
   String? id;
   String? address;
   String? city;
+  String? state;
   String? country;
   String? labName;
   String? landLineNumber;
   String? mobileNumber;
   String? countryCode;
+  String? paymentMethod;
 
   LabDetails({
     this.id,
     this.address,
     this.city,
+    this.state,
     this.country,
     this.labName,
     this.landLineNumber,
     this.mobileNumber,
     this.countryCode,
+    this.paymentMethod,
   });
 
   factory LabDetails.fromJson(Map<String, dynamic> json) {
@@ -137,11 +144,13 @@ class LabDetails {
       id: json['_id'],
       address: json['address'],
       city: json['city'],
+      state: json['state'],
       country: json['country'],
       labName: json['labName'],
       landLineNumber: json['landLineNumber'].toString(),
       mobileNumber: json['mobileNumber'].toString(),
       countryCode: json['countryCode'].toString(),
+      paymentMethod: json['paymentMethod'] ?? "onlinePayment",
     );
   }
 }

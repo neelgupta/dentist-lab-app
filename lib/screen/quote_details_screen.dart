@@ -42,12 +42,25 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
   QuoteStatus? quoteStatus;
   Comments? comments;
   List<CommentData> commentList = [];
+  ScrollController scrollController = ScrollController();
+  int total = 20;
+  bool isLoadMore = false;
 
   @override
   void initState() {
     super.initState();
     getQuoteDetail();
-    getComments();
+    scrollController.addListener(() {
+      if (commentList.length<total) {
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.position.pixels) {
+          if(isShareComments && !isLoadMore) {
+            isLoadMore = true;
+            getComments(showLoading: false);
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -62,81 +75,80 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
       child: Scaffold(
         body: isLoading
             ? Center(child: loader())
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        height: height * 0.2,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFF116D6E),
-                            image: DecorationImage(
-                                image:
-                                    AssetImage("assets/image/Group 12305.png"),
-                                fit: BoxFit.fitWidth,
-                                alignment: Alignment.bottomCenter,
-                                opacity: 0.3)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.03),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Icon(
-                                        Icons.keyboard_backspace,
-                                        color: Colors.white,
-                                      )),
-                                  const Spacer(),
-                                  Center(
-                                      child: Text(
-                                    textAlign: TextAlign.center,
-                                    "Quote Detail",
-                                    style: GoogleFonts.lato(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                                  const Spacer(),
-                                  const Icon(
+            : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    height: height * 0.2,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF116D6E),
+                        image: DecorationImage(
+                            image:
+                                AssetImage("assets/image/Group 12305.png"),
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.bottomCenter,
+                            opacity: 0.3)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Icon(
                                     Icons.keyboard_backspace,
-                                    color: Colors.transparent,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                    SizedBox(
-                      height: height * 0.03,
-                    ),
-                    quoteData == null
-                        ? Container(
-                            height: height * 0.5,
-                            alignment: Alignment.center,
-                            child: const Text(
-                                "No Data Found !!! \n\n Please Try Again"),
-                          )
-                        : Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.05),
+                                    color: Colors.white,
+                                  )),
+                              const Spacer(),
+                              Center(
+                                  child: Text(
+                                textAlign: TextAlign.center,
+                                "Quote Detail",
+                                style: GoogleFonts.lato(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              )),
+                              const Spacer(),
+                              const Icon(
+                                Icons.keyboard_backspace,
+                                color: Colors.transparent,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                Expanded(
+                  child: quoteData == null
+                      ? Container(
+                          height: height * 0.5,
+                          alignment: Alignment.center,
+                          child: const Text(
+                              "No Data Found !!! \n\n Please Try Again"),
+                        )
+                      : Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.05),
+                          child: SingleChildScrollView(
+                            controller: scrollController,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 SizedBox(
-                                  height: height * 0.65,
+                                  height: height * 0.6,
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment:
@@ -184,7 +196,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                         Row(
                                           children: [
                                             Text(
-                                              "Subtotal :",
+                                              "Total :",
                                               style: GoogleFonts.lato(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
@@ -193,7 +205,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              "AED ${orderDetails!.totalAmount}",
+                                              "AED ${(orderDetails!.totalAmount ?? 0).toStringAsFixed(2)}",
                                               style: GoogleFonts.lato(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
@@ -223,7 +235,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                                   ),
                                                   const Spacer(),
                                                   Text(
-                                                    "AED ${orderDetails!.advanceAmount}",
+                                                    "AED ${(orderDetails!.advanceAmount ?? 0).toStringAsFixed(2)}",
                                                     style: GoogleFonts.lato(
                                                       fontSize: 13,
                                                       fontWeight:
@@ -320,7 +332,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                               width: width * 0.02,
                                             ),
                                             Text(
-                                              "${clinicDetails!.city ?? " "}, ${clinicDetails!.country ?? ""}",
+                                              "${clinicDetails!.city ?? ""}, ${clinicDetails!.state ?? ""}, ${clinicDetails!.country ?? ""}",
                                               style: GoogleFonts.lato(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -354,7 +366,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                           height: height * 0.02,
                                         ),
                                         Text(
-                                          "${clinicDetails!.city ?? ""} ${clinicDetails!.country ?? ""}",
+                                          "${clinicDetails!.city ?? ""}, ${clinicDetails!.state ?? ""}, ${clinicDetails!.country ?? ""}",
                                           style: GoogleFonts.lato(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -375,31 +387,29 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                         makePhoneCall();
                                       })
                                     : quoteStatus!.labStatus == "workStarted"
-                                        ? SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                commonButton(
-                                                    context,
-                                                    'Call Clinic',
-                                                    13,
-                                                    FontWeight.w700,
-                                                    Colors.white, () {
-                                                  makePhoneCall();
-                                                }),
-                                                SizedBox(
-                                                  height: height * 0.02,
-                                                ),
-                                                commonButton(
-                                                    context,
-                                                    'Out For Delivery',
-                                                    13,
-                                                    FontWeight.w700,
-                                                    Colors.white, () {
-                                                  completeWork();
-                                                }),
-                                              ],
+                                        ? Column(
+                                          children: [
+                                            commonButton(
+                                                context,
+                                                'Call Clinic',
+                                                13,
+                                                FontWeight.w700,
+                                                Colors.white, () {
+                                              makePhoneCall();
+                                            }),
+                                            SizedBox(
+                                              height: height * 0.02,
                                             ),
-                                          )
+                                            commonButton(
+                                                context,
+                                                'Out For Delivery',
+                                                13,
+                                                FontWeight.w700,
+                                                Colors.white, () {
+                                              completeWork();
+                                            }),
+                                          ],
+                                        )
                                         : quoteStatus!.clinicStatus ==
                                                 'deliveryRejected'
                                             ? Column(
@@ -560,17 +570,22 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                                                   );
                                                                 },
                                                               ),
+                                                        if(isLoadMore) loader(),
                                                       ],
                                                     ),
                                                 ],
                                               )
-                                            : Container()
+                                            : Container(),
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
                               ],
                             ),
                           ),
-                  ],
+                        ),
                 ),
-              ),
+              ],
+            ),
       ),
     );
   }
@@ -725,6 +740,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
       propsalDetails = quoteData!.propsalDetails!.first;
       clinicDetails = quoteData!.clinicDetails!.first;
       orderDetails = quoteData!.orderDetails!.first;
+      if(quoteStatus!.clinicStatus == 'deliveryRejected')getComments();
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
@@ -775,18 +791,26 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
     }
   }
 
-  getComments() async {
-    commentList.clear();
+  getComments({showLoading = true}) async {
+    if (showLoading) {
+      commentList.clear();
+    }
+    isLoadMore = true;
+    setState(() {});
     var body = {
       "quoteId": widget.quoteId,
+      "limit": "20",
+      "offset": commentList.length
     };
     Response response = await quoteService.getComments(body: body);
     if (response.statusCode == 200) {
       comments = Comments.fromJson(jsonDecode(response.body));
+      total = comments!.count ?? 0;
       commentList.addAll(comments!.commentData ?? []);
     } else if (response.statusCode == 401) {
       Utils.logout(context);
     }
+    isLoadMore = false;
     setState(() {});
   }
 

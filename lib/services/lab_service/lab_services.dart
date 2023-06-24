@@ -3,26 +3,26 @@ import 'package:dentalapp/util/utils.dart';
 import 'package:http/http.dart' as http;
 
 class LabService {
-  getLabPaymentHistory() async {
-    var postUri = Uri.parse(ApiServices.labPaymentHistory);
+  getLabPaymentHistory({required int offset}) async {
+    var postUri = Uri.parse("${ApiServices.labPaymentHistory}?limit=10&offset=$offset");
     var response = await http.get(
       postUri,
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getLabPaymentHistory",apiName: ApiServices.labPaymentHistory,response: response);
+    Utils.logAPIResponse(function: "getLabPaymentHistory",apiName: "${ApiServices.labPaymentHistory}?limit=10&offset=$offset",response: response);
 
     return response;
   }
 
-  getLabNotification() async {
-    var postUri = Uri.parse(ApiServices.labNotification);
+  getLabNotification({required int offset}) async {
+    var postUri = Uri.parse("${ApiServices.labNotification}?limit=10&offset=$offset");
     var response = await http.get(
       postUri,
       headers: Utils.apiHeader,
     );
 
-    Utils.logAPIResponse(function: "getLabNotification",apiName: ApiServices.labNotification,response: response);
+    Utils.logAPIResponse(function: "getLabNotification",apiName: "${ApiServices.labNotification}?limit=10&offset=$offset",response: response);
 
     return response;
   }

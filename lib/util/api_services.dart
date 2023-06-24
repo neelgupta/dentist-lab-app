@@ -1,5 +1,5 @@
 class ApiServices {
-  static String baseUrl = "https://energetic-kit-dove.cyclic.app/api/v1/";
+  static String baseUrl = "https://dark-red-cygnet-wrap.cyclic.app/api/v1/";
 
   /// Authorization apis
   static String signInApi = "${baseUrl}auth/signin";

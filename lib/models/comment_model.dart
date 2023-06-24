@@ -1,14 +1,16 @@
 class Comments {
   int? status;
+  int? count;
   bool? success;
   List<CommentData>? commentData;
 
-  Comments({this.status, this.success, this.commentData});
+  Comments({this.status, this.count, this.success, this.commentData});
 
   factory Comments.fromJson(Map<String, dynamic> json) {
     List comment = json['commentData'];
     return Comments(
       status : json['status'],
+      count : json['count'],
       success : json['success'],
       commentData: comment.map((v) => CommentData.fromJson(v)).toList()
     );

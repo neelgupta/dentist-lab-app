@@ -17,13 +17,15 @@ class LabQuote {
 }
 
 class Data {
+  int? count;
   List<LabQuoteStatus>? quotesData;
 
-  Data({this.quotesData});
+  Data({this.count,this.quotesData});
 
   factory Data.fromJson(Map<String, dynamic> json) {
     List quotes = json['quotedata'] ?? [];
     return Data(
+        count: json['count'] ?? 0,
       quotesData: quotes.map((e) => LabQuoteStatus.fromJson(e)).toList(),
     );
   }

@@ -20,7 +20,6 @@ class EditLabDescription extends StatefulWidget {
 class _EditLabDescriptionState extends State<EditLabDescription> {
   TextEditingController descriptionController = TextEditingController();
   PaymentMethod selectedPaymentOption = PaymentMethod.none;
-  DeliveryMethods selectedDeliveryOption = DeliveryMethods.none;
 
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
@@ -29,16 +28,7 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
   void initState() {
     super.initState();
     descriptionController.text = widget.labData.description ?? "";
-    getDeliveryMethodName();
     getPaymentMethodName();
-  }
-
-  getDeliveryMethodName() {
-    if (widget.labData.deliveryMethod == "COD") {
-      selectedDeliveryOption = DeliveryMethods.COD;
-    } else if (widget.labData.deliveryMethod == "paidDelivery") {
-      selectedDeliveryOption = DeliveryMethods.paidDelivery;
-    }
   }
 
   getPaymentMethodName() {
@@ -158,119 +148,6 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                 ),
                                 contentPadding: const EdgeInsets.only(
                                     left: 18, top: 16, bottom: 16),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Divider(
-                                color: Color(0xFFE7E7E7), thickness: 2),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Delivery Methods",
-                              style: GoogleFonts.lato(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              height: height * 0.065,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Color(selectedDeliveryOption ==
-                                              DeliveryMethods.COD
-                                          ? 0xFF116D6E
-                                          : 0xFF707070)),
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 18,
-                                  ),
-                                  Image(
-                                      image: const AssetImage(
-                                          "assets/image/cod.png"),
-                                      color: Color(selectedDeliveryOption ==
-                                              DeliveryMethods.COD
-                                          ? 0xFF116D6E
-                                          : 0xFF707070)),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  Text("COD",
-                                      style: GoogleFonts.lato(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(selectedDeliveryOption ==
-                                                  DeliveryMethods.COD
-                                              ? 0xFF116D6E
-                                              : 0xFF707070))),
-                                  const Spacer(),
-                                  Radio(
-                                    value: DeliveryMethods.COD,
-                                    activeColor: const Color(0xFF116D6E),
-                                    groupValue: selectedDeliveryOption,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedDeliveryOption = value!;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              height: height * 0.065,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Color(selectedDeliveryOption ==
-                                              DeliveryMethods.paidDelivery
-                                          ? 0xFF116D6E
-                                          : 0xFF707070)),
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 18,
-                                  ),
-                                  Image(
-                                      image: const AssetImage(
-                                          "assets/image/Dollar Square.png"),
-                                      color: Color(selectedDeliveryOption ==
-                                              DeliveryMethods.paidDelivery
-                                          ? 0xFF116D6E
-                                          : 0xFF707070)),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  Text("Paid Delivery",
-                                      style: GoogleFonts.lato(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(selectedDeliveryOption ==
-                                                  DeliveryMethods.paidDelivery
-                                              ? 0xFF116D6E
-                                              : 0xFF707070))),
-                                  const Spacer(),
-                                  Radio(
-                                    value: DeliveryMethods.paidDelivery,
-                                    activeColor: const Color(0xFF116D6E),
-                                    groupValue: selectedDeliveryOption,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedDeliveryOption = value!;
-                                      });
-                                    },
-                                  ),
-                                ],
                               ),
                             ),
                             const SizedBox(
@@ -451,11 +328,7 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                               child: TextButton(
                                   onPressed: () {
                                     if (formKey.currentState!.validate()) {
-                                      if (selectedDeliveryOption ==
-                                          DeliveryMethods.none) {
-                                        Utils.showErrorToast(
-                                            "Please Select Delivery Methods");
-                                      } else if (selectedPaymentOption ==
+                                      if (selectedPaymentOption ==
                                           PaymentMethod.none) {
                                         Utils.showErrorToast(
                                             "Please Select Payment Methods");
@@ -490,7 +363,6 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
     var postUri = Uri.parse(ApiServices.editPaymenthod);
     var bodyData = {
       "description": descriptionController.text,
-      "deliveryMethod": selectedDeliveryOption.name.toString(),
       "paymentMethod": selectedPaymentOption.name.toString()
     };
     var response = await http.put(

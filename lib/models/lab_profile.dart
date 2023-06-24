@@ -27,6 +27,7 @@ class LabDatum {
   String? address;
   String? city;
   String? country;
+  String? state;
   String? countryCode;
   String? dateOfEstablishment;
   String? labName;
@@ -58,7 +59,6 @@ class LabDatum {
   String? labTechs;
   String? techlicensFile;
   String? description;
-  String? deliveryMethod;
   String? paymentMethod;
   List<UserDetail>? userDetails;
   List<WorkingHour>? workingHours;
@@ -69,6 +69,7 @@ class LabDatum {
     required this.address,
     required this.city,
     required this.country,
+    required this.state,
     required this.countryCode,
     required this.dateOfEstablishment,
     required this.labName,
@@ -100,7 +101,6 @@ class LabDatum {
     required this.labTechs,
     required this.techlicensFile,
     required this.description,
-    required this.deliveryMethod,
     required this.paymentMethod,
     required this.userDetails,
     required this.workingHours,
@@ -112,6 +112,7 @@ class LabDatum {
         address : json['address'],
         city : json['city'],
         country : json['country'],
+        state : json['state'],
         countryCode : json['countryCode'],
         dateOfEstablishment : json['dateOfEstablishment'],
         labName : json['labName'],
@@ -143,7 +144,6 @@ class LabDatum {
         labTechs : json['labTechs'],
         techlicensFile : json['techlicensFile'],
         description: json['description'],
-        deliveryMethod: json["deliveryMethod"] ?? " ",
         paymentMethod: json["paymentMethod"] ?? " ",
         userDetails: json["userDetails"] == null
             ? []
@@ -163,7 +163,7 @@ class LabDatum {
 class LabService {
   String? id;
   String? title;
-  int? price;
+  double? price;
   List<String>? serviceImags;
 
   LabService({
@@ -176,7 +176,7 @@ class LabService {
   factory LabService.fromJson(Map<String, dynamic> json) => LabService(
         id: json["_id"] ?? " ",
         title: json["title"] ?? " ",
-        price: json["price"] ?? " ",
+        price: double.parse((json["price"] ?? 0).toString()),
         serviceImags: json["serviceImags"] == null
             ? []
             : List<String>.from(json["serviceImags"]!.map((x) => x)),
