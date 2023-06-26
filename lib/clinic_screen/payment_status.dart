@@ -258,43 +258,59 @@ class _PaymentStatusState extends State<PaymentStatus> {
                                     ),
                                     Row(
                                       children: [
-                                        Image(
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Image(
+                                                width: width * 0.03,
+                                                image: const AssetImage(
+                                                  "assets/image/locationgrren.png",
+                                                ),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.02,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  "${labDetails!.city ?? " "}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: const Color(0xff116D6E),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
                                           width: width * 0.03,
-                                          image: const AssetImage(
-                                            "assets/image/locationgrren.png",
-                                          ),
-                                          fit: BoxFit.fill,
                                         ),
-                                        SizedBox(
-                                          width: width * 0.02,
-                                        ),
-                                        Text(
-                                          "${labDetails!.city ?? " "}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: width * 0.03,
-                                        ),
-                                        Image(
-                                          width: width * 0.04,
-                                          image: const AssetImage(
-                                            "assets/image/call.png",
-                                          ),
-                                          fit: BoxFit.fill,
-                                        ),
-                                        SizedBox(
-                                          width: width * 0.02,
-                                        ),
-                                        Text(
-                                          "${labDetails!.countryCode ?? ""} ${labDetails!.mobileNumber ?? ''}",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff116D6E),
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Image(
+                                                width: width * 0.04,
+                                                image: const AssetImage(
+                                                  "assets/image/call.png",
+                                                ),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.02,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  "${labDetails!.countryCode ?? ""} ${labDetails!.mobileNumber ?? ''}",
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: const Color(0xff116D6E),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],

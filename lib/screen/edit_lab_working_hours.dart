@@ -23,6 +23,7 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
   var closingTime = "24:00";
   bool onOff = false;
   bool isTimeSelectedStatus = false;
+  bool isSameForAllDay = false;
   List<DayDetails> days = [];
   List startTime = [
     "00:00 ",
@@ -240,6 +241,7 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
         daysName.length,
         (index) => DayDetails(
             day: daysName[index], startTime: "", endTime: "", isOpen: false));
+    isSameForAllDay = widget.labData.workingHours!.first.dayStatus == "false" ? false : true;
     for (var i = 0; i < days.length; i++) {
       days[i].day = widget.labData.workingHours!.first.dayDetails![i].day ?? "";
       days[i].startTime =
@@ -301,7 +303,7 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
                             height: height * 0.04,
                           ),
                           Text(
-                            "Edit Additional Details",
+                            "Edit Working Hours",
                             style: GoogleFonts.lato(
                               fontSize: 30,
                               fontWeight: FontWeight.w600,
@@ -312,7 +314,7 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
                       ))),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.057, vertical: height * 0.027),
+                    horizontal: width * 0.057, vertical: height * 0.01),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -328,9 +330,62 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
                                 style: GoogleFonts.lato(
                                     fontSize: 18, fontWeight: FontWeight.w600),
                               ),
-                              const SizedBox(
-                                height: 10,
+                              SizedBox(
+                                height: height * 0.025,
                               ),
+                              isSameForAllDay?
+                              Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                          width: width * 0.4,
+                                          child: Text(
+                                            "All Day",
+                                            style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.w600),
+                                          )),
+                                      Text(
+                                        days.first.isOpen
+                                            ? "${days.first.startTime} - ${days.first.endTime}"
+                                            : "Closed",
+                                        style: GoogleFonts.lato(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      const Spacer(),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              isTimeSelectedStatus = true;
+                                              index = 0;
+                                              onOff = days.first.isOpen;
+                                              openingTime = "00:00";
+                                              closingTime = "00:00";
+                                            });
+                                          },
+                                          child: const Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Color(0xFF707070),
+                                            size: 15,
+                                          )),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Divider(
+                                      color: Color(0xFFE7E7E7),
+                                      thickness: 1),
+                                ],
+                              ):
                               ListView(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -391,7 +446,30 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
                                 ],
                               ),
                               SizedBox(
-                                height: height * 0.050,
+                                height: height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width * 0.05,
+                                    child: Checkbox(
+                                      value: isSameForAllDay,
+                                      activeColor: const Color(0xFF116D6E),
+                                      onChanged: (value) {
+                                        isSameForAllDay = !isSameForAllDay;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: width * 0.03),
+                                  Text("Apply Same For All Days",
+                                    style: GoogleFonts.lato(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400),)
+                                ],
+                              ),
+                              SizedBox(
+                                height: height * 0.020,
                               ),
                               Container(
                                 height: height * 0.064,
@@ -429,7 +507,7 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
                                           left: 10, right: 10),
                                       child: Row(
                                         children: [
-                                          Text(days[index].day,
+                                          Text(isSameForAllDay?"All Days":days[index].day,
                                               style: GoogleFonts.lato(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 18)),
@@ -639,13 +717,14 @@ class _EditLabWorkingHoursState extends State<EditLabWorkingHours> {
     for (int i = 0; i < days.length; i++) {
       Map times = {
         "day": days[i].day,
-        "startTime": days[i].startTime,
-        "endTime": days[i].endTime,
-        "isOpen": days[i].isOpen,
+        "startTime": isSameForAllDay?days.first.startTime:days[i].startTime,
+        "endTime": isSameForAllDay?days.first.endTime:days[i].endTime,
+        "isOpen": isSameForAllDay?days.first.isOpen:days[i].isOpen,
       };
       workingDays.add(times);
     }
     var bodyData = {
+      "dayStatus" : isSameForAllDay,
       "dayDetails": workingDays,
     };
 

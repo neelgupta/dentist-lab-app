@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:dentalapp/custom_widget/side_navigation_bar_widget.dart';
 import 'package:dentalapp/screen/notification_screen.dart';
+import 'package:dentalapp/screen/pending_quote_details.dart';
+import 'package:dentalapp/screen/quote_details_screen.dart';
 import 'package:dentalapp/services/lab_service/dashboars_feeds.dart';
 import 'package:dentalapp/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -264,93 +266,64 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                  quoteList[index].title ??
-                                                      "",
-                                                  style: GoogleFonts.lato(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600,
-                                                  )),
-                                              const Spacer(),
-                                              Text(
-                                                  DateFormat('dd MMMM yyyy')
-                                                      .format(quoteList[index]
-                                                          .createdAt!),
-                                                  style: GoogleFonts.lato(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w400,
-                                                    color: const Color(
-                                                        0xFFA0A0A0),
-                                                  )),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: height * 0.020,
-                                          ),
-                                          Text(
-                                              quoteList[index].description ??
-                                                  "",
-                                              style: GoogleFonts.lato(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: const Color(
-                                                      0xFF707070)),
-                                              maxLines: 3,
-                                              overflow:
-                                                  TextOverflow.ellipsis),
-                                          SizedBox(
-                                            height: height * 0.015,
-                                          ),
-                                          if (quoteList[index].isSend == "0")
-                                            TextButton(
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty
-                                                          .all(const Color(
-                                                              0xFF116D6E)),
-                                                  padding:
-                                                      MaterialStateProperty
-                                                          .all(const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: 25,
-                                                              vertical: 12)),
-                                                  shape: MaterialStateProperty
-                                                      .all(
-                                                    RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius
-                                                              .circular(12),
-                                                    ),
-                                                  ),
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                            return PendingQuoteDetails(quoteId: quoteList[index].id ?? "", isSend: quoteList[index].isSend!);
+                                          },));
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                      quoteList[index].title ??
+                                                          "",
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      )),
                                                 ),
-                                                onPressed: () {
-                                                  amountController.text = "";
-                                                  showMyDialog(
-                                                      context, index);
-                                                },
-                                                child: Text("Sent Proposal",
+                                                Text(
+                                                    DateFormat('dd MMMM yyyy')
+                                                        .format(quoteList[index]
+                                                            .createdAt!),
                                                     style: GoogleFonts.lato(
                                                       fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.white,
-                                                    ))),
-                                          SizedBox(
-                                            height: height * 0.010,
-                                          ),
-                                          const Divider(
-                                            thickness: 1,
-                                            color: Color(0xFFE7E7E7),
-                                          ),
-                                        ],
+                                                          FontWeight.w400,
+                                                      color: const Color(
+                                                          0xFFA0A0A0),
+                                                    )),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: height * 0.020,
+                                            ),
+                                            Text(
+                                                quoteList[index].description ??
+                                                    "",
+                                                style: GoogleFonts.lato(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: const Color(
+                                                        0xFF707070)),
+                                                maxLines: 3,
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                            SizedBox(
+                                              height: height * 0.015,
+                                            ),
+                                            const Divider(
+                                              thickness: 1,
+                                              color: Color(0xFFE7E7E7),
+                                            ),
+                                          ],
+                                        ),
                                       );
                                     },
                                     separatorBuilder: (context, index) {
@@ -527,6 +500,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         total = getfeed!.data!.count ?? 0;
         quoteList.addAll(getfeed!.data!.quotesdata ?? []);
       }
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
     }
     isLoadMore = false;
     isLoading = false;

@@ -279,4 +279,40 @@ class QuoteService {
 
     return response;
   }
+
+  getPaymentUrl({required body}) async {
+    var postUri = Uri.parse("https://www.payd.ae/pg/public/api/generateTransactionId");
+    var headers = {
+      'Accept': 'application/json',
+    'secretkey': "\$2y\$10\$.gDNy24kZIDtS5/paN9q.eB/YM7u6PY0yJ6Lvd2NINbFtUQouk6OO"
+    };
+    var response = await http.post(
+      postUri,
+      body: body,
+      headers: headers,
+    );
+
+    Utils.logAPIResponse(
+        function: "getPaymentUrl",
+        apiName: "https://www.payd.ae/pg/public/api/generateTransactionId",
+        response: response,
+        body: body);
+
+    return response;
+  }
+
+  getSingleQuoteDetail({required String quotId}) async {
+    var postUri = Uri.parse("${ApiServices.getSingleQuote}/$quotId");
+    var response = await http.get(
+      postUri,
+      headers: Utils.apiHeader,
+    );
+
+    Utils.logAPIResponse(
+        function: "getSingleQuoteDetail",
+        apiName: "${ApiServices.getSingleQuote}/$quotId",
+        response: response,);
+
+    return response;
+  }
 }

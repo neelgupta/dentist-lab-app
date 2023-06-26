@@ -148,7 +148,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 SizedBox(
-                                  height: height * 0.6,
+                                  height: height * 0.57,
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment:
@@ -156,15 +156,16 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                       children: [
                                         Row(
                                           children: [
-                                            Text(
-                                              quoteData!.title ?? "",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff252525),
+                                            Expanded(
+                                              child: Text(
+                                                quoteData!.title ?? "",
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: const Color(0xff252525),
+                                                ),
                                               ),
                                             ),
-                                            const Spacer(),
                                             QuotesWidget.getQuoteStatus(
                                                 width, quoteStatus!.labStatus!)
                                           ],
@@ -305,13 +306,15 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                                 color: const Color(0xff252525),
                                               ),
                                             ),
-                                            const Spacer(),
-                                            Text(
-                                              clinicDetails!.clinicName ?? "",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: const Color(0xff252525),
+                                            Expanded(
+                                              child: Text(
+                                                clinicDetails!.clinicName ?? "",
+                                                textAlign: TextAlign.end,
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: const Color(0xff252525),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -321,57 +324,65 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                         ),
                                         Row(
                                           children: [
-                                            Image(
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    width: width * 0.03,
+                                                    image: const AssetImage(
+                                                      "assets/image/locationgrren.png",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  SizedBox(
+                                                    width: width * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${clinicDetails!.city ?? ""}, ${clinicDetails!.state ?? ""}, ${clinicDetails!.country ?? ""}",
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: const Color(0xff116D6E),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
                                               width: width * 0.03,
-                                              image: const AssetImage(
-                                                "assets/image/locationgrren.png",
-                                              ),
-                                              fit: BoxFit.fill,
                                             ),
-                                            SizedBox(
-                                              width: width * 0.02,
-                                            ),
-                                            Text(
-                                              "${clinicDetails!.city ?? ""}, ${clinicDetails!.state ?? ""}, ${clinicDetails!.country ?? ""}",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color: const Color(0xff116D6E),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.03,
-                                            ),
-                                            Image(
-                                              width: width * 0.04,
-                                              image: const AssetImage(
-                                                "assets/image/call.png",
-                                              ),
-                                              fit: BoxFit.fill,
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.02,
-                                            ),
-                                            Text(
-                                              "${clinicDetails!.countryCode ?? ""} ${clinicDetails!.mobileNumber ?? ""}",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color: const Color(0xff116D6E),
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    width: width * 0.04,
+                                                    image: const AssetImage(
+                                                      "assets/image/call.png",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  SizedBox(
+                                                    width: width * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${clinicDetails!.countryCode ?? ""} ${clinicDetails!.mobileNumber ?? ""}",
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: const Color(0xff116D6E),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
                                         SizedBox(
                                           height: height * 0.02,
-                                        ),
-                                        Text(
-                                          "${clinicDetails!.city ?? ""}, ${clinicDetails!.state ?? ""}, ${clinicDetails!.country ?? ""}",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xff252525),
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -414,6 +425,16 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                                 'deliveryRejected'
                                             ? Column(
                                                 children: [
+                                                  commonButton(
+                                                      context,
+                                                      'Restart Work',
+                                                      13,
+                                                      FontWeight.w700,
+                                                      Colors.white, () {
+                                                  }),
+                                                  SizedBox(
+                                                    height: height * 0.02,
+                                                  ),
                                                   commonButton(
                                                       context,
                                                       'Share Comment',
@@ -735,11 +756,21 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
     Response response = await quoteService.getAcceptedQuoteDetail(body: body);
     if (response.statusCode == 200) {
       acceptedQuote = AcceptedQuote.fromJson(jsonDecode(response.body));
-      quoteData = acceptedQuote!.quoteData!.first;
-      quoteStatus = quoteData!.quoteStatus!.first;
-      propsalDetails = quoteData!.propsalDetails!.first;
-      clinicDetails = quoteData!.clinicDetails!.first;
-      orderDetails = quoteData!.orderDetails!.first;
+      if ((acceptedQuote!.quoteData ?? []).isNotEmpty) {
+        quoteData = acceptedQuote!.quoteData!.first;
+      }
+      if ((quoteData!.quoteStatus ?? []).isNotEmpty) {
+        quoteStatus = quoteData!.quoteStatus!.first;
+      }
+      if ((quoteData!.propsalDetails ?? []).isNotEmpty) {
+        propsalDetails = quoteData!.propsalDetails!.first;
+      }
+      if ((quoteData!.clinicDetails ?? []).isNotEmpty) {
+        clinicDetails = quoteData!.clinicDetails!.first;
+      }
+      if ((quoteData!.orderDetails ?? []).isNotEmpty) {
+        orderDetails = quoteData!.orderDetails!.first;
+      }
       if(quoteStatus!.clinicStatus == 'deliveryRejected')getComments();
     } else if (response.statusCode == 401) {
       Utils.logout(context);

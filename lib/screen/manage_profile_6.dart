@@ -18,7 +18,7 @@ class ManageProfile6 extends StatefulWidget {
 }
 
 class _ManageProfile6State extends State<ManageProfile6> {
-  PaymentMethod selectedPaymentOption = PaymentMethod.none;
+  List<PaymentMethod> selectedPaymentOption = [PaymentMethod.none,PaymentMethod.none,PaymentMethod.none,];
 
   bool isLoading = false;
 
@@ -129,8 +129,7 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.onlinePayment
+                                          color: Color(selectedPaymentOption[0] == PaymentMethod.onlinePayment
                                               ? 0xFF116D6E
                                               : 0xFF707070)),
                                       borderRadius: BorderRadius.circular(12)),
@@ -142,8 +141,8 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                       Image(
                                           image: const AssetImage(
                                               "assets/image/cod.png"),
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.onlinePayment
+                                          color: Color(selectedPaymentOption[0] ==
+                                              PaymentMethod.onlinePayment
                                               ? 0xFF116D6E
                                               : 0xFF707070)),
                                       const SizedBox(
@@ -154,22 +153,28 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                               fontSize: 17,
                                               fontWeight: FontWeight.w400,
                                               color: Color(
-                                                  selectedPaymentOption ==
-                                                          PaymentMethod
-                                                              .onlinePayment
+                                                  selectedPaymentOption[0] ==
+                                                      PaymentMethod
+                                                          .onlinePayment
                                                       ? 0xFF116D6E
                                                       : 0xFF707070))),
                                       const Spacer(),
-                                      Radio(
-                                        value: PaymentMethod.onlinePayment,
-                                        activeColor: const Color(0xFF116D6E),
-                                        groupValue: selectedPaymentOption,
-                                        onChanged: (value) {
+                                      InkWell(
+                                        onTap: () {
                                           setState(() {
-                                            selectedPaymentOption = value!;
+                                            debugPrint(selectedPaymentOption.toString());
+                                            if (selectedPaymentOption[0] == PaymentMethod.onlinePayment) {
+                                              selectedPaymentOption[0] = PaymentMethod.none;
+                                            } else {
+                                              selectedPaymentOption[0] = PaymentMethod.onlinePayment;
+                                            }
+                                            debugPrint(selectedPaymentOption.toString());
                                           });
                                         },
+                                        child: Icon(selectedPaymentOption[0] == PaymentMethod.onlinePayment?Icons.radio_button_checked:Icons.radio_button_off,
+                                            color: Color(selectedPaymentOption[0] == PaymentMethod.onlinePayment ? 0xFF116D6E : 0xFF707070)),
                                       ),
+                                      SizedBox(width: width * 0.03,)
                                     ],
                                   ),
                                 ),
@@ -181,8 +186,8 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.cash
+                                          color: Color(selectedPaymentOption[1] ==
+                                              PaymentMethod.cash
                                               ? 0xFF116D6E
                                               : 0xFF707070)),
                                       borderRadius: BorderRadius.circular(12)),
@@ -194,8 +199,8 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                       Image(
                                           image: const AssetImage(
                                               "assets/image/Dollar Square.png"),
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.cash
+                                          color: Color(selectedPaymentOption[1] ==
+                                              PaymentMethod.cash
                                               ? 0xFF116D6E
                                               : 0xFF707070)),
                                       const SizedBox(
@@ -206,21 +211,25 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                               fontSize: 17,
                                               fontWeight: FontWeight.w400,
                                               color: Color(
-                                                  selectedPaymentOption ==
-                                                          PaymentMethod.cash
+                                                  selectedPaymentOption[1] ==
+                                                      PaymentMethod.cash
                                                       ? 0xFF116D6E
                                                       : 0xFF707070))),
                                       const Spacer(),
-                                      Radio(
-                                        value: PaymentMethod.cash,
-                                        activeColor: const Color(0xFF116D6E),
-                                        groupValue: selectedPaymentOption,
-                                        onChanged: (value) {
+                                      InkWell(
+                                        onTap: () {
                                           setState(() {
-                                            selectedPaymentOption = value!;
+                                            if (selectedPaymentOption[1] == PaymentMethod.cash) {
+                                              selectedPaymentOption[1] = PaymentMethod.none;
+                                            } else {
+                                              selectedPaymentOption[1] = PaymentMethod.cash;
+                                            }
                                           });
                                         },
+                                        child: Icon(selectedPaymentOption[1] == PaymentMethod.cash?Icons.radio_button_checked:Icons.radio_button_off,
+                                            color: Color(selectedPaymentOption[1] == PaymentMethod.cash ? 0xFF116D6E : 0xFF707070)),
                                       ),
+                                      SizedBox(width: width * 0.03,)
                                     ],
                                   ),
                                 ),
@@ -232,8 +241,8 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.cheque
+                                          color: Color(selectedPaymentOption[2] ==
+                                              PaymentMethod.cheque
                                               ? 0xFF116D6E
                                               : 0xFF707070)),
                                       borderRadius: BorderRadius.circular(12)),
@@ -245,8 +254,8 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                       Image(
                                           image: const AssetImage(
                                               "assets/image/Ticket 2.png"),
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.cheque
+                                          color: Color(selectedPaymentOption[2] ==
+                                              PaymentMethod.cheque
                                               ? 0xFF116D6E
                                               : 0xFF707070)),
                                       const SizedBox(
@@ -257,21 +266,25 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                               fontSize: 17,
                                               fontWeight: FontWeight.w400,
                                               color: Color(
-                                                  selectedPaymentOption ==
-                                                          PaymentMethod.cheque
+                                                  selectedPaymentOption[2] ==
+                                                      PaymentMethod.cheque
                                                       ? 0xFF116D6E
                                                       : 0xFF707070))),
                                       const Spacer(),
-                                      Radio(
-                                        value: PaymentMethod.cheque,
-                                        activeColor: const Color(0xFF116D6E),
-                                        groupValue: selectedPaymentOption,
-                                        onChanged: (value) {
+                                      InkWell(
+                                        onTap: () {
                                           setState(() {
-                                            selectedPaymentOption = value!;
+                                            if (selectedPaymentOption[2] == PaymentMethod.cheque) {
+                                              selectedPaymentOption[2] = PaymentMethod.none;
+                                            } else {
+                                              selectedPaymentOption[2] = PaymentMethod.cheque;
+                                            }
                                           });
                                         },
+                                        child: Icon(selectedPaymentOption[2] == PaymentMethod.cheque?Icons.radio_button_checked:Icons.radio_button_off,
+                                            color: Color(selectedPaymentOption[2] == PaymentMethod.cheque ? 0xFF116D6E : 0xFF707070)),
                                       ),
+                                      SizedBox(width: width * 0.03,)
                                     ],
                                   ),
                                 ),
@@ -283,14 +296,14 @@ class _ManageProfile6State extends State<ManageProfile6> {
                                   width: MediaQuery.of(context).size.width,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          backgroundColor: Color(
-                                                      selectedPaymentOption !=
-                                                          PaymentMethod.none
-                                                  ? 0xFF116D6E
-                                                  : 0xFFA0A0A0)),
+                                          backgroundColor: Color(0xFF116D6E)
+                                                  //     selectedPaymentOption !=
+                                                  //         PaymentMethod.none
+                                                  // ? 0xFF116D6E
+                                                  // : 0xFFA0A0A0)
+                                          ),
                                       onPressed: () {
-                                        if (selectedPaymentOption ==
-                                            PaymentMethod.none) {
+                                        if (selectedPaymentOption[0] == PaymentMethod.none && selectedPaymentOption[1] == PaymentMethod.none && selectedPaymentOption[2] == PaymentMethod.none) {
                                           Utils.showErrorToast(
                                               "Please Select Payment Methods");
                                         } else {
@@ -320,8 +333,15 @@ class _ManageProfile6State extends State<ManageProfile6> {
   manageProfile6() async {
     Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.manageProfile6Api);
+    var paymentMethods = [];
+    selectedPaymentOption.forEach((element) {
+      if(element != PaymentMethod.none) {
+        paymentMethods.add(element.name);
+      }
+    });
+
     var bodyData = {
-      "paymentMethod": selectedPaymentOption.name.toString()
+      "paymentMethod": paymentMethods,
     };
     var response = await http.post(
       postUri,

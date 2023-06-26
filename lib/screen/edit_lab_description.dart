@@ -19,7 +19,7 @@ class EditLabDescription extends StatefulWidget {
 
 class _EditLabDescriptionState extends State<EditLabDescription> {
   TextEditingController descriptionController = TextEditingController();
-  PaymentMethod selectedPaymentOption = PaymentMethod.none;
+  List<PaymentMethod> selectedPaymentOption = [PaymentMethod.none,PaymentMethod.none,PaymentMethod.none,];
 
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
@@ -32,14 +32,18 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
   }
 
   getPaymentMethodName() {
-    if (widget.labData.paymentMethod == "cash") {
-      selectedPaymentOption = PaymentMethod.cash;
-    } else if (widget.labData.paymentMethod == "cheque") {
-      selectedPaymentOption = PaymentMethod.cheque;
-    } else if (widget.labData.paymentMethod == "onlinePayment") {
-      selectedPaymentOption = PaymentMethod.onlinePayment;
-    }
-    setState(() {});
+    (widget.labData.paymentMethod ?? []).forEach((element) {
+      if (element == "cash") {
+        selectedPaymentOption[1] = PaymentMethod.cash;
+      }
+      if (element == "cheque") {
+        selectedPaymentOption[2] = PaymentMethod.cheque;
+      }
+      if (element == "onlinePayment") {
+        selectedPaymentOption[0] = PaymentMethod.onlinePayment;
+      }
+      setState(() {});
+    });
   }
 
   @override
@@ -171,8 +175,7 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Color(selectedPaymentOption ==
-                                              PaymentMethod.onlinePayment
+                                      color: Color(selectedPaymentOption[0] == PaymentMethod.onlinePayment
                                           ? 0xFF116D6E
                                           : 0xFF707070)),
                                   borderRadius: BorderRadius.circular(12)),
@@ -184,8 +187,8 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                   Image(
                                       image: const AssetImage(
                                           "assets/image/cod.png"),
-                                      color: Color(selectedPaymentOption ==
-                                              PaymentMethod.onlinePayment
+                                      color: Color(selectedPaymentOption[0] ==
+                                          PaymentMethod.onlinePayment
                                           ? 0xFF116D6E
                                           : 0xFF707070)),
                                   const SizedBox(
@@ -195,21 +198,29 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                       style: GoogleFonts.lato(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
-                                          color: Color(selectedPaymentOption ==
-                                                  PaymentMethod.onlinePayment
-                                              ? 0xFF116D6E
-                                              : 0xFF707070))),
+                                          color: Color(
+                                              selectedPaymentOption[0] ==
+                                                  PaymentMethod
+                                                      .onlinePayment
+                                                  ? 0xFF116D6E
+                                                  : 0xFF707070))),
                                   const Spacer(),
-                                  Radio(
-                                    value: PaymentMethod.onlinePayment,
-                                    activeColor: const Color(0xFF116D6E),
-                                    groupValue: selectedPaymentOption,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedPaymentOption = value!;
-                                      });
+                                  InkWell(
+                                    onTap: () {
+                                          setState(() {
+                                            debugPrint(selectedPaymentOption.toString());
+                                            if (selectedPaymentOption[0] == PaymentMethod.onlinePayment) {
+                                              selectedPaymentOption[0] = PaymentMethod.none;
+                                            } else {
+                                              selectedPaymentOption[0] = PaymentMethod.onlinePayment;
+                                            }
+                                            debugPrint(selectedPaymentOption.toString());
+                                          });
                                     },
+                                    child: Icon(selectedPaymentOption[0] == PaymentMethod.onlinePayment?Icons.radio_button_checked:Icons.radio_button_off,
+                                        color: Color(selectedPaymentOption[0] == PaymentMethod.onlinePayment ? 0xFF116D6E : 0xFF707070)),
                                   ),
+                                  SizedBox(width: width * 0.03,)
                                 ],
                               ),
                             ),
@@ -221,8 +232,8 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Color(selectedPaymentOption ==
-                                              PaymentMethod.cash
+                                      color: Color(selectedPaymentOption[1] ==
+                                          PaymentMethod.cash
                                           ? 0xFF116D6E
                                           : 0xFF707070)),
                                   borderRadius: BorderRadius.circular(12)),
@@ -234,8 +245,8 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                   Image(
                                       image: const AssetImage(
                                           "assets/image/Dollar Square.png"),
-                                      color: Color(selectedPaymentOption ==
-                                              PaymentMethod.cash
+                                      color: Color(selectedPaymentOption[1] ==
+                                          PaymentMethod.cash
                                           ? 0xFF116D6E
                                           : 0xFF707070)),
                                   const SizedBox(
@@ -245,21 +256,26 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                       style: GoogleFonts.lato(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
-                                          color: Color(selectedPaymentOption ==
+                                          color: Color(
+                                              selectedPaymentOption[1] ==
                                                   PaymentMethod.cash
-                                              ? 0xFF116D6E
-                                              : 0xFF707070))),
+                                                  ? 0xFF116D6E
+                                                  : 0xFF707070))),
                                   const Spacer(),
-                                  Radio(
-                                    value: PaymentMethod.cash,
-                                    activeColor: const Color(0xFF116D6E),
-                                    groupValue: selectedPaymentOption,
-                                    onChanged: (value) {
+                                  InkWell(
+                                    onTap: () {
                                       setState(() {
-                                        selectedPaymentOption = value!;
+                                        if (selectedPaymentOption[1] == PaymentMethod.cash) {
+                                          selectedPaymentOption[1] = PaymentMethod.none;
+                                        } else {
+                                          selectedPaymentOption[1] = PaymentMethod.cash;
+                                        }
                                       });
                                     },
+                                    child: Icon(selectedPaymentOption[1] == PaymentMethod.cash?Icons.radio_button_checked:Icons.radio_button_off,
+                                        color: Color(selectedPaymentOption[1] == PaymentMethod.cash ? 0xFF116D6E : 0xFF707070)),
                                   ),
+                                  SizedBox(width: width * 0.03,)
                                 ],
                               ),
                             ),
@@ -271,8 +287,8 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Color(selectedPaymentOption ==
-                                              PaymentMethod.cheque
+                                      color: Color(selectedPaymentOption[2] ==
+                                          PaymentMethod.cheque
                                           ? 0xFF116D6E
                                           : 0xFF707070)),
                                   borderRadius: BorderRadius.circular(12)),
@@ -284,8 +300,8 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                   Image(
                                       image: const AssetImage(
                                           "assets/image/Ticket 2.png"),
-                                      color: Color(selectedPaymentOption ==
-                                              PaymentMethod.cheque
+                                      color: Color(selectedPaymentOption[2] ==
+                                          PaymentMethod.cheque
                                           ? 0xFF116D6E
                                           : 0xFF707070)),
                                   const SizedBox(
@@ -295,21 +311,26 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                                       style: GoogleFonts.lato(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
-                                          color: Color(selectedPaymentOption ==
+                                          color: Color(
+                                              selectedPaymentOption[2] ==
                                                   PaymentMethod.cheque
-                                              ? 0xFF116D6E
-                                              : 0xFF707070))),
+                                                  ? 0xFF116D6E
+                                                  : 0xFF707070))),
                                   const Spacer(),
-                                  Radio(
-                                    value: PaymentMethod.cheque,
-                                    activeColor: const Color(0xFF116D6E),
-                                    groupValue: selectedPaymentOption,
-                                    onChanged: (value) {
+                                  InkWell(
+                                    onTap: () {
                                       setState(() {
-                                        selectedPaymentOption = value!;
+                                        if (selectedPaymentOption[2] == PaymentMethod.cheque) {
+                                          selectedPaymentOption[2] = PaymentMethod.none;
+                                        } else {
+                                          selectedPaymentOption[2] = PaymentMethod.cheque;
+                                        }
                                       });
                                     },
+                                    child: Icon(selectedPaymentOption[2] == PaymentMethod.cheque?Icons.radio_button_checked:Icons.radio_button_off,
+                                        color: Color(selectedPaymentOption[2] == PaymentMethod.cheque ? 0xFF116D6E : 0xFF707070)),
                                   ),
+                                  SizedBox(width: width * 0.03,)
                                 ],
                               ),
                             ),
@@ -321,15 +342,15 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  color: Color(
-                                      descriptionController.text.isNotEmpty
-                                          ? 0xFF116D6E
-                                          : 0xFFA0A0A0)),
+                                  color: Color(0xFF116D6E),
+                                      // descriptionController.text.isNotEmpty
+                                      //     ? 0xFF116D6E
+                                      //     : 0xFFA0A0A0)
+                            ),
                               child: TextButton(
                                   onPressed: () {
                                     if (formKey.currentState!.validate()) {
-                                      if (selectedPaymentOption ==
-                                          PaymentMethod.none) {
+                                      if (selectedPaymentOption[0] == PaymentMethod.none && selectedPaymentOption[1] == PaymentMethod.none && selectedPaymentOption[2] == PaymentMethod.none) {
                                         Utils.showErrorToast(
                                             "Please Select Payment Methods");
                                       } else {
@@ -361,9 +382,15 @@ class _EditLabDescriptionState extends State<EditLabDescription> {
   updateDescriptionAndMethods() async {
     Utils.showLoadingDialog(context);
     var postUri = Uri.parse(ApiServices.editPaymenthod);
+    var paymentMethods = [];
+    selectedPaymentOption.forEach((element) {
+      if(element != PaymentMethod.none) {
+        paymentMethods.add(element.name);
+      }
+    });
     var bodyData = {
       "description": descriptionController.text,
-      "paymentMethod": selectedPaymentOption.name.toString()
+      "paymentMethod": paymentMethods
     };
     var response = await http.put(
       postUri,

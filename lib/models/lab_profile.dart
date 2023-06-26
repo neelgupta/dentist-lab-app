@@ -59,7 +59,7 @@ class LabDatum {
   String? labTechs;
   String? techlicensFile;
   String? description;
-  String? paymentMethod;
+  List? paymentMethod;
   List<UserDetail>? userDetails;
   List<WorkingHour>? workingHours;
   List<LabService>? labServices;
@@ -144,7 +144,7 @@ class LabDatum {
         labTechs : json['labTechs'],
         techlicensFile : json['techlicensFile'],
         description: json['description'],
-        paymentMethod: json["paymentMethod"] ?? " ",
+        paymentMethod: json['paymentMethod'],
         userDetails: json["userDetails"] == null
             ? []
             : List<UserDetail>.from(
@@ -228,11 +228,13 @@ class WorkingHour {
   String? id;
   String? labId;
   List<DayDetail>? dayDetails;
+  String? dayStatus;
 
   WorkingHour({
     required this.id,
     required this.labId,
     required this.dayDetails,
+    required this.dayStatus,
   });
 
   factory WorkingHour.fromJson(Map<String, dynamic> json) => WorkingHour(
@@ -242,6 +244,7 @@ class WorkingHour {
             ? []
             : List<DayDetail>.from(
                 json["dayDetails"]!.map((x) => DayDetail.fromJson(x))),
+        dayStatus: json['dayStatus']
       );
 
   Map<String, dynamic> toJson() => {

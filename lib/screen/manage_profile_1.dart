@@ -489,20 +489,22 @@ class _ManageProfile1State extends State<ManageProfile1> {
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
-                                        color: Color((labNameController
-                                                    .text.isNotEmpty &&
-                                                labMobileController
-                                                    .text.isNotEmpty &&
-                                                landLineNumberController
-                                                    .text.isNotEmpty &&
-                                                addressController
-                                                    .text.isNotEmpty &&
-                                                poBoxController
-                                                    .text.isNotEmpty &&
-                                                dateInputController
-                                                    .text.isNotEmpty)
-                                            ? 0xFF166D6E
-                                            : 0xFFA0A0A0)),
+                                        color: Color(0xFF166D6E)
+                                            // (labNameController
+                                            //         .text.isNotEmpty &&
+                                            //     labMobileController
+                                            //         .text.isNotEmpty &&
+                                            //     landLineNumberController
+                                            //         .text.isNotEmpty &&
+                                            //     addressController
+                                            //         .text.isNotEmpty &&
+                                            //     poBoxController
+                                            //         .text.isNotEmpty &&
+                                            //     dateInputController
+                                            //         .text.isNotEmpty)
+                                            // ? 0xFF166D6E
+                                            // : 0xFFA0A0A0)
+                                    ),
                                     child: TextButton(
                                         onPressed: () {
                                           if (formKey.currentState!

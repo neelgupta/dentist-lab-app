@@ -163,9 +163,11 @@ class _ManageProfile5State extends State<ManageProfile5> {
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: Color(descriptionController.text.isNotEmpty
-                                  ? 0xFF116D6E
-                                  : 0xFFA0A0A0)),
+                              color: Color(0xFF116D6E)
+                                  // descriptionController.text.isNotEmpty
+                                  // ? 0xFF116D6E
+                                  // : 0xFFA0A0A0)
+                          ),
                           child: TextButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {

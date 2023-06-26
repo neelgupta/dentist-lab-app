@@ -61,6 +61,7 @@ class ApiServices {
   /// Quote APIs
   static String createQuote = "${baseUrl}quotes/createQuotes";
   static String getQuote = "${baseUrl}quotes/getAllClinicQuotes";
+  static String getSingleQuote = "${baseUrl}lab/getSingleFeedQuote";
   static String getPendingQuote = "${baseUrl}quotes/getProposals";
   static String getAcceptedQuote = "${baseUrl}quotes/getAcceptedQuote";
   static String acceptProposals = "${baseUrl}quotes/acceptProposals";

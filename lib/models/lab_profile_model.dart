@@ -22,7 +22,7 @@ class LabData {
   String? mobileNumber;
   String? countryCode;
   String? description;
-  String? paymentMethod;
+  List? paymentMethod;
   List<UserDetails>? userDetails;
   List<WorkingHours>? workingHours;
   List<Service>? services;

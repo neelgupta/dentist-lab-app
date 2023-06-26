@@ -836,20 +836,22 @@ class _ManageProfile2State extends State<ManageProfile2> {
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
-                                        color: Color(medicalLicenseController
-                                                    .text.isNotEmpty &&
-                                                tradeLicenseController
-                                                    .text.isNotEmpty &&
-                                                tradeLicenseController
-                                                    .text.isNotEmpty &&
-                                                totalDeviceController
-                                                    .text.isNotEmpty &&
-                                                medicalLicense != null &&
-                                                tradeLicense != null &&
-                                                trn != null &&
-                                                noOfDevice != null
-                                            ? 0xFF166D6E
-                                            : 0xFFA0A0A0)),
+                                        color: Color(0xFF166D6E)
+                                            // medicalLicenseController
+                                            //         .text.isNotEmpty &&
+                                            //     tradeLicenseController
+                                            //         .text.isNotEmpty &&
+                                            //     tradeLicenseController
+                                            //         .text.isNotEmpty &&
+                                            //     totalDeviceController
+                                            //         .text.isNotEmpty &&
+                                            //     medicalLicense != null &&
+                                            //     tradeLicense != null &&
+                                            //     trn != null &&
+                                            //     noOfDevice != null
+                                            // ? 0xFF166D6E
+                                            // : 0xFFA0A0A0)
+                                    ),
                                     child: TextButton(
                                         onPressed: () {
                                           if (medicalLicense == null ||

@@ -166,17 +166,19 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                                 color: const Color(0xff252525),
                                               ),
                                             ),
-                                            const Spacer(),
-                                            Text(
-                                              history[index]
-                                                      .labDetails!
-                                                      .first
-                                                      .labName ??
-                                                  "",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: const Color(0xff252525),
+                                            Expanded(
+                                              child: Text(
+                                                history[index]
+                                                        .labDetails!
+                                                        .first
+                                                        .labName ??
+                                                    "",
+                                                textAlign: TextAlign.end,
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: const Color(0xff252525),
+                                                ),
                                               ),
                                             ),
                                           ],

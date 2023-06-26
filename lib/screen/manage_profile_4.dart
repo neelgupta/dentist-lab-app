@@ -22,6 +22,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
   var closingTime = "24:00";
   bool onOff = false;
   bool isTimeSelectedStatus = false;
+  bool isSameForAllDay = false;
   List<DayDetails> days = [];
   List startTime = [
     "00:00 ",
@@ -338,10 +339,62 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                 style: GoogleFonts.lato(
                                     fontSize: 18, fontWeight: FontWeight.w600),
                               ),
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: height * 0.025,
                               ),
-                              ListView(
+                              isSameForAllDay?
+                              Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                          width: width * 0.4,
+                                          child: Text(
+                                            "All Day",
+                                            style: GoogleFonts.lato(
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.w600),
+                                          )),
+                                      Text(
+                                        days.first.isOpen
+                                            ? "${days.first.startTime} - ${days.first.endTime}"
+                                            : "Closed",
+                                        style: GoogleFonts.lato(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      const Spacer(),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              isTimeSelectedStatus = true;
+                                              index = 0;
+                                              onOff = days.first.isOpen;
+                                              openingTime = "00:00";
+                                              closingTime = "00:00";
+                                            });
+                                          },
+                                          child: const Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Color(0xFF707070),
+                                            size: 15,
+                                          )),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Divider(
+                                      color: Color(0xFFE7E7E7),
+                                      thickness: 1),
+                                ],
+                              ):ListView(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: [
@@ -400,173 +453,31 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                     ),
                                 ],
                               ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     SizedBox(
-                              //         width: 70,
-                              //         child: Text("Monday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),)),
-                              //     const Spacer(),
-                              //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Tuesday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 77,
-                              //       child: Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Thursday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Friday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Saturday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
-                              // Row(
-                              //   crossAxisAlignment: CrossAxisAlignment.center ,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Container(
-                              //       width: 75,
-                              //       child: Text("Sunday",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w600),),
-                              //     ),
-                              //     const Spacer(),
-                              //     Text("Closed",style: GoogleFonts.lato(fontSize: 15,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                              //     const Spacer(),
-                              //     InkWell(
-                              //         onTap: (){
-                              //           setState(() {
-                              //             isTimeSelectedStatus=true;
-                              //           });
-                              //         },
-                              //         child: const Icon(Icons.arrow_forward_ios,color: Color(0xFF707070),size: 15,)),
-                              //     const SizedBox(width: 10,),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10,),
-                              // const Divider(color: Color(0xFFE7E7E7),thickness: 1),
-                              // const SizedBox(height: 10,),
                               SizedBox(
-                                height: height * 0.050,
+                                height: height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: width * 0.05,
+                                    child: Checkbox(
+                                      value: isSameForAllDay,
+                                      activeColor: const Color(0xFF116D6E),
+                                      onChanged: (value) {
+                                        isSameForAllDay = !isSameForAllDay;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: width * 0.03),
+                                  Text("Apply Same For All Days",
+                                    style: GoogleFonts.lato(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400),)
+                                ],
+                              ),
+                              SizedBox(
+                                height: height * 0.02,
                               ),
                               Container(
                                 height: height * 0.064,
@@ -604,7 +515,7 @@ class _ManageProfile4State extends State<ManageProfile4> {
                                           left: 10, right: 10),
                                       child: Row(
                                         children: [
-                                          Text(days[index].day,
+                                          Text(isSameForAllDay?"All Days":days[index].day,
                                               style: GoogleFonts.lato(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 18)),
@@ -814,13 +725,14 @@ class _ManageProfile4State extends State<ManageProfile4> {
     for (int i = 0; i < days.length; i++) {
       Map times = {
         "day": days[i].day,
-        "startTime": days[i].startTime,
-        "endTime": days[i].endTime,
-        "isOpen": days[i].isOpen,
+        "startTime": isSameForAllDay?days.first.startTime:days[i].startTime,
+        "endTime": isSameForAllDay?days.first.endTime:days[i].endTime,
+        "isOpen": isSameForAllDay?days.first.isOpen:days[i].isOpen,
       };
       workingDays.add(times);
     }
     var bodyData = {
+      "dayStatus" : isSameForAllDay,
       "dayDetails": workingDays,
     };
 

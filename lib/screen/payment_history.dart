@@ -167,21 +167,18 @@ class _LabPaymentHistoryState extends State<LabPaymentHistory> {
                                                 color: const Color(0xff252525),
                                               ),
                                             ),
-                                            const Spacer(),
-                                            Text(
-                                              history[index]
-                                                      .clinicDetails!
-                                                      .isEmpty
-                                                  ? "Test"
-                                                  : history[index]
-                                                          .clinicDetails!
-                                                          .first
-                                                          .clinicName ??
-                                                      "",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: const Color(0xff252525),
+                                            Expanded(
+                                              child: Text(history[index]
+                                                            .clinicDetails!
+                                                            .first
+                                                            .clinicName ??
+                                                        "",
+                                                textAlign: TextAlign.end,
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: const Color(0xff252525),
+                                                ),
                                               ),
                                             ),
                                           ],

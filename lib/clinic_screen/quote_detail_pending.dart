@@ -409,23 +409,23 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                 horizontal: width * 0.03,
                                                 vertical: height * 0.02),
                                             child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
                                                   children: [
-                                                    Text(
-                                                      proposals[index]
-                                                              .labDetails![0]
-                                                              .labName ??
-                                                          "",
-                                                      style: GoogleFonts.lato(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: const Color(
-                                                            0xff252525),
+                                                    Expanded(
+                                                      child: Text(
+                                                        proposals[index]
+                                                                .labDetails![0]
+                                                                .labName ??
+                                                            "",
+                                                        style: GoogleFonts.lato(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: const Color(
+                                                              0xff252525),
+                                                        ),
                                                       ),
                                                     ),
                                                     Text(
@@ -445,52 +445,38 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    const Image(
-                                                      height: 14,
-                                                      width: 12,
-                                                      image: AssetImage(
-                                                        "assets/image/locationgrren.png",
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                    SizedBox(
-                                                      width: width * 0.01,
-                                                    ),
-                                                    Text(
-                                                      "${proposals[index].labDetails![0].city ?? ""}, ${proposals[index].labDetails![0].state ?? ""}, ${proposals[index].labDetails![0].country ?? ""}",
-                                                      style: GoogleFonts.lato(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: const Color(
-                                                            0xff116D6E),
+                                                    Expanded(
+                                                      child: Row(
+                                                        children: [
+                                                          const Image(
+                                                            height: 14,
+                                                            width: 12,
+                                                            image: AssetImage(
+                                                              "assets/image/locationgrren.png",
+                                                            ),
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                          SizedBox(
+                                                            width: width * 0.01,
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              "${proposals[index].labDetails![0].city ?? ""}, ${proposals[index].labDetails![0].state ?? ""}, ${proposals[index].labDetails![0].country ?? ""}",
+                                                              style: GoogleFonts.lato(
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight.w400,
+                                                                color: const Color(
+                                                                    0xff116D6E),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       width: width * 0.02,
                                                     ),
-                                                    const Image(
-                                                      height: 14,
-                                                      width: 12,
-                                                      image: AssetImage(
-                                                        "assets/image/call.png",
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                    SizedBox(
-                                                      width: width * 0.01,
-                                                    ),
-                                                    Text(
-                                                      "${proposals[index].labDetails![0].countryCode ?? ""} ${proposals[index].labDetails![0].mobileNumber ?? ""}",
-                                                      style: GoogleFonts.lato(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: const Color(
-                                                            0xff116D6E),
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
                                                     InkWell(
                                                       onTap: () {
                                                         acceptProposal(
@@ -540,8 +526,7 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                     Expanded(
                                                       child: Text(
                                                         proposals[index]
-                                                                .labDetails![0]
-                                                                .description ??
+                                                                .coverLetter ??
                                                             "",
                                                         maxLines: 2,
                                                         overflow: TextOverflow
@@ -585,6 +570,15 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                     ),
                                                   ],
                                                 ),
+                                                SizedBox(
+                                                  height: height * 0.015,
+                                                ),
+                                                Text("Deliver ${proposals[index].deliverIn ?? ""}",style: GoogleFonts.lato(
+                                                  fontSize: 12,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: const Color(
+                                                      0xff252525),))
                                               ],
                                             ),
                                           ),

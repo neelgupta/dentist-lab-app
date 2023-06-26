@@ -130,24 +130,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                             SizedBox(
                               height: height * 0.020,
                             ),
-                            Text(
-                              "Email",
-                              style: GoogleFonts.lato(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF707070)),
-                            ),
-                            SizedBox(
-                              height: height * 0.007,
-                            ),
-                            Text(
-                              userDetails!.email ?? "",
-                              style: GoogleFonts.lato(
-                                  fontSize: 15, fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(
-                              height: height * 0.020,
-                            ),
                             const Divider(
                               thickness: 1,
                               color: Color(0xFFE7E7E7),
@@ -186,82 +168,16 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                   Text(
                                     "Lab Name",
                                     style: GoogleFonts.lato(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF707070)),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,),
                                   ),
                                   SizedBox(
-                                    height: height * 0.007,
+                                    height: height * 0.015,
                                   ),
                                   Text(
                                     labData!.labName ?? "",
                                     style: GoogleFonts.lato(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.020,
-                                  ),
-                                  Text(
-                                    "Mobile Number",
-                                    style: GoogleFonts.lato(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF707070)),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.007,
-                                  ),
-                                  Text(
-                                    "${labData!.countryCode ?? ""} ${labData!.mobileNumber ?? ""}",
-                                    style: GoogleFonts.lato(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.020,
-                                  ),
-                                  Text(
-                                    "Land Line Number",
-                                    style: GoogleFonts.lato(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF707070)),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.007,
-                                  ),
-                                  Text(
-                                    labData!.landLineNumber ?? "",
-                                    style: GoogleFonts.lato(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.020,
-                                  ),
-                                  Text(
-                                    "Email",
-                                    style: GoogleFonts.lato(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF707070)),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.007,
-                                  ),
-                                  Text(
-                                    userDetails!.email ?? "",
-                                    style: GoogleFonts.lato(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.020,
-                                  ),
-                                  const Divider(
-                                    thickness: 1,
-                                    color: Color(0xFFE7E7E7),
+                                        fontSize: 15, fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: height * 0.020,
@@ -269,7 +185,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                   Text(
                                     "Description",
                                     style: GoogleFonts.lato(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
@@ -287,6 +203,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                     height: height * 0.015,
                                   ),
                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Payment Methods",
@@ -295,13 +212,15 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                             fontWeight: FontWeight.w600),
                                       ),
                                       const Spacer(),
-                                      Text(
-                                        getPaymentMethodName(),
-                                        style: GoogleFonts.lato(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xFF707070)),
-                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: (labData!.paymentMethod ?? []).map((item) {
+                                          return Text(getPaymentMethodName(item ?? ""),
+                                              textAlign: TextAlign.end,
+                                              style: GoogleFonts.lato(
+                                                  color: const Color(0xFF707070)));
+                                        }).toList(),
+                                      )
                                     ],
                                   ),
                                   SizedBox(
@@ -366,61 +285,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                         ),
                                       ],
                                     ),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Monday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: height*0.015,),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Tuesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("9:00 - 17:00",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: height*0.015,),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Wednesday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("Closed",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: height*0.015,),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Thursday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("Closed",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: height*0.015,),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Friday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("Closed",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: height*0.015,),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Saturday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("Closed",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: height*0.015,),
-                                  // Row(
-                                  //   children: [
-                                  //     Text("Sunday",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400),),
-                                  //     const Spacer(),
-                                  //     Text("Closed",style: GoogleFonts.lato(fontSize: 14,fontWeight: FontWeight.w400,color: const Color(0xFF707070)),),
-                                  //   ],
-                                  // ),
                                 ],
                               ),
                             ),
@@ -506,12 +370,12 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
     );
   }
 
-  getPaymentMethodName() {
-    if (labData!.paymentMethod == "cash") {
+  getPaymentMethodName(String method) {
+    if (method == "cash") {
       return "Cash";
-    } else if (labData!.paymentMethod == "cheque") {
+    } else if (method == "cheque") {
       return "Cheque";
-    } else if (labData!.paymentMethod == "onlinePayment") {
+    } else if (method == "onlinePayment") {
       return "Online Payment";
     }
   }

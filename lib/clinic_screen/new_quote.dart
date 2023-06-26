@@ -69,186 +69,189 @@ class _NewQuoteState extends State<NewQuote> {
     double width = MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.right -
         MediaQuery.of(context).padding.left;
-    return WillPopScope(
-      onWillPop: goBack,
-      child: Scaffold(
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  height: height * 0.15,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF116D6E),
-                      image: DecorationImage(
-                          image: AssetImage("assets/image/Group 12305.png"),
-                          fit: BoxFit.fitWidth,
-                          alignment: Alignment.bottomCenter,
-                          opacity: 0.3)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: height * 0.02,
-                      ),
-                      Center(
-                          child: Text(
-                        textAlign: TextAlign.center,
-                        "Quote",
-                        style: GoogleFonts.lato(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      )),
-                    ],
-                  )),
-              SizedBox(
-                height: height * 0.03,
-              ),
-              Container(
-                alignment: Alignment.center,
-                height: height * 0.1,
-                width: width,
-                child: Container(
-                  height: height * 0.075,
-                  width: width - 30,
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFEBEFEE),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 7, right: 7, top: 7, bottom: 7),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return RefreshIndicator(
+      onRefresh: getQuoteData,
+      child: WillPopScope(
+        onWillPop: goBack,
+        child: Scaffold(
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    height: height * 0.15,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF116D6E),
+                        image: DecorationImage(
+                            image: AssetImage("assets/image/Group 12305.png"),
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.bottomCenter,
+                            opacity: 0.3)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("new");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: quoteNew
-                                    ? const Color(0xffFFFFFF)
-                                    : const Color(0xFFEBEFEE),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "New",
-                                  style: TextStyle(
-                                      color: quoteNew
-                                          ? const Color(0xff116D6E)
-                                          : const Color(0xff252525),
-                                      fontFamily: 'spartan',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         SizedBox(
-                          width: width * 0.015,
+                          height: height * 0.02,
                         ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("accepted");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: quoteAccepted
-                                    ? const Color(0xffFFFFFF)
-                                    : const Color(0xFFEBEFEE),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Accepted",
-                                  style: TextStyle(
-                                      color: quoteAccepted
-                                          ? const Color(0xff116D6E)
-                                          : const Color(0xff252525),
-                                      fontFamily: 'spartan',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ),
+                        Center(
+                            child: Text(
+                          textAlign: TextAlign.center,
+                          "Quote",
+                          style: GoogleFonts.lato(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
-                        ),
-                        SizedBox(
-                          width: width * 0.015,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              if (!isLoading) {
-                                changeQuoteType("completed");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: quoteCompleted
-                                    ? const Color(0xffFFFFFF)
-                                    : const Color(0xFFEBEFEE),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Completed",
-                                  style: TextStyle(
-                                      color: quoteCompleted
-                                          ? const Color(0xff116D6E)
-                                          : const Color(0xff252525),
-                                      fontFamily: 'spartan',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        )),
                       ],
+                    )),
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  height: height * 0.1,
+                  width: width,
+                  child: Container(
+                    height: height * 0.075,
+                    width: width - 30,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFEBEFEE),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 7, right: 7, top: 7, bottom: 7),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!isLoading) {
+                                  changeQuoteType("new");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: quoteNew
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xFFEBEFEE),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "New",
+                                    style: TextStyle(
+                                        color: quoteNew
+                                            ? const Color(0xff116D6E)
+                                            : const Color(0xff252525),
+                                        fontFamily: 'spartan',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * 0.015,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!isLoading) {
+                                  changeQuoteType("accepted");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: quoteAccepted
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xFFEBEFEE),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Accepted",
+                                    style: TextStyle(
+                                        color: quoteAccepted
+                                            ? const Color(0xff116D6E)
+                                            : const Color(0xff252525),
+                                        fontFamily: 'spartan',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * 0.015,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!isLoading) {
+                                  changeQuoteType("completed");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: quoteCompleted
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xFFEBEFEE),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Completed",
+                                    style: TextStyle(
+                                        color: quoteCompleted
+                                            ? const Color(0xff116D6E)
+                                            : const Color(0xff252525),
+                                        fontFamily: 'spartan',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              isLoading
-                  ? Expanded(child: Center(child: loader()))
-                  : quoteNew
-                      ? Expanded(
-                          child: quotesList.isNotEmpty
-                              ? quoteNewList(context)
-                              : const Center(
-                                  child: Text("No New Quotes Found!!")))
-                      : quoteAccepted
-                          ? Expanded(
-                              child: quotesList.isNotEmpty
-                                  ? quoteAcceptedList(context)
-                                  : const Center(
-                                      child:
-                                          Text("No Accepted Quotes Found!!")))
-                          : quoteCompleted
-                              ? Expanded(
-                                  child: quotesList.isNotEmpty
-                                      ? quoteCompletedList(context)
-                                      : const Center(
-                                          child: Text(
-                                              "No Completed Quotes Found!!")))
-                              : const SizedBox(),
-              if(!isLoading && isLoadMore)loader(),
-              SizedBox(height: height * 0.01)
-            ],
+                isLoading
+                    ? Expanded(child: Center(child: loader()))
+                    : quoteNew
+                        ? Expanded(
+                            child: quotesList.isNotEmpty
+                                ? quoteNewList(context)
+                                : const Center(
+                                    child: Text("No New Quotes Found!!")))
+                        : quoteAccepted
+                            ? Expanded(
+                                child: quotesList.isNotEmpty
+                                    ? quoteAcceptedList(context)
+                                    : const Center(
+                                        child:
+                                            Text("No Accepted Quotes Found!!")))
+                            : quoteCompleted
+                                ? Expanded(
+                                    child: quotesList.isNotEmpty
+                                        ? quoteCompletedList(context)
+                                        : const Center(
+                                            child: Text(
+                                                "No Completed Quotes Found!!")))
+                                : const SizedBox(),
+                if(!isLoading && isLoadMore)loader(),
+                SizedBox(height: height * 0.01)
+              ],
+            ),
           ),
         ),
       ),
@@ -676,6 +679,11 @@ class _NewQuoteState extends State<NewQuote> {
                         ),
                       ),
                     ),
+                    QuotesWidget.getQuoteStatus(
+                        width,
+                        quotesList[index]
+                            .quoteStatus![0]
+                            .clinicStatus),
                   ],
                 )
               ],
@@ -686,7 +694,7 @@ class _NewQuoteState extends State<NewQuote> {
     );
   }
 
-  getQuoteData({bool showLoading = true}) async {
+  Future getQuoteData({bool showLoading = true}) async {
     if (showLoading) {
       quotesList.clear();
       isLoading = true;

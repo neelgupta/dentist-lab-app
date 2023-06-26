@@ -318,57 +318,65 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                         ),
                                         Row(
                                           children: [
-                                            Image(
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    width: width * 0.03,
+                                                    image: AssetImage(
+                                                      "assets/image/locationgrren.png",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  SizedBox(
+                                                    width: width * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${labDetails!.city ?? ""}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: const Color(0xff116D6E),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
                                               width: width * 0.03,
-                                              image: AssetImage(
-                                                "assets/image/locationgrren.png",
-                                              ),
-                                              fit: BoxFit.fill,
                                             ),
-                                            SizedBox(
-                                              width: width * 0.02,
-                                            ),
-                                            Text(
-                                              "${labDetails!.city ?? ""}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color: const Color(0xff116D6E),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.03,
-                                            ),
-                                            Image(
-                                              width: width * 0.04,
-                                              image: AssetImage(
-                                                "assets/image/call.png",
-                                              ),
-                                              fit: BoxFit.fill,
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.02,
-                                            ),
-                                            Text(
-                                              "${labDetails!.countryCode ?? ""} ${labDetails!.mobileNumber ?? ''}",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color: const Color(0xff116D6E),
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    width: width * 0.04,
+                                                    image: AssetImage(
+                                                      "assets/image/call.png",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  SizedBox(
+                                                    width: width * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${labDetails!.countryCode ?? ""} ${labDetails!.mobileNumber ?? ''}",
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: const Color(0xff116D6E),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
                                         SizedBox(
                                           height: height * 0.02,
-                                        ),
-                                        Text(
-                                          "${labDetails!.city ?? ""}, ${labDetails!.state ?? ""}, ${labDetails!.country ?? ""}",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xff252525),
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -398,9 +406,9 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                   isAdvance: true,
                                                   status: "advancePending",
                                                   quoteId: quoteData!.id ?? '',
-                                                  labName:
-                                                      labDetails!.labName ?? "",
-                                                  paymentType: labDetails!.paymentMethod ?? "onlinePayment",
+                                                  labName: labDetails!.labName ?? "",
+                                                  labMobile: labDetails!.mobileNumber ?? "",
+                                                  paymentType: labDetails!.paymentMethod ?? [],
                                                 );
                                               },
                                             ));
@@ -440,7 +448,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                   ),
                                                   commonButton(
                                                       context,
-                                                      'Not As Per Expectation',
+                                                      'Need Modification',
                                                       13,
                                                       FontWeight.w700,
                                                       Colors.white, () {
@@ -462,7 +470,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                             status: "deliveryAccepted",
                                                             quoteId: quoteData!.id ?? '',
                                                             labName: labDetails!.labName ?? "",
-                                                          paymentType: labDetails!.paymentMethod ?? "onlinePayment"
+                                                          labMobile: labDetails!.mobileNumber ?? "",
+                                                          paymentType: labDetails!.paymentMethod ?? []
                                                         );
                                                       },
                                                     ));

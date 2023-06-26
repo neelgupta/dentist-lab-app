@@ -124,7 +124,7 @@ class LabDetails {
   String? landLineNumber;
   String? mobileNumber;
   String? countryCode;
-  String? paymentMethod;
+  List? paymentMethod;
 
   LabDetails({
     this.id,
@@ -150,7 +150,7 @@ class LabDetails {
       landLineNumber: json['landLineNumber'].toString(),
       mobileNumber: json['mobileNumber'].toString(),
       countryCode: json['countryCode'].toString(),
-      paymentMethod: json['paymentMethod'] ?? "onlinePayment",
+      paymentMethod: json['paymentMethod'],
     );
   }
 }

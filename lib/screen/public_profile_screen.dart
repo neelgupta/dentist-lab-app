@@ -734,6 +734,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
           height: height * 0.015,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Payment Methods",
@@ -741,13 +742,15 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                   GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
-            Text(
-              getPaymentMethodName(),
-              style: GoogleFonts.lato(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF707070)),
-            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: (labProfileData!.labData![0].paymentMethod ?? []).map((item) {
+                return Text(getPaymentMethodName(item ?? ""),
+                    textAlign: TextAlign.end,
+                    style: GoogleFonts.lato(
+                        color: const Color(0xFF707070)));
+              }).toList(),
+            )
           ],
         ),
         if ((labProfileData!.labData![0].workingHours ?? []).isNotEmpty &&
@@ -1637,12 +1640,12 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
     return true;
   }
 
-  getPaymentMethodName() {
-    if (labProfileData!.labData![0].paymentMethod == "cash") {
+  getPaymentMethodName(String method) {
+    if (method == "cash") {
       return "Cash";
-    } else if (labProfileData!.labData![0].paymentMethod == "cheque") {
+    } else if (method == "cheque") {
       return "Cheque";
-    } else if (labProfileData!.labData![0].paymentMethod == "onlinePayment") {
+    } else if (method == "onlinePayment") {
       return "Online Payment";
     }
   }
@@ -1663,6 +1666,8 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
           labProfileData!.labData![0].userDetails![0].lastName ?? "");
       Utils.setProfileImage(
           labProfileData!.labData![0].userDetails![0].profileImage ?? "");
+      Utils.setEstablishDate(
+          labProfileData!.labData![0].dateOfEstablishment ?? "");
       profile = null;
     } else if (response.statusCode == 401) {
       Utils.logout(context);

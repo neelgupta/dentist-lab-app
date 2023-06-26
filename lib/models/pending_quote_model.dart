@@ -87,6 +87,8 @@ class Propsaldata {
   String? quoteId;
   String? labId;
   double? amount;
+  String? coverLetter;
+  String? deliverIn;
   String? createdAt;
   List<LabDetails>? labDetails;
 
@@ -95,6 +97,8 @@ class Propsaldata {
       this.quoteId,
       this.labId,
       this.amount,
+      this.coverLetter,
+      this.deliverIn,
       this.createdAt,
       this.labDetails});
 
@@ -105,6 +109,8 @@ class Propsaldata {
         quoteId: json['quoteId'],
         labId: json['labId'],
         amount: double.parse((json['amount'] ?? 0).toString()),
+        coverLetter: json['coverLetter'],
+        deliverIn: json['deliverIn'],
         createdAt: json['createdAt'],
         labDetails: labDetail.map((v) => LabDetails.fromJson(v)).toList());
   }
