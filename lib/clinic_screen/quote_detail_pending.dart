@@ -520,65 +520,64 @@ class _QuoteDetailPendingState extends State<QuoteDetailPending> {
                                                 SizedBox(
                                                   height: height * 0.02,
                                                 ),
+                                                Text(
+                                                  proposals[index]
+                                                          .coverLetter ??
+                                                      "",
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow
+                                                      .ellipsis,
+                                                  softWrap: false,
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w400,
+                                                    color: const Color(
+                                                        0xff252525),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: height * 0.015,
+                                                ),
                                                 Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     Expanded(
-                                                      child: Text(
-                                                        proposals[index]
-                                                                .coverLetter ??
-                                                            "",
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        softWrap: false,
-                                                        style: GoogleFonts.lato(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: const Color(
-                                                              0xff252525),
-                                                        ),
-                                                      ),
+                                                      child: Text("Deliver ${proposals[index].deliverIn ?? ""}",style: GoogleFonts.lato(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight.w400,
+                                                        color: const Color(
+                                                            0xff252525),)),
                                                     ),
                                                     SizedBox(width: width * 0.05),
                                                     InkWell(
                                                       onTap: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
-                                                          builder: (context) {
-                                                            return PublicProfileScreen(
-                                                                labId: proposals[
-                                                                            index]
+                                                              builder: (context) {
+                                                                return PublicProfileScreen(
+                                                                    labId: proposals[
+                                                                    index]
                                                                         .labDetails![
-                                                                            0]
+                                                                    0]
                                                                         .id ??
-                                                                    "");
-                                                          },
-                                                        ));
+                                                                        "");
+                                                              },
+                                                            ));
                                                       },
                                                       child: Text(
                                                         "Show Profile",
                                                         style: GoogleFonts.lato(
                                                           fontSize: 14,
                                                           fontWeight:
-                                                              FontWeight.w400,
+                                                          FontWeight.w400,
                                                           color: const Color(
                                                               0xff116D6E),
                                                         ),
                                                       ),
                                                     ),
                                                   ],
-                                                ),
-                                                SizedBox(
-                                                  height: height * 0.015,
-                                                ),
-                                                Text("Deliver ${proposals[index].deliverIn ?? ""}",style: GoogleFonts.lato(
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.w400,
-                                                  color: const Color(
-                                                      0xff252525),))
+                                                )
                                               ],
                                             ),
                                           ),

@@ -280,6 +280,23 @@ class QuoteService {
     return response;
   }
 
+  startWorkAgain({required body}) async {
+    var postUri = Uri.parse(ApiServices.restartWork);
+    var response = await http.post(
+      postUri,
+      body: jsonEncode(body),
+      headers: Utils.apiHeader,
+    );
+
+    Utils.logAPIResponse(
+        function: "startWorkAgain",
+        apiName: ApiServices.restartWork,
+        response: response,
+        body: body);
+
+    return response;
+  }
+
   getPaymentUrl({required body}) async {
     var postUri = Uri.parse("https://www.payd.ae/pg/public/api/generateTransactionId");
     var headers = {

@@ -1,15 +1,17 @@
 class AcceptedQuote {
   int? status;
   bool? success;
+  int? quoteReject;
   List<QuoteData>? quoteData;
 
-  AcceptedQuote({this.status, this.success, this.quoteData});
+  AcceptedQuote({this.status, this.success, this.quoteReject, this.quoteData});
 
   factory AcceptedQuote.fromJson(Map<String, dynamic> json) {
     List quoteData = json['quoteData'];
     return AcceptedQuote(
         status: json['status'],
         success: json['success'],
+        quoteReject: json['quoteReject'] ?? 0,
         quoteData: quoteData.map((v) => QuoteData.fromJson(v)).toList());
   }
 }

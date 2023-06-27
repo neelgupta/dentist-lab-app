@@ -70,6 +70,7 @@ class ApiServices {
   static String getLabProfile = "${baseUrl}quotes/getProposalLab";
   static String updateQuote = "${baseUrl}quotes/updateQuote";
   static String completeWork = "${baseUrl}lab/outForDelivery";
+  static String restartWork = "${baseUrl}lab/quoteStartedAgain";
 
   /// Payment APIs
   static String makeAdvancePayment = "${baseUrl}quotes/makeAdvancePayment";

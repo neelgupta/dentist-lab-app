@@ -270,7 +270,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         onTap: () {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) {
                                             return PendingQuoteDetails(quoteId: quoteList[index].id ?? "", isSend: quoteList[index].isSend!);
-                                          },));
+                                          },)).then((value) => getFeeds());
                                         },
                                         child: Column(
                                           crossAxisAlignment:

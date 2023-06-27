@@ -437,7 +437,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                 children: [
                                                   commonButton(
                                                       context,
-                                                      'Delivery Accepted',
+                                                      'Accept Delivery',
                                                       13,
                                                       FontWeight.w700,
                                                       Colors.white, () {
@@ -446,7 +446,8 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                   SizedBox(
                                                     height: height * 0.02,
                                                   ),
-                                                  commonButton(
+                                                  if((acceptedQuote!.quoteReject ?? 0) < 3)
+                                                    commonButton(
                                                       context,
                                                       'Need Modification',
                                                       13,
@@ -476,8 +477,7 @@ class _QuoteAfterAcceptState extends State<QuoteAfterAccept> {
                                                       },
                                                     ));
                                                   })
-                                                : quoteStatus!.clinicStatus ==
-                                                        'deliveryRejected'
+                                                : quoteStatus!.clinicStatus == 'deliveryRejected' || quoteStatus!.clinicStatus == 'needModification'
                                                     ? Column(
                                                         children: [
                                                           commonButton(

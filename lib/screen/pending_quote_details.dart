@@ -393,182 +393,184 @@ class _PendingQuoteDetailsState extends State<PendingQuoteDetails> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(quoteData!.title ?? "",
-                            style: GoogleFonts.lato(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.start),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(quoteData!.description ?? "",
-                            style: GoogleFonts.lato(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFF707070),
-                            ),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          controller: amountController,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter Service Price';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              labelText: "Add Amount",
-                              hintText: "Add Amount",
-                              hintStyle: TextStyle(fontSize: 12,color: Color(0xFF707070)),
-                              labelStyle: TextStyle(fontSize: 12,color: Color(0xFF707070)),
-                              counterText: "",
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(quoteData!.title ?? "",
+                              style: GoogleFonts.lato(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.start),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(quoteData!.description ?? "",
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF707070),
+                              ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: amountController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please Enter Service Price';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                labelText: "Add Amount",
+                                hintText: "Add Amount",
+                                hintStyle: TextStyle(fontSize: 12,color: Color(0xFF707070)),
+                                labelStyle: TextStyle(fontSize: 12,color: Color(0xFF707070)),
+                                counterText: "",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF707070))),
+                                prefixIcon: Container(
+                                  width: width * 0.07,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: width * 0.01, vertical: 5),
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          right: BorderSide(
+                                              color: Color(0xFF707070)))),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    "AED",
+                                    style: TextStyle(fontSize: 12,color: Color(0xFF707070)),
+                                  ),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            textAlign: TextAlign.start,
+                            controller: descriptionController,
+                            keyboardType: TextInputType.multiline,
+                            minLines: 2,
+                            //Normal textInputField will be displayed
+                            maxLines: 6,
+                            textAlignVertical: TextAlignVertical.top,
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please Enter Description';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              alignLabelWithHint: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFF707070))),
-                              prefixIcon: Container(
-                                width: width * 0.07,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: width * 0.01, vertical: 5),
-                                decoration: const BoxDecoration(
-                                    border: Border(
-                                        right: BorderSide(
-                                            color: Color(0xFF707070)))),
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  "AED",
-                                  style: TextStyle(fontSize: 12,color: Color(0xFF707070)),
-                                ),
-                              )),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          textAlign: TextAlign.start,
-                          controller: descriptionController,
-                          keyboardType: TextInputType.multiline,
-                          minLines: 2,
-                          //Normal textInputField will be displayed
-                          maxLines: 6,
-                          textAlignVertical: TextAlignVertical.top,
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter Description';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            alignLabelWithHint: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                const BorderSide(color: Color(0xFF707070))),
-                            labelText: 'Cover Letter',
-                            labelStyle: const TextStyle(
-                              fontSize: 14,
+                                  borderSide:
+                                  const BorderSide(color: Color(0xFF707070))),
+                              labelText: 'Cover Letter',
+                              labelStyle: const TextStyle(
+                                fontSize: 14,
+                              ),
+                              hintText: 'Cover Letter',
+                              hintStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF707070),
+                              ),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 18, top: 16, bottom: 16, right: 5),
                             ),
-                            hintText: 'Cover Letter',
-                            hintStyle: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF707070),
-                            ),
-                            contentPadding: const EdgeInsets.only(
-                                left: 18, top: 16, bottom: 16, right: 5),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 50,
-                          width: width,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: const Color(0xFF707070)),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                menuMaxHeight: height * .4,
-                                borderRadius: BorderRadius.circular(10),
-                                value: workTime,
-                                icon: const Icon(Icons.keyboard_arrow_down,
-                                    color: Color(0xFF707070)),
-                                hint: const Text(
-                                  "Delivered in",
-                                  style:
-                                  TextStyle(color: Color(0xFF707070)),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: 50,
+                            width: width,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color(0xFF707070)),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  menuMaxHeight: height * .4,
+                                  borderRadius: BorderRadius.circular(10),
+                                  value: workTime,
+                                  icon: const Icon(Icons.keyboard_arrow_down,
+                                      color: Color(0xFF707070)),
+                                  hint: const Text(
+                                    "Delivered in",
+                                    style:
+                                    TextStyle(color: Color(0xFF707070)),
+                                  ),
+                                  items: workCompleteTimes
+                                      .map((item) {
+                                        return DropdownMenuItem(
+                                          value: item,
+                                          child: SizedBox(
+                                              width: width * 0.5,
+                                              child: Text(item)),
+                                        );
+                                      }).toList(),
+                                  onChanged: (value) {
+                                    workTime = value.toString();
+                                    setState1(() {});
+                                  },
                                 ),
-                                items: workCompleteTimes
-                                    .map((item) {
-                                      return DropdownMenuItem(
-                                        value: item,
-                                        child: SizedBox(
-                                            width: width * 0.5,
-                                            child: Text(item)),
-                                      );
-                                    }).toList(),
-                                onChanged: (value) {
-                                  workTime = value.toString();
-                                  setState1(() {});
-                                },
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all(const Color(0xFF116D6E)),
-                                padding: MaterialStateProperty.all(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 30, vertical: 12)),
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                  MaterialStateProperty.all(const Color(0xFF116D6E)),
+                                  padding: MaterialStateProperty.all(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 12)),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  if (amountController.text.isEmpty) {
-                                    Utils.showErrorToast("Please Enter Amount");
-                                  } else if(workTime == null) {
-                                    Utils.showErrorToast("Please Select Delivered Time");
-                                  }else {
-                                    sendProposal();
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    if (amountController.text.isEmpty) {
+                                      Utils.showErrorToast("Please Enter Amount");
+                                    } else if(workTime == null) {
+                                      Utils.showErrorToast("Please Select Delivered Time");
+                                    }else {
+                                      sendProposal();
+                                    }
+                                  } else {
+                                    autoValidate = AutovalidateMode.always;
                                   }
-                                } else {
-                                  autoValidate = AutovalidateMode.always;
-                                }
-                              },
-                              child: Text("Sent",
-                                  style: GoogleFonts.lato(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ))),
-                        ),
-                      ],
+                                },
+                                child: Text("Sent",
+                                    style: GoogleFonts.lato(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ))),
+                          ),
+                        ],
+                      ),
                     ),
                   )),
             );

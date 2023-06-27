@@ -422,19 +422,27 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
                                           ],
                                         )
                                         : quoteStatus!.clinicStatus ==
-                                                'deliveryRejected'
+                                                'deliveryRejected' || quoteStatus!.clinicStatus == "needModification"
                                             ? Column(
                                                 children: [
-                                                  commonButton(
-                                                      context,
-                                                      'Restart Work',
-                                                      13,
-                                                      FontWeight.w700,
-                                                      Colors.white, () {
-                                                  }),
-                                                  SizedBox(
-                                                    height: height * 0.02,
-                                                  ),
+                                                  if(quoteStatus!.clinicStatus == "needModification")
+                                                    Column(
+                                                      children: [
+                                                        commonButton(
+                                                            context,
+                                                            'Restart Work',
+                                                            13,
+                                                            FontWeight.w700,
+                                                            Colors.white,
+                                                            () {
+                                                              restartWork();
+                                                            }
+                                                        ),
+                                                        SizedBox(
+                                                          height: height * 0.02,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   commonButton(
                                                       context,
                                                       'Share Comment',
@@ -849,6 +857,21 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
     Utils.showLoadingDialog(context);
     var body = {"quoteId": widget.quoteId};
     Response response = await quoteService.completeWork(body: body);
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+      Utils.showSuccessToast(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      Utils.logout(context);
+    } else {
+      Utils.showErrorToast(jsonDecode(response.body)['message']);
+    }
+  }
+
+  restartWork() async {
+    Utils.showLoadingDialog(context);
+    var body = {"quoteId": widget.quoteId};
+    Response response = await quoteService.startWorkAgain(body: body);
     Navigator.pop(context);
     if (response.statusCode == 200) {
       Navigator.pop(context);

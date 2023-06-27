@@ -1,7 +1,6 @@
 // ignore_for_file: no_logic_in_create_state, use_build_context_synchronously
 
 import 'dart:convert';
-
 import 'package:dentalapp/clinic_screen/payment_successfully.dart';
 import 'package:dentalapp/clinic_screen/payment_webview.dart';
 import 'package:dentalapp/custom_widget/button.dart';
@@ -42,6 +41,9 @@ class MakePayment extends StatefulWidget {
 class _MakePaymentState extends State<MakePayment> {
   _MakePaymentState(this.quoteId, this.status, this.title, this.description,
       this.amount, this.labName,this.labMobile, this.paymentType, this.isAdvance);
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   String quoteId = '';
   String status = '';
   String title = '';
@@ -53,6 +55,8 @@ class _MakePaymentState extends State<MakePayment> {
   bool isAdvance = false;
   final formKey = GlobalKey<FormState>();
   var autoValidate = AutovalidateMode.disabled;
+  final formPaymentKey = GlobalKey<FormState>();
+  var paymentAutoValidate = AutovalidateMode.disabled;
   QuoteService quoteService = QuoteService();
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController expController = TextEditingController();
@@ -754,7 +758,7 @@ class _MakePaymentState extends State<MakePayment> {
                       } else {
                         if (formKey.currentState!.validate()) {
                           if (onlinePayment) {
-                            getPaymentUrl();
+                            showMyDialog();
                           }
                           else {
                             makePayment();
@@ -820,12 +824,11 @@ class _MakePaymentState extends State<MakePayment> {
   getPaymentUrl() async {
     Utils.showLoadingDialog(context);
     var body = {
-      "name": labName,
+      "name": nameController.text.trim(),
       "amount": amount,
-      "phone": labMobile,
-      "email": "demotest@mailinator.com",
+      "phone": mobileController.text.trim(),
+      "email": emailController.text.trim(),
       "redirecturl": "https://toothfund.udenz.co/donate/payment/response",
-      // "product": "campaign",
     };
     Response response =
     await quoteService.getPaymentUrl(body: body);
@@ -833,6 +836,7 @@ class _MakePaymentState extends State<MakePayment> {
     if (response.statusCode == 200) {
       Map map = jsonDecode(response.body);
       if (map['statuscode']==1) {
+        Navigator.pop(context);
         String url = await Navigator.push(
           context,
           MaterialPageRoute(
@@ -843,7 +847,6 @@ class _MakePaymentState extends State<MakePayment> {
             },
           ),
         );
-        debugPrint(url);
         String status = url.split("message=").last;
         if(status == "Success") {
           makePayment();
@@ -852,5 +855,178 @@ class _MakePaymentState extends State<MakePayment> {
         }
       }
     }
+  }
+
+  void showMyDialog() {
+    double height = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
+    double width = MediaQuery.of(context).size.width;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: width * 0.05),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            title: Container(
+              width: width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Form(
+                key: formPaymentKey,
+                autovalidateMode: paymentAutoValidate,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: nameController,
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Name';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                          const BorderSide(color: Color(0xFF707070)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF707070),
+                          ),
+                        ),
+                        labelText: 'Name',
+                        labelStyle:
+                        const TextStyle(color: Color(0xff707070)),
+                        hintText: 'Name',
+                        hintStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF707070)),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: height * 0.02,
+                            horizontal: width * 0.03),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Email Address';
+                        } else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return "Please Enter Valid Email Address";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                          const BorderSide(color: Color(0xFF707070)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF707070),
+                          ),
+                        ),
+                        labelText: 'Email Address',
+                        labelStyle:
+                        const TextStyle(color: Color(0xff707070)),
+                        hintText: 'Email Address',
+                        hintStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF707070)),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: height * 0.02,
+                            horizontal: width * 0.03),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    TextFormField(
+                      maxLength: 12,
+                      controller: mobileController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty) {
+                            return 'Please Enter Mobile Number';
+                          } else if(!RegExp(r'(^(?:[+0]9)?[0-9]{8,12}$)').hasMatch(value)) {
+                            return 'Please Enter Valid Mobile Number';
+                          }
+                          return null;
+                        },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius:
+                            BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                                color: Color(0xFF707070))),
+                        labelText: 'Mobile Number',
+                        hintText: 'Mobile Number',
+                        counterText: "",
+                        hintStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF707070)),
+                        contentPadding: const EdgeInsets.only(
+                            left: 18, top: 16, bottom: 16),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(const Color(0xFF116D6E)),
+                          padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
+                                  horizontal: width * 0.1,
+                                  vertical: height * 0.02)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          if (formPaymentKey.currentState!.validate()) {
+                            getPaymentUrl();
+                          } else {
+                            paymentAutoValidate = AutovalidateMode.always;
+                          }
+                        },
+                        child: Text("Pay",
+                            style: GoogleFonts.lato(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ))),
+                  ],
+                ),
+              ),
+            ));
+      },
+    );
   }
 }

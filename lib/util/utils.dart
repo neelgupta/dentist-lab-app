@@ -217,7 +217,7 @@ class QuotesWidget {
   }
 
   static String getTextForQuoteStatus(status) {
-    //"pending","advancePending","inProgress","outForDelivery","deliveryAccepted","deliveryRejected","paymentConfirmationPanding","jobSuccessfullyDone"
+    //"pending","advancePending","inProgress","outForDelivery","deliveryAccepted","deliveryRejected","paymentConfirmationPanding","jobSuccessfullyDone","needModification
     if (status == "pending") {
       return "Pending";
     } else if (status == "advancePending") {
@@ -240,12 +240,14 @@ class QuotesWidget {
       return "Work Started";
     } else if (status == "deliverySuccess") {
       return "Delivery Success";
+    } else if (status == "needModification") {
+      return "Need Modification";
     }
     return "";
   }
 
   static Color getColorForQuoteStatus(status) {
-    //"pending","advancePending","inProgress","outForDelivery","deliveryAccepted","deliveryRejected","paymentConfirmationPanding","jobSuccessfullyDone"
+    //"pending","advancePending","inProgress","outForDelivery","deliveryAccepted","deliveryRejected","paymentConfirmationPanding","jobSuccessfullyDone","needModification
     if (status == "pending") {
       return const Color(0xffFFD059);
     } else if (status == "advancePending") {
@@ -268,12 +270,14 @@ class QuotesWidget {
       return const Color(0xffFFD059);
     } else if (status == "deliverySuccess") {
       return const Color(0xff219653);
+    } else if (status == "needModification") {
+      return const Color(0xff2f80ed);
     }
     return const Color(0xffFFD059);
   }
 
   static Color getTextColorForQuoteStatus(status) {
-    //"pending","advancePending","inProgress","outForDelivery","deliveryAccepted","deliveryRejected","paymentConfirmationPanding","jobSuccessfullyDone"
+    //"pending","advancePending","inProgress","outForDelivery","deliveryAccepted","deliveryRejected","paymentConfirmationPanding","jobSuccessfullyDone","needModification
     if (status == "pending") {
       return Colors.black;
     } else if (status == "advancePending") {
@@ -295,6 +299,8 @@ class QuotesWidget {
     } else if (status == "workStarted") {
       return Colors.black;
     } else if (status == "deliverySuccess") {
+      return Colors.white;
+    } else if (status == "needModification") {
       return Colors.white;
     }
     return Colors.black;
